@@ -8,6 +8,13 @@
 \description{
 For identifying the sets of probably equivalent models for structural equation models fitted by the 'lavaan' package developed by Rosseel (2012) \doi{10.18637/jss.v048.i02}.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://sfcheung.github.io/semeqmodels/}
+}
+
+}
 \author{
 \strong{Maintainer}: Shu Fai Cheung \email{shufai.cheung@gmail.com} (\href{https://orcid.org/0000-0002-9871-9448}{ORCID})
 
