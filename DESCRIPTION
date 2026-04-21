@@ -1,6 +1,6 @@
 Package: semeqmodels
 Title: Equivalent Models in Structural Equation Models
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R:
     c(person(given = "Shu Fai",
              family = "Cheung",
@@ -16,6 +16,10 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Suggests:
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    lavaan
 Config/testthat/edition: 3
 URL: https://sfcheung.github.io/semeqmodels/
+Depends:
+    R (>= 3.5)
+LazyData: true
