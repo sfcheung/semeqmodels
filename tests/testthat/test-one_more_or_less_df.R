@@ -1,6 +1,9 @@
 library(testthat)
 library(lavaan)
 
+test_that("+/- df", {
+
+
 # - A function to generate a list of 1-more-df models.
 #   - Input:
 #     - A lavaan output.
@@ -21,10 +24,33 @@ get_drop_i <- function(
 
   # ==== Process the object ====
 
-  obj <- fix_object(object)
-
-  ptable <- obj$ptable
-  fit <- obj$fit
+  # TODO:
+  # - Convert the following to a helper
+  if (inherits(object, "lavaan")) {
+    # Need this for lavaan::update()
+    tmp0 <- stats::getCall(object)
+    tmp <- lapply(tmp0, \(x) eval(x))
+    tmp <- as.call(tmp)
+    tmp[[1]] <- tmp0[[1]]
+    object@call <- tmp
+    fit <- object
+    ptable <- lavaan::parameterTable(fit)
+  } else {
+    # Assume it is a parameter table
+    ptable <- object
+    dat <- dummy_data(ptable)
+    # Need this for lavaan::update()
+    fit <- suppressWarnings(
+              do.call(
+                lavaan::sem,
+                list(
+                  model = ptable,
+                  data = dat,
+                  se = "none"
+                )
+              )
+            )
+  }
 
   # ==== Generate models ====
 
@@ -79,27 +105,33 @@ get_add_i <- function(
 
   # ==== Process the object ====
 
-  obj <- fix_object(object)
-
-  ptable <- obj$ptable
-  fit <- obj$fit
-
   # TODO:
-  # - Remove the need for sem_out
-
-  if (!is.null(sem_out)) {
-    fit <- suppressWarnings(
-            lavaan::update(
-              sem_out,
-              model = ptable,
-              warn = FALSE
-            )
-          )
+  # - Convert the following to a helper
+  if (inherits(object, "lavaan")) {
+    # Need this for lavaan::update()
+    tmp0 <- stats::getCall(object)
+    tmp <- lapply(tmp0, \(x) eval(x))
+    tmp <- as.call(tmp)
+    tmp[[1]] <- tmp0[[1]]
+    object@call <- tmp
+    fit <- object
+    ptable <- lavaan::parameterTable(fit)
   } else {
-    stop("sem_out cannot be NULL, for now")
+    # Assume it is a parameter table
+    ptable <- object
+    dat <- dummy_data(ptable)
+    # Need this for lavaan::update()
+    fit <- suppressWarnings(
+              do.call(
+                lavaan::sem,
+                list(
+                  model = ptable,
+                  data = dat,
+                  se = "none"
+                )
+              )
+            )
   }
-
-  # dat <- lavaan::lavInspect(fit, "data")
 
   # ==== Remove coefficients fixed to zero ====
 
@@ -167,7 +199,6 @@ get_add_i <- function(
   #   modelbpp::model_set,
   #   args1
   # )
-
   out0 <- do.call(
     modelbpp::gen_models,
     args1
@@ -272,8 +303,6 @@ dummy_data <- function(
   out
 }
 
-test_that("+/- df", {
-
 mod <-
 "
 fx =~ x1 + x2 + x3
@@ -292,23 +321,21 @@ pt <- parameterTable(fit)
 
 fit_1_more1 <- get_drop_i(fit)
 
-# fit_1_more2 <- get_drop_i(pt)
+fit_1_more2 <- get_drop_i(pt)
 
-# expect_setequal(names(fit_1_more1),
-#                 names(fit_1_more2))
+expect_setequal(names(fit_1_more1),
+                names(fit_1_more2))
 
 # ==== Test: get_add_i ====
 
 fit_1_less <- get_add_i(
                 fit_1_more1[[1]],
-                sem_out = fit,
                 add_name = TRUE
               )
 
 fit_1_more_1_less <- lapply(
   fit_1_more1,
-  get_add_i,
-  sem_out = fit
+  get_add_i
 )
 
 fit_1_more_1_less <- unlist(
