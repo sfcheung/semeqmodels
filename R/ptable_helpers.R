@@ -88,3 +88,31 @@ get_digest <- function(
   }
   out
 }
+
+#' @noRd
+combine_ptables <- function(
+  object_list,
+  drop_duplicated = TRUE
+) {
+  # Combine a list of partables objects
+  out0 <- unlist(
+    object_list,
+    recursive = FALSE
+  )
+  if (drop_duplicated) {
+    out0_digest <- lapply(
+      out0,
+      add_digest
+    )
+    i <- sapply(
+            out0_digest,
+            get_digest
+          )
+    out0 <- out0[!duplicated(i)]
+  }
+  tmp <- class(out0)
+  tmp <- tmp[tmp != "partables"]
+  tmp <- c("partables", tmp)
+  class(out0) <- tmp
+  out0
+}
