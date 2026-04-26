@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9005
+# semeqmodels 0.0.0.9006
 
 - Initialize the package.
   (0.0.0.9000)
@@ -21,3 +21,6 @@
   set free parameters to non-zero in
   the population.
   (0.0.0.9005)
+
+- Added `combine_ptables()` and helpers.
+  (0.0.0.9006)
