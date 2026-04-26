@@ -1,6 +1,5 @@
 Package: semeqmodels
 Title: Equivalent Models in Structural Equation Models
-Version: 0.0.0.9003
 Version: 0.0.0.9004
 Authors@R:
     c(person(given = "Shu Fai",
@@ -19,6 +18,7 @@ RoxygenNote: 7.3.3
 Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Config/testthat/parallel: true
 Imports:
     lavaan,
     modelbpp (>= 0.2.0.5)
