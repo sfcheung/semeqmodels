@@ -56,7 +56,8 @@ fix_object <- function(
 #' @noRd
 dummy_data <- function(
   ptable,
-  n = NULL
+  n = NULL,
+  n_min = 200
 ) {
 
   # TODO:
@@ -73,7 +74,7 @@ dummy_data <- function(
         )
   p <- length(ovnames)
   if (is.null(n)) {
-    n <- p * 20
+    n <- min(p * 20, n_min)
   }
   out <- suppressWarnings(
             lavaan::simulateData(
