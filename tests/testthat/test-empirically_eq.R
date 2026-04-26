@@ -6,6 +6,8 @@ test_that("Empirically equivalent", {
 empirical_eq <- function(
   ptables,
   sem_out,
+  ...,
+  se = "none",
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
@@ -28,9 +30,14 @@ empirical_eq <- function(
   sem_out_df <- unname(lavaan::fitMeasures(sem_out, "df"))
   sem_out_chisq <- unname(lavaan::fitMeasures(sem_out, "chisq"))
 
+  sem_out1 <- lavaan::update(
+    sem_out,
+    se = se
+  )
+
   fits <- modelbpp::fit_many(
             model_list = ptables,
-            sem_out = sem_out,
+            sem_out = sem_out1,
             parallel = parallel,
             ncores = ncores,
             make_cluster_args = make_cluster_args,
@@ -61,8 +68,11 @@ empirical_eq <- function(
   ptables_eq
 }
 
+# ==== Models ====
 
-mod <-
+# Model 1
+
+mod1 <-
 "
 fx =~ x1 + x2 + x3
 fm =~ m1 + m2 + m3
@@ -70,16 +80,19 @@ fy =~ y1 + y2 + y3
 fm ~ fx
 fy ~ fm + fx
 "
-fit <- sem(
-          model = mod,
+fit1 <- sem(
+          model = mod1,
           data = data_test_3_factor_3_item
         )
-fit_1_more1 <- drop_k(fit)
 
-fit_1_more_1_less <- lapply(
-  fit_1_more1,
+fit1_1_more <- drop_k(fit1)
+
+fit1_1_more_1_less <- lapply(
+  fit1_1_more,
   add_k
 )
+
+# Model 2
 
 mod2 <-
 "
@@ -93,12 +106,14 @@ fit2 <- sem(
           model = mod2,
           data = data_test_3_factor_3_item
         )
-fit_2_more1 <- drop_k(fit2)
+fit2_1_more <- drop_k(fit2)
 
-fit_2_more_1_less <- lapply(
-  fit_2_more1,
+fit2_1_more_1_less <- lapply(
+  fit2_1_more,
   add_k
 )
+
+# Model 3
 
 mod3 <-
 "
@@ -112,84 +127,91 @@ fit3 <- sem(
           model = mod3,
           data = data_test_3_factor_3_item
         )
-fit_3_more1 <- drop_k(fit3)
+fit3_1_more <- drop_k(fit3)
 
-fit_3_more_1_less <- lapply(
-  fit_3_more1,
+fit3_1_more_1_less <- lapply(
+  fit3_1_more,
   add_k
 )
 
-out0 <- combine_ptables(fit_1_more_1_less)
+# ==== Parameter Tables ====
 
-out0_not_eq <- combine_ptables(c(fit_1_more_1_less,
-                                 fit_2_more_1_less))
+# All equivalent
+ptables1 <- combine_ptables(fit1_1_more_1_less)
 
-out3 <- combine_ptables(fit_3_more_1_less)
+# Some not equivalent
+ptables12 <- combine_ptables(c(fit1_1_more_1_less,
+                               fit2_1_more_1_less))
 
-fit0 <- lapply(
-  out0,
-  \(x) lavaan::update(fit,
+# All equivalent
+ptables3 <- combine_ptables(fit3_1_more_1_less)
+
+# ==== Fits ====
+
+fits1 <- lapply(
+  ptables1,
+  \(x) lavaan::update(fit1,
                       model = x)
 )
 
-df0 <- sapply(
-        fit0,
+df1 <- sapply(
+        fits1,
         \(x) fitMeasures(x, "df")
       )
-df0
+df1
 
-chisq0 <- sapply(
-        fit0,
+chisq1 <- sapply(
+        fits1,
         \(x) fitMeasures(x, "chisq")
       )
-chisq0
+chisq1
 
-fit0_not_eq <- lapply(
-  out0_not_eq,
-  \(x) lavaan::update(fit,
+fits12 <- lapply(
+  ptables12,
+  \(x) lavaan::update(fit1,
                       model = x)
 )
 
-df0_not_eq <- sapply(
-        fit0_not_eq,
+df12 <- sapply(
+        fits12,
         \(x) fitMeasures(x, "df")
       )
-df0_not_eq
+df12
 
-chisq0_not_eq <- sapply(
-        fit0_not_eq,
+chisq12 <- sapply(
+        fits12,
         \(x) fitMeasures(x, "chisq")
       )
-chisq0_not_eq
+chisq12
 
-fit_list_3 <- lapply(
-  out3,
+fits3 <- lapply(
+  ptables3,
   \(x) lavaan::update(fit3,
                       model = x)
 )
 
 df3 <- sapply(
-        fit_list_3,
+        fits3,
         \(x) fitMeasures(x, "df")
       )
 df3
 
 chisq3 <- sapply(
-        fit_list_3,
+        fits3,
         \(x) fitMeasures(x, "chisq")
       )
 chisq3
 
 eq_out_1 <- empirical_eq(
-          out0,
-          sem_out = fit,
+          ptables1,
+          sem_out = fit1,
           parallel = FALSE,
           progress = !is_testing()
         )
 
 eq_out_2 <- empirical_eq(
-          out0_not_eq,
-          sem_out = fit,
+          ptables12,
+          sem_out = fit1,
           parallel = FALSE,
           progress = !is_testing()
         )
@@ -205,7 +227,7 @@ expect_setequal(
 )
 
 eq_out_3 <- empirical_eq(
-          out3,
+          ptables3,
           sem_out = fit3,
           parallel = FALSE,
           progress = !is_testing()
