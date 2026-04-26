@@ -17,25 +17,25 @@ fit <- sem(
         )
 pt <- parameterTable(fit)
 
-# ==== Test: get_drop_i ====
+# ==== Test: drop_k ====
 
-fit_1_more1 <- get_drop_i(fit)
+fit_1_more1 <- drop_k(fit)
 
-fit_1_more2 <- get_drop_i(pt)
+fit_1_more2 <- drop_k(pt)
 
 expect_setequal(names(fit_1_more1),
                 names(fit_1_more2))
 
-# ==== Test: get_add_i ====
+# ==== Test: add_k ====
 
-fit_1_less <- get_add_i(
+fit_1_less <- add_k(
                 fit_1_more1[[1]],
                 add_name = TRUE
               )
 
 fit_1_more_1_less <- lapply(
   fit_1_more1,
-  get_add_i
+  add_k
 )
 
 fit_1_more_1_less <- unlist(

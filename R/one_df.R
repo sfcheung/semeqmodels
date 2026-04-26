@@ -8,7 +8,7 @@
 NULL
 
 #' @details
-#' The function [get_drop_i()] is
+#' The function [drop_k()] is
 #' a helper
 #' to generate a list of models *k* less
 #' degrees of freedom different from an original
@@ -16,7 +16,7 @@ NULL
 #' [lavaan::sem()].
 #'
 #' @return
-#' The function [get_drop_i()]
+#' The function [drop_k()]
 #' returns a list of the class `partables`,
 #' an output of [modelbpp::gen_models()],
 #' which are simplified versions of the
@@ -93,15 +93,15 @@ NULL
 #'
 #' # ==== Generating models one-less-df
 #'
-#' fit_1_more1 <- get_drop_i(fit)
+#' fit_1_more1 <- drop_k(fit)
 #' fit_1_more1
 #'
-#' fit_1_more2 <- get_drop_i(pt)
+#' fit_1_more2 <- drop_k(pt)
 #' fit_1_more2
 #'
 #' @rdname modified_models
 #' @export
-get_drop_i <- function(
+drop_k <- function(
   object,
   ...,
   loadings_to_exclude_from_drop = "all",
@@ -113,7 +113,7 @@ get_drop_i <- function(
 
   # - A function to generate a list of 1-more-df models.
   #   - Input:
-  #     - A lavaan output.
+  #     - A lavaan output.c
   #       - Can also be a parameter table.
   #         - A dummy dataset will be created in this case.
   #     - Relations that will not be removed (and so will not be changed).
@@ -188,7 +188,7 @@ get_drop_i <- function(
 }
 
 #' @details
-#' The function [get_add_i()] is a
+#' The function [add_k()] is a
 #' helper
 #' to generate a list of models *k* more
 #' degrees of freedom different from an
@@ -196,7 +196,7 @@ get_drop_i <- function(
 #' such as [lavaan::sem()].
 #'
 #' @return
-#' The function [get_add_i()]
+#' The function [add_k()]
 #' returns a list of the class `partables`,
 #' an output of [modelbpp::gen_models()],
 #' which are more complicated versions of the
@@ -237,9 +237,9 @@ get_drop_i <- function(
 #'
 #' @examples
 #'
-#' # ==== Test: get_add_i ====
+#' # ==== Test: add_k ====
 #'
-#' fit_1_less <- get_add_i(
+#' fit_1_less <- add_k(
 #'                 fit_1_more1[[1]],
 #'                 add_name = TRUE
 #'               )
@@ -248,7 +248,7 @@ get_drop_i <- function(
 #'
 #' @rdname modified_models
 #' @export
-get_add_i <- function(
+add_k <- function(
   object,
   ...,
   sem_out = NULL,

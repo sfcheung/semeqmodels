@@ -2,11 +2,11 @@
 % Please edit documentation in R/one_df.R
 \name{modified_models}
 \alias{modified_models}
-\alias{get_drop_i}
-\alias{get_add_i}
+\alias{drop_k}
+\alias{add_k}
 \title{Modified Models}
 \usage{
-get_drop_i(
+drop_k(
   object,
   ...,
   loadings_to_exclude_from_drop = "all",
@@ -16,7 +16,7 @@ get_drop_i(
   drop_original = TRUE
 )
 
-get_add_i(
+add_k(
   object,
   ...,
   sem_out = NULL,
@@ -97,14 +97,14 @@ a prefix to the names of the generated
 models.}
 }
 \value{
-The function \code{\link[=get_drop_i]{get_drop_i()}}
+The function \code{\link[=drop_k]{drop_k()}}
 returns a list of the class \code{partables},
 an output of \code{\link[modelbpp:model_set]{modelbpp::gen_models()}},
 which are simplified versions of the
 original model, usually with one or
 more paths removed.
 
-The function \code{\link[=get_add_i]{get_add_i()}}
+The function \code{\link[=add_k]{add_k()}}
 returns a list of the class \code{partables},
 an output of \code{\link[modelbpp:model_set]{modelbpp::gen_models()}},
 which are more complicated versions of the
@@ -117,14 +117,14 @@ models a certain number of degrees
 different from an original model.
 }
 \details{
-The function \code{\link[=get_drop_i]{get_drop_i()}} is
+The function \code{\link[=drop_k]{drop_k()}} is
 a helper
 to generate a list of models \emph{k} less
 degrees of freedom different from an original
 model fitted by \code{lavaan}, such as
 \code{\link[lavaan:sem]{lavaan::sem()}}.
 
-The function \code{\link[=get_add_i]{get_add_i()}} is a
+The function \code{\link[=add_k]{add_k()}} is a
 helper
 to generate a list of models \emph{k} more
 degrees of freedom different from an
@@ -151,16 +151,16 @@ pt <- parameterTable(fit)
 
 # ==== Generating models one-less-df
 
-fit_1_more1 <- get_drop_i(fit)
+fit_1_more1 <- drop_k(fit)
 fit_1_more1
 
-fit_1_more2 <- get_drop_i(pt)
+fit_1_more2 <- drop_k(pt)
 fit_1_more2
 
 
-# ==== Test: get_add_i ====
+# ==== Test: add_k ====
 
-fit_1_less <- get_add_i(
+fit_1_less <- add_k(
                 fit_1_more1[[1]],
                 add_name = TRUE
               )
