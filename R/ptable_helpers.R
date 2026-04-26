@@ -1,3 +1,87 @@
+#' @title Parameter Table Helpers
+#'
+#' @description Helper functions to
+#' manipulate parameter tables.
+#'
+#' @name ptable_helpers
+NULL
+
+#' @details
+#' The function [combine_ptables()]
+#' combine a list of `partables` objects
+#' to one single `partables` object.
+#'
+#' @return
+#' The function [combine_ptables()]
+#' returns a list of the class `partables`.
+#'
+#' @param object_list A list of objects
+#' of the class
+#' `partables`.
+#'
+#' @param drop_duplicated Logical. Whether
+#' duplicated models will be removed.
+#'
+#' @examples
+#'
+#' library(lavaan)
+#'
+#' # Model 1
+#'
+#' mod1 <-
+#' "
+#' fx =~ x1 + x2 + x3
+#' fm =~ m1 + m2 + m3
+#' fy =~ y1 + y2 + y3
+#' fm ~ fx
+#' fy ~ fm + fx
+#' "
+#' fit1 <- sem(
+#'           model = mod1,
+#'           data = data_test_3_factor_3_item
+#'         )
+#' fit1_1_more <- drop_k(fit1)
+#' fit1_1_more_1_less <- lapply(
+#'   fit1_1_more,
+#'   add_k
+#' )
+#'
+#' ptables1 <- combine_ptables(fit1_1_more_1_less)
+#' ptables1
+#'
+#' @rdname ptable_helpers
+#' @export
+combine_ptables <- function(
+  object_list,
+  drop_duplicated = TRUE
+) {
+  # TODO:
+  # - Update it to work with other type
+  #   of list of parameter tables.
+  # Combine a list of partables objects
+  out0 <- unlist(
+    object_list,
+    recursive = FALSE
+  )
+  if (drop_duplicated) {
+    out0_digest <- lapply(
+      out0,
+      add_digest
+    )
+    i <- sapply(
+            out0_digest,
+            get_digest
+          )
+    out0 <- out0[!duplicated(i)]
+  }
+  tmp <- class(out0)
+  tmp <- tmp[tmp != "partables"]
+  tmp <- c("partables", tmp)
+  class(out0) <- tmp
+  out0
+}
+
+
 #' @noRd
 sort_ptable <- function(
   ptable,
@@ -17,6 +101,7 @@ sort_ptable <- function(
   out0
 }
 
+#' @noRd
 digest_ptable <- function(
   ptable,
   cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart", "start"),
@@ -43,6 +128,7 @@ digest_ptable <- function(
     )
 }
 
+#' @noRd
 add_digest <- function(
   ptable,
   args_sort_ptable = list(),
@@ -67,6 +153,7 @@ add_digest <- function(
   ptable
 }
 
+#' @noRd
 get_digest <- function(
   ptable,
   args_sort_ptable = list(),
@@ -87,32 +174,4 @@ get_digest <- function(
     out <- attr(out0, "digest")
   }
   out
-}
-
-#' @noRd
-combine_ptables <- function(
-  object_list,
-  drop_duplicated = TRUE
-) {
-  # Combine a list of partables objects
-  out0 <- unlist(
-    object_list,
-    recursive = FALSE
-  )
-  if (drop_duplicated) {
-    out0_digest <- lapply(
-      out0,
-      add_digest
-    )
-    i <- sapply(
-            out0_digest,
-            get_digest
-          )
-    out0 <- out0[!duplicated(i)]
-  }
-  tmp <- class(out0)
-  tmp <- tmp[tmp != "partables"]
-  tmp <- c("partables", tmp)
-  class(out0) <- tmp
-  out0
 }

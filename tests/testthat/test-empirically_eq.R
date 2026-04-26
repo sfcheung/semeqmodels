@@ -3,71 +3,6 @@ suppressMessages(library(lavaan))
 
 test_that("Empirically equivalent", {
 
-empirical_eq <- function(
-  ptables,
-  sem_out,
-  ...,
-  se = "none",
-  parallel = TRUE,
-  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
-  make_cluster_args = list(),
-  progress = TRUE,
-  tolerance = 1e-5
-) {
-
-  # Keep models which are empirically equivalent
-  # Input:
-  # - The output of model_set()
-  # - The original fit
-  # NOTE:
-  # - Empirical in-sample equivalence is used for now,
-  #   not mathematical equivalence.
-
-  # Assume ptables are unique
-  # TODO:
-  # - Keep only unique ptables
-
-  sem_out_df <- unname(lavaan::fitMeasures(sem_out, "df"))
-  sem_out_chisq <- unname(lavaan::fitMeasures(sem_out, "chisq"))
-
-  sem_out1 <- lavaan::update(
-    sem_out,
-    se = se
-  )
-
-  fits <- modelbpp::fit_many(
-            model_list = ptables,
-            sem_out = sem_out1,
-            parallel = parallel,
-            ncores = ncores,
-            make_cluster_args = make_cluster_args,
-            progress = progress
-          )
-
-  # TODO:
-  # - Handle nonconvergence cases
-  #   Models failed post.check can be kept
-
-  dfs <- sapply(
-    fits$fit,
-    function(x) lavaan::fitMeasures(x, "df")
-  )
-  chisqs <- sapply(
-    fits$fit,
-    function(x) lavaan::fitMeasures(x, "chisq")
-  )
-
-  df_eq <- dfs == sem_out_df
-  chisq_eq <- abs(chisqs - sem_out_chisq) <= tolerance
-
-  i <- df_eq & chisq_eq
-
-  ptables_eq <- ptables[i]
-  class(ptables_eq) <- class(ptables)
-
-  ptables_eq
-}
-
 # ==== Models ====
 
 # Model 1
@@ -204,14 +139,14 @@ chisq3
 
 eq_out_1 <- empirical_eq(
           ptables1,
-          sem_out = fit1,
+          original_model = fit1,
           parallel = FALSE,
           progress = !is_testing()
         )
 
 eq_out_2 <- empirical_eq(
           ptables12,
-          sem_out = fit1,
+          original_model = fit1,
           parallel = FALSE,
           progress = !is_testing()
         )
@@ -228,7 +163,7 @@ expect_setequal(
 
 eq_out_3 <- empirical_eq(
           ptables3,
-          sem_out = fit3,
+          original_model = fit3,
           parallel = FALSE,
           progress = !is_testing()
         )
