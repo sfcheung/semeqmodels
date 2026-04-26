@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9004
+# semeqmodels 0.0.0.9005
 
 - Initialize the package.
   (0.0.0.9000)
@@ -16,3 +16,8 @@
 - Set `testthat` to use parallel
   processing.
   (0.0.0.9004)
+
+- Updated `dummy_data()` to randomly
+  set free parameters to non-zero in
+  the population.
+  (0.0.0.9005)
