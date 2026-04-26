@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9003
+# semeqmodels 0.0.0.9004
 
 - Initialize the package.
   (0.0.0.9000)
@@ -12,3 +12,7 @@
 
 - Added `drop_k()` and `add_k()`.
   (0.0.0.9003)
+
+- Set `testthat` to use parallel
+  processing.
+  (0.0.0.9004)
