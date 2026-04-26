@@ -10,7 +10,7 @@ NULL
 #' @details
 #' The function [drop_k()] is
 #' a helper
-#' to generate a list of models *k* less
+#' to generate a list of models *k* more
 #' degrees of freedom different from an original
 #' model fitted by `lavaan`, such as
 #' [lavaan::sem()].
@@ -190,7 +190,7 @@ drop_k <- function(
 #' @details
 #' The function [add_k()] is a
 #' helper
-#' to generate a list of models *k* more
+#' to generate a list of models *k* less
 #' degrees of freedom different from an
 #' original model fitted by `lavaan`,
 #' such as [lavaan::sem()].
