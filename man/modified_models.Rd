@@ -8,6 +8,9 @@
 \usage{
 get_drop_i(
   object,
+  ...,
+  loadings_to_exclude_from_drop = "all",
+  df_change_drop = 1,
   must_not_drop = NULL,
   progress = FALSE,
   drop_original = TRUE
@@ -17,6 +20,7 @@ get_add_i(
   object,
   ...,
   sem_out = NULL,
+  df_change_add = 1,
   must_not_add = NULL,
   ptable_name = NULL,
   progress = FALSE,
@@ -35,6 +39,21 @@ a parameter table, dummy data will be
 created, as it is required by
 \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
 
+\item{...}{Optional arguments to be
+passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
+
+\item{loadings_to_exclude_from_drop}{How factor loadings will be handled.
+Default is \code{"all"} and no factor loadings
+will be dropped.
+To be passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.
+This argument should not be changed.
+Included for internal use.}
+
+\item{df_change_drop}{The change in
+the degrees of freedom when generating
+simplified models. Default is one.
+To be passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
+
 \item{must_not_drop}{A character vector
 of parameters that must not be removed,
 and so will not be modified. To be
@@ -48,11 +67,16 @@ on screen.}
 the original model will dropped from
 the output. Default is \code{TRUE}.}
 
-\item{...}{Optional arguments to be
-passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
-
 \item{sem_out}{A \code{lavaan} object.
 Not used for now.}
+
+\item{df_change_add}{The change in
+the degrees of freedom when adding
+free parameters.
+To be passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.
+Default to one. Should not be changed
+except for experimental use of this
+function.}
 
 \item{must_not_add}{A character
 vector of parameters that must not

@@ -33,6 +33,19 @@ NULL
 #' created, as it is required by
 #' [modelbpp::gen_models()].
 #'
+#' @param df_change_drop The change in
+#' the degrees of freedom when generating
+#' simplified models. Default is one.
+#' To be passed to [modelbpp::gen_models()].
+#'
+#' @param loadings_to_exclude_from_drop
+#' How factor loadings will be handled.
+#' Default is `"all"` and no factor loadings
+#' will be dropped.
+#' To be passed to [modelbpp::gen_models()].
+#' This argument should not be changed.
+#' Included for internal use.
+#'
 #' @param must_not_drop A character vector
 #' of parameters that must not be removed,
 #' and so will not be modified. To be
@@ -90,6 +103,9 @@ NULL
 #' @export
 get_drop_i <- function(
   object,
+  ...,
+  loadings_to_exclude_from_drop = "all",
+  df_change_drop = 1,
   must_not_drop = NULL,
   progress = FALSE,
   drop_original = TRUE
@@ -148,6 +164,7 @@ get_drop_i <- function(
   #   due to scoping issue with update()
   out0 <- modelbpp::gen_models(
             sem_out = fit,
+            ...,
             loadings_to_exclude_from_drop = "all",
             must_not_drop = must_not_drop,
             df_change_drop = 1,
@@ -192,6 +209,14 @@ get_drop_i <- function(
 #' @param sem_out A `lavaan` object.
 #' Not used for now.
 #'
+#' @param df_change_add The change in
+#' the degrees of freedom when adding
+#' free parameters.
+#' To be passed to [modelbpp::gen_models()].
+#' Default to one. Should not be changed
+#' except for experimental use of this
+#' function.
+#'
 #' @param must_not_add A character
 #' vector of parameters that must not
 #' be added. To be passed to [modelbpp::gen_models()].
@@ -227,6 +252,7 @@ get_add_i <- function(
   object,
   ...,
   sem_out = NULL,
+  df_change_add = 1,
   must_not_add = NULL,
   ptable_name = NULL,
   progress = FALSE,
@@ -326,7 +352,7 @@ get_add_i <- function(
     exclude_x_changed_to_y = FALSE,
     cross_add = NULL,
     df_change_drop = 0,
-    df_change_add = 1,
+    df_change_add = df_change_add,
     drop_equivalent_models = FALSE,
     remove_duplicated = TRUE,
     must_not_add = must_not_add,
