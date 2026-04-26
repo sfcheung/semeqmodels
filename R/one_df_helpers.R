@@ -58,12 +58,10 @@ dummy_data <- function(
   ptable,
   n = NULL,
   n_min = 200,
-  n_per_p = 20
+  n_per_p = 20,
+  max_attempts = 10,
+  random_delta = c(.01, .10)
 ) {
-
-  # TODO:
-  # - Need to random set free paths to
-  #   no zero in the population.
 
   fit0 <- lavaan::sem(
             model = ptable,
@@ -77,11 +75,33 @@ dummy_data <- function(
   if (is.null(n)) {
     n <- min(p * n_per_p, n_min)
   }
-  out <- suppressWarnings(
-            lavaan::simulateData(
-              model = ptable,
-              sample.nobs = n
-            )
-          )
+  ptablei <- ptable
+  k <- (ptablei$free > 0) &
+       (ptablei$start < .Machine$double.eps)
+  i <- max_attempts
+  out <- NULL
+  while ((i > 0) &&
+         !is.data.frame(out)) {
+    if (any(k)) {
+      tmp <- stats::runif(
+                sum(k),
+                min = random_delta[1],
+                max = random_delta[2]
+              )
+      tmp <- tmp * sample(c(-1, 1), sum(k), replace =  TRUE)
+      ptablei[k, "start"] <- tmp
+    }
+    out <- tryCatch(suppressWarnings(
+              lavaan::simulateData(
+                model = ptablei,
+                sample.nobs = n
+              )
+            ),
+            error = function(e) e)
+    i <- i - 1
+  }
+  if (!is.data.frame(out)) {
+    stop("Failed to generate the dummy data.")
+  }
   out
 }
