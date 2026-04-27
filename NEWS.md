@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9007
+# semeqmodels 0.0.0.9008
 
 - Initialize the package.
   (0.0.0.9000)
@@ -24,3 +24,6 @@
 
 - Added `combine_ptables()` and helpers.
   (0.0.0.9006)
+
+- Added `empirical_eq()`.
+  (0.0.0.9008)
