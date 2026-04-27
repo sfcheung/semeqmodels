@@ -119,14 +119,14 @@ different from an original model.
 \details{
 The function \code{\link[=drop_k]{drop_k()}} is
 a helper
-to generate a list of models \emph{k} less
+to generate a list of models \emph{k} more
 degrees of freedom different from an original
 model fitted by \code{lavaan}, such as
 \code{\link[lavaan:sem]{lavaan::sem()}}.
 
 The function \code{\link[=add_k]{add_k()}} is a
 helper
-to generate a list of models \emph{k} more
+to generate a list of models \emph{k} less
 degrees of freedom different from an
 original model fitted by \code{lavaan},
 such as \code{\link[lavaan:sem]{lavaan::sem()}}.
