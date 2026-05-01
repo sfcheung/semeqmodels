@@ -24,6 +24,7 @@ add_k(
   df_change_add = 1,
   must_not_add = NULL,
   ptable_name = NULL,
+  se = "none",
   progress = FALSE,
   remove_zeros = FALSE,
   add_name = FALSE

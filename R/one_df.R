@@ -272,6 +272,7 @@ add_k <- function(
   df_change_add = 1,
   must_not_add = NULL,
   ptable_name = NULL,
+  se = "none",
   progress = FALSE,
   remove_zeros = FALSE,
   add_name = FALSE
@@ -295,6 +296,7 @@ add_k <- function(
   if (inherits(object, "lavaan")) {
     # Need this for lavaan::update()
     tmp0 <- stats::getCall(object)
+    tmp0$se <- se
     tmp <- lapply(
               tmp0,
               \(x, envir0) eval(x),
@@ -316,7 +318,7 @@ add_k <- function(
                 list(
                   model = ptable,
                   data = dat,
-                  se = "none"
+                  se = se
                 )
               )
             )
