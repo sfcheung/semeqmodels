@@ -100,7 +100,9 @@ NULL
 #'         )
 #' pt <- parameterTable(fit)
 #'
-#' # ==== Generating models one-less-df
+#' # ==== Generate models one-less-df ====
+#'
+#' # ==== drop_k ====
 #'
 #' fit_1_more1 <- drop_k(fit)
 #' fit_1_more1
@@ -247,7 +249,7 @@ drop_k <- function(
 #'
 #' @examples
 #'
-#' # ==== Test: add_k ====
+#' # ==== add_k ====
 #'
 #' fit_1_less <- add_k(
 #'                 fit_1_more1[[1]],
