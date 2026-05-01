@@ -44,4 +44,18 @@ expect_all_equal(unlist(out),
 out <- eq_lavInspect(fit_1_more1, "npar")
 expect_all_true(sapply(out, is.null))
 
+out <- eq_fitMeasures(
+          fit_1_more1_with_fit,
+          fit.measures = c("chisq", "df", "cfi"))
+expect_equal(colnames(out),
+             names(fit_1_more1_with_fit))
+chk <- sapply(
+          eq_fits(fit_1_more1_with_fit),
+          fitMeasures,
+          simplify = TRUE
+        )
+expect_equal(unlist(out["cfi", ]),
+             chk["cfi", ],
+             ignore_attr = TRUE)
+
 })

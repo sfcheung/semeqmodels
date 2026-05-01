@@ -3,10 +3,13 @@
 \name{eq_partables_helpers}
 \alias{eq_partables_helpers}
 \alias{eq_lavInspect}
+\alias{eq_fitMeasures}
 \alias{eq_fits}
 \title{Helpers for 'eq_partables' Object}
 \usage{
 eq_lavInspect(object, ..., simplify = FALSE)
+
+eq_fitMeasures(object, ..., output_format = c("data.frame", "list"))
 
 eq_fits(object)
 }
@@ -20,6 +23,18 @@ to be called.}
 \item{simplify}{To be passed to
 \code{\link[=sapply]{sapply()}}. Note that the default is
 \code{FALSE}, different from \code{\link[=sapply]{sapply()}}.}
+
+\item{output_format}{The format of
+the output of \code{\link[=eq_fitMeasures]{eq_fitMeasures()}}.
+If \code{output_format} is \verb{"data.frame}, then
+the output will be a data frame with
+the number of columns equal to the
+number of models, and rows equal to
+the number of values returned by
+\code{\link[lavaan:fitMeasures]{lavaan::fitMeasures()}}.
+If \code{output_format} is \code{"list"}, then
+the output will be a list of numeric
+vectors.}
 }
 \value{
 The function \code{\link[=eq_lavInspect]{eq_lavInspect()}}
@@ -28,6 +43,11 @@ returns the output of
 is a vector, list, or other type of
 objects depends on the argument
 \code{simplify}, used by \code{\link[=sapply]{sapply()}}.
+
+The function \code{\link[=eq_fitMeasures]{eq_fitMeasures()}}
+returns the output of
+\code{\link[lavaan:fitMeasures]{lavaan::fitMeasures()}}. The format
+is determined by \code{output_format}.
 
 The function \code{\link[=eq_fits]{eq_fits()}} returns a
 list of \code{lavaan} outputs for the
@@ -42,6 +62,10 @@ from the elements of an
 \details{
 The function \code{\link[=eq_lavInspect]{eq_lavInspect()}}
 call \code{\link[lavaan:lavInspect]{lavaan::lavInspect()}} on the
+elements of an \code{eq_partables} object.
+
+The function \code{\link[=eq_fitMeasures]{eq_fitMeasures()}}
+call \code{\link[lavaan:fitMeasures]{lavaan::fitMeasures()}} on the
 elements of an \code{eq_partables} object.
 
 The function \code{\link[=eq_fits]{eq_fits()}} extracts

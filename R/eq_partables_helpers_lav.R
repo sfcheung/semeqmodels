@@ -113,6 +113,95 @@ eq_lavInspect <- function(
 }
 
 #' @details
+#' The function [eq_fitMeasures()]
+#' call [lavaan::fitMeasures()] on the
+#' elements of an `eq_partables` object.
+#'
+#' @param output_format The format of
+#' the output of [eq_fitMeasures()].
+#' If `output_format` is `"data.frame`, then
+#' the output will be a data frame with
+#' the number of columns equal to the
+#' number of models, and rows equal to
+#' the number of values returned by
+#' [lavaan::fitMeasures()].
+#' If `output_format` is `"list"`, then
+#' the output will be a list of numeric
+#' vectors.
+#'
+#' @return
+#' The function [eq_fitMeasures()]
+#' returns the output of
+#' [lavaan::fitMeasures()]. The format
+#' is determined by `output_format`.
+#'
+#' @rdname eq_partables_helpers
+#' @export
+eq_fitMeasures <- function(
+  object,
+  ...,
+  output_format = c("data.frame", "list")
+) {
+  output_format <- match.arg(output_format)
+  if (length(object) == 0) {
+    return(NULL)
+  }
+  fits <- eq_fits(
+    object
+  )
+  f <- function(
+    object,
+    ...
+  ) {
+    if (is.null(object)) {
+      out <- NULL
+    } else {
+      out <- do.call(
+        lavaan::fitMeasures,
+        c(list(object),
+          list(...))
+      )
+    }
+    out
+  }
+  out <- sapply(
+    fits,
+    f,
+    ...,
+    simplify = FALSE
+  )
+
+  # ==== Handle models without lavaan output ====
+
+  out_NULL <- sapply(
+                out,
+                is.null
+              )
+  if (all(out_NULL)) {
+    return(NULL)
+  } else if (any(out_NULL)) {
+    out_len <- sapply(
+      out,
+      length
+    )
+    out_len <- max(out_len)
+    out_names <- names(out[!out_NULL][[1]])
+    tmp <- rep_len(NA_real_, out_len)
+    names(tmp) <- out_names
+    out[out_NULL] <- tmp
+  }
+
+  if (output_format == "data.frame") {
+    out <- data.frame(
+      out,
+      check.names = FALSE
+    )
+  }
+
+  out
+}
+
+#' @details
 #' The function [eq_fits()] extracts
 #' the `lavaan` outputs stored for each
 #' model, if present.
