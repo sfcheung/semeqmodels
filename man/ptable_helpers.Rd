@@ -19,7 +19,7 @@ combine_ptables(object_list, drop_duplicated = TRUE)
 \arguments{
 \item{object_list}{A list of objects
 of the class
-\code{partables}.}
+\code{partables} or \code{eq_partables}.}
 
 \item{drop_duplicated}{Logical. Whether
 duplicated models will be removed.}
@@ -35,7 +35,8 @@ objects to be combined.}
 }
 \value{
 The function \code{\link[=combine_ptables]{combine_ptables()}}
-returns a list of the class \code{partables}.
+always returns an object of the class
+\code{eq_partables}.
 
 The \code{c}-method of \code{eq_partables}
 returns a list of the class
@@ -56,7 +57,8 @@ manipulate parameter tables.
 \details{
 The function \code{\link[=combine_ptables]{combine_ptables()}}
 combine a list of \code{partables} objects
-to one single \code{partables} object.
+or \code{eq_partables} objects
+to one single object of the same type.
 
 The \code{c}-method of \code{eq_partables}
 object combine \code{eq_partables} elements

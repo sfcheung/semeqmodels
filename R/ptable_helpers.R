@@ -9,15 +9,17 @@ NULL
 #' @details
 #' The function [combine_ptables()]
 #' combine a list of `partables` objects
-#' to one single `partables` object.
+#' or `eq_partables` objects
+#' to one single object of the same type.
 #'
 #' @return
 #' The function [combine_ptables()]
-#' returns a list of the class `partables`.
+#' always returns an object of the class
+#' `eq_partables`.
 #'
 #' @param object_list A list of objects
 #' of the class
-#' `partables`.
+#' `partables` or `eq_partables`.
 #'
 #' @param drop_duplicated Logical. Whether
 #' duplicated models will be removed.
@@ -59,24 +61,29 @@ combine_ptables <- function(
   # - Update it to work with other type
   #   of list of parameter tables.
   # Combine a list of partables objects
-  out0 <- unlist(
-    object_list,
-    recursive = FALSE
-  )
-  if (drop_duplicated) {
-    out0_digest <- lapply(
-      out0,
-      add_digest
+  # out0 <- unlist(
+  #   object_list,
+  #   recursive = FALSE
+  # )
+  out0 <- do.call(
+      to_eq_partables_list,
+      object_list
     )
-    i <- sapply(
-            out0_digest,
-            get_digest
-          )
-    out0 <- out0[!duplicated(i)]
+  if (drop_duplicated) {
+    # out0_digest <- lapply(
+    #   out0,
+    #   add_digest
+    # )
+    # i <- sapply(
+    #         out0_digest,
+    #         get_digest
+    #       )
+    # out0 <- out0[!duplicated(i)]
+    out0 <- unique(out0)
   }
   tmp <- class(out0)
-  tmp <- tmp[tmp != "partables"]
-  tmp <- c("partables", tmp)
+  tmp <- tmp[!(tmp %in% c("eq_partables", "partables"))]
+  tmp <- c("eq_partables", "partables", tmp)
   class(out0) <- tmp
   out0
 }
@@ -188,7 +195,8 @@ to_eq_partables_list <- function(
 unlist_eq_partables <- function(x) {
   out <- list()
   for (i in seq_along(x)) {
-    if (inherits(x[[i]], "eq_partables")) {
+    if ((inherits(x[[i]], "eq_partables")) ||
+        (inherits(x[[i]], "partables"))) {
       out <- append(
                 out,
                 unlist(x[i], recursive = FALSE)
