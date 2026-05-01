@@ -202,6 +202,61 @@ eq_fitMeasures <- function(
 }
 
 #' @details
+#' The function [eq_df()] is a wrapper
+#' that call [eq_fitMeasures()] with
+#' `fit.measures` set to `"df"`. It
+#' always return a numeric vector.
+#'
+#' @rdname eq_partables_helpers
+#' @export
+eq_df <- function(
+  object
+) {
+  out0 <- eq_fitMeasures(
+    object = object,
+    fit.measures = "df",
+    output_format = "list"
+  )
+  out1 <- sapply(
+            out0,
+            unname,
+            simplify = FALSE,
+            USE.NAMES = TRUE
+          )
+  out <- unlist(out1)
+  out
+}
+
+#' @details
+#' The function [eq_chisq()] is a wrapper
+#' that call [eq_fitMeasures()] with
+#' `fit.measures` set to `"chisq"`. It
+#' always return a numeric vector.
+#'
+#' @rdname eq_partables_helpers
+#' @export
+eq_chisq <- function(
+  object
+) {
+  out0 <- eq_fitMeasures(
+    object = object,
+    fit.measures = "chisq",
+    output_format = "list"
+  )
+  # TODO:
+  # - Default to `"chisq.robust"` if available.
+  out1 <- sapply(
+            out0,
+            unname,
+            simplify = FALSE,
+            USE.NAMES = TRUE
+          )
+  out <- unlist(out1)
+  out
+}
+
+
+#' @details
 #' The function [eq_fits()] extracts
 #' the `lavaan` outputs stored for each
 #' model, if present.

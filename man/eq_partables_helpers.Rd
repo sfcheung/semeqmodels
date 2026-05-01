@@ -4,12 +4,18 @@
 \alias{eq_partables_helpers}
 \alias{eq_lavInspect}
 \alias{eq_fitMeasures}
+\alias{eq_df}
+\alias{eq_chisq}
 \alias{eq_fits}
 \title{Helpers for 'eq_partables' Object}
 \usage{
 eq_lavInspect(object, ..., simplify = FALSE)
 
 eq_fitMeasures(object, ..., output_format = c("data.frame", "list"))
+
+eq_df(object)
+
+eq_chisq(object)
 
 eq_fits(object)
 }
@@ -67,6 +73,16 @@ elements of an \code{eq_partables} object.
 The function \code{\link[=eq_fitMeasures]{eq_fitMeasures()}}
 call \code{\link[lavaan:fitMeasures]{lavaan::fitMeasures()}} on the
 elements of an \code{eq_partables} object.
+
+The function \code{\link[=eq_df]{eq_df()}} is a wrapper
+that call \code{\link[=eq_fitMeasures]{eq_fitMeasures()}} with
+\code{fit.measures} set to \code{"df"}. It
+always return a numeric vector.
+
+The function \code{\link[=eq_chisq]{eq_chisq()}} is a wrapper
+that call \code{\link[=eq_fitMeasures]{eq_fitMeasures()}} with
+\code{fit.measures} set to \code{"chisq"}. It
+always return a numeric vector.
 
 The function \code{\link[=eq_fits]{eq_fits()}} extracts
 the \code{lavaan} outputs stored for each

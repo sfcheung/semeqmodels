@@ -58,4 +58,14 @@ expect_equal(unlist(out["cfi", ]),
              chk["cfi", ],
              ignore_attr = TRUE)
 
+out <- eq_df(fit_1_more1_with_fit)
+expect_equal(out,
+             chk["df", ],
+             ignore_attr = TRUE)
+
+out <- eq_chisq(fit_1_more1_with_fit)
+expect_equal(out,
+             chk["chisq", ],
+             ignore_attr = TRUE)
+
 })
