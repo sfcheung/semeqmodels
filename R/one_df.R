@@ -17,7 +17,8 @@ NULL
 #'
 #' @return
 #' The function [drop_k()]
-#' returns a list of the class `partables`,
+#' returns a list of the class `eq_partables`,
+#' a subclass of `partables`. It is
 #' an output of [modelbpp::gen_models()],
 #' which are simplified versions of the
 #' original model, usually with one or
@@ -194,6 +195,10 @@ drop_k <- function(
   }
 
   class(out0) <- class_out0
+
+  # Convert to eq_partables
+
+  class(out0) <- c("eq_partables", class(out0))
 
   out0
 

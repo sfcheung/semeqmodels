@@ -108,7 +108,8 @@ models.}
 }
 \value{
 The function \code{\link[=drop_k]{drop_k()}}
-returns a list of the class \code{partables},
+returns a list of the class \code{eq_partables},
+a subclass of \code{partables}. It is
 an output of \code{\link[modelbpp:model_set]{modelbpp::gen_models()}},
 which are simplified versions of the
 original model, usually with one or
