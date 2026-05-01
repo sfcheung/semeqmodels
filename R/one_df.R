@@ -411,7 +411,7 @@ add_k <- function(
     }
   }
 
-  class(out0) <- class_out0
+  class(out0) <- c("eq_partables", class_out0)
 
   if (length(out0) == 0) {
     out0 <- NULL
