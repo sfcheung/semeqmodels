@@ -55,6 +55,15 @@ NULL
 #' generation process will be displayed
 #' on screen.
 #'
+#' @param se Whether standard error will
+#' be computed. This argument will be
+#' passed to [lavaan::lavaan()].
+#' Default is `"none"`, and
+#' this setting overrides the setting
+#' in `object`. The standard errors are
+#' irrelevant in checking whether two
+#' models are equivalent.
+#'
 #' @param drop_original Logical. Whether
 #' the original model will dropped from
 #' the output. Default is `TRUE`.
@@ -107,6 +116,7 @@ drop_k <- function(
   loadings_to_exclude_from_drop = "all",
   df_change_drop = 1,
   must_not_drop = NULL,
+  se = "none",
   progress = FALSE,
   drop_original = TRUE
 ) {
@@ -129,7 +139,7 @@ drop_k <- function(
   if (inherits(object, "lavaan")) {
     # Need this for lavaan::update()
     tmp0 <- stats::getCall(object)
-    # Have to use for-loop
+    tmp0$se <- se
     tmp <- lapply(
               tmp0,
               \(x, envir0) eval(x, envir0),
@@ -151,7 +161,7 @@ drop_k <- function(
                 list(
                   model = ptable,
                   data = dat,
-                  se = "none"
+                  se = se
                 )
               )
             )

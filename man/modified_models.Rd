@@ -12,6 +12,7 @@ drop_k(
   loadings_to_exclude_from_drop = "all",
   df_change_drop = 1,
   must_not_drop = NULL,
+  se = "none",
   progress = FALSE,
   drop_original = TRUE
 )
@@ -58,6 +59,15 @@ To be passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
 of parameters that must not be removed,
 and so will not be modified. To be
 passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
+
+\item{se}{Whether standard error will
+be computed. This argument will be
+passed to \code{\link[lavaan:lavaan]{lavaan::lavaan()}}.
+Default is \code{"none"}, and
+this setting overrides the setting
+in \code{object}. The standard errors are
+irrelevant in checking whether two
+models are equivalent.}
 
 \item{progress}{Whether the model
 generation process will be displayed
