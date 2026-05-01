@@ -68,4 +68,65 @@ expect_equal(out,
              chk["chisq", ],
              ignore_attr = TRUE)
 
+a1_1 <- a1[1]
+class(a1_1) <- class(a1)
+a1_2 <- a1[2]
+class(a1_2) <- class(a1)
+out1 <- to_eq_partables_list(a1, a2)
+out2 <- to_eq_partables_list(a1_1, a2)
+out3 <- to_eq_partables_list(list(a1_1, a2))
+out4 <- to_eq_partables_list(list(a1_1, a1_2), a2)
+out5 <- to_eq_partables_list(a2, list(a1_1, a1_2))
+out6 <- to_eq_partables_list(a2, list(a1_1, a1_2), a3)
+outc1 <- c(a1, a2)
+outc2 <- c(a1_1, a2)
+outc5 <- c(a2, list(a1_1, a1_2))
+outc6 <- c(a2, list(a1_1, a1_2), a3)
+outc7 <- c(a1, a2, a2)
+outc8 <- c(a1, a1, a2)
+outc9 <- c(a1, a1, a2, drop_duplicated = FALSE)
+
+expect_identical(outc1, out1)
+expect_identical(outc2, out2)
+expect_identical(outc5, out5)
+expect_identical(outc6, out6)
+expect_identical(outc1, outc7)
+expect_identical(outc1, outc8)
+expect_true(any(duplicated(sapply(outc9, get_digest))))
+expect_true(any(duplicated(outc9)))
+expect_setequal(names(unique(outc9)),
+                names(outc8))
+
+expect_s3_class(out1, "eq_partables")
+expect_s3_class(out2, "eq_partables")
+expect_s3_class(out3, "eq_partables")
+expect_s3_class(out4, "eq_partables")
+expect_s3_class(out5, "eq_partables")
+expect_s3_class(out6, "eq_partables")
+
+expect_equal(
+  names(out1),
+  c(names(a1), names(a2))
+)
+expect_equal(
+  names(out2),
+  c(names(a1_1), names(a2))
+)
+expect_equal(
+  names(out3),
+  c(names(a1_1), names(a2))
+)
+expect_equal(
+  names(out4),
+  c(names(a1), names(a2))
+)
+expect_equal(
+  names(out5),
+  c(names(a2), names(a1))
+)
+expect_equal(
+  names(out5),
+  names(out6)
+)
+
 })
