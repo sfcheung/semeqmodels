@@ -14,6 +14,10 @@ drop_k(
   must_not_drop = NULL,
   se = "none",
   progress = FALSE,
+  fit_models = FALSE,
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
   drop_original = TRUE
 )
 
@@ -26,6 +30,10 @@ add_k(
   ptable_name = NULL,
   se = "none",
   progress = FALSE,
+  fit_models = FALSE,
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
   remove_zeros = FALSE,
   add_name = FALSE
 )
@@ -73,6 +81,24 @@ models are equivalent.}
 \item{progress}{Whether the model
 generation process will be displayed
 on screen.}
+
+\item{fit_models}{Whether the models
+will be fitted to the data.}
+
+\item{parallel}{Whether parallel
+processing will be used when fitting
+the models. Default is
+\code{TRUE}.
+Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
+
+\item{ncores}{The number of CPU cores
+to be used if \code{parallel} is \code{TRUE}.
+Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
+
+\item{make_cluster_args}{An optional
+named list of arguments to be used
+in \code{\link[parallel:makeCluster]{parallel::makeCluster()}}.
+Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 
 \item{drop_original}{Logical. Whether
 the original model will dropped from
@@ -174,9 +200,12 @@ fit_1_more2
 
 # ==== add_k ====
 
+# Remove 'parallel = FALSE' or use 'parallel = TRUE'
+# to enable parallel processing, which is recommended.
 fit_1_less <- add_k(
                 fit_1_more1[[1]],
-                add_name = TRUE
+                add_name = TRUE,
+                parallel = FALSE
               )
 
 fit_1_less

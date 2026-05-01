@@ -56,6 +56,24 @@ NULL
 #' generation process will be displayed
 #' on screen.
 #'
+#' @param fit_models Whether the models
+#' will be fitted to the data.
+#'
+#' @param parallel Whether parallel
+#' processing will be used when fitting
+#' the models. Default is
+#' `TRUE`.
+#' Passed to [modelbpp::fit_many()].
+#'
+#' @param ncores The number of CPU cores
+#' to be used if `parallel` is `TRUE`.
+#' Passed to [modelbpp::fit_many()].
+#'
+#' @param make_cluster_args An optional
+#' named list of arguments to be used
+#' in [parallel::makeCluster()].
+#' Passed to [modelbpp::fit_many()].
+#'
 #' @param se Whether standard error will
 #' be computed. This argument will be
 #' passed to [lavaan::lavaan()].
@@ -121,6 +139,10 @@ drop_k <- function(
   must_not_drop = NULL,
   se = "none",
   progress = FALSE,
+  fit_models = FALSE,
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
   drop_original = TRUE
 ) {
 
@@ -200,6 +222,26 @@ drop_k <- function(
 
   class(out0) <- c("eq_partables", class(out0))
 
+  # ==== Refit the models ====
+
+  if (fit_models &&
+      length(out0) > 0) {
+    # Need to suppress warnings because a model
+    # may have Heywood cases.
+    fit0 <- suppressWarnings(modelbpp::fit_many(
+      out0,
+      sem_out = fit,
+      parallel = parallel,
+      ncores = ncores,
+      make_cluster_args = make_cluster_args,
+      progress = progress
+    ))
+    out0 <- add_fit_many(
+              out0,
+              fit0
+            )
+  }
+
   out0
 
 }
@@ -256,9 +298,12 @@ drop_k <- function(
 #'
 #' # ==== add_k ====
 #'
+#' # Remove 'parallel = FALSE' or use 'parallel = TRUE'
+#' # to enable parallel processing, which is recommended.
 #' fit_1_less <- add_k(
 #'                 fit_1_more1[[1]],
-#'                 add_name = TRUE
+#'                 add_name = TRUE,
+#'                 parallel = FALSE
 #'               )
 #'
 #' fit_1_less
@@ -274,6 +319,10 @@ add_k <- function(
   ptable_name = NULL,
   se = "none",
   progress = FALSE,
+  fit_models = FALSE,
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
   remove_zeros = FALSE,
   add_name = FALSE
 ) {
@@ -415,6 +464,26 @@ add_k <- function(
 
   if (length(out0) == 0) {
     out0 <- NULL
+  }
+
+  # ==== Refit the models ====
+
+  if (fit_models &&
+      length(out0) > 0) {
+    # Need to suppress warnings because a model
+    # may have Heywood cases.
+    fit0 <- suppressWarnings(modelbpp::fit_many(
+      out0,
+      sem_out = fit_i,
+      parallel = parallel,
+      ncores = ncores,
+      make_cluster_args = make_cluster_args,
+      progress = progress
+    ))
+    out0 <- add_fit_many(
+              out0,
+              fit0
+            )
   }
 
   out0
