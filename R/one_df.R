@@ -177,7 +177,7 @@ drop_k <- function(
             ...,
             loadings_to_exclude_from_drop = "all",
             must_not_drop = must_not_drop,
-            df_change_drop = 1,
+            df_change_drop = df_change_drop,
             df_change_add = 0,
             progress = progress
           )
