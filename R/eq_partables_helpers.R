@@ -12,3 +12,22 @@ add_fit_many <- function(
   }
   object
 }
+
+#' @noRd
+is_partable <- function(
+  object,
+  colchk = c("id", "lhs", "op", "rhs")
+) {
+  # Check if a data frame is "likely" a
+  # lavaan parameter table
+  # Use only column names
+  # Not a 100% correct check but good enough
+  if (!is.data.frame(object)) {
+    return(FALSE)
+  }
+  col0 <- colnames(object)
+  if (all(colchk %in% col0)) {
+    return(TRUE)
+  }
+  return(FALSE)
+}

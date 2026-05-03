@@ -158,7 +158,7 @@
 #' @export
 empirical_eq <- function(
   ptables,
-  original_model,
+  original_model = NULL,
   ...,
   se = "none",
   parallel = TRUE,
@@ -171,6 +171,7 @@ empirical_eq <- function(
   # Keep models which are empirically equivalent
   # Input:
   # - The output of model_set()
+  # - A eq_partables object
   # - The original fit
   # NOTE:
   # - Empirical in-sample equivalence is used for now,
@@ -184,14 +185,20 @@ empirical_eq <- function(
   # - Generate dummy data if original_model
   #   is a parameter table.
 
-  sem_out_df <- unname(lavaan::fitMeasures(original_model, "df"))
-  sem_out_chisq <- unname(lavaan::fitMeasures(original_model, "chisq"))
-
-  sem_out1 <- lavaan::update(
-    original_model,
+  sem_out1 <- emp_eq_fix_input(
+    ptables = ptables,
+    original_model = original_model,
+    ...,
     se = se,
-    ...
+    env_for_update = parent.frame()
   )
+
+  # sem_out1 is used instead of original_model
+
+  sem_out_df <- unname(lavaan::fitMeasures(sem_out1, "df"))
+  # TODO:
+  # - Use robust chisq if available
+  sem_out_chisq <- unname(lavaan::fitMeasures(sem_out1, "chisq"))
 
   fits <- modelbpp::fit_many(
             model_list = ptables,
@@ -224,4 +231,80 @@ empirical_eq <- function(
   class(ptables_eq) <- class(ptables)
 
   ptables_eq
+}
+
+#' @noRd
+emp_eq_fix_input <- function(
+  ptables,
+  original_model = NULL,
+  ...,
+  se = "none",
+  env_for_update = parent.frame()
+) {
+  ddd <- list(...)
+  # Output
+  # - A lavaan fit object
+  fit_case <- "none"
+  if (is.null(original_model)) {
+    # Use the first table in ptables as the original model
+    if (!isTRUE(is_partable(ptables[[1]]))) {
+      stop("ptables is not a list of parameter tables")
+    }
+    ptable_original <- ptables[[1]]
+    fit_case <- "new_data"
+  } else if (is_partable(original_model)) {
+    # original_model is a parameter table.
+    # Create the dummy data and sem_out
+    ptable_original <- original_model
+    fit_case <- "new_data"
+  } else if (inherits(original_model, "lavaan")) {
+    # original_model is a lavaan object.
+    # Check if update is necessary
+    if ((lavaan::lavInspect(original_model, "options")$se != se) ||
+        (length(ddd) != 0)) {
+      fit_case <- "update_fit"
+    } else {
+      fit_case <- "user_fit"
+    }
+  } else {
+    stop("original_model is not a supported object")
+  }
+
+  if (fit_case == "new_data") {
+    # TODO:
+    # - Handle failed cases
+    dat_original <- dummy_data(ptable_original)
+    ddd0 <- utils::modifyList(
+              ddd,
+              model = ptables_tmp,
+              data = dat,
+              se = se
+            )
+    sem_out <- do.call(
+        lavaan::sem,
+        ddd0
+      )
+  } else if (fit_case == "update_fit") {
+    # Need this for lavaan::update()
+    # TODO:
+    # - Should lavaan::lavaan() be used?
+    tmp0 <- stats::getCall(original_model)
+    tmp0$se <- se
+    tmp <- lapply(
+              tmp0,
+              \(x, envir0) eval(x, envir0),
+              envir0 = env_for_update
+            )
+    tmp <- as.call(tmp)
+    tmp[[1]] <- tmp0[[1]]
+    original_model@call <- tmp
+    sem_out <- lavaan::update(
+      original_model,
+      se = se,
+      ...
+    )
+  } else if (fit_case == "user_fit") {
+    sem_out <- original_model
+  }
+  sem_out
 }
