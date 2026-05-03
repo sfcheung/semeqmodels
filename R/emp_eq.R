@@ -41,6 +41,10 @@
 #' @param original_model The original
 #' model, fitted by [lavaan::lavaan()]
 #' or its wrapper, such as [lavaan::sem()].
+#' If it is a `lavaan` parameter table,
+#' data will be simulated to fit the model.
+#' If it is omitted, then the first model
+#' in `ptables` will be used.
 #'
 #' @param ... Optional arguments to be
 #' used when fitting models to the data.
@@ -181,9 +185,7 @@ empirical_eq <- function(
   # TODO:
   # - Keep only unique ptables
 
-  # TODO:
-  # - Generate dummy data if original_model
-  #   is a parameter table.
+  # ==== Handle 'original_model' ====
 
   sem_out1 <- emp_eq_fix_input(
     ptables = ptables,
@@ -200,14 +202,16 @@ empirical_eq <- function(
   # - Use robust chisq if available
   sem_out_chisq <- unname(lavaan::fitMeasures(sem_out1, "chisq"))
 
-  fits <- modelbpp::fit_many(
+  # Heywood cases can be ignored, and
+  # so we need to suppress the warnings
+  fits <- suppressWarnings(modelbpp::fit_many(
             model_list = ptables,
             sem_out = sem_out1,
             parallel = parallel,
             ncores = ncores,
             make_cluster_args = make_cluster_args,
             progress = progress
-          )
+          ))
 
   # TODO:
   # - Handle nonconvergence cases
@@ -276,9 +280,9 @@ emp_eq_fix_input <- function(
     dat_original <- dummy_data(ptable_original)
     ddd0 <- utils::modifyList(
               ddd,
-              model = ptables_tmp,
-              data = dat,
-              se = se
+              list(model = ptable_original,
+                   data = dat_original,
+                   se = se)
             )
     sem_out <- do.call(
         lavaan::sem,
