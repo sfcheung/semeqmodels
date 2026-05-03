@@ -280,3 +280,50 @@ eq_fits <- function(object) {
   )
   out
 }
+
+#' @noRd
+eq_same_data <- function(object) {
+  fits <- eq_fits(object)
+  chk <- sapply(
+        fits,
+        inherits,
+        what = "lavaan"
+      )
+  if (!all(chk)) {
+    stop("Not all the stored fits are lavaan objects")
+  }
+  dats <- sapply(
+    fits,
+    lavaan::lavInspect,
+    "sampstats",
+    simplify = FALSE
+  )
+  dats_e <- names(dats[[1]])
+  for (xx in dats_e) {
+    chk_1 <- dats[[1]][[xx]]
+    dim <- dim(chk_1)
+    if (is.null(dim)) {
+      vnames <- names(chk_1)
+    } else {
+      vnames <- colnames(chk_1)
+    }
+    for (i in seq_along(dats)) {
+      dats_i <- dats[[i]][[xx]]
+      if (is.null(dim)) {
+        dats_i <- dats_i[vnames]
+      } else {
+        dats_i <- dats_i[vnames, vnames]
+      }
+      chk_i <- isTRUE(all.equal(
+                chk_1,
+                dats_i,
+                check.class = FALSE,
+                check.attributes = FALSE
+              ))
+      if (!chk_i) {
+        return(FALSE)
+      }
+    }
+  }
+  return(TRUE)
+}
