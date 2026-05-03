@@ -27,6 +27,14 @@ fit1_1_more_1_less <- lapply(
   add_k
 )
 
+fit1_1_more_1_less_with_fit <- lapply(
+  fit1_1_more,
+  add_k,
+  fit_models = TRUE,
+  parallel = FALSE,
+  progress = !is_testing()
+)
+
 # Model 2
 
 mod2 <-
@@ -211,5 +219,42 @@ eq_out_3c <- empirical_eq(
         )
 expect_setequal(names(eq_out_3),
                 names(eq_out_3c))
+
+# ==== With fit ====
+
+# All equivalent
+ptables1_with_fit <- combine_ptables(fit1_1_more_1_less_with_fit)
+
+expect_false(eq_same_data(ptables1_with_fit))
+expect_true(eq_same_data(fit1_1_more_1_less_with_fit[[1]]))
+expect_true(eq_same_data(fit1_1_more_1_less_with_fit[[2]]))
+
+eq_out_1_fit <- empirical_eq(
+          ptables1_with_fit,
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+
+expect_true(eq_same_data(eq_out_1_fit))
+
+eq_out_1_fit2 <- empirical_eq(
+          ptables1_with_fit,
+          original_model = fit1,
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+
+expect_true(eq_same_data(eq_out_1_fit2))
+
+expect_false(identical(
+              lavInspect(eq_fits(eq_out_1_fit)[[1]], "sampstat"),
+              lavInspect(eq_fits(eq_out_1_fit2)[[1]], "sampstat")
+            ))
+
+expect_true(identical(
+              lavInspect(eq_fits(eq_out_1_fit2)[[1]], "sampstat"),
+              lavInspect(fit1, "sampstat")
+            ))
+
 
 })

@@ -202,29 +202,61 @@ empirical_eq <- function(
   # - Use robust chisq if available
   sem_out_chisq <- unname(lavaan::fitMeasures(sem_out1, "chisq"))
 
+  do_fit_many <- TRUE
+
+  # ==== Handle eq_partables =====
+
+  if (inherits(ptables, "eq_partables")) {
+    fits <- eq_fits(ptables)
+    fits_is_lavaan <- sapply(
+            fits,
+            inherits,
+            what = "lavaan"
+          )
+    if (all(fits_is_lavaan)) {
+      fits_same_data <- eq_same_data(ptables)
+    } else {
+      fits_same_data <- FALSE
+    }
+    if (all(fits_is_lavaan) &&
+        fits_same_data) {
+      do_fit_many <- FALSE
+      dfs <- eq_df(ptables)
+      chisqs <- eq_chisq(ptables)
+    }
+  }
+
   # Heywood cases can be ignored, and
   # so we need to suppress the warnings
-  fits <- suppressWarnings(modelbpp::fit_many(
-            model_list = ptables,
-            sem_out = sem_out1,
-            parallel = parallel,
-            ncores = ncores,
-            make_cluster_args = make_cluster_args,
-            progress = progress
-          ))
+
+  # ==== Do fit_many ====
+
+  if (do_fit_many) {
+    fits <- suppressWarnings(modelbpp::fit_many(
+              model_list = ptables,
+              sem_out = sem_out1,
+              parallel = parallel,
+              ncores = ncores,
+              make_cluster_args = make_cluster_args,
+              progress = progress
+            ))
+    dfs <- sapply(
+      fits$fit,
+      function(x) lavaan::fitMeasures(x, "df")
+    )
+    chisqs <- sapply(
+      fits$fit,
+      function(x) lavaan::fitMeasures(x, "chisq")
+    )
+    ptables <- add_fit_many(
+                  ptables,
+                  fit_many_out = fits
+                )
+  }
 
   # TODO:
   # - Handle nonconvergence cases
   #   Models failed post.check can be kept
-
-  dfs <- sapply(
-    fits$fit,
-    function(x) lavaan::fitMeasures(x, "df")
-  )
-  chisqs <- sapply(
-    fits$fit,
-    function(x) lavaan::fitMeasures(x, "chisq")
-  )
 
   df_eq <- dfs == sem_out_df
   chisq_eq <- abs(chisqs - sem_out_chisq) <= tolerance
@@ -255,7 +287,18 @@ emp_eq_fix_input <- function(
       stop("ptables is not a list of parameter tables")
     }
     ptable_original <- ptables[[1]]
-    fit_case <- "new_data"
+    original_model <- attr(ptable_original, "fit")
+    if (inherits(original_model, "lavaan")) {
+      if ((lavaan::lavInspect(original_model, "options")$se != se) ||
+          (length(ddd) != 0)) {
+        fit_case <- "update_fit"
+      } else {
+        fit_case <- "user_fit"
+      }
+    } else {
+      original_model <- NULL
+      fit_case <- "new_data"
+    }
   } else if (is_partable(original_model)) {
     # original_model is a parameter table.
     # Create the dummy data and sem_out
@@ -284,10 +327,11 @@ emp_eq_fix_input <- function(
                    data = dat_original,
                    se = se)
             )
-    sem_out <- do.call(
+    # Heywood case can be ignored
+    sem_out <- suppressWarnings(do.call(
         lavaan::sem,
         ddd0
-      )
+      ))
   } else if (fit_case == "update_fit") {
     # Need this for lavaan::update()
     # TODO:
