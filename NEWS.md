@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9008
+# semeqmodels 0.0.0.9009
 
 - Initialize the package.
   (0.0.0.9000)
@@ -27,3 +27,37 @@
 
 - Added `empirical_eq()`.
   (0.0.0.9008)
+
+- Updated `drop_k()` and `add_k()` to
+  disable the computation of `se` by
+  default. (0.0.0.9009)
+
+- Updated `drop_k()` and `add_k()` to
+  return an `eq_partables` object.
+  (0.0.0.9009)
+
+- Updated `drop_k()` and `add_k()` to
+  have the option to fit the models
+  generated to a dataset.
+  (0.0.0.9009)
+
+- Added some helpers and methods to
+  `eq_partables` objects.
+  (0.0.0.9009)
+
+- Updated `combine_ptables()` to
+  handle a list of `eq_partables` objects.
+  (0.0.0.9009)
+
+- Updated `combine_ptables()` to
+  convert parameter tables to
+  `eq_partables` objects.
+  (0.0.0.9009)
+
+- Updated `empirical_eq()` to retrieve
+  stored `lavaan` outputs if available.
+  (0.0.0.9009)
+
+- Updated `empirical_eq()` to work with
+  `eq_partables` objects.
+  (0.0.0.9009)
