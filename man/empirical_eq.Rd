@@ -6,7 +6,7 @@
 \usage{
 empirical_eq(
   ptables,
-  original_model,
+  original_model = NULL,
   ...,
   se = "none",
   parallel = TRUE,
@@ -22,7 +22,11 @@ empirical_eq(
 
 \item{original_model}{The original
 model, fitted by \code{\link[lavaan:lavaan]{lavaan::lavaan()}}
-or its wrapper, such as \code{\link[lavaan:sem]{lavaan::sem()}}.}
+or its wrapper, such as \code{\link[lavaan:sem]{lavaan::sem()}}.
+If it is a \code{lavaan} parameter table,
+data will be simulated to fit the model.
+If it is omitted, then the first model
+in \code{ptables} will be used.}
 
 \item{...}{Optional arguments to be
 used when fitting models to the data.
