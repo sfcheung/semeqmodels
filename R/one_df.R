@@ -17,7 +17,8 @@ NULL
 #'
 #' @return
 #' The function [drop_k()]
-#' returns a list of the class `partables`,
+#' returns a list of the class `eq_partables`,
+#' a subclass of `partables`. It is
 #' an output of [modelbpp::gen_models()],
 #' which are simplified versions of the
 #' original model, usually with one or
@@ -55,6 +56,33 @@ NULL
 #' generation process will be displayed
 #' on screen.
 #'
+#' @param fit_models Whether the models
+#' will be fitted to the data.
+#'
+#' @param parallel Whether parallel
+#' processing will be used when fitting
+#' the models. Default is
+#' `TRUE`.
+#' Passed to [modelbpp::fit_many()].
+#'
+#' @param ncores The number of CPU cores
+#' to be used if `parallel` is `TRUE`.
+#' Passed to [modelbpp::fit_many()].
+#'
+#' @param make_cluster_args An optional
+#' named list of arguments to be used
+#' in [parallel::makeCluster()].
+#' Passed to [modelbpp::fit_many()].
+#'
+#' @param se Whether standard error will
+#' be computed. This argument will be
+#' passed to [lavaan::lavaan()].
+#' Default is `"none"`, and
+#' this setting overrides the setting
+#' in `object`. The standard errors are
+#' irrelevant in checking whether two
+#' models are equivalent.
+#'
 #' @param drop_original Logical. Whether
 #' the original model will dropped from
 #' the output. Default is `TRUE`.
@@ -91,7 +119,9 @@ NULL
 #'         )
 #' pt <- parameterTable(fit)
 #'
-#' # ==== Generating models one-less-df
+#' # ==== Generate models one-less-df ====
+#'
+#' # ==== drop_k ====
 #'
 #' fit_1_more1 <- drop_k(fit)
 #' fit_1_more1
@@ -107,7 +137,12 @@ drop_k <- function(
   loadings_to_exclude_from_drop = "all",
   df_change_drop = 1,
   must_not_drop = NULL,
+  se = "none",
   progress = FALSE,
+  fit_models = FALSE,
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
   drop_original = TRUE
 ) {
 
@@ -129,7 +164,7 @@ drop_k <- function(
   if (inherits(object, "lavaan")) {
     # Need this for lavaan::update()
     tmp0 <- stats::getCall(object)
-    # Have to use for-loop
+    tmp0$se <- se
     tmp <- lapply(
               tmp0,
               \(x, envir0) eval(x, envir0),
@@ -151,7 +186,7 @@ drop_k <- function(
                 list(
                   model = ptable,
                   data = dat,
-                  se = "none"
+                  se = se
                 )
               )
             )
@@ -167,7 +202,7 @@ drop_k <- function(
             ...,
             loadings_to_exclude_from_drop = "all",
             must_not_drop = must_not_drop,
-            df_change_drop = 1,
+            df_change_drop = df_change_drop,
             df_change_add = 0,
             progress = progress
           )
@@ -182,6 +217,30 @@ drop_k <- function(
   }
 
   class(out0) <- class_out0
+
+  # Convert to eq_partables
+
+  class(out0) <- c("eq_partables", class(out0))
+
+  # ==== Refit the models ====
+
+  if (fit_models &&
+      length(out0) > 0) {
+    # Need to suppress warnings because a model
+    # may have Heywood cases.
+    fit0 <- suppressWarnings(modelbpp::fit_many(
+      out0,
+      sem_out = fit,
+      parallel = parallel,
+      ncores = ncores,
+      make_cluster_args = make_cluster_args,
+      progress = progress
+    ))
+    out0 <- add_fit_many(
+              out0,
+              fit0
+            )
+  }
 
   out0
 
@@ -237,11 +296,14 @@ drop_k <- function(
 #'
 #' @examples
 #'
-#' # ==== Test: add_k ====
+#' # ==== add_k ====
 #'
+#' # Remove 'parallel = FALSE' or use 'parallel = TRUE'
+#' # to enable parallel processing, which is recommended.
 #' fit_1_less <- add_k(
 #'                 fit_1_more1[[1]],
-#'                 add_name = TRUE
+#'                 add_name = TRUE,
+#'                 parallel = FALSE
 #'               )
 #'
 #' fit_1_less
@@ -255,7 +317,12 @@ add_k <- function(
   df_change_add = 1,
   must_not_add = NULL,
   ptable_name = NULL,
+  se = "none",
   progress = FALSE,
+  fit_models = FALSE,
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
   remove_zeros = FALSE,
   add_name = FALSE
 ) {
@@ -278,6 +345,7 @@ add_k <- function(
   if (inherits(object, "lavaan")) {
     # Need this for lavaan::update()
     tmp0 <- stats::getCall(object)
+    tmp0$se <- se
     tmp <- lapply(
               tmp0,
               \(x, envir0) eval(x),
@@ -299,7 +367,7 @@ add_k <- function(
                 list(
                   model = ptable,
                   data = dat,
-                  se = "none"
+                  se = se
                 )
               )
             )
@@ -392,10 +460,30 @@ add_k <- function(
     }
   }
 
-  class(out0) <- class_out0
+  class(out0) <- c("eq_partables", class_out0)
 
   if (length(out0) == 0) {
     out0 <- NULL
+  }
+
+  # ==== Refit the models ====
+
+  if (fit_models &&
+      length(out0) > 0) {
+    # Need to suppress warnings because a model
+    # may have Heywood cases.
+    fit0 <- suppressWarnings(modelbpp::fit_many(
+      out0,
+      sem_out = fit_i,
+      parallel = parallel,
+      ncores = ncores,
+      make_cluster_args = make_cluster_args,
+      progress = progress
+    ))
+    out0 <- add_fit_many(
+              out0,
+              fit0
+            )
   }
 
   out0

@@ -3,21 +3,52 @@
 \name{ptable_helpers}
 \alias{ptable_helpers}
 \alias{combine_ptables}
+\alias{c.eq_partables}
+\alias{duplicated.eq_partables}
+\alias{unique.eq_partables}
 \title{Parameter Table Helpers}
 \usage{
 combine_ptables(object_list, drop_duplicated = TRUE)
+
+\method{c}{eq_partables}(..., drop_duplicated = TRUE)
+
+\method{duplicated}{eq_partables}(x, incomparables = FALSE, ...)
+
+\method{unique}{eq_partables}(x, incomparables = FALSE, ...)
 }
 \arguments{
 \item{object_list}{A list of objects
 of the class
-\code{partables}.}
+\code{partables} or \code{eq_partables}.}
 
 \item{drop_duplicated}{Logical. Whether
 duplicated models will be removed.}
+
+\item{...}{For the \code{c}-method of
+\code{eq_partables}
+object, these are \code{eq_partables}
+objects to be combined.}
+
+\item{x}{An \code{eq_partables} object.}
+
+\item{incomparables}{Not used.}
 }
 \value{
 The function \code{\link[=combine_ptables]{combine_ptables()}}
-returns a list of the class \code{partables}.
+always returns an object of the class
+\code{eq_partables}.
+
+The \code{c}-method of \code{eq_partables}
+returns a list of the class
+\code{eq_partables}.
+
+The \code{duplicated}-method of \code{eq_partables}
+returns a logical vector to indicate
+which models, if any, are identical
+to other models earlier in the list.
+
+The \code{unique}-method of \code{eq_partables}
+returns  an \code{eq_partables} object.
 }
 \description{
 Helper functions to
@@ -26,7 +57,22 @@ manipulate parameter tables.
 \details{
 The function \code{\link[=combine_ptables]{combine_ptables()}}
 combine a list of \code{partables} objects
-to one single \code{partables} object.
+or \code{eq_partables} objects
+to one single object of the same type.
+
+The \code{c}-method of \code{eq_partables}
+object combine \code{eq_partables} elements
+to one single \code{eq_partables} elements.
+
+The \code{duplicated}-method of \code{eq_partables}
+checks whether any models are
+identical. If yes, the duplicated
+models, except for the first one,
+will be denoted as duplicated.
+
+The \code{unique}-method of \code{eq_partables}
+returns an \code{eq_partables} object with
+duplicated models, if any, removed.
 }
 \examples{
 

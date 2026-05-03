@@ -27,6 +27,14 @@ fit1_1_more_1_less <- lapply(
   add_k
 )
 
+fit1_1_more_1_less_with_fit <- lapply(
+  fit1_1_more,
+  add_k,
+  fit_models = TRUE,
+  parallel = FALSE,
+  progress = !is_testing()
+)
+
 # Model 2
 
 mod2 <-
@@ -137,6 +145,8 @@ chisq3 <- sapply(
       )
 chisq3
 
+# ==== Inputs: list of ptables, lavaan ====
+
 eq_out_1 <- empirical_eq(
           ptables1,
           original_model = fit1,
@@ -169,5 +179,82 @@ eq_out_3 <- empirical_eq(
         )
 
 expect_true(length(eq_out_3) == 1)
+
+# ==== Inputs: list of ptables, no lavaan ====
+
+eq_out_1b <- empirical_eq(
+          ptables1,
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+
+expect_setequal(names(eq_out_1),
+                names(eq_out_1b))
+
+eq_out_3b <- empirical_eq(
+          ptables3,
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+expect_setequal(names(eq_out_3),
+                names(eq_out_3b))
+
+# ==== Inputs: list of ptables, ptable ====
+
+eq_out_1c <- empirical_eq(
+          ptables1,
+          original_model = parameterTable(fit1),
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+
+expect_setequal(names(eq_out_1),
+                names(eq_out_1c))
+
+eq_out_3c <- empirical_eq(
+          ptables3,
+          original_model = parameterTable(fit3),
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+expect_setequal(names(eq_out_3),
+                names(eq_out_3c))
+
+# ==== With fit ====
+
+# All equivalent
+ptables1_with_fit <- combine_ptables(fit1_1_more_1_less_with_fit)
+
+expect_false(eq_same_data(ptables1_with_fit))
+expect_true(eq_same_data(fit1_1_more_1_less_with_fit[[1]]))
+expect_true(eq_same_data(fit1_1_more_1_less_with_fit[[2]]))
+
+eq_out_1_fit <- empirical_eq(
+          ptables1_with_fit,
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+
+expect_true(eq_same_data(eq_out_1_fit))
+
+eq_out_1_fit2 <- empirical_eq(
+          ptables1_with_fit,
+          original_model = fit1,
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+
+expect_true(eq_same_data(eq_out_1_fit2))
+
+expect_false(identical(
+              lavInspect(eq_fits(eq_out_1_fit)[[1]], "sampstat"),
+              lavInspect(eq_fits(eq_out_1_fit2)[[1]], "sampstat")
+            ))
+
+expect_true(identical(
+              lavInspect(eq_fits(eq_out_1_fit2)[[1]], "sampstat"),
+              lavInspect(fit1, "sampstat")
+            ))
+
 
 })

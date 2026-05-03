@@ -12,7 +12,12 @@ drop_k(
   loadings_to_exclude_from_drop = "all",
   df_change_drop = 1,
   must_not_drop = NULL,
+  se = "none",
   progress = FALSE,
+  fit_models = FALSE,
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
   drop_original = TRUE
 )
 
@@ -23,7 +28,12 @@ add_k(
   df_change_add = 1,
   must_not_add = NULL,
   ptable_name = NULL,
+  se = "none",
   progress = FALSE,
+  fit_models = FALSE,
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
   remove_zeros = FALSE,
   add_name = FALSE
 )
@@ -59,9 +69,36 @@ of parameters that must not be removed,
 and so will not be modified. To be
 passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
 
+\item{se}{Whether standard error will
+be computed. This argument will be
+passed to \code{\link[lavaan:lavaan]{lavaan::lavaan()}}.
+Default is \code{"none"}, and
+this setting overrides the setting
+in \code{object}. The standard errors are
+irrelevant in checking whether two
+models are equivalent.}
+
 \item{progress}{Whether the model
 generation process will be displayed
 on screen.}
+
+\item{fit_models}{Whether the models
+will be fitted to the data.}
+
+\item{parallel}{Whether parallel
+processing will be used when fitting
+the models. Default is
+\code{TRUE}.
+Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
+
+\item{ncores}{The number of CPU cores
+to be used if \code{parallel} is \code{TRUE}.
+Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
+
+\item{make_cluster_args}{An optional
+named list of arguments to be used
+in \code{\link[parallel:makeCluster]{parallel::makeCluster()}}.
+Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 
 \item{drop_original}{Logical. Whether
 the original model will dropped from
@@ -98,7 +135,8 @@ models.}
 }
 \value{
 The function \code{\link[=drop_k]{drop_k()}}
-returns a list of the class \code{partables},
+returns a list of the class \code{eq_partables},
+a subclass of \code{partables}. It is
 an output of \code{\link[modelbpp:model_set]{modelbpp::gen_models()}},
 which are simplified versions of the
 original model, usually with one or
@@ -149,7 +187,9 @@ fit <- sem(
         )
 pt <- parameterTable(fit)
 
-# ==== Generating models one-less-df
+# ==== Generate models one-less-df ====
+
+# ==== drop_k ====
 
 fit_1_more1 <- drop_k(fit)
 fit_1_more1
@@ -158,11 +198,14 @@ fit_1_more2 <- drop_k(pt)
 fit_1_more2
 
 
-# ==== Test: add_k ====
+# ==== add_k ====
 
+# Remove 'parallel = FALSE' or use 'parallel = TRUE'
+# to enable parallel processing, which is recommended.
 fit_1_less <- add_k(
                 fit_1_more1[[1]],
-                add_name = TRUE
+                add_name = TRUE,
+                parallel = FALSE
               )
 
 fit_1_less

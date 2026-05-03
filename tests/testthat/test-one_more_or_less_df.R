@@ -26,16 +26,46 @@ fit_1_more2 <- drop_k(pt)
 expect_setequal(names(fit_1_more1),
                 names(fit_1_more2))
 
+# With fit_mondels
+
+fit_1_more1_with_fit <- drop_k(fit,
+              fit_models = TRUE,
+              parallel = FALSE)
+expect_s4_class(attr(fit_1_more1_with_fit[[1]], "fit"),
+                "lavaan")
+
 # ==== Test: add_k ====
 
 fit_1_less <- add_k(
                 fit_1_more1[[1]],
-                add_name = TRUE
+                add_name = TRUE,
+                fit_models = FALSE,
+                parallel = FALSE
               )
+
+fit_1_less_with_fit <- add_k(
+                fit_1_more1[[1]],
+                add_name = TRUE,
+                fit_models = TRUE,
+                parallel = FALSE
+              )
+expect_s4_class(attr(fit_1_less_with_fit[[1]], "fit"),
+                "lavaan")
+
+fit_1_less_with_fit2 <- add_k(
+                fit_1_more1_with_fit[[1]],
+                add_name = TRUE,
+                fit_models = TRUE,
+                parallel = FALSE
+              )
+expect_s4_class(attr(fit_1_less_with_fit2[[1]], "fit"),
+                "lavaan")
 
 fit_1_more_1_less <- lapply(
   fit_1_more1,
-  add_k
+  add_k,
+  fit_models = FALSE,
+  parallel = FALSE
 )
 
 fit_1_more_1_less <- unlist(

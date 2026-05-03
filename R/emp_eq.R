@@ -41,6 +41,10 @@
 #' @param original_model The original
 #' model, fitted by [lavaan::lavaan()]
 #' or its wrapper, such as [lavaan::sem()].
+#' If it is a `lavaan` parameter table,
+#' data will be simulated to fit the model.
+#' If it is omitted, then the first model
+#' in `ptables` will be used.
 #'
 #' @param ... Optional arguments to be
 #' used when fitting models to the data.
@@ -158,7 +162,7 @@
 #' @export
 empirical_eq <- function(
   ptables,
-  original_model,
+  original_model = NULL,
   ...,
   se = "none",
   parallel = TRUE,
@@ -171,6 +175,7 @@ empirical_eq <- function(
   # Keep models which are empirically equivalent
   # Input:
   # - The output of model_set()
+  # - A eq_partables object
   # - The original fit
   # NOTE:
   # - Empirical in-sample equivalence is used for now,
@@ -180,40 +185,78 @@ empirical_eq <- function(
   # TODO:
   # - Keep only unique ptables
 
-  # TODO:
-  # - Generate dummy data if original_model
-  #   is a parameter table.
+  # ==== Handle 'original_model' ====
 
-  sem_out_df <- unname(lavaan::fitMeasures(original_model, "df"))
-  sem_out_chisq <- unname(lavaan::fitMeasures(original_model, "chisq"))
-
-  sem_out1 <- lavaan::update(
-    original_model,
+  sem_out1 <- emp_eq_fix_input(
+    ptables = ptables,
+    original_model = original_model,
+    ...,
     se = se,
-    ...
+    env_for_update = parent.frame()
   )
 
-  fits <- modelbpp::fit_many(
-            model_list = ptables,
-            sem_out = sem_out1,
-            parallel = parallel,
-            ncores = ncores,
-            make_cluster_args = make_cluster_args,
-            progress = progress
+  # sem_out1 is used instead of original_model
+
+  sem_out_df <- unname(lavaan::fitMeasures(sem_out1, "df"))
+  # TODO:
+  # - Use robust chisq if available
+  sem_out_chisq <- unname(lavaan::fitMeasures(sem_out1, "chisq"))
+
+  do_fit_many <- TRUE
+
+  # ==== Handle eq_partables =====
+
+  if (inherits(ptables, "eq_partables")) {
+    fits <- eq_fits(ptables)
+    fits_is_lavaan <- sapply(
+            fits,
+            inherits,
+            what = "lavaan"
           )
+    if (all(fits_is_lavaan)) {
+      fits_same_data <- eq_same_data(ptables)
+    } else {
+      fits_same_data <- FALSE
+    }
+    if (all(fits_is_lavaan) &&
+        fits_same_data) {
+      do_fit_many <- FALSE
+      dfs <- eq_df(ptables)
+      chisqs <- eq_chisq(ptables)
+    }
+  }
+
+  # Heywood cases can be ignored, and
+  # so we need to suppress the warnings
+
+  # ==== Do fit_many ====
+
+  if (do_fit_many) {
+    fits <- suppressWarnings(modelbpp::fit_many(
+              model_list = ptables,
+              sem_out = sem_out1,
+              parallel = parallel,
+              ncores = ncores,
+              make_cluster_args = make_cluster_args,
+              progress = progress
+            ))
+    dfs <- sapply(
+      fits$fit,
+      function(x) lavaan::fitMeasures(x, "df")
+    )
+    chisqs <- sapply(
+      fits$fit,
+      function(x) lavaan::fitMeasures(x, "chisq")
+    )
+    ptables <- add_fit_many(
+                  ptables,
+                  fit_many_out = fits
+                )
+  }
 
   # TODO:
   # - Handle nonconvergence cases
   #   Models failed post.check can be kept
-
-  dfs <- sapply(
-    fits$fit,
-    function(x) lavaan::fitMeasures(x, "df")
-  )
-  chisqs <- sapply(
-    fits$fit,
-    function(x) lavaan::fitMeasures(x, "chisq")
-  )
 
   df_eq <- dfs == sem_out_df
   chisq_eq <- abs(chisqs - sem_out_chisq) <= tolerance
@@ -224,4 +267,92 @@ empirical_eq <- function(
   class(ptables_eq) <- class(ptables)
 
   ptables_eq
+}
+
+#' @noRd
+emp_eq_fix_input <- function(
+  ptables,
+  original_model = NULL,
+  ...,
+  se = "none",
+  env_for_update = parent.frame()
+) {
+  ddd <- list(...)
+  # Output
+  # - A lavaan fit object
+  fit_case <- "none"
+  if (is.null(original_model)) {
+    # Use the first table in ptables as the original model
+    if (!isTRUE(is_partable(ptables[[1]]))) {
+      stop("ptables is not a list of parameter tables")
+    }
+    ptable_original <- ptables[[1]]
+    original_model <- attr(ptable_original, "fit")
+    if (inherits(original_model, "lavaan")) {
+      if ((lavaan::lavInspect(original_model, "options")$se != se) ||
+          (length(ddd) != 0)) {
+        fit_case <- "update_fit"
+      } else {
+        fit_case <- "user_fit"
+      }
+    } else {
+      original_model <- NULL
+      fit_case <- "new_data"
+    }
+  } else if (is_partable(original_model)) {
+    # original_model is a parameter table.
+    # Create the dummy data and sem_out
+    ptable_original <- original_model
+    fit_case <- "new_data"
+  } else if (inherits(original_model, "lavaan")) {
+    # original_model is a lavaan object.
+    # Check if update is necessary
+    if ((lavaan::lavInspect(original_model, "options")$se != se) ||
+        (length(ddd) != 0)) {
+      fit_case <- "update_fit"
+    } else {
+      fit_case <- "user_fit"
+    }
+  } else {
+    stop("original_model is not a supported object")
+  }
+
+  if (fit_case == "new_data") {
+    # TODO:
+    # - Handle failed cases
+    dat_original <- dummy_data(ptable_original)
+    ddd0 <- utils::modifyList(
+              ddd,
+              list(model = ptable_original,
+                   data = dat_original,
+                   se = se)
+            )
+    # Heywood case can be ignored
+    sem_out <- suppressWarnings(do.call(
+        lavaan::sem,
+        ddd0
+      ))
+  } else if (fit_case == "update_fit") {
+    # Need this for lavaan::update()
+    # TODO:
+    # - Should lavaan::lavaan() be used?
+    tmp0 <- stats::getCall(original_model)
+    tmp0$se <- se
+    tmp <- lapply(
+              tmp0,
+              \(x, envir0) eval(x, envir0),
+              envir0 = env_for_update
+            )
+    tmp <- as.call(tmp)
+    tmp[[1]] <- tmp0[[1]]
+    original_model@call <- tmp
+    sem_out <- lavaan::update(
+      original_model,
+      se = se,
+      ...
+    )
+  } else if (fit_case == "user_fit") {
+    sem_out <- original_model
+  }
+  sem_out
 }
