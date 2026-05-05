@@ -15,9 +15,12 @@ fy =~ y1 + y2 + y3
 fm ~ fx
 fy ~ fm + fx
 "
-fit1 <- sem(
-          model = mod1,
-          data = data_test_3_factor_3_item
+fit1 <- do.call(
+          sem,
+          list(
+            model = mod1,
+            data = data_test_3_factor_3_item
+          )
         )
 
 fit1_1_more <- drop_k(fit1)
@@ -45,10 +48,12 @@ fy =~ y1 + y2 + y3 + m3
 fm ~ fx
 fy ~ fm
 "
-fit2 <- sem(
-          model = mod2,
-          data = data_test_3_factor_3_item
-        )
+fit2 <- do.call(
+          sem,
+          list(
+            model = mod2,
+            data = data_test_3_factor_3_item
+        ))
 fit2_1_more <- drop_k(fit2)
 
 fit2_1_more_1_less <- lapply(
@@ -66,10 +71,12 @@ fy =~ y1 + y2 + y3
 fm ~ fx
 fy ~ fm
 "
-fit3 <- sem(
-          model = mod3,
-          data = data_test_3_factor_3_item
-        )
+fit3 <- do.call(
+          sem,
+          list(
+            model = mod3,
+            data = data_test_3_factor_3_item
+        ))
 fit3_1_more <- drop_k(fit3)
 
 fit3_1_more_1_less <- lapply(

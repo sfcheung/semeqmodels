@@ -134,6 +134,7 @@ NULL
 drop_k <- function(
   object,
   ...,
+  sem_out = NULL,
   loadings_to_exclude_from_drop = "all",
   df_change_drop = 1,
   must_not_drop = NULL,
@@ -157,28 +158,32 @@ drop_k <- function(
   #     - For each model, the parameters removed must be stored.
   #       - To prevent reverting to the original model.
 
-  # ==== Process the object ====
-
   # TODO:
   # - Convert the following to a helper
   if (inherits(object, "lavaan")) {
-    # Need this for lavaan::update()
-    tmp0 <- stats::getCall(object)
-    tmp0$se <- se
-    tmp <- lapply(
-              tmp0,
-              \(x, envir0) eval(x, envir0),
-              envir0 = parent.frame()
-            )
-    tmp <- as.call(tmp)
-    tmp[[1]] <- tmp0[[1]]
-    object@call <- tmp
-    fit <- object
-    ptable <- lavaan::parameterTable(fit)
+    # Ignore sem_out if object is a fit object
+    sem_out <- object
+    ptable <- lavaan::parameterTable(sem_out)
   } else {
     # Assume it is a parameter table
     ptable <- object
+    if (is.null(sem_out) &&
+        FALSE) {
+      # sem_out takes precedence
+      # Retrieve stored fit is sem_out is NULL
+      # If not stored fit, sem_out remains NULL
+      # TODO:
+      # - The following does not work for now.
+      #   The call stored cannot be used.
+      sem_out <- attr(ptable, "fit")
+    }
+  }
+
+  # ==== Update the fit ====
+
+  if (is.null(sem_out)) {
     dat <- dummy_data(ptable)
+    # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fit <- suppressWarnings(
               do.call(
@@ -190,8 +195,21 @@ drop_k <- function(
                 )
               )
             )
+  } else {
+    # Need this for lavaan::update()
+    tmp0 <- stats::getCall(sem_out)
+    tmp0$se <- se
+    tmp <- lapply(
+              tmp0,
+              \(x, envir0) eval(x),
+              envir0 = parent.frame()
+            )
+    tmp <- as.call(tmp)
+    tmp[[1]] <- tmp0[[1]]
+    sem_out@call <- tmp
+    # fit will be used if fit_models is TRUE
+    fit <- sem_out
   }
-
   # ==== Generate models ====
 
   # TODO:
@@ -266,7 +284,9 @@ drop_k <- function(
 #' passed to [modelbpp::gen_models()].
 #'
 #' @param sem_out A `lavaan` object.
-#' Not used for now.
+#' If supplied and `fit_models` is
+#' `TRUE`, the generate models will be
+#' fitted by updating this object.
 #'
 #' @param df_change_add The change in
 #' the degrees of freedom when adding
@@ -343,23 +363,29 @@ add_k <- function(
   # TODO:
   # - Convert the following to a helper
   if (inherits(object, "lavaan")) {
-    # Need this for lavaan::update()
-    tmp0 <- stats::getCall(object)
-    tmp0$se <- se
-    tmp <- lapply(
-              tmp0,
-              \(x, envir0) eval(x),
-              envir0 = parent.frame()
-            )
-    tmp <- as.call(tmp)
-    tmp[[1]] <- tmp0[[1]]
-    object@call <- tmp
-    fit <- object
-    ptable <- lavaan::parameterTable(fit)
+    # Ignore sem_out if object is a fit object
+    sem_out <- object
+    ptable <- lavaan::parameterTable(sem_out)
   } else {
     # Assume it is a parameter table
     ptable <- object
+    if (is.null(sem_out) &&
+        FALSE) {
+      # sem_out takes precedence
+      # Retrieve stored fit is sem_out is NULL
+      # If not stored fit, sem_out remains NULL
+      # TODO:
+      # - The following does not work for now.
+      #   The call stored cannot be used.
+      sem_out <- attr(ptable, "fit")
+    }
+  }
+
+  # ==== Update the fit ====
+
+  if (is.null(sem_out)) {
     dat <- dummy_data(ptable)
+    # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fit <- suppressWarnings(
               do.call(
@@ -371,6 +397,20 @@ add_k <- function(
                 )
               )
             )
+  } else {
+    # Need this for lavaan::update()
+    tmp0 <- stats::getCall(sem_out)
+    tmp0$se <- se
+    tmp <- lapply(
+              tmp0,
+              \(x, envir0) eval(x),
+              envir0 = parent.frame()
+            )
+    tmp <- as.call(tmp)
+    tmp[[1]] <- tmp0[[1]]
+    sem_out@call <- tmp
+    # fit will be used if fit_models is TRUE
+    fit <- sem_out
   }
 
   # ==== Remove coefficients fixed to zero ====

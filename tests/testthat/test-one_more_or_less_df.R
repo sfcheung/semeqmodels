@@ -11,10 +11,12 @@ fy =~ y1 + y2 + y3
 fm ~ fx
 fy ~ fm + fx
 "
-fit <- sem(
-          model = mod,
-          data = data_test_3_factor_3_item
-        )
+fit <- do.call(
+          sem,
+          list(
+            model = mod,
+            data = data_test_3_factor_3_item
+        ))
 pt <- parameterTable(fit)
 
 # ==== Test: drop_k ====
