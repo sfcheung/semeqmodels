@@ -9,6 +9,7 @@
 drop_k(
   object,
   ...,
+  sem_out = NULL,
   loadings_to_exclude_from_drop = "all",
   df_change_drop = 1,
   must_not_drop = NULL,
@@ -44,30 +45,32 @@ can be a \code{lavaan}-class object (the
 output of \code{\link[lavaan:lavaan]{lavaan::lavaan()}} or its
 wrappers, such as \code{\link[lavaan:sem]{lavaan::sem()}}).
 It can also be a parameter table
-generated in \code{lavaan}. If it is
-a parameter table, dummy data will be
-created, as it is required by
-\code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
+generated in \code{lavaan}.}
 
 \item{...}{Optional arguments to be
-passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
+passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.}
+
+\item{sem_out}{A \code{lavaan} object.
+If supplied and \code{fit_models} is
+\code{TRUE}, the generate models will be
+fitted by updating this object.}
 
 \item{loadings_to_exclude_from_drop}{How factor loadings will be handled.
 Default is \code{"all"} and no factor loadings
 will be dropped.
-To be passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.
+To be passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.
 This argument should not be changed.
 Included for internal use.}
 
 \item{df_change_drop}{The change in
 the degrees of freedom when generating
 simplified models. Default is one.
-To be passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
+To be passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.}
 
 \item{must_not_drop}{A character vector
 of parameters that must not be removed,
 and so will not be modified. To be
-passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
+passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.}
 
 \item{se}{Whether standard error will
 be computed. This argument will be
@@ -104,20 +107,17 @@ Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 the original model will dropped from
 the output. Default is \code{TRUE}.}
 
-\item{sem_out}{A \code{lavaan} object.
-Not used for now.}
-
 \item{df_change_add}{The change in
 the degrees of freedom when adding
 free parameters.
-To be passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.
+To be passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.
 Default to one. Should not be changed
 except for experimental use of this
 function.}
 
 \item{must_not_add}{A character
 vector of parameters that must not
-be added. To be passed to \code{\link[modelbpp:model_set]{modelbpp::gen_models()}}.}
+be added. To be passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.}
 
 \item{ptable_name}{The name of the
 original model. Used only if it cannot
@@ -137,14 +137,15 @@ models.}
 The function \code{\link[=drop_k]{drop_k()}}
 returns a list of the class \code{eq_partables},
 a subclass of \code{partables}. It is
-an output of \code{\link[modelbpp:model_set]{modelbpp::gen_models()}},
+an output of \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}},
 which are simplified versions of the
 original model, usually with one or
 more paths removed.
 
 The function \code{\link[=add_k]{add_k()}}
-returns a list of the class \code{partables},
-an output of \code{\link[modelbpp:model_set]{modelbpp::gen_models()}},
+returns a list of the class \code{eq_partables},
+a subclass of the
+output of \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}},
 which are more complicated versions of the
 original model, usually with one or
 more free parameters added.
@@ -223,6 +224,6 @@ posterior probabilities (BPP).
 \doi{10.3758/s13428-025-02921-x}
 }
 \seealso{
-\code{\link[modelbpp:model_set]{modelbpp::gen_models()}} for
+\code{\link[modelbpp:gen_models]{modelbpp::gen_models()}} for
 how the model generation is implemented.
 }

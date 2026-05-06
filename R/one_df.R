@@ -29,10 +29,12 @@ NULL
 #' output of [lavaan::lavaan()] or its
 #' wrappers, such as [lavaan::sem()]).
 #' It can also be a parameter table
-#' generated in `lavaan`. If it is
-#' a parameter table, dummy data will be
-#' created, as it is required by
-#' [modelbpp::gen_models()].
+#' generated in `lavaan`.
+#'
+#' @param sem_out A `lavaan` object.
+#' If supplied and `fit_models` is
+#' `TRUE`, the generate models will be
+#' fitted by updating this object.
 #'
 #' @param df_change_drop The change in
 #' the degrees of freedom when generating
@@ -134,6 +136,7 @@ NULL
 drop_k <- function(
   object,
   ...,
+  sem_out = NULL,
   loadings_to_exclude_from_drop = "all",
   df_change_drop = 1,
   must_not_drop = NULL,
@@ -148,7 +151,7 @@ drop_k <- function(
 
   # - A function to generate a list of 1-more-df models.
   #   - Input:
-  #     - A lavaan output.c
+  #     - A lavaan output.
   #       - Can also be a parameter table.
   #         - A dummy dataset will be created in this case.
   #     - Relations that will not be removed (and so will not be changed).
@@ -157,28 +160,32 @@ drop_k <- function(
   #     - For each model, the parameters removed must be stored.
   #       - To prevent reverting to the original model.
 
-  # ==== Process the object ====
-
   # TODO:
   # - Convert the following to a helper
   if (inherits(object, "lavaan")) {
-    # Need this for lavaan::update()
-    tmp0 <- stats::getCall(object)
-    tmp0$se <- se
-    tmp <- lapply(
-              tmp0,
-              \(x, envir0) eval(x, envir0),
-              envir0 = parent.frame()
-            )
-    tmp <- as.call(tmp)
-    tmp[[1]] <- tmp0[[1]]
-    object@call <- tmp
-    fit <- object
-    ptable <- lavaan::parameterTable(fit)
+    # Ignore sem_out if object is a fit object
+    sem_out <- object
+    ptable <- lavaan::parameterTable(sem_out)
   } else {
     # Assume it is a parameter table
     ptable <- object
+    if (is.null(sem_out) &&
+        FALSE) {
+      # sem_out takes precedence
+      # Retrieve stored fit is sem_out is NULL
+      # If not stored fit, sem_out remains NULL
+      # TODO:
+      # - The following does not work for now.
+      #   The call stored cannot be used.
+      sem_out <- attr(ptable, "fit")
+    }
+  }
+
+  # ==== Update the fit ====
+
+  if (is.null(sem_out)) {
     dat <- dummy_data(ptable)
+    # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fit <- suppressWarnings(
               do.call(
@@ -190,13 +197,23 @@ drop_k <- function(
                 )
               )
             )
+  } else {
+    # Need this for lavaan::update()
+    tmp0 <- stats::getCall(sem_out)
+    tmp0$se <- se
+    tmp <- lapply(
+              tmp0,
+              \(x, envir0) eval(x),
+              envir0 = parent.frame()
+            )
+    tmp <- as.call(tmp)
+    tmp[[1]] <- tmp0[[1]]
+    sem_out@call <- tmp
+    # fit will be used if fit_models is TRUE
+    fit <- sem_out
   }
-
   # ==== Generate models ====
 
-  # TODO:
-  # - Does not yet work with object = ptable,
-  #   due to scoping issue with update()
   out0 <- modelbpp::gen_models(
             sem_out = fit,
             ...,
@@ -256,17 +273,15 @@ drop_k <- function(
 #'
 #' @return
 #' The function [add_k()]
-#' returns a list of the class `partables`,
-#' an output of [modelbpp::gen_models()],
+#' returns a list of the class `eq_partables`,
+#' a subclass of the
+#' output of [modelbpp::gen_models()],
 #' which are more complicated versions of the
 #' original model, usually with one or
 #' more free parameters added.
 #'
 #' @param ... Optional arguments to be
 #' passed to [modelbpp::gen_models()].
-#'
-#' @param sem_out A `lavaan` object.
-#' Not used for now.
 #'
 #' @param df_change_add The change in
 #' the degrees of freedom when adding
@@ -343,23 +358,29 @@ add_k <- function(
   # TODO:
   # - Convert the following to a helper
   if (inherits(object, "lavaan")) {
-    # Need this for lavaan::update()
-    tmp0 <- stats::getCall(object)
-    tmp0$se <- se
-    tmp <- lapply(
-              tmp0,
-              \(x, envir0) eval(x),
-              envir0 = parent.frame()
-            )
-    tmp <- as.call(tmp)
-    tmp[[1]] <- tmp0[[1]]
-    object@call <- tmp
-    fit <- object
-    ptable <- lavaan::parameterTable(fit)
+    # Ignore sem_out if object is a fit object
+    sem_out <- object
+    ptable <- lavaan::parameterTable(sem_out)
   } else {
     # Assume it is a parameter table
     ptable <- object
+    if (is.null(sem_out) &&
+        FALSE) {
+      # sem_out takes precedence
+      # Retrieve stored fit is sem_out is NULL
+      # If not stored fit, sem_out remains NULL
+      # TODO:
+      # - The following does not work for now.
+      #   The call stored cannot be used.
+      sem_out <- attr(ptable, "fit")
+    }
+  }
+
+  # ==== Update the fit ====
+
+  if (is.null(sem_out)) {
     dat <- dummy_data(ptable)
+    # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fit <- suppressWarnings(
               do.call(
@@ -371,6 +392,20 @@ add_k <- function(
                 )
               )
             )
+  } else {
+    # Need this for lavaan::update()
+    tmp0 <- stats::getCall(sem_out)
+    tmp0$se <- se
+    tmp <- lapply(
+              tmp0,
+              \(x, envir0) eval(x),
+              envir0 = parent.frame()
+            )
+    tmp <- as.call(tmp)
+    tmp[[1]] <- tmp0[[1]]
+    sem_out@call <- tmp
+    # fit will be used if fit_models is TRUE
+    fit <- sem_out
   }
 
   # ==== Remove coefficients fixed to zero ====
@@ -397,12 +432,6 @@ add_k <- function(
 
   # ==== Fit without removed parameters ====
 
-  # fit_i <- lavaan::sem(
-  #             model = ptable1,
-  #             data = dat,
-  #             test = "standard",
-  #             se = "none"
-  #           )
   # TODO:
   # - Remove the need to use update
   fit_i <- suppressWarnings(
@@ -435,10 +464,6 @@ add_k <- function(
     args1,
     list(sem_out = fit_i)
   )
-  # out0 <- do.call(
-  #   modelbpp::model_set,
-  #   args1
-  # )
   out0 <- do.call(
     modelbpp::gen_models,
     args1
