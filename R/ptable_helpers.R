@@ -308,3 +308,24 @@ get_digest <- function(
   }
   out
 }
+
+#' @noRd
+setdiff_eq_partables <- function(
+  x,
+  y
+) {
+  x_digest <- sapply(
+    x,
+    get_digest
+  )
+  y_digest <- sapply(
+    y,
+    get_digest
+  )
+  i <- !(x_digest %in% y_digest)
+  if (any(i)) {
+    out <- x[i]
+  }
+  class(out) <- class(x)
+  out
+}
