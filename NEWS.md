@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9009
+# semeqmodels 0.0.0.9010
 
 - Initialize the package.
   (0.0.0.9000)
@@ -61,3 +61,8 @@
 - Updated `empirical_eq()` to work with
   `eq_partables` objects.
   (0.0.0.9009)
+
+- Updated `drop_k()` and `add_k()` to
+  use `sem_out` to fit the models. To
+  be used for empirical equivalence.
+  (0.0.0.9010)
