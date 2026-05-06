@@ -29,10 +29,12 @@ NULL
 #' output of [lavaan::lavaan()] or its
 #' wrappers, such as [lavaan::sem()]).
 #' It can also be a parameter table
-#' generated in `lavaan`. If it is
-#' a parameter table, dummy data will be
-#' created, as it is required by
-#' [modelbpp::gen_models()].
+#' generated in `lavaan`.
+#'
+#' @param sem_out A `lavaan` object.
+#' If supplied and `fit_models` is
+#' `TRUE`, the generate models will be
+#' fitted by updating this object.
 #'
 #' @param df_change_drop The change in
 #' the degrees of freedom when generating
@@ -149,7 +151,7 @@ drop_k <- function(
 
   # - A function to generate a list of 1-more-df models.
   #   - Input:
-  #     - A lavaan output.c
+  #     - A lavaan output.
   #       - Can also be a parameter table.
   #         - A dummy dataset will be created in this case.
   #     - Relations that will not be removed (and so will not be changed).
@@ -212,9 +214,6 @@ drop_k <- function(
   }
   # ==== Generate models ====
 
-  # TODO:
-  # - Does not yet work with object = ptable,
-  #   due to scoping issue with update()
   out0 <- modelbpp::gen_models(
             sem_out = fit,
             ...,
@@ -274,19 +273,15 @@ drop_k <- function(
 #'
 #' @return
 #' The function [add_k()]
-#' returns a list of the class `partables`,
-#' an output of [modelbpp::gen_models()],
+#' returns a list of the class `eq_partables`,
+#' a subclass of the
+#' output of [modelbpp::gen_models()],
 #' which are more complicated versions of the
 #' original model, usually with one or
 #' more free parameters added.
 #'
 #' @param ... Optional arguments to be
 #' passed to [modelbpp::gen_models()].
-#'
-#' @param sem_out A `lavaan` object.
-#' If supplied and `fit_models` is
-#' `TRUE`, the generate models will be
-#' fitted by updating this object.
 #'
 #' @param df_change_add The change in
 #' the degrees of freedom when adding
@@ -437,12 +432,6 @@ add_k <- function(
 
   # ==== Fit without removed parameters ====
 
-  # fit_i <- lavaan::sem(
-  #             model = ptable1,
-  #             data = dat,
-  #             test = "standard",
-  #             se = "none"
-  #           )
   # TODO:
   # - Remove the need to use update
   fit_i <- suppressWarnings(
@@ -475,10 +464,6 @@ add_k <- function(
     args1,
     list(sem_out = fit_i)
   )
-  # out0 <- do.call(
-  #   modelbpp::model_set,
-  #   args1
-  # )
   out0 <- do.call(
     modelbpp::gen_models,
     args1
