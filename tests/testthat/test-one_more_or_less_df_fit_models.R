@@ -1,5 +1,3 @@
-skip("WIP")
-
 library(testthat)
 suppressMessages(library(lavaan))
 
@@ -13,10 +11,12 @@ fy =~ y1 + y2 + y3
 fm ~ fx
 fy ~ fm + fx
 "
-fit <- sem(
-          model = mod,
-          data = data_test_3_factor_3_item
-        )
+fit <- do.call(
+          sem,
+          list(
+            model = mod,
+            data = data_test_3_factor_3_item
+        ))
 pt <- parameterTable(fit)
 
 # ==== Test: drop_k ====
@@ -47,7 +47,7 @@ expect_equal(
   lavInspect(fit, "sampstat")$cov
 )
 
-# ==== Test: drop_k: Using a parameter table ====
+# ==== Test: drop_k: Using add_k output ====
 
 fit_1_more1_from_less1_with_fit <- drop_k(
               fit_1_less_with_fit[[1]],
