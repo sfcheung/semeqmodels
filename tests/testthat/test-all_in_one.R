@@ -43,6 +43,18 @@ path_all_list <- function(
   }
 }
 
+as_eq_partables <- function(
+  sem_out,
+  model_name = "original"
+) {
+  pt <- lavaan::parameterTable(sem_out)
+  out <- list(pt)
+  names(out) <- model_name
+  class(out) <- c("eq_partables", "partables", "list")
+  attr(out[[1]], "fit") <- sem_out
+  out
+}
+
 # ==== eq_models ====
 
 gen_eq_models <- function(
@@ -126,6 +138,8 @@ gen_eq_models <- function(
           k_new, "model(s) found\n")
     }
   }
+  # TODO:
+  # - Should sem_out be excluded?
   out
 }
 
@@ -134,6 +148,15 @@ out <- gen_eq_models(
   parallel = FALSE
 )
 out
+
+out1 <- empirical_eq(
+          out,
+          original_model = fit,
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+out1
+# saveRDS(out1, "C:/temp/3var_models.rds")
 
 # TO PROCESS
 
