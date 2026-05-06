@@ -215,7 +215,7 @@ unlist_eq_partables <- function(x) {
 #' @noRd
 sort_ptable <- function(
   ptable,
-  cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart")
+  cols = c("lhs", "op", "rhs", "block", "group")
 ) {
   # Sort a parameter table
   # For comparing different tables
@@ -250,6 +250,9 @@ digest_ptable <- function(
   i_free <- which(out0$free > 0)
   out0$free[i_free] <- seq_along(i_free)
   out0$start <- round(out0$start, digits = digits)
+  out0$ustart <- round(out0$ustart, digits = digits)
+  out0$start[i_free] <- NA
+  out0$ustart[i_free] <- NA
   do.call(
       digest::digest,
       list(object = out0,
