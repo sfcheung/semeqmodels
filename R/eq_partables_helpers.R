@@ -31,3 +31,18 @@ is_partable <- function(
   }
   return(FALSE)
 }
+
+#' @noRd
+as_eq_partables <- function(
+  sem_out,
+  model_name = "original"
+) {
+  # Convert *one* single lavaan object
+  # to an eq_partables object
+  pt <- lavaan::parameterTable(sem_out)
+  out <- list(pt)
+  names(out) <- model_name
+  class(out) <- c("eq_partables", "partables", "list")
+  attr(out[[1]], "fit") <- sem_out
+  out
+}
