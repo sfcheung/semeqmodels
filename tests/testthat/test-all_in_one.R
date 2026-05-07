@@ -24,7 +24,10 @@ pt <- parameterTable(fit)
 path_all <- function(
   object
 ) {
-  for (pt in object) {
+  a <- names(object)
+  for (j in seq_along(object)) {
+    cat(a[j], ":\n")
+    pt <- object[[j]]
     i1 <- pt$lhs %in% c("fx", "fm", "fy")
     i2 <- pt$rhs %in% c("fx", "fm", "fy")
     i3 <- pt$lhs != pt$rhs
@@ -47,6 +50,7 @@ path_all_list <- function(
 
 gen_eq_models <- function(
   sem_out,
+  exclude_x_y_ecov = TRUE,
   parallel = FALSE,
   progress = TRUE
 ) {
@@ -111,6 +115,22 @@ gen_eq_models <- function(
           k_new, "model(s) found\n")
     }
   }
+
+  if (exclude_x_y_ecov) {
+
+    # ==== Remove models with x_y_ecov ====
+
+    chk <- sapply(
+              out,
+              has_x_y_ecov
+            )
+    if (any(chk)) {
+      tmp <- class(out)
+      out <- out[!chk]
+      class(out) <- tmp
+    }
+  }
+
   # TODO:
   # - Should sem_out be excluded?
   out
@@ -129,6 +149,7 @@ out1 <- empirical_eq(
           progress = !is_testing()
         )
 out1
+
 # saveRDS(out1, "C:/temp/3var_models.rds")
 
 # TO PROCESS
