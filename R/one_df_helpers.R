@@ -158,7 +158,7 @@ x_y_ecov <- function(
 }
 
 #' @noRd
-had_x_y_ecov <- function(
+has_x_y_ecov <- function(
   object
 ) {
   # Check whether a model has
