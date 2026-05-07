@@ -52,19 +52,15 @@ gen_eq_models <- function(
 ) {
   # Add other arguments later
 
-  pt <- lavaan::parameterTable(sem_out)
-  models <- list(original = pt)
-  class(models) <- c("eq_partables", "partables", "list")
-  attr(models$original, "fit") <- sem_out
-  out <- list()
-  out_drop_tried <- list()
-  out_add_tried <- list()
+  out <- as_eq_partables()
+  out_drop_tried <- as_eq_partables()
+  out_add_tried <- as_eq_partables()
   k_old <- -1
   k_new <- 0
   while (k_old < k_new) {
     k_old <- length(out)
     if (length(out) == 0) {
-      out_i <- models
+      out_i <- as_eq_partables(sem_out)
       sem_out0 <- sem_out
     } else {
       out_i <- out
@@ -80,13 +76,10 @@ gen_eq_models <- function(
       drop_k,
       sem_out = sem_out0,
       fit_models = TRUE,
-      parallel = parallel,
+      parallel = FALSE,
+      progress = progress
     )
-    if (length(out_add_tried) == 0) {
-      out_add_tried <- out_i
-    } else {
-      out_add_tried <- c(out_add_tried, out_i)
-    }
+    out_add_tried <- c(out_i, out_add_tried)
     # path_all_list(out_drop_i)
     out_drop_i <- combine_ptables(
               out_drop_i
@@ -101,23 +94,15 @@ gen_eq_models <- function(
       add_k,
       sem_out = sem_out,
       fit_models = TRUE,
-      parallel = parallel
+      parallel = FALSE,
+      progress = progress
     )
-    if (length(out_drop_tried) == 0) {
-      out_drop_tried <- out_drop_i
-    } else {
-      out_drop_tried <- c(out_drop_tried, out_drop_i)
-    }
+    out_drop_tried <- c(out_drop_tried, out_drop_i)
     # path_all_list(out_add_i)
     out_add_i <- combine_ptables(
               out_add_i
             )
-    # path_all(out_add_i)
-    if (length(out) > 0) {
-      out <- c(out, out_add_i)
-    } else {
-      out <- out_add_i
-    }
+    out <- c(out_add_i, out)
     # path_all(out)
     k_new <- length(out)
     if (progress) {
