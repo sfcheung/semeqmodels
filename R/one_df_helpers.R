@@ -146,12 +146,12 @@ x_y_ecov <- function(
   out1a <- apply(
       out0,
       MARGIN = 1,
-      \(x) paste(x, collapse = " ~~ ")
+      \(x) paste(x, collapse = "~~")
     )
   out1b <- apply(
       out0[, c("y", "x")],
       MARGIN = 1,
-      \(x) paste(x, collapse = " ~~ ")
+      \(x) paste(x, collapse = "~~")
     )
   out <- unique(c(out1a, out1b))
   out
