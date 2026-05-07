@@ -156,3 +156,32 @@ x_y_ecov <- function(
   out <- unique(c(out1a, out1b))
   out
 }
+
+#' @noRd
+had_x_y_ecov <- function(
+  object
+) {
+  # Check whether a model has
+  # a covariance between an exogenous
+  # variable and an error term
+  chk <- x_y_ecov(object)
+  if (length(chk) == 0) {
+    return(FALSE)
+  }
+  if (inherits(object, "lavaan")) {
+    object <- lavaan::parameterTable(object)
+  }
+  i1 <- object$op == "~~"
+  i2 <- object$lhs != object$rhs
+  i <- i1 & i2
+  if (all(!i)) {
+    return(FALSE)
+  }
+  all_cov <- apply(
+    object[i, c("lhs", "op", "rhs")],
+    MARGIN = 1,
+    paste0,
+    collapse = ""
+  )
+  any(all_cov %in% chk)
+}
