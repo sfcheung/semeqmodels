@@ -336,7 +336,7 @@ remove_x_y_ecov <- function(
   progress = FALSE
 ) {
 
-  # ==== Remove models with x_y_ecov ====
+  # Remove models with x_y_ecov
 
   chk <- sapply(
             object,
@@ -345,7 +345,7 @@ remove_x_y_ecov <- function(
   if (any(chk)) {
     if (progress) {
       tmp <- sprintf(
-        "Removed %d model(s) with x-error covariances.\n",
+        "Removed %d model(s) with x-error covariances.",
         round(sum(chk))
       )
       cat(tmp)
