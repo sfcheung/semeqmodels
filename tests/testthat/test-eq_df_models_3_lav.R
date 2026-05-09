@@ -51,7 +51,8 @@ path_all_list <- function(
 
 out <- eq_df_models(
   sem_out = fit,
-  parallel = FALSE
+  parallel = FALSE,
+  progress = !is_testing()
 )
 out
 
