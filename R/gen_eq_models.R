@@ -161,26 +161,10 @@ eq_df_models <- function(
   }
 
   if (exclude_x_y_ecov) {
-
-    # ==== Remove models with x_y_ecov ====
-
-    chk <- sapply(
-              out,
-              has_x_y_ecov
-            )
-    if (any(chk)) {
-      if (progress) {
-        tmp <- sprintf(
-          "Removed %d model(s) with x-error covariances.\n",
-          round(sum(chk))
-        )
-        cat(tmp)
-      }
-      tmp <- class(out)
-      out <- out[!chk]
-      class(out) <- tmp
-    }
-
+    out <- remove_x_y_ecov(
+        out,
+        progress = progress
+      )
   }
 
   if (progress) {
