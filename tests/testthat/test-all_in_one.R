@@ -1,9 +1,9 @@
-skip("WIP")
+skip_on_cran()
 
 library(testthat)
 suppressMessages(library(lavaan))
 
-test_that("+/- df: fit_models", {
+test_that("gen_eq_models: 3 latent factors", {
 
 mod <-
 "
@@ -59,7 +59,7 @@ gen_eq_models <- function(
   gen_models_progress = FALSE
 ) {
   # Add other arguments later
-
+  optwidth <- getOption("width")
   out <- as_eq_partables()
   out_drop_tried <- as_eq_partables()
   out_add_tried <- as_eq_partables()
@@ -79,6 +79,9 @@ gen_eq_models <- function(
               out_add_tried
             )
     # path_all(tmp)
+    if (progress) {
+      cat("Searching for models with one more degree of freedom ...")
+    }
     out_drop_i <- lapply(
       out_i,
       drop_k,
@@ -97,6 +100,10 @@ gen_eq_models <- function(
               out_drop_tried
             )
     # path_all(out_drop_i)
+    if (progress) {
+      cat("\r", strrep(" ", optwidth), "\r")
+      cat("Searching for models with the same degree of freedom ...")
+    }
     out_add_i <- lapply(
       out_drop_i,
       add_k,
@@ -115,8 +122,13 @@ gen_eq_models <- function(
     k_new <- length(out)
     if (progress) {
       k_diff <- k_new - k_old
-      cat(k_diff, "new model(s); ",
-          k_new, "model(s) found\n")
+      tmp <- sprintf(
+        "New model(s): %1$d / Total model(s) found: %2$d\n",
+        k_diff,
+        k_new
+      )
+      cat("\r", strrep(" ", optwidth), "\r")
+      cat(tmp)
     }
   }
 
@@ -129,10 +141,26 @@ gen_eq_models <- function(
               has_x_y_ecov
             )
     if (any(chk)) {
+      if (progress) {
+        tmp <- sprintf(
+          "Removed %d model(s) with x-error covariances.\n",
+          round(sum(chk))
+        )
+        cat(tmp)
+      }
       tmp <- class(out)
       out <- out[!chk]
       class(out) <- tmp
     }
+
+  }
+
+  if (progress) {
+    tmp <- sprintf(
+        "Model(s) retrained: %d\n",
+        length(out)
+      )
+    cat(tmp)
   }
 
   # TODO:
@@ -154,50 +182,7 @@ out1 <- empirical_eq(
         )
 out1
 
-# saveRDS(out1, "C:/temp/3var_models.rds")
-
-# TO PROCESS
-
-# ==== Test: drop_k ====
-
-fit_1_more1_with_fit <- drop_k(fit,
-              fit_models = TRUE,
-              parallel = FALSE)
-expect_s4_class(attr(fit_1_more1_with_fit[[1]], "fit"),
-                "lavaan")
-expect_equal(
-  lavInspect(eq_fits(fit_1_more1_with_fit)[[1]], "sampstat")$cov,
-  lavInspect(fit, "sampstat")$cov
-)
-
-# ==== Test: add_k ====
-
-fit_1_less_with_fit <- add_k(
-                fit_1_more1_with_fit[[1]],
-                sem_out = fit,
-                add_name = TRUE,
-                fit_models = TRUE,
-                parallel = FALSE
-              )
-expect_s4_class(attr(fit_1_less_with_fit[[1]], "fit"),
-                "lavaan")
-expect_equal(
-  lavInspect(eq_fits(fit_1_less_with_fit)[[1]], "sampstat")$cov,
-  lavInspect(fit, "sampstat")$cov
-)
-
-# ==== Test: drop_k: Using add_k output ====
-
-fit_1_more1_from_less1_with_fit <- drop_k(
-              fit_1_less_with_fit[[1]],
-              sem_out = fit,
-              fit_models = TRUE,
-              parallel = FALSE)
-expect_s4_class(attr(fit_1_more1_from_less1_with_fit[[1]], "fit"),
-                "lavaan")
-expect_equal(
-  lavInspect(eq_fits(fit_1_more1_from_less1_with_fit)[[1]], "sampstat")$cov,
-  lavInspect(fit, "sampstat")$cov
-)
+expect_identical(names(out),
+                 names(out1))
 
 })
