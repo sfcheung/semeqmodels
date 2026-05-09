@@ -86,13 +86,17 @@ eq_df_models <- function(
   progress = TRUE,
   gen_models_progress = FALSE
 ) {
-  # Add other arguments later
+  # TODO:
+  # - Add other arguments, e.g., for add_k() and drop_k().
   optwidth <- getOption("width")
   out <- as_eq_partables()
   out_drop_tried <- as_eq_partables()
   out_add_tried <- as_eq_partables()
   k_old <- -1
   k_new <- 0
+
+  # ==== Start the loop ====
+
   while (k_old < k_new) {
     k_old <- length(out)
     if (length(out) == 0) {
@@ -109,6 +113,8 @@ eq_df_models <- function(
     if (length(out_i) == 0) {
       break
     }
+
+    # ==== Find 1-more-df models ====
 
     if (progress) {
       cat("Searching for models with one more degree of freedom ...")
@@ -159,6 +165,8 @@ eq_df_models <- function(
 
     }
 
+    # ==== Find 1-less-df models ====
+
     out_drop_tried <- c(out_drop_tried, out_drop_i)
     out_add_i <- lapply(
       out_drop_i,
@@ -186,6 +194,12 @@ eq_df_models <- function(
       cat(tmp)
     }
   }
+
+  # ==== End the loop ====
+
+  # ==== Prepare the output ====
+
+  # ==== Exclude models with x-error covariances ====
 
   if (exclude_x_y_ecov) {
     out <- remove_x_y_ecov(
