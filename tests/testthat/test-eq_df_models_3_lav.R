@@ -82,4 +82,34 @@ expect_setequal(
     chk_expected
   )
 
+skip_if(is_testing(),
+        message = "Long test: Test in an interactive session"
+)
+
+# The following is done in an interactive session
+
+out_p <- eq_df_models(
+  sem_out = fit,
+  parallel = TRUE,
+  progress = !is_testing()
+)
+
+out_p1 <- eq_models(
+          out_p,
+          original_model = fit,
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+out_p1
+
+chk_out_p1 <- sapply(
+    out_p1,
+    get_digest
+  )
+
+expect_setequal(
+    chk_out_p1,
+    chk_expected
+  )
+
 })

@@ -9,6 +9,7 @@ eq_df_models(
   fit_models = FALSE,
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = TRUE,
   gen_models_progress = FALSE
 )
@@ -31,6 +32,9 @@ error term will be excluded.}
 \item{parallel}{Whether parallel
 processing will be used. (NOT READY
 FOR NOW.)}
+
+\item{ncores}{The number of CPU cores
+to be used if \code{parallel} is \code{TRUE}.}
 
 \item{progress}{If \code{TRUE}, messages
 will be displayed to report the
