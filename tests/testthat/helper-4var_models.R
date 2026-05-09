@@ -1,6 +1,9 @@
 library(testthat)
 suppressMessages(library(lavaan))
 
+# No need to fit the model.
+# Only the parameter tables are needed.
+
 mod_measurement <-
   "
   fx =~ x1 + x2 + x3
