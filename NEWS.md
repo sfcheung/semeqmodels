@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9011
+# semeqmodels 0.0.0.9012
 
 - Initialize the package.
   (0.0.0.9000)
@@ -71,3 +71,42 @@
   equivalent models for 3-latent-variable
   and 4-latent-variable cases.
   (0.0.0.9010)
+
+- Renamed `empirical_eq()` to `eq_models()`,
+  to be consistent in naming with other
+  `eq_` functions.
+  (0.0.0.9012)
+
+- Added `is_eq()`, a version of `eq_models()`
+  that returns a logical vector.
+  (0.0.0.9012)
+
+- Added `setdiff_eq_partables()`, an
+  internal function that may be exported
+  in the future.
+  (0.0.0.9012)
+
+- Added `as_eq_partables()`,  an
+  internal function that may be exported
+  in the future.
+  (0.0.0.9012)
+
+- Added `x_y_ecov()`, an
+  internal function that may be exported
+  in the future.
+  (0.0.0.9012)
+
+- Added `has_x_y_ecov()`, an
+  internal function that may be exported
+  in the future.
+  (0.0.0.9012)
+
+- Added `eq_df_models()`, for generating
+  models with the same model *df* as
+  a fitted model.
+  (0.0.0.9012)
+
+- Added `remove_x_y_ecov()`, an
+  internal function that may be exported
+  in the future.
+  (0.0.0.9012)
