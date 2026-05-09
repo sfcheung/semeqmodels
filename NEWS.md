@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9010
+# semeqmodels 0.0.0.9011
 
 - Initialize the package.
   (0.0.0.9000)
@@ -65,4 +65,9 @@
 - Updated `drop_k()` and `add_k()` to
   use `sem_out` to fit the models. To
   be used for empirical equivalence.
+  (0.0.0.9010)
+
+- Added helpers to generate known
+  equivalent models for 3-latent-variable
+  and 4-latent-variable cases.
   (0.0.0.9010)
