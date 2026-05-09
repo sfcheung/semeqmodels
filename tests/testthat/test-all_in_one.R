@@ -55,7 +55,7 @@ out <- gen_eq_df_models(
 )
 out
 
-out1 <- empirical_eq(
+out1 <- eq_models(
           out,
           original_model = fit,
           parallel = FALSE,
