@@ -24,6 +24,8 @@ pt <- parameterTable(fit)
 path_all <- function(
   object
 ) {
+  # For testing
+  # Only useful in this test
   a <- names(object)
   for (j in seq_along(object)) {
     cat(a[j], ":\n")
@@ -40,6 +42,7 @@ path_all <- function(
 path_all_list <- function(
   object
 ) {
+  # For testing
   for (i in seq_along(object)) {
     cat("i: ", i, "\n")
     path_all(object[[i]])
