@@ -24,7 +24,7 @@
 #' until no more new models are found.
 #'
 #' @return
-#' The function [gen_eq_df_models()]
+#' The function [eq_df_models()]
 #' returns an `eq_partables` objects,
 #' which is a list of parameter tables.
 #'
@@ -73,13 +73,13 @@
 #'           data = data_test_3_factor_3_item
 #'         )
 #'
-#' out <- gen_eq_df_models(
+#' out <- eq_df_models(
 #'   sem_out = fit1
 #' )
 #' out
 #'
 #' @export
-gen_eq_df_models <- function(
+eq_df_models <- function(
   sem_out,
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,

@@ -3,7 +3,7 @@ skip_on_cran()
 library(testthat)
 suppressMessages(library(lavaan))
 
-test_that("gen_eq_df_models: 3 latent factors", {
+test_that("eq_df_models: 3 latent factors", {
 
 mod <-
 "
@@ -49,7 +49,7 @@ path_all_list <- function(
   }
 }
 
-out <- gen_eq_df_models(
+out <- eq_df_models(
   sem_out = fit,
   parallel = FALSE
 )
