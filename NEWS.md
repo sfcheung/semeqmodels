@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9012
+# semeqmodels 0.0.0.9013
 
 - Initialize the package.
   (0.0.0.9000)
@@ -110,3 +110,7 @@
   internal function that may be exported
   in the future.
   (0.0.0.9012)
+
+- Updated `eq_df_models()` to support
+  parallel processing.
+  (0.0.0.9013)
