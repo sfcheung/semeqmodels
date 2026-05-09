@@ -106,10 +106,14 @@ eq_df_models <- function(
               out_i,
               out_add_tried
             )
-    # path_all(tmp)
+    if (length(out_i) == 0) {
+      break
+    }
+
     if (progress) {
       cat("Searching for models with one more degree of freedom ...")
     }
+    out_add_tried <- c(out_i, out_add_tried)
     out_drop_i <- lapply(
       out_i,
       drop_k,
@@ -118,8 +122,7 @@ eq_df_models <- function(
       parallel = FALSE,
       progress = gen_models_progress
     )
-    out_add_tried <- c(out_i, out_add_tried)
-    # path_all_list(out_drop_i)
+
     out_drop_i <- combine_ptables(
               out_drop_i
             )
@@ -127,11 +130,36 @@ eq_df_models <- function(
               out_drop_i,
               out_drop_tried
             )
-    # path_all(out_drop_i)
+
     if (progress) {
       cat("\r", strrep(" ", optwidth), "\r")
       cat("Searching for models with the same degree of freedom ...")
     }
+
+    if (exclude_x_y_ecov && FALSE) {
+
+      # ==== Exclude variables with x-error covariances ====
+
+      # Disabled for now
+
+      tmp <- length(out_drop_i)
+      out_drop_i <- remove_x_y_ecov(
+          out_drop_i,
+          progress = FALSE
+        )
+      if ((tmp > length(out_drop_i)) &&
+          progress) {
+        cat("\r", strrep(" ", optwidth), "\r")
+        tmp2 <- sprintf(
+          "Removed %d model(s) with x-error covariances.\n",
+          round(tmp - length(out_drop_i))
+        )
+        cat(tmp2)
+      }
+
+    }
+
+    out_drop_tried <- c(out_drop_tried, out_drop_i)
     out_add_i <- lapply(
       out_drop_i,
       add_k,
@@ -140,13 +168,12 @@ eq_df_models <- function(
       parallel = FALSE,
       progress = gen_models_progress
     )
-    out_drop_tried <- c(out_drop_tried, out_drop_i)
-    # path_all_list(out_add_i)
+
     out_add_i <- combine_ptables(
               out_add_i
             )
     out <- c(out_add_i, out)
-    # path_all(out)
+
     k_new <- length(out)
     if (progress) {
       k_diff <- k_new - k_old
