@@ -46,6 +46,9 @@
 #' processing will be used. (NOT READY
 #' FOR NOW.)
 #'
+#' @param ncores The number of CPU cores
+#' to be used if `parallel` is `TRUE`.
+#'
 #' @param progress If `TRUE`, messages
 #' will be displayed to report the
 #' progress of the search.
@@ -88,6 +91,7 @@ eq_df_models <- function(
   fit_models = FALSE,
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = TRUE,
   gen_models_progress = FALSE
 ) {
@@ -100,6 +104,31 @@ eq_df_models <- function(
   k_old <- -1
   k_new <- 0
 
+  # ==== Parallel processing ====
+
+  cl <- NULL
+  if (parallel) {
+    cl <- parallel::makeCluster(ncores)
+    on.exit(try(parallel::stopCluster(cl), silent = TRUE),
+            add = TRUE)
+    pkgs <- .packages()
+    pkgs <- rev(pkgs)
+    parallel::clusterExport(cl,
+                            "pkgs",
+                            envir = environment())
+    parallel::clusterEvalQ(cl, {
+                    sapply(pkgs,
+                      function(x) library(x, character.only = TRUE)
+                    )
+                  })
+    parallel::clusterExport(cl,
+                            c("sem_out",
+                              "fit_models",
+                              "gen_models_progress"),
+                            envir = environment()
+                          )
+  }
+
   # ==== Start the loop ====
 
   while (k_old < k_new) {
@@ -111,6 +140,13 @@ eq_df_models <- function(
       out_i <- out
       sem_out0 <- NULL
     }
+    if (parallel) {
+      parallel::clusterExport(cl,
+                              c("sem_out0"),
+                              envir = environment()
+                            )
+    }
+
     out_i <- setdiff_eq_partables(
               out_i,
               out_add_tried
@@ -125,14 +161,27 @@ eq_df_models <- function(
       cat("Searching for models with one more degree of freedom ...")
     }
     out_add_tried <- c(out_i, out_add_tried)
-    out_drop_i <- lapply(
-      out_i,
-      drop_k,
-      sem_out = sem_out0,
-      fit_models = fit_models,
-      parallel = FALSE,
-      progress = gen_models_progress
-    )
+    if (parallel) {
+      out_drop_i <- parallel::parLapplyLB(
+        cl = cl,
+        out_i,
+        drop_k,
+        sem_out = sem_out0,
+        fit_models = fit_models,
+        parallel = FALSE,
+        progress = gen_models_progress,
+        chunk.size = 1
+      )
+    } else {
+      out_drop_i <- lapply(
+        out_i,
+        drop_k,
+        sem_out = sem_out0,
+        fit_models = fit_models,
+        parallel = FALSE,
+        progress = gen_models_progress
+      )
+    }
 
     out_drop_i <- combine_ptables(
               out_drop_i
@@ -173,14 +222,27 @@ eq_df_models <- function(
     # ==== Find 1-less-df models ====
 
     out_drop_tried <- c(out_drop_tried, out_drop_i)
-    out_add_i <- lapply(
-      out_drop_i,
-      add_k,
-      sem_out = sem_out,
-      fit_models = fit_models,
-      parallel = FALSE,
-      progress = gen_models_progress
-    )
+    if (parallel) {
+      out_add_i <- parallel::parLapplyLB(
+        cl = cl,
+        out_drop_i,
+        add_k,
+        sem_out = sem_out,
+        fit_models = fit_models,
+        parallel = FALSE,
+        progress = gen_models_progress,
+        chunk.size = 1
+      )
+    } else {
+      out_add_i <- lapply(
+        out_drop_i,
+        add_k,
+        sem_out = sem_out,
+        fit_models = fit_models,
+        parallel = FALSE,
+        progress = gen_models_progress
+      )
+    }
 
     out_add_i <- combine_ptables(
               out_add_i

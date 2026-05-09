@@ -34,7 +34,8 @@ pt <- parameterTable(fit)
 
 out <- eq_df_models(
   sem_out = fit,
-  parallel = FALSE
+  parallel = TRUE,
+  progress = !is_testing()
 )
 out
 
@@ -48,9 +49,15 @@ out1
 
 expect_identical(names(out),
                  names(out1))
+# saveRDS(out1, "C:/temp/to_check_4_lav.RDS")
+
+# TO PROCESS
+
+length(pt_list_4_lav)
+length(out1)
 
 chk_expected <- sapply(
-    pt_list_3_lav,
+    pt_list_4_lav,
     get_digest
   )
 
