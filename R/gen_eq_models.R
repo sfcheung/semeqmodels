@@ -38,6 +38,10 @@
 #' between an exogenous variable and an
 #' error term will be excluded.
 #'
+#' @param fit_models Whether the models
+#' will be fitted to the data. To be
+#' passed to [drop_k()] and [add_k()].
+#'
 #' @param parallel Whether parallel
 #' processing will be used. (NOT READY
 #' FOR NOW.)
@@ -81,6 +85,7 @@
 #' @export
 eq_df_models <- function(
   sem_out,
+  fit_models = FALSE,
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
   progress = TRUE,
@@ -124,7 +129,7 @@ eq_df_models <- function(
       out_i,
       drop_k,
       sem_out = sem_out0,
-      fit_models = TRUE,
+      fit_models = fit_models,
       parallel = FALSE,
       progress = gen_models_progress
     )
@@ -172,7 +177,7 @@ eq_df_models <- function(
       out_drop_i,
       add_k,
       sem_out = sem_out,
-      fit_models = TRUE,
+      fit_models = fit_models,
       parallel = FALSE,
       progress = gen_models_progress
     )
@@ -202,10 +207,14 @@ eq_df_models <- function(
   # ==== Exclude models with x-error covariances ====
 
   if (exclude_x_y_ecov) {
+    tmp <- length(out)
     out <- remove_x_y_ecov(
         out,
         progress = progress
       )
+    if (tmp > length(out)) {
+      cat("\n")
+    }
   }
 
   if (progress) {

@@ -6,6 +6,7 @@
 \usage{
 eq_df_models(
   sem_out,
+  fit_models = FALSE,
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
   progress = TRUE,
@@ -17,6 +18,10 @@ eq_df_models(
 is usually the output of \code{\link[lavaan:sem]{lavaan::sem()}}
 or similar wrappers. Models will be
 generated from this model.}
+
+\item{fit_models}{Whether the models
+will be fitted to the data. To be
+passed to \code{\link[=drop_k]{drop_k()}} and \code{\link[=add_k]{add_k()}}.}
 
 \item{exclude_x_y_ecov}{If \code{TRUE},
 models with one or more covariance
