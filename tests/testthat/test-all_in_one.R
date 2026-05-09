@@ -55,7 +55,8 @@ gen_eq_models <- function(
   sem_out,
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
-  progress = TRUE
+  progress = TRUE,
+  gen_models_progress = FALSE
 ) {
   # Add other arguments later
 
@@ -84,7 +85,7 @@ gen_eq_models <- function(
       sem_out = sem_out0,
       fit_models = TRUE,
       parallel = FALSE,
-      progress = progress
+      progress = gen_models_progress
     )
     out_add_tried <- c(out_i, out_add_tried)
     # path_all_list(out_drop_i)
@@ -102,7 +103,7 @@ gen_eq_models <- function(
       sem_out = sem_out,
       fit_models = TRUE,
       parallel = FALSE,
-      progress = progress
+      progress = gen_models_progress
     )
     out_drop_tried <- c(out_drop_tried, out_drop_i)
     # path_all_list(out_add_i)
