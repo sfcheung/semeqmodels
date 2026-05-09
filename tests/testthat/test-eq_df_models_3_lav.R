@@ -66,4 +66,19 @@ out1
 expect_identical(names(out),
                  names(out1))
 
+chk_expected <- sapply(
+    pt_list_3_lav,
+    get_digest
+  )
+
+chk_out <- sapply(
+    out1,
+    get_digest
+  )
+
+expect_setequal(
+    chk_out,
+    chk_expected
+  )
+
 })
