@@ -1,6 +1,9 @@
 library(testthat)
 suppressMessages(library(lavaan))
 
+# No need to fit the model.
+# Only the parameter tables are needed.
+
 mod_measurement <-
   "
   fx =~ x1 + x2 + x3
@@ -1319,14 +1322,17 @@ mod131 <- c(
   "fy ~ fm2"
 )
 
-pt_list <- list()
-
-for (i in 1:131) {
-  fit <- sem(
-    model = get(paste0("mod", i)),
-    data  = data_test_4_factor_3_item
+system.time(
+  pt_list_4_lav <- lapply(
+    seq_len(131),
+    \(x) {
+      fit <- sem(
+        model = get(paste0("mod", x)),
+        data  = data_test_4_factor_3_item,
+        do.fit = FALSE
+      )
+      parameterTable(fit)
+    }
   )
-  pt_list[[i]] <- parameterTable(fit)
-}
+)
 
-pt_list

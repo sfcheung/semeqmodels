@@ -154,14 +154,14 @@ chisq3
 
 # ==== Inputs: list of ptables, lavaan ====
 
-eq_out_1 <- empirical_eq(
+eq_out_1 <- eq_models(
           ptables1,
           original_model = fit1,
           parallel = FALSE,
           progress = !is_testing()
         )
 
-eq_out_2 <- empirical_eq(
+eq_out_2 <- eq_models(
           ptables12,
           original_model = fit1,
           parallel = FALSE,
@@ -178,7 +178,7 @@ expect_setequal(
   unname(sapply(eq_out_2, get_digest))
 )
 
-eq_out_3 <- empirical_eq(
+eq_out_3 <- eq_models(
           ptables3,
           original_model = fit3,
           parallel = FALSE,
@@ -189,7 +189,7 @@ expect_true(length(eq_out_3) == 1)
 
 # ==== Inputs: list of ptables, no lavaan ====
 
-eq_out_1b <- empirical_eq(
+eq_out_1b <- eq_models(
           ptables1,
           parallel = FALSE,
           progress = !is_testing()
@@ -198,7 +198,7 @@ eq_out_1b <- empirical_eq(
 expect_setequal(names(eq_out_1),
                 names(eq_out_1b))
 
-eq_out_3b <- empirical_eq(
+eq_out_3b <- eq_models(
           ptables3,
           parallel = FALSE,
           progress = !is_testing()
@@ -208,7 +208,7 @@ expect_setequal(names(eq_out_3),
 
 # ==== Inputs: list of ptables, ptable ====
 
-eq_out_1c <- empirical_eq(
+eq_out_1c <- eq_models(
           ptables1,
           original_model = parameterTable(fit1),
           parallel = FALSE,
@@ -218,7 +218,7 @@ eq_out_1c <- empirical_eq(
 expect_setequal(names(eq_out_1),
                 names(eq_out_1c))
 
-eq_out_3c <- empirical_eq(
+eq_out_3c <- eq_models(
           ptables3,
           original_model = parameterTable(fit3),
           parallel = FALSE,
@@ -236,7 +236,7 @@ expect_false(eq_same_data(ptables1_with_fit))
 expect_true(eq_same_data(fit1_1_more_1_less_with_fit[[1]]))
 expect_true(eq_same_data(fit1_1_more_1_less_with_fit[[2]]))
 
-eq_out_1_fit <- empirical_eq(
+eq_out_1_fit <- eq_models(
           ptables1_with_fit,
           parallel = FALSE,
           progress = !is_testing()
@@ -244,7 +244,7 @@ eq_out_1_fit <- empirical_eq(
 
 expect_true(eq_same_data(eq_out_1_fit))
 
-eq_out_1_fit2 <- empirical_eq(
+eq_out_1_fit2 <- eq_models(
           ptables1_with_fit,
           original_model = fit1,
           parallel = FALSE,

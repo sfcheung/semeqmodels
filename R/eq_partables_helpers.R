@@ -31,3 +31,25 @@ is_partable <- function(
   }
   return(FALSE)
 }
+
+#' @noRd
+as_eq_partables <- function(
+  sem_out = NULL,
+  model_name = "original"
+) {
+  # Convert *one* single lavaan object
+  # to an eq_partables object
+  # If sem_out is NULL,
+  # create a zero-length eq_partables object.
+  # For concatenation
+  if (inherits(sem_out, "lavaan")) {
+    pt <- lavaan::parameterTable(sem_out)
+    out <- list(pt)
+    attr(out[[1]], "fit") <- sem_out
+    names(out) <- model_name
+  } else {
+    out <- list()
+  }
+  class(out) <- c("eq_partables", "partables", "list")
+  out
+}

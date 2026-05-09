@@ -295,6 +295,11 @@ drop_k <- function(
 #' vector of parameters that must not
 #' be added. To be passed to [modelbpp::gen_models()].
 #'
+#' @param exclude_x_y_ecov If `TRUE`,
+#' covariances between an exogenous
+#' variable and an error term will not
+#' be added.
+#'
 #' @param ptable_name The name of the
 #' original model. Used only if it cannot
 #' be generated from `object`.
@@ -331,6 +336,7 @@ add_k <- function(
   sem_out = NULL,
   df_change_add = 1,
   must_not_add = NULL,
+  exclude_x_y_ecov = TRUE,
   ptable_name = NULL,
   se = "none",
   progress = FALSE,
@@ -418,6 +424,10 @@ add_k <- function(
 
   # ==== Set must_not_add ====
 
+  # TODO:
+  # - Remove this option if this is supported
+  #   in modelbpp.
+
   pd <- attr(ptable, "parameters_dropped")
   if (!is.null(pd)) {
     ptable_name <- paste0(
@@ -428,6 +438,14 @@ add_k <- function(
                       pd)
   } else {
     ptable_name <- "original"
+  }
+
+  # ==== exclude_x_y_ecov ====
+
+  if (exclude_x_y_ecov) {
+    tmp <- x_y_ecov(ptable1)
+    must_not_add <- c(must_not_add,
+                      tmp)
   }
 
   # ==== Fit without removed parameters ====

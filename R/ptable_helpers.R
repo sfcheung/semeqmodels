@@ -215,7 +215,7 @@ unlist_eq_partables <- function(x) {
 #' @noRd
 sort_ptable <- function(
   ptable,
-  cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart")
+  cols = c("lhs", "op", "rhs", "block", "group")
 ) {
   # Sort a parameter table
   # For comparing different tables
@@ -250,6 +250,9 @@ digest_ptable <- function(
   i_free <- which(out0$free > 0)
   out0$free[i_free] <- seq_along(i_free)
   out0$start <- round(out0$start, digits = digits)
+  out0$ustart <- round(out0$ustart, digits = digits)
+  out0$start[i_free] <- NA
+  out0$ustart[i_free] <- NA
   do.call(
       digest::digest,
       list(object = out0,
@@ -305,3 +308,52 @@ get_digest <- function(
   }
   out
 }
+
+#' @noRd
+setdiff_eq_partables <- function(
+  x,
+  y
+) {
+  x_digest <- sapply(
+    x,
+    get_digest
+  )
+  y_digest <- sapply(
+    y,
+    get_digest
+  )
+  i <- !(x_digest %in% y_digest)
+  if (any(i)) {
+    out <- x[i]
+  }
+  class(out) <- class(x)
+  out
+}
+
+#' @noRd
+remove_x_y_ecov <- function(
+  object,
+  progress = FALSE
+) {
+
+  # Remove models with x_y_ecov
+
+  chk <- sapply(
+            object,
+            has_x_y_ecov
+          )
+  if (any(chk)) {
+    if (progress) {
+      tmp <- sprintf(
+        "Removed %d model(s) with x-error covariances.",
+        round(sum(chk))
+      )
+      cat(tmp)
+    }
+    tmp <- class(object)
+    object <- object[!chk]
+    class(object) <- tmp
+  }
+  object
+}
+

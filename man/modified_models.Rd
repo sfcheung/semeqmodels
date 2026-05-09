@@ -28,6 +28,7 @@ add_k(
   sem_out = NULL,
   df_change_add = 1,
   must_not_add = NULL,
+  exclude_x_y_ecov = TRUE,
   ptable_name = NULL,
   se = "none",
   progress = FALSE,
@@ -118,6 +119,11 @@ function.}
 \item{must_not_add}{A character
 vector of parameters that must not
 be added. To be passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.}
+
+\item{exclude_x_y_ecov}{If \code{TRUE},
+covariances between an exogenous
+variable and an error term will not
+be added.}
 
 \item{ptable_name}{The name of the
 original model. Used only if it cannot

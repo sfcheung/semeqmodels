@@ -5,7 +5,7 @@
 #' equivalent to the original model.
 #'
 #' @details
-#' The function [empirical_eq()]
+#' The function [eq_models()]
 #' checks the model degrees of freedom
 #' and model chi-squares of a list of
 #' models against an original model,
@@ -30,7 +30,7 @@
 #' a sample.
 #'
 #' @return
-#' The function [empirical_eq()]
+#' The function [eq_models()]
 #' returns a list of the class `partables`,
 #' of models that are empirically
 #' equivalent to the original model.
@@ -147,20 +147,20 @@
 #' # Some equivalent
 #' ptables3 <- combine_ptables(fit3_1_more_1_less)
 #'
-#' eq_out_1 <- empirical_eq(
+#' eq_out_1 <- eq_models(
 #'           ptables1,
 #'           original_model = fit1,
 #'           parallel = FALSE
 #'         )
 #'
-#' eq_out_3 <- empirical_eq(
+#' eq_out_3 <- eq_models(
 #'           ptables3,
 #'           original_model = fit3,
 #'           parallel = FALSE
 #'         )
 #'
 #' @export
-empirical_eq <- function(
+eq_models <- function(
   ptables,
   original_model = NULL,
   ...,
@@ -170,6 +170,91 @@ empirical_eq <- function(
   make_cluster_args = list(),
   progress = TRUE,
   tolerance = 1e-5
+) {
+
+  args <- as.list(match.call()[-1])
+  args <- lapply(
+            args,
+            eval,
+            envir = parent.frame()
+          )
+  args1 <- utils::modifyList(
+            args,
+            list(
+              output = "models",
+              env_for_update = parent.frame()
+            )
+          )
+  out <- do.call(
+    eq_models_internal,
+    args1
+  )
+  out
+
+}
+
+#' @details
+#' The function [is_eq()] is similar to
+#' [eq_models()], but returns a logical
+#' vector to indicate which models are
+#' empirically equivalent to the original
+#' model.
+#'
+#' @return
+#' The function [is_eq()] returns a
+#' logical vector of the same length
+#' of `patables`, with `TRUE` denotes
+#' that a model is empirically equivalent
+#' to `original_model`.
+#'
+#' @rdname eq_models
+#' @export
+is_eq <- function(
+  ptables,
+  original_model,
+  ...,
+  se = "none",
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
+  progress = TRUE,
+  tolerance = 1e-5
+) {
+
+  args <- as.list(match.call()[-1])
+  args <- lapply(
+            args,
+            eval,
+            envir = parent.frame()
+          )
+  args1 <- utils::modifyList(
+            args,
+            list(
+              output = "logical",
+              env_for_update = parent.frame()
+            )
+          )
+  out <- do.call(
+    eq_models_internal,
+    args1
+  )
+  out
+
+}
+
+#' @noRd
+eq_models_internal <- function(
+  ptables,
+  original_model = NULL,
+  ...,
+  se = "none",
+  parallel = TRUE,
+  ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
+  make_cluster_args = list(),
+  progress = TRUE,
+  tolerance = 1e-5,
+  env_for_update = parent.frame(),
+  output = c("logical", "models")
 ) {
 
   # Keep models which are empirically equivalent
@@ -185,6 +270,8 @@ empirical_eq <- function(
   # TODO:
   # - Keep only unique ptables
 
+  output <- match.arg(output)
+
   # ==== Handle 'original_model' ====
 
   sem_out1 <- emp_eq_fix_input(
@@ -192,7 +279,7 @@ empirical_eq <- function(
     original_model = original_model,
     ...,
     se = se,
-    env_for_update = parent.frame()
+    env_for_update = env_for_update
   )
 
   # sem_out1 is used instead of original_model
@@ -263,10 +350,27 @@ empirical_eq <- function(
 
   i <- df_eq & chisq_eq
 
-  ptables_eq <- ptables[i]
-  class(ptables_eq) <- class(ptables)
+  if (output == "logical") {
 
-  ptables_eq
+    # ==== output: logical ====
+
+    out <- i
+    names(out) <- names(ptables)
+    return(out)
+  }
+
+  if (output == "models") {
+
+    # ==== output: models ====
+
+    ptables_eq <- ptables[i]
+    class(ptables_eq) <- class(ptables)
+
+    return(ptables_eq)
+  }
+
+  # Should not reach here
+
 }
 
 #' @noRd

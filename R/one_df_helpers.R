@@ -105,3 +105,83 @@ dummy_data <- function(
   }
   out
 }
+
+#' @noRd
+x_y_ecov <- function(
+  object
+) {
+  # Form a vector of covariances
+  # between an exogenous variable
+  # and an error terms.
+  # To be used in `must_not_add`.
+  all_x1 <- lavaan::lavNames(
+    object,
+    "ov.x"
+  )
+  all_x2 <- lavaan::lavNames(
+    object,
+    "lv.x"
+  )
+  all_x <- c(all_x1, all_x2)
+  all_y1 <- lavaan::lavNames(
+    object,
+    "ov.nox"
+  )
+  all_y2 <- lavaan::lavNames(
+    object,
+    "lv.nox"
+  )
+  all_y <- c(all_y1, all_y2)
+  all_ind <- lavaan::lavNames(
+    object,
+    "ov.ind"
+  )
+  all_x <- setdiff(all_x, all_ind)
+  all_y <- setdiff(all_y, all_ind)
+  out0 <- expand.grid(
+            x = all_x,
+            y = all_y,
+            stringsAsFactors = FALSE
+          )
+  out1a <- apply(
+      out0,
+      MARGIN = 1,
+      \(x) paste(x, collapse = "~~")
+    )
+  out1b <- apply(
+      out0[, c("y", "x")],
+      MARGIN = 1,
+      \(x) paste(x, collapse = "~~")
+    )
+  out <- unique(c(out1a, out1b))
+  out
+}
+
+#' @noRd
+has_x_y_ecov <- function(
+  object
+) {
+  # Check whether a model has
+  # a covariance between an exogenous
+  # variable and an error term
+  chk <- x_y_ecov(object)
+  if (length(chk) == 0) {
+    return(FALSE)
+  }
+  if (inherits(object, "lavaan")) {
+    object <- lavaan::parameterTable(object)
+  }
+  i1 <- object$op == "~~"
+  i2 <- object$lhs != object$rhs
+  i <- i1 & i2
+  if (all(!i)) {
+    return(FALSE)
+  }
+  all_cov <- apply(
+    object[i, c("lhs", "op", "rhs")],
+    MARGIN = 1,
+    paste0,
+    collapse = ""
+  )
+  any(all_cov %in% chk)
+}
