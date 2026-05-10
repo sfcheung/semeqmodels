@@ -56,14 +56,12 @@ expect_identical(names(out),
 length(pt_list_4_lav)
 length(out1)
 
-chk_expected <- sapply(
-    pt_list_4_lav,
-    get_digest
+chk_expected <- get_digest_ptables(
+    pt_list_4_lav
   )
 
-chk_out <- sapply(
-    out1,
-    get_digest
+chk_out <- get_digest_ptables(
+    out1
   )
 
 expect_setequal(

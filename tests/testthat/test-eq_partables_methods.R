@@ -94,7 +94,7 @@ expect_identical(outc5, out5)
 expect_identical(outc6, out6)
 expect_identical(outc1, outc7)
 expect_identical(outc1, outc8)
-expect_true(any(duplicated(sapply(outc9, get_digest))))
+expect_true(any(duplicated(get_digest_ptables(outc9))))
 expect_true(any(duplicated(outc9)))
 expect_setequal(names(unique(outc9)),
                 names(outc8))
@@ -159,7 +159,7 @@ expect_equal(get_digest(tmp),
 tmp <- fit_1_more1
 # expect_warning(tmp[1:3] <- fit_1_more1[3])
 tmp[1:3] <- fit_1_more1[3]
-expect_equal(unique(unname(sapply(tmp, get_digest))),
+expect_equal(unique(unname(get_digest_ptables(tmp))),
              get_digest(fit_1_more1[[3]]))
 
 tmp <- fit_1_more1

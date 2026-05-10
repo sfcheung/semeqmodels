@@ -67,14 +67,12 @@ out1
 expect_identical(names(out),
                  names(out1))
 
-chk_expected <- sapply(
-    pt_list_3_lav,
-    get_digest
+chk_expected <- get_digest_ptables(
+    pt_list_3_lav
   )
 
-chk_out <- sapply(
-    out1,
-    get_digest
+chk_out <- get_digest_ptables(
+    out1
   )
 
 expect_setequal(
@@ -102,9 +100,8 @@ out_p1 <- eq_models(
         )
 out_p1
 
-chk_out_p1 <- sapply(
-    out_p1,
-    get_digest
+chk_out_p1 <- get_digest_ptables(
+    out_p1
   )
 
 expect_setequal(

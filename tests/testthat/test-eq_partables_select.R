@@ -53,8 +53,8 @@ out2 <- models_have_pars_any(
   pars = c("fx~fm", "fx~~fm")
 )
 expect_setequal(
-  unname(sapply(chk, get_digest)),
-  unname(sapply(out2, get_digest))
+  unname(get_digest_ptables(chk)),
+  unname(get_digest_ptables(out2))
 )
 
 # all
@@ -87,8 +87,8 @@ out2 <- models_have_pars_none(
   pars = c("fm~~fy", "fx~fm")
 )
 expect_setequal(
-  unname(sapply(chk, get_digest)),
-  unname(sapply(out2, get_digest))
+  unname(get_digest_ptables(chk)),
+  unname(get_digest_ptables(out2))
 )
 
 # Zero length
