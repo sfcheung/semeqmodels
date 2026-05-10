@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9016
+# semeqmodels 0.0.0.9017
 
 - Initialize the package.
   (0.0.0.9000)
@@ -130,3 +130,11 @@
 
 - Exported `digest_ptable()` and friends.
   (0.0.0.9016)
+
+- Renamed all instances of `ptable`
+  and `ptables` to `partable` and
+  `partables`, respectively.
+  Using both versions is confusing.
+  Use only `partable` and `partables`
+  from now on.
+  (0.0.0.9017)
