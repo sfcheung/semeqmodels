@@ -8,6 +8,7 @@
 \alias{have_pars_all}
 \alias{have_pars_any}
 \alias{have_pars_none}
+\alias{remove_x_y_ecov}
 \title{Select Parameter Tables}
 \usage{
 models_have_pars_all(partables, pars = NULL)
@@ -21,6 +22,8 @@ have_pars_all(partables, pars = NULL)
 have_pars_any(partables, pars = NULL)
 
 have_pars_none(partables, pars = NULL)
+
+remove_x_y_ecov(partables)
 }
 \arguments{
 \item{partables}{A list of parameter
@@ -66,6 +69,10 @@ The function \code{\link[=have_pars_none]{have_pars_none()}} returns
 a logical vector to indicate models
 that have none of the free parameters
 specified.
+
+The function \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}
+return a list of parameter tables,
+of the same class as \code{partables}.
 }
 \description{
 Helper functions to
@@ -87,6 +94,12 @@ The functions \code{\link[=models_have_pars_none]{models_have_pars_none()}}
 and \code{\link[=have_pars_none]{have_pars_none()}} identify models
 that have all none of the free parameters
 specified in \code{pars}.
+
+The function \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}
+remove models from \code{partables} that
+have one or more covariances between
+an exogenous variable (observed
+or latent) and an error term.
 }
 \examples{
 

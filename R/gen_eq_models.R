@@ -204,8 +204,7 @@ eq_df_models <- function(
 
       tmp <- length(out_drop_i)
       out_drop_i <- remove_x_y_ecov(
-          out_drop_i,
-          progress = FALSE
+          out_drop_i
         )
       if ((tmp > length(out_drop_i)) &&
           progress) {
@@ -271,8 +270,7 @@ eq_df_models <- function(
   if (exclude_x_y_ecov) {
     tmp <- length(out)
     out <- remove_x_y_ecov(
-        out,
-        progress = progress
+        out
       )
     if (tmp > length(out)) {
       cat("\n")

@@ -303,3 +303,36 @@ has_par_i <- function(
   }
   isTRUE(out)
 }
+
+#' @details
+#' The function [remove_x_y_ecov()]
+#' remove models from `partables` that
+#' have one or more covariances between
+#' an exogenous variable (observed
+#' or latent) and an error term.
+#'
+#' @return
+#' The function [remove_x_y_ecov()]
+#' return a list of parameter tables,
+#' of the same class as `partables`.
+#'
+#' @rdname partable_select
+#' @export
+remove_x_y_ecov <- function(
+  partables
+) {
+
+  # Remove models with x_y_ecov
+
+  chk <- sapply(
+            partables,
+            has_x_y_ecov
+          )
+  if (any(chk)) {
+    tmp <- class(partables)
+    partables <- partables[!chk]
+    class(partables) <- tmp
+  }
+  partables
+}
+
