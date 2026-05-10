@@ -7,6 +7,9 @@
 \alias{eq_df}
 \alias{eq_chisq}
 \alias{eq_fits}
+\alias{[.eq_partables}
+\alias{[<-.eq_partables}
+\alias{[[<-.eq_partables}
 \title{Helpers for 'eq_partables' Object}
 \usage{
 eq_lavInspect(object, ..., simplify = FALSE)
@@ -18,13 +21,21 @@ eq_df(object)
 eq_chisq(object)
 
 eq_fits(object)
+
+\method{[}{eq_partables}(x, i)
+
+\method{[}{eq_partables}(x, i) <- value
+
+\method{[[}{eq_partables}(x, i) <- value
 }
 \arguments{
 \item{object}{An \code{eq_partables} object.}
 
 \item{...}{Optional arguments to be
 passed to the \code{lavaan} functions
-to be called.}
+to be called. For the subsetting and
+assignment methods, they are arguments
+to be passed to those methods.}
 
 \item{simplify}{To be passed to
 \code{\link[=sapply]{sapply()}}. Note that the default is
@@ -41,6 +52,15 @@ the number of values returned by
 If \code{output_format} is \code{"list"}, then
 the output will be a list of numeric
 vectors.}
+
+\item{x}{A 'eq_partables'-class object.}
+
+\item{i}{A numeric vector of model position(s),
+a character vector of model name(s),
+or a logical vector of model(s) to be selected.}
+
+\item{value}{The value(s) to be
+assigned to the \code{eq_partables} object.}
 }
 \value{
 The function \code{\link[=eq_lavInspect]{eq_lavInspect()}}
@@ -59,6 +79,9 @@ The function \code{\link[=eq_fits]{eq_fits()}} returns a
 list of \code{lavaan} outputs for the
 models in \code{object}. If absent for
 a model, the value returned is \code{NULL}.
+
+The \code{[}, \verb{[<-}, and \verb{[[<-} methods return
+an \code{eq_partables} object.
 }
 \description{
 Helpers to extract information
@@ -87,6 +110,16 @@ always return a numeric vector.
 The function \code{\link[=eq_fits]{eq_fits()}} extracts
 the \code{lavaan} outputs stored for each
 model, if present.
+
+The class \code{eq_partables} has
+\code{[}, \verb{[<-}, and \verb{[[<-} methods for extracting
+and changing elements.
+
+Though available, it is not advised
+to assign models to an \code{eq_partables}
+object because there is no guarantee
+that the names still reflect how the
+models are created.
 }
 \examples{
 

@@ -131,4 +131,41 @@ expect_equal(
   names(out6)
 )
 
+# Subsetting
+
+tmp <- fit_1_more1[2]
+expect_s3_class(tmp, "eq_partables")
+expect_equal(length(tmp), 1)
+expect_equal(get_digest(tmp[[1]]),
+             get_digest(fit_1_more1[[2]]))
+tmp <- fit_1_more1[c(1, 3)]
+expect_s3_class(tmp, "eq_partables")
+expect_equal(length(tmp), 2)
+expect_equal(get_digest(tmp[[2]]),
+             get_digest(fit_1_more1[[3]]))
+tmp <- fit_1_more1[-1]
+expect_s3_class(tmp, "eq_partables")
+expect_equal(length(tmp), 2)
+expect_equal(get_digest(tmp[[1]]),
+             get_digest(fit_1_more1[[2]]))
+
+tmp <- fit_1_more1[[2]]
+expect_s3_class(tmp, "data.frame")
+expect_equal(get_digest(tmp),
+             get_digest(fit_1_more1[[2]]))
+
+# Assignment
+
+tmp <- fit_1_more1
+# expect_warning(tmp[1:3] <- fit_1_more1[3])
+tmp[1:3] <- fit_1_more1[3]
+expect_equal(unique(unname(sapply(tmp, get_digest))),
+             get_digest(fit_1_more1[[3]]))
+
+tmp <- fit_1_more1
+# expect_warning(tmp[[2]] <- fit_1_more1[[3]])
+tmp[[2]] <- fit_1_more1[[3]]
+expect_equal(get_digest(tmp[[2]]),
+             get_digest(fit_1_more1[[3]]))
+
 })
