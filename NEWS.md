@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9015
+# semeqmodels 0.0.0.9016
 
 - Initialize the package.
   (0.0.0.9000)
@@ -119,11 +119,14 @@
   methods for `eq_partables` objects.
   (0.0.0.9014)
 
-- Add functions such as `have_pars_all()`
+- Added functions such as `have_pars_all()`
   and `have_pars_any()` for selecting
   models based on free parameters.
   (0.0.0.9015)
 
-- Add a `print`-method for `eq_partables`
+- Added a `print`-method for `eq_partables`
   objects to handle zero-length lists.
   (0.0.0.9015)
+
+- Exported `digest_ptable()` and friends.
+  (0.0.0.9016)
