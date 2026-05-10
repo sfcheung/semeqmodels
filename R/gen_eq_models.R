@@ -183,7 +183,7 @@ eq_df_models <- function(
       )
     }
 
-    out_drop_i <- combine_ptables(
+    out_drop_i <- combine_partables(
               out_drop_i
             )
     out_drop_i <- setdiff_eq_partables(
@@ -244,7 +244,7 @@ eq_df_models <- function(
       )
     }
 
-    out_add_i <- combine_ptables(
+    out_add_i <- combine_partables(
               out_add_i
             )
     out <- c(out_add_i, out)

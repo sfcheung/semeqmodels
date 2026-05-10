@@ -6,7 +6,7 @@
 \title{Empirical Equivalent Models}
 \usage{
 eq_models(
-  ptables,
+  partables,
   original_model = NULL,
   ...,
   se = "none",
@@ -18,7 +18,7 @@ eq_models(
 )
 
 is_eq(
-  ptables,
+  partables,
   original_model,
   ...,
   se = "none",
@@ -30,7 +30,7 @@ is_eq(
 )
 }
 \arguments{
-\item{ptables}{A list of the class
+\item{partables}{A list of the class
 \code{partables}.}
 
 \item{original_model}{The original
@@ -39,7 +39,7 @@ or its wrapper, such as \code{\link[lavaan:sem]{lavaan::sem()}}.
 If it is a \code{lavaan} parameter table,
 data will be simulated to fit the model.
 If it is omitted, then the first model
-in \code{ptables} will be used.}
+in \code{partables} will be used.}
 
 \item{...}{Optional arguments to be
 used when fitting models to the data.
@@ -171,19 +171,19 @@ fit3_1_more_1_less <- lapply(
 )
 
 # All equivalent
-ptables1 <- combine_ptables(fit1_1_more_1_less)
+partables1 <- combine_partables(fit1_1_more_1_less)
 
 # Some equivalent
-ptables3 <- combine_ptables(fit3_1_more_1_less)
+partables3 <- combine_partables(fit3_1_more_1_less)
 
 eq_out_1 <- eq_models(
-          ptables1,
+          partables1,
           original_model = fit1,
           parallel = FALSE
         )
 
 eq_out_3 <- eq_models(
-          ptables3,
+          partables3,
           original_model = fit3,
           parallel = FALSE
         )

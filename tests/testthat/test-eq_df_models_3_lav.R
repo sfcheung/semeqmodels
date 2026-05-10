@@ -67,11 +67,11 @@ out1
 expect_identical(names(out),
                  names(out1))
 
-chk_expected <- get_digest_ptables(
+chk_expected <- get_digest_partables(
     pt_list_3_lav
   )
 
-chk_out <- get_digest_ptables(
+chk_out <- get_digest_partables(
     out1
   )
 
@@ -100,7 +100,7 @@ out_p1 <- eq_models(
         )
 out_p1
 
-chk_out_p1 <- get_digest_ptables(
+chk_out_p1 <- get_digest_partables(
     out_p1
   )
 

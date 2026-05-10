@@ -165,10 +165,10 @@ drop_k <- function(
   if (inherits(object, "lavaan")) {
     # Ignore sem_out if object is a fit object
     sem_out <- object
-    ptable <- lavaan::parameterTable(sem_out)
+    partable <- lavaan::parameterTable(sem_out)
   } else {
     # Assume it is a parameter table
-    ptable <- object
+    partable <- object
     if (is.null(sem_out) &&
         FALSE) {
       # sem_out takes precedence
@@ -177,21 +177,21 @@ drop_k <- function(
       # TODO:
       # - The following does not work for now.
       #   The call stored cannot be used.
-      sem_out <- attr(ptable, "fit")
+      sem_out <- attr(partable, "fit")
     }
   }
 
   # ==== Update the fit ====
 
   if (is.null(sem_out)) {
-    dat <- dummy_data(ptable)
+    dat <- dummy_data(partable)
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fit <- suppressWarnings(
               do.call(
                 lavaan::sem,
                 list(
-                  model = ptable,
+                  model = partable,
                   data = dat,
                   se = se
                 )
@@ -300,7 +300,7 @@ drop_k <- function(
 #' variable and an error term will not
 #' be added.
 #'
-#' @param ptable_name The name of the
+#' @param partable_name The name of the
 #' original model. Used only if it cannot
 #' be generated from `object`.
 #'
@@ -337,7 +337,7 @@ add_k <- function(
   df_change_add = 1,
   must_not_add = NULL,
   exclude_x_y_ecov = TRUE,
-  ptable_name = NULL,
+  partable_name = NULL,
   se = "none",
   progress = FALSE,
   fit_models = FALSE,
@@ -366,10 +366,10 @@ add_k <- function(
   if (inherits(object, "lavaan")) {
     # Ignore sem_out if object is a fit object
     sem_out <- object
-    ptable <- lavaan::parameterTable(sem_out)
+    partable <- lavaan::parameterTable(sem_out)
   } else {
     # Assume it is a parameter table
-    ptable <- object
+    partable <- object
     if (is.null(sem_out) &&
         FALSE) {
       # sem_out takes precedence
@@ -378,21 +378,21 @@ add_k <- function(
       # TODO:
       # - The following does not work for now.
       #   The call stored cannot be used.
-      sem_out <- attr(ptable, "fit")
+      sem_out <- attr(partable, "fit")
     }
   }
 
   # ==== Update the fit ====
 
   if (is.null(sem_out)) {
-    dat <- dummy_data(ptable)
+    dat <- dummy_data(partable)
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fit <- suppressWarnings(
               do.call(
                 lavaan::sem,
                 list(
-                  model = ptable,
+                  model = partable,
                   data = dat,
                   se = se
                 )
@@ -416,10 +416,10 @@ add_k <- function(
 
   # ==== Remove coefficients fixed to zero ====
 
-  ptable1 <- remove_dropped(ptable)
+  partable1 <- remove_dropped(partable)
 
   if (remove_zeros) {
-    ptable1 <- remove_fixed_zero(ptable)
+    partable1 <- remove_fixed_zero(partable)
   }
 
   # ==== Set must_not_add ====
@@ -428,22 +428,22 @@ add_k <- function(
   # - Remove this option if this is supported
   #   in modelbpp.
 
-  pd <- attr(ptable, "parameters_dropped")
+  pd <- attr(partable, "parameters_dropped")
   if (!is.null(pd)) {
-    ptable_name <- paste0(
+    partable_name <- paste0(
                     "drop: ",
-                    attr(ptable, "parameters_dropped")
+                    attr(partable, "parameters_dropped")
                   )
     must_not_add <- c(must_not_add,
                       pd)
   } else {
-    ptable_name <- "original"
+    partable_name <- "original"
   }
 
   # ==== exclude_x_y_ecov ====
 
   if (exclude_x_y_ecov) {
-    tmp <- x_y_ecov(ptable1)
+    tmp <- x_y_ecov(partable1)
     must_not_add <- c(must_not_add,
                       tmp)
   }
@@ -455,7 +455,7 @@ add_k <- function(
   fit_i <- suppressWarnings(
             lavaan::update(
               object = fit,
-              model = ptable1,
+              model = partable1,
               warn = FALSE
             )
           )
@@ -471,7 +471,7 @@ add_k <- function(
     drop_equivalent_models = FALSE,
     remove_duplicated = TRUE,
     must_not_add = must_not_add,
-    # original = ptable_name,
+    # original = partable_name,
     progress = progress
   )
   args1 <- utils::modifyList(
@@ -497,7 +497,7 @@ add_k <- function(
 
   if (add_name) {
     if (length(out0) > 0) {
-      names(out0) <- paste0(ptable_name,
+      names(out0) <- paste0(partable_name,
                             "; ",
                             names(out0))
     }

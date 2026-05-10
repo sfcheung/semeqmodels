@@ -6,7 +6,7 @@
 #' comparisons.
 #'
 #' @details
-#' The function [digest_ptable()] uses
+#' The function [digest_partable()] uses
 #' [digest::digest()] to compute a
 #' hash value for a parameter, after
 #' sorting some essential columns
@@ -24,11 +24,11 @@
 #' for typical models used in this package.
 #'
 #' @return
-#' The function [digest_ptable()] returns
+#' The function [digest_partable()] returns
 #' a character string, the output of
 #' [digest::digest()].
 #'
-#' @param ptable A `lavaan` parameter
+#' @param partable A `lavaan` parameter
 #' table. If it is a `lavaan` output,
 #' the parameter table will be retrieved
 #' by [lavaan::parameterTable()].
@@ -55,14 +55,14 @@
 #' sorting the rows, if `sort_rows` is
 #' `TRUE`.
 #'
-#' @param ... For [digest_ptable()],
+#' @param ... For [digest_partable()],
 #' these are optional arguments to be
 #' passed to [digest::digest()]. For
 #' [add_digest()], [get_digest()],
-#' [add_digest_ptables()], and
-#' [get_digest_ptables()],
+#' [add_digest_partables()], and
+#' [get_digest_partables()],
 #' these are arguments to be passed to
-#' [digest_ptable()].
+#' [digest_partable()].
 #'
 #' @examples
 #'
@@ -104,12 +104,12 @@
 #' pt1
 #' pt2
 #'
-#' digest_ptable(pt1)
-#' digest_ptable(pt2)
+#' digest_partable(pt1)
+#' digest_partable(pt2)
 #'
 #' @export
-digest_ptable <- function(
-  ptable,
+digest_partable <- function(
+  partable,
   cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart", "start"),
   digits = 6,
   sort_rows = TRUE,
@@ -123,18 +123,18 @@ digest_ptable <- function(
   # TODO:
   # - Handle labels and constraint
 
-  if (inherits(ptable, "lavaan")) {
-    ptable <- lavaan::parameterTable(ptable)
+  if (inherits(partable, "lavaan")) {
+    partable <- lavaan::parameterTable(partable)
   }
 
   if (sort_rows) {
-    ptable <- sort_ptable(
-              ptable = ptable,
+    partable <- sort_partable(
+              partable = partable,
               cols = sort_by
             )
   }
 
-  out0 <- ptable[, cols]
+  out0 <- partable[, cols]
   out0 <- as.data.frame(out0)
   row.names(out0) <- NULL
   i_free <- which(out0$free > 0)
@@ -163,10 +163,10 @@ digest_ptable <- function(
 #' hash value stored in the attribute
 #' `"digest"`.
 #'
-#' @rdname digest_ptable
+#' @rdname digest_partable
 #' @export
 add_digest <- function(
-  ptable,
+  partable,
   ...
 ) {
 
@@ -175,48 +175,48 @@ add_digest <- function(
   # the value added as the attribute "digest"
 
   # out0 <- do.call(
-  #           sort_ptable,
-  #           c(list(ptable = ptable),
-  #             args_sort_ptable)
+  #           sort_partable,
+  #           c(list(partable = partable),
+  #             args_sort_partable)
   #         )
   # out1 <- do.call(
-  #           digest_ptable,
-  #           c(list(ptable = out0),
-  #             args_digest_ptable)
+  #           digest_partable,
+  #           c(list(partable = out0),
+  #             args_digest_partable)
   #         )
-  out1 <- digest_ptable(
-            ptable = ptable,
+  out1 <- digest_partable(
+            partable = partable,
             ...
           )
-  attr(ptable, "digest") <- out1
-  ptable
+  attr(partable, "digest") <- out1
+  partable
 }
 
 #' @details
 #' The function [get_digest()] retrieves
 #' the stored hash value from a
 #' parameter table, if available. If
-#' not available, it will call [digest_ptable()]
+#' not available, it will call [digest_partable()]
 #' to compute the hash value.
 #'
 #' @return
 #' The function [get_digest()] returns
 #' the hash value of a parameter table.
 #'
-#' @rdname digest_ptable
+#' @rdname digest_partable
 #' @export
 get_digest <- function(
-  ptable,
+  partable,
   ...
 ) {
 
   # Retrieve the digest value, if available.
   # If not available, compute it.
 
-  out <- attr(ptable, "digest")
+  out <- attr(partable, "digest")
   if (is.null(out)) {
-    out <- digest_ptable(
-              ptable = ptable,
+    out <- digest_partable(
+              partable = partable,
               ...
             )
   }
@@ -224,57 +224,57 @@ get_digest <- function(
 }
 
 #' @details
-#' The function [add_digest_ptables]
+#' The function [add_digest_partables]
 #' call [add_digest()] on a list of
 #' parameter tables.
 #'
 #' @return
-#' The function [add_digest_ptables]
+#' The function [add_digest_partables]
 #' returns the list of parameter tables,
 #' with hash values stored.
 #'
-#' @param ptables A list of `lavaan`
+#' @param partables A list of `lavaan`
 #' parameter tables.
 #'
-#' @rdname digest_ptable
+#' @rdname digest_partable
 #' @export
-add_digest_ptables <- function(
-  ptables,
+add_digest_partables <- function(
+  partables,
   ...
 ) {
   # TOOD:
   # - Add some sanity checks.
   out0 <- lapply(
-    ptables,
+    partables,
     add_digest,
     ...
   )
-  class(out0) <- class(ptables)
+  class(out0) <- class(partables)
   out0
 }
 
 
 #' @details
-#' The function [get_digest_ptables]
+#' The function [get_digest_partables]
 #' call [get_digest()] on a list of
 #' parameter tables.
 #'
 #' @return
-#' The function [get_digest_ptables]
+#' The function [get_digest_partables]
 #' returns a character vector, the
 #' outputs of [get_digest()] for the
 #' parameter tables.
 #'
-#' @rdname digest_ptable
+#' @rdname digest_partable
 #' @export
-get_digest_ptables <- function(
-  ptables,
+get_digest_partables <- function(
+  partables,
   ...
 ) {
   # TOOD:
   # - Add some sanity checks.
   out0 <- sapply(
-    ptables,
+    partables,
     get_digest,
     ...
   )
@@ -282,8 +282,8 @@ get_digest_ptables <- function(
 }
 
 #' @noRd
-sort_ptable <- function(
-  ptable,
+sort_partable <- function(
+  partable,
   cols = c("lhs", "op", "rhs", "block", "group")
 ) {
   # Sort a parameter table
@@ -294,8 +294,8 @@ sort_ptable <- function(
   # Sort rows in a parameter table.
   i <- do.call(
             order,
-            ptable[, cols]
+            partable[, cols]
           )
-  out0 <- ptable[i, ]
+  out0 <- partable[i, ]
   out0
 }
