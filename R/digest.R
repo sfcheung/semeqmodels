@@ -58,7 +58,9 @@
 #' @param ... For [digest_ptable()],
 #' these are optional arguments to be
 #' passed to [digest::digest()]. For
-#' [add_digest()] and [get_digest()],
+#' [add_digest()], [get_digest()],
+#' [add_digest_ptables()], and
+#' [get_digest_ptables()],
 #' these are arguments to be passed to
 #' [digest_ptable()].
 #'
@@ -219,6 +221,64 @@ get_digest <- function(
             )
   }
   out
+}
+
+#' @details
+#' The function [add_digest_ptables]
+#' call [add_digest()] on a list of
+#' parameter tables.
+#'
+#' @return
+#' The function [add_digest_ptables]
+#' returns the list of parameter tables,
+#' with hash values stored.
+#'
+#' @param ptables A list of `lavaan`
+#' parameter tables.
+#'
+#' @rdname digest_ptable
+#' @export
+add_digest_ptables <- function(
+  ptables,
+  ...
+) {
+  # TOOD:
+  # - Add some sanity checks.
+  out0 <- lapply(
+    ptables,
+    add_digest,
+    ...
+  )
+  class(out0) <- class(ptables)
+  out0
+}
+
+
+#' @details
+#' The function [get_digest_ptables]
+#' call [get_digest()] on a list of
+#' parameter tables.
+#'
+#' @return
+#' The function [get_digest_ptables]
+#' returns a character vector, the
+#' outputs of [get_digest()] for the
+#' parameter tables.
+#'
+#' @rdname digest_ptable
+#' @export
+get_digest_ptables <- function(
+  ptables,
+  ...
+) {
+  # TOOD:
+  # - Add some sanity checks.
+  out0 <- sapply(
+    ptables,
+    get_digest,
+    ...
+  )
+  out0
 }
 
 #' @noRd

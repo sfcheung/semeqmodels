@@ -4,6 +4,8 @@
 \alias{digest_ptable}
 \alias{add_digest}
 \alias{get_digest}
+\alias{add_digest_ptables}
+\alias{get_digest_ptables}
 \title{Helpers to Compare Parameter Tables}
 \usage{
 digest_ptable(
@@ -18,6 +20,10 @@ digest_ptable(
 add_digest(ptable, ...)
 
 get_digest(ptable, ...)
+
+add_digest_ptables(ptables, ...)
+
+get_digest_ptables(ptables, ...)
 }
 \arguments{
 \item{ptable}{A \code{lavaan} parameter
@@ -50,9 +56,14 @@ sorting the rows, if \code{sort_rows} is
 \item{...}{For \code{\link[=digest_ptable]{digest_ptable()}},
 these are optional arguments to be
 passed to \code{\link[digest:digest]{digest::digest()}}. For
-\code{\link[=add_digest]{add_digest()}} and \code{\link[=get_digest]{get_digest()}},
+\code{\link[=add_digest]{add_digest()}}, \code{\link[=get_digest]{get_digest()}},
+\code{\link[=add_digest_ptables]{add_digest_ptables()}}, and
+\code{\link[=get_digest_ptables]{get_digest_ptables()}},
 these are arguments to be passed to
 \code{\link[=digest_ptable]{digest_ptable()}}.}
+
+\item{ptables}{A list of \code{lavaan}
+parameter tables.}
 }
 \value{
 The function \code{\link[=digest_ptable]{digest_ptable()}} returns
@@ -66,6 +77,15 @@ hash value stored in the attribute
 
 The function \code{\link[=get_digest]{get_digest()}} returns
 the hash value of a parameter table.
+
+The function \link{add_digest_ptables}
+returns the list of parameter tables,
+with hash values stored.
+
+The function \link{get_digest_ptables}
+returns a character vector, the
+outputs of \code{\link[=get_digest]{get_digest()}} for the
+parameter tables.
 }
 \description{
 Helper functions that
@@ -101,6 +121,14 @@ the stored hash value from a
 parameter table, if available. If
 not available, it will call \code{\link[=digest_ptable]{digest_ptable()}}
 to compute the hash value.
+
+The function \link{add_digest_ptables}
+call \code{\link[=add_digest]{add_digest()}} on a list of
+parameter tables.
+
+The function \link{get_digest_ptables}
+call \code{\link[=get_digest]{get_digest()}} on a list of
+parameter tables.
 }
 \examples{
 

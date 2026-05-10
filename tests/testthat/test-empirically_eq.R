@@ -174,8 +174,8 @@ expect_setequal(
 )
 
 expect_setequal(
-  unname(sapply(eq_out_1, get_digest)),
-  unname(sapply(eq_out_2, get_digest))
+  unname(get_digest_ptables(eq_out_1)),
+  unname(get_digest_ptables(eq_out_2))
 )
 
 eq_out_3 <- eq_models(
