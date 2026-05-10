@@ -89,6 +89,32 @@ combine_ptables <- function(
 }
 
 #' @details
+#' The `print`-method of `eq_partables`
+#' object handles a zero-length list.
+#' If not of zero-length, the `print`-method
+#' for `partables` will be used.
+#'
+#' @return
+#' The `print`-method of `eq_partables`
+#' return `x` invisibly. It is called
+#' for its side-effet.
+#'
+#' @rdname ptable_helpers
+#' @export
+print.eq_partables <- function(
+  x,
+  ...
+) {
+  if (length(x) == 0) {
+    cat("The number of models is zero.\n")
+  } else {
+    NextMethod()
+  }
+  invisible(x)
+}
+
+
+#' @details
 #' The `c`-method of `eq_partables`
 #' object combine `eq_partables` elements
 #' to one single `eq_partables` elements.
@@ -101,7 +127,10 @@ combine_ptables <- function(
 #' @param ... For the `c`-method of
 #' `eq_partables`
 #' object, these are `eq_partables`
-#' objects to be combined.
+#' objects to be combined. For the
+#' `print`-method of `eq_partables`
+#' objects, these arguments are not
+#' used.
 #'
 #' @rdname ptable_helpers
 #' @export

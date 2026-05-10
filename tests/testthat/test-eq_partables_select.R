@@ -64,6 +64,11 @@ out <- have_pars_all(
   pars = c("fx~fm", "fx~~fm")
 )
 expect_all_false(out)
+out2 <- models_have_pars_all(
+  fit_1_more_1_less,
+  pars = c("fx~fm", "fx~~fm")
+)
+expect_true(length(out2) == 0)
 
 # none
 
@@ -85,5 +90,9 @@ expect_setequal(
   unname(sapply(chk, get_digest)),
   unname(sapply(out2, get_digest))
 )
+
+# Zero length
+
+
 
 })

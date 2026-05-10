@@ -3,12 +3,15 @@
 \name{ptable_helpers}
 \alias{ptable_helpers}
 \alias{combine_ptables}
+\alias{print.eq_partables}
 \alias{c.eq_partables}
 \alias{duplicated.eq_partables}
 \alias{unique.eq_partables}
 \title{Parameter Table Helpers}
 \usage{
 combine_ptables(object_list, drop_duplicated = TRUE)
+
+\method{print}{eq_partables}(x, ...)
 
 \method{c}{eq_partables}(..., drop_duplicated = TRUE)
 
@@ -24,12 +27,15 @@ of the class
 \item{drop_duplicated}{Logical. Whether
 duplicated models will be removed.}
 
+\item{x}{An \code{eq_partables} object.}
+
 \item{...}{For the \code{c}-method of
 \code{eq_partables}
 object, these are \code{eq_partables}
-objects to be combined.}
-
-\item{x}{An \code{eq_partables} object.}
+objects to be combined. For the
+\code{print}-method of \code{eq_partables}
+objects, these arguments are not
+used.}
 
 \item{incomparables}{Not used.}
 }
@@ -37,6 +43,10 @@ objects to be combined.}
 The function \code{\link[=combine_ptables]{combine_ptables()}}
 always returns an object of the class
 \code{eq_partables}.
+
+The \code{print}-method of \code{eq_partables}
+return \code{x} invisibly. It is called
+for its side-effet.
 
 The \code{c}-method of \code{eq_partables}
 returns a list of the class
@@ -59,6 +69,11 @@ The function \code{\link[=combine_ptables]{combine_ptables()}}
 combine a list of \code{partables} objects
 or \code{eq_partables} objects
 to one single object of the same type.
+
+The \code{print}-method of \code{eq_partables}
+object handles a zero-length list.
+If not of zero-length, the \code{print}-method
+for \code{partables} will be used.
 
 The \code{c}-method of \code{eq_partables}
 object combine \code{eq_partables} elements
