@@ -275,3 +275,52 @@ setdiff_eq_partables <- function(
   class(out) <- class(x)
   out
 }
+
+#' @details
+#' The function [as_eq_partables()] is
+#' not a usual `as` function. It works
+#' only on a `lavaan` output. It converts
+#' a `lavaan` output to a one-element
+#' list of the class `eq_partables`,
+#' with the parameter table as the
+#' element and the `lavaan` output in
+#' the attribute `"fit"`. If `sem_out`
+#' is not a `lavaan` object, a zero-length
+#' `eq_partables` object will be returned.
+#'
+#' @param sem_out A `lavaan` object.
+#' Can be `NULL`.
+#'
+#' @param model_name The name of the
+#' model in the output.
+#'
+#' @return
+#' The function [as_eq_partables()]
+#' returns a one-element
+#' `eq_partables` object if `sem_out` is
+#' a `lavaan` output. It returns
+#' a zero-length `eq_partables` object
+#' otherwise.
+#'
+#' @rdname partable_helpers
+#' @export
+as_eq_partables <- function(
+  sem_out = NULL,
+  model_name = "original"
+) {
+  # Convert *one* single lavaan object
+  # to an eq_partables object
+  # If sem_out is NULL,
+  # create a zero-length eq_partables object.
+  # For concatenation
+  if (inherits(sem_out, "lavaan")) {
+    pt <- lavaan::parameterTable(sem_out)
+    out <- list(pt)
+    attr(out[[1]], "fit") <- sem_out
+    names(out) <- model_name
+  } else {
+    out <- list()
+  }
+  class(out) <- c("eq_partables", "partables", "list")
+  out
+}

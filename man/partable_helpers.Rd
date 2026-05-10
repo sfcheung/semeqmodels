@@ -8,6 +8,7 @@
 \alias{duplicated.eq_partables}
 \alias{unique.eq_partables}
 \alias{setdiff_eq_partables}
+\alias{as_eq_partables}
 \title{Parameter Table Helpers}
 \usage{
 combine_partables(object_list, drop_duplicated = TRUE)
@@ -21,6 +22,8 @@ combine_partables(object_list, drop_duplicated = TRUE)
 \method{unique}{eq_partables}(x, incomparables = FALSE, ...)
 
 setdiff_eq_partables(x, y)
+
+as_eq_partables(sem_out = NULL, model_name = "original")
 }
 \arguments{
 \item{object_list}{A list of objects
@@ -43,6 +46,12 @@ used.}
 \item{incomparables}{Not used.}
 
 \item{y}{An \code{eq_partables} object.}
+
+\item{sem_out}{A \code{lavaan} object.
+Can be \code{NULL}.}
+
+\item{model_name}{The name of the
+model in the output.}
 }
 \value{
 The function \code{\link[=combine_partables]{combine_partables()}}
@@ -69,6 +78,13 @@ The function \code{\link[=setdiff_eq_partables]{setdiff_eq_partables()}}
 returns a list of parameter tables,
 of the same class of \code{x}, with models
 present in \code{y} removed.
+
+The function \code{\link[=as_eq_partables]{as_eq_partables()}}
+returns a one-element
+\code{eq_partables} object if \code{sem_out} is
+a \code{lavaan} output. It returns
+a zero-length \code{eq_partables} object
+otherwise.
 }
 \description{
 Helper functions to
@@ -102,6 +118,17 @@ duplicated models, if any, removed.
 The function \code{\link[=setdiff_eq_partables]{setdiff_eq_partables()}}
 removes from \code{x} models that are
 also in \code{y}.
+
+The function \code{\link[=as_eq_partables]{as_eq_partables()}} is
+not a usual \code{as} function. It works
+only on a \code{lavaan} output. It converts
+a \code{lavaan} output to a one-element
+list of the class \code{eq_partables},
+with the parameter table as the
+element and the \code{lavaan} output in
+the attribute \code{"fit"}. If \code{sem_out}
+is not a \code{lavaan} object, a zero-length
+\code{eq_partables} object will be returned.
 }
 \examples{
 
