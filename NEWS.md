@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9013
+# semeqmodels 0.0.0.9014
 
 - Initialize the package.
   (0.0.0.9000)
@@ -114,3 +114,7 @@
 - Updated `eq_df_models()` to support
   parallel processing.
   (0.0.0.9013)
+
+- Added a few subsetting and assingment
+  methods for `eq_partables` objects.
+  (0.0.0.9014)
