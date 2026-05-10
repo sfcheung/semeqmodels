@@ -7,6 +7,7 @@
 \alias{c.eq_partables}
 \alias{duplicated.eq_partables}
 \alias{unique.eq_partables}
+\alias{setdiff_eq_partables}
 \title{Parameter Table Helpers}
 \usage{
 combine_partables(object_list, drop_duplicated = TRUE)
@@ -18,6 +19,8 @@ combine_partables(object_list, drop_duplicated = TRUE)
 \method{duplicated}{eq_partables}(x, incomparables = FALSE, ...)
 
 \method{unique}{eq_partables}(x, incomparables = FALSE, ...)
+
+setdiff_eq_partables(x, y)
 }
 \arguments{
 \item{object_list}{A list of objects
@@ -38,6 +41,8 @@ objects, these arguments are not
 used.}
 
 \item{incomparables}{Not used.}
+
+\item{y}{An \code{eq_partables} object.}
 }
 \value{
 The function \code{\link[=combine_partables]{combine_partables()}}
@@ -59,6 +64,11 @@ to other models earlier in the list.
 
 The \code{unique}-method of \code{eq_partables}
 returns  an \code{eq_partables} object.
+
+The function \code{\link[=setdiff_eq_partables]{setdiff_eq_partables()}}
+returns a list of parameter tables,
+of the same class of \code{x}, with models
+present in \code{y} removed.
 }
 \description{
 Helper functions to
@@ -88,6 +98,10 @@ will be denoted as duplicated.
 The \code{unique}-method of \code{eq_partables}
 returns an \code{eq_partables} object with
 duplicated models, if any, removed.
+
+The function \code{\link[=setdiff_eq_partables]{setdiff_eq_partables()}}
+removes from \code{x} models that are
+also in \code{y}.
 }
 \examples{
 

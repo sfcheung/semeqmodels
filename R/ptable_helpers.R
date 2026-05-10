@@ -241,7 +241,21 @@ unlist_eq_partables <- function(x) {
   out
 }
 
-#' @noRd
+#' @param y An `eq_partables` object.
+#'
+#' @details
+#' The function [setdiff_eq_partables()]
+#' removes from `x` models that are
+#' also in `y`.
+#'
+#' @return
+#' The function [setdiff_eq_partables()]
+#' returns a list of parameter tables,
+#' of the same class of `x`, with models
+#' present in `y` removed.
+#'
+#' @rdname partable_helpers
+#' @export
 setdiff_eq_partables <- function(
   x,
   y
