@@ -33,16 +33,16 @@ pt2 <- parameterTable(fit2)
 
 expect_false(identical(pt1, pt2))
 
-pt1a <- sort_ptable(pt1)
-pt2a <- sort_ptable(pt2)
+pt1a <- sort_partable(pt1)
+pt2a <- sort_partable(pt2)
 
 cols0 <- c("lhs", "op", "rhs", "block", "group", "ustart")
 expect_equal(pt1a[, cols0],
              pt2a[, cols0],
              ignore_attr = TRUE)
 
-pt1a_digest <- digest_ptable(pt1a)
-pt2a_digest <- digest_ptable(pt2a)
+pt1a_digest <- digest_partable(pt1a)
+pt2a_digest <- digest_partable(pt2a)
 
 pt1b <- add_digest(pt1)
 pt2b <- add_digest(pt2)

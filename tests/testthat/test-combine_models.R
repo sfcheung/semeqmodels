@@ -24,7 +24,7 @@ fit_1_more_1_less <- lapply(
   add_k
 )
 
-out0 <- combine_ptables(fit_1_more_1_less)
+out0 <- combine_partables(fit_1_more_1_less)
 
 tmp <- sapply(
         out0,

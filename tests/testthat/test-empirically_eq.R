@@ -87,19 +87,19 @@ fit3_1_more_1_less <- lapply(
 # ==== Parameter Tables ====
 
 # All equivalent
-ptables1 <- combine_ptables(fit1_1_more_1_less)
+partables1 <- combine_partables(fit1_1_more_1_less)
 
 # Some not equivalent
-ptables12 <- combine_ptables(c(fit1_1_more_1_less,
+partables12 <- combine_partables(c(fit1_1_more_1_less,
                                fit2_1_more_1_less))
 
 # All equivalent
-ptables3 <- combine_ptables(fit3_1_more_1_less)
+partables3 <- combine_partables(fit3_1_more_1_less)
 
 # ==== Fits ====
 
 fits1 <- lapply(
-  ptables1,
+  partables1,
   \(x) lavaan::update(fit1,
                       model = x)
 )
@@ -117,7 +117,7 @@ chisq1 <- sapply(
 chisq1
 
 fits12 <- lapply(
-  ptables12,
+  partables12,
   \(x) lavaan::update(fit1,
                       model = x)
 )
@@ -135,7 +135,7 @@ chisq12 <- sapply(
 chisq12
 
 fits3 <- lapply(
-  ptables3,
+  partables3,
   \(x) lavaan::update(fit3,
                       model = x)
 )
@@ -152,17 +152,17 @@ chisq3 <- sapply(
       )
 chisq3
 
-# ==== Inputs: list of ptables, lavaan ====
+# ==== Inputs: list of partables, lavaan ====
 
 eq_out_1 <- eq_models(
-          ptables1,
+          partables1,
           original_model = fit1,
           parallel = FALSE,
           progress = !is_testing()
         )
 
 eq_out_2 <- eq_models(
-          ptables12,
+          partables12,
           original_model = fit1,
           parallel = FALSE,
           progress = !is_testing()
@@ -174,12 +174,12 @@ expect_setequal(
 )
 
 expect_setequal(
-  unname(get_digest_ptables(eq_out_1)),
-  unname(get_digest_ptables(eq_out_2))
+  unname(get_digest_partables(eq_out_1)),
+  unname(get_digest_partables(eq_out_2))
 )
 
 eq_out_3 <- eq_models(
-          ptables3,
+          partables3,
           original_model = fit3,
           parallel = FALSE,
           progress = !is_testing()
@@ -187,10 +187,10 @@ eq_out_3 <- eq_models(
 
 expect_true(length(eq_out_3) == 1)
 
-# ==== Inputs: list of ptables, no lavaan ====
+# ==== Inputs: list of partables, no lavaan ====
 
 eq_out_1b <- eq_models(
-          ptables1,
+          partables1,
           parallel = FALSE,
           progress = !is_testing()
         )
@@ -199,17 +199,17 @@ expect_setequal(names(eq_out_1),
                 names(eq_out_1b))
 
 eq_out_3b <- eq_models(
-          ptables3,
+          partables3,
           parallel = FALSE,
           progress = !is_testing()
         )
 expect_setequal(names(eq_out_3),
                 names(eq_out_3b))
 
-# ==== Inputs: list of ptables, ptable ====
+# ==== Inputs: list of partables, partable ====
 
 eq_out_1c <- eq_models(
-          ptables1,
+          partables1,
           original_model = parameterTable(fit1),
           parallel = FALSE,
           progress = !is_testing()
@@ -219,7 +219,7 @@ expect_setequal(names(eq_out_1),
                 names(eq_out_1c))
 
 eq_out_3c <- eq_models(
-          ptables3,
+          partables3,
           original_model = parameterTable(fit3),
           parallel = FALSE,
           progress = !is_testing()
@@ -230,14 +230,14 @@ expect_setequal(names(eq_out_3),
 # ==== With fit ====
 
 # All equivalent
-ptables1_with_fit <- combine_ptables(fit1_1_more_1_less_with_fit)
+partables1_with_fit <- combine_partables(fit1_1_more_1_less_with_fit)
 
-expect_false(eq_same_data(ptables1_with_fit))
+expect_false(eq_same_data(partables1_with_fit))
 expect_true(eq_same_data(fit1_1_more_1_less_with_fit[[1]]))
 expect_true(eq_same_data(fit1_1_more_1_less_with_fit[[2]]))
 
 eq_out_1_fit <- eq_models(
-          ptables1_with_fit,
+          partables1_with_fit,
           parallel = FALSE,
           progress = !is_testing()
         )
@@ -245,7 +245,7 @@ eq_out_1_fit <- eq_models(
 expect_true(eq_same_data(eq_out_1_fit))
 
 eq_out_1_fit2 <- eq_models(
-          ptables1_with_fit,
+          partables1_with_fit,
           original_model = fit1,
           parallel = FALSE,
           progress = !is_testing()

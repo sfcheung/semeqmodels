@@ -4,7 +4,7 @@
 #' select parameter tables based on
 #' parameters.
 #'
-#' @name ptable_select
+#' @name partable_select
 NULL
 
 #' @details
@@ -23,7 +23,7 @@ NULL
 #' that have all the free parameters
 #' specified.
 #'
-#' @param ptables A list of parameter
+#' @param partables A list of parameter
 #' tables, such as a
 #' `partables` or `eq_partables` object.
 #'
@@ -63,23 +63,23 @@ NULL
 #'   add_k
 #' )
 #'
-#' ptables1 <- combine_ptables(fit1_1_more_1_less)
-#' ptables1
+#' partables1 <- combine_partables(fit1_1_more_1_less)
+#' partables1
 #'
-#' models_have_pars_all(ptables1, c("fx ~~ fm", "fy ~ fx"))
-#' have_pars_all(ptables1, c("fx ~~ fm", "fy ~ fx"))
+#' models_have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
+#' have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
 #'
-#' @rdname ptable_select
+#' @rdname partable_select
 #' @export
 models_have_pars_all <- function(
-  ptables,
+  partables,
   pars = NULL
 ) {
   have_pars(
-    ptables = ptables,
+    partables = partables,
     pars = pars,
     mode = "all",
-    output = "ptables"
+    output = "partables"
   )
 }
 
@@ -101,20 +101,20 @@ models_have_pars_all <- function(
 #'
 #' @examples
 #'
-#' models_have_pars_any(ptables1, c("fx ~~ fm", "fm ~ fy"))
-#' have_pars_any(ptables1, c("fx ~~ fm", "fm ~ fx"))
+#' models_have_pars_any(partables1, c("fx ~~ fm", "fm ~ fy"))
+#' have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"))
 #'
-#' @rdname ptable_select
+#' @rdname partable_select
 #' @export
 models_have_pars_any <- function(
-  ptables,
+  partables,
   pars = NULL
 ) {
   have_pars(
-    ptables = ptables,
+    partables = partables,
     pars = pars,
     mode = "any",
-    output = "ptables"
+    output = "partables"
   )
 }
 
@@ -136,59 +136,59 @@ models_have_pars_any <- function(
 #'
 #' @examples
 #'
-#' models_have_pars_none(ptables1, c("fx ~~ fm", "fm ~ fx"))
-#' have_pars_none(ptables1, c("fx ~~ fm", "fm ~ fx"))
+#' models_have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
+#' have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
 #'
-#' @rdname ptable_select
+#' @rdname partable_select
 #' @export
 models_have_pars_none <- function(
-  ptables,
+  partables,
   pars = NULL
 ) {
   have_pars(
-    ptables = ptables,
+    partables = partables,
     pars = pars,
     mode = "none",
-    output = "ptables"
+    output = "partables"
   )
 }
 
-#' @rdname ptable_select
+#' @rdname partable_select
 #' @export
 have_pars_all <- function(
-  ptables,
+  partables,
   pars = NULL
 ) {
   have_pars(
-    ptables = ptables,
+    partables = partables,
     pars = pars,
     mode = "all",
     output = "logical"
   )
 }
 
-#' @rdname ptable_select
+#' @rdname partable_select
 #' @export
 have_pars_any <- function(
-  ptables,
+  partables,
   pars = NULL
 ) {
   have_pars(
-    ptables = ptables,
+    partables = partables,
     pars = pars,
     mode = "any",
     output = "logical"
   )
 }
 
-#' @rdname ptable_select
+#' @rdname partable_select
 #' @export
 have_pars_none <- function(
-  ptables,
+  partables,
   pars = NULL
 ) {
   have_pars(
-    ptables = ptables,
+    partables = partables,
     pars = pars,
     mode = "none",
     output = "logical"
@@ -197,10 +197,10 @@ have_pars_none <- function(
 
 #' @noRd
 have_pars <- function(
-  ptables,
+  partables,
   pars = NULL,
   mode = c("any", "all", "none"),
-  output = c("logical", "models", "ptables")
+  output = c("logical", "models", "partables")
 ) {
   # Which models in the list:
   # - has any/all/none of the parameters?
@@ -212,12 +212,12 @@ have_pars <- function(
   }
   output <- match.arg(output)
   if (output == "models") {
-    output <- "ptables"
+    output <- "partables"
   }
   if (!is.null(pars)) {
     pars_lav_list <- parse_pars_to_list(pars)
     out <- sapply(
-      ptables,
+      partables,
       has_pars_i,
       pars_lav_list = pars_lav_list,
       mode = mode
@@ -226,13 +226,13 @@ have_pars <- function(
       out <- !out
     }
   } else {
-    out <- rep(TRUE, length(ptables))
-    names(out) <- names(ptables)
+    out <- rep(TRUE, length(partables))
+    names(out) <- names(partables)
   }
   out1 <- switch(
     output,
     logical = out,
-    ptables = ptables[out]
+    partables = partables[out]
   )
   out1
 }
@@ -256,7 +256,7 @@ parse_pars_to_list <- function(
 
 #' @noRd
 has_pars_i <- function(
-  ptable,
+  partable,
   pars_lav_list,
   mode = c("any", "all")
 ) {
@@ -265,7 +265,7 @@ has_pars_i <- function(
   out0 <- sapply(
     pars_lav_list,
     has_par_i,
-    ptable = ptable
+    partable = partable
   )
   if (mode == "any") {
     out1 <- any(out0)
@@ -277,28 +277,28 @@ has_pars_i <- function(
 
 #' @noRd
 has_par_i <- function(
-  ptable,
+  partable,
   par
 ) {
   # Does a model has parameter par as a free parameter?
-  # ptable is a parameter table of a model
+  # partable is a parameter table of a model
   # par must be a one-row parameter table
   op <- par$op
   if (op == "~~") {
-    i1 <- (ptable$op == par$op) &
-          (ptable$lhs == par$lhs) &
-          (ptable$rhs == par$rhs) &
-          (ptable$free > 0)
-    i2 <- (ptable$op == par$op) &
-          (ptable$lhs == par$rhs) &
-          (ptable$rhs == par$lhs) &
-          (ptable$free > 0)
+    i1 <- (partable$op == par$op) &
+          (partable$lhs == par$lhs) &
+          (partable$rhs == par$rhs) &
+          (partable$free > 0)
+    i2 <- (partable$op == par$op) &
+          (partable$lhs == par$rhs) &
+          (partable$rhs == par$lhs) &
+          (partable$free > 0)
     out <- any(i1 | i2)
   } else {
-    i1 <- (ptable$op == par$op) &
-          (ptable$lhs == par$lhs) &
-          (ptable$rhs == par$rhs) &
-          (ptable$free > 0 )
+    i1 <- (partable$op == par$op) &
+          (partable$lhs == par$lhs) &
+          (partable$rhs == par$rhs) &
+          (partable$free > 0 )
     out <- any(i1)
   }
   isTRUE(out)

@@ -3,17 +3,17 @@
 #' @description Helper functions to
 #' manipulate parameter tables.
 #'
-#' @name ptable_helpers
+#' @name partable_helpers
 NULL
 
 #' @details
-#' The function [combine_ptables()]
+#' The function [combine_partables()]
 #' combine a list of `partables` objects
 #' or `eq_partables` objects
 #' to one single object of the same type.
 #'
 #' @return
-#' The function [combine_ptables()]
+#' The function [combine_partables()]
 #' always returns an object of the class
 #' `eq_partables`.
 #'
@@ -48,12 +48,12 @@ NULL
 #'   add_k
 #' )
 #'
-#' ptables1 <- combine_ptables(fit1_1_more_1_less)
-#' ptables1
+#' partables1 <- combine_partables(fit1_1_more_1_less)
+#' partables1
 #'
-#' @rdname ptable_helpers
+#' @rdname partable_helpers
 #' @export
-combine_ptables <- function(
+combine_partables <- function(
   object_list,
   drop_duplicated = TRUE
 ) {
@@ -99,7 +99,7 @@ combine_ptables <- function(
 #' return `x` invisibly. It is called
 #' for its side-effet.
 #'
-#' @rdname ptable_helpers
+#' @rdname partable_helpers
 #' @export
 print.eq_partables <- function(
   x,
@@ -132,7 +132,7 @@ print.eq_partables <- function(
 #' objects, these arguments are not
 #' used.
 #'
-#' @rdname ptable_helpers
+#' @rdname partable_helpers
 #' @export
 c.eq_partables <- function(
   ...,
@@ -171,7 +171,7 @@ c.eq_partables <- function(
 #'
 #' @param incomparables Not used.
 #'
-#' @rdname ptable_helpers
+#' @rdname partable_helpers
 #' @export
 duplicated.eq_partables <- function(
   x,
@@ -194,7 +194,7 @@ duplicated.eq_partables <- function(
 #' The `unique`-method of `eq_partables`
 #' returns  an `eq_partables` object.
 #'
-#' @rdname ptable_helpers
+#' @rdname partable_helpers
 #' @export
 unique.eq_partables <- function(
   x,

@@ -56,11 +56,11 @@ expect_identical(names(out),
 length(pt_list_4_lav)
 length(out1)
 
-chk_expected <- get_digest_ptables(
+chk_expected <- get_digest_partables(
     pt_list_4_lav
   )
 
-chk_out <- get_digest_ptables(
+chk_out <- get_digest_partables(
     out1
   )
 

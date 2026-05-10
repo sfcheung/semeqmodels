@@ -29,7 +29,7 @@ add_k(
   df_change_add = 1,
   must_not_add = NULL,
   exclude_x_y_ecov = TRUE,
-  ptable_name = NULL,
+  partable_name = NULL,
   se = "none",
   progress = FALSE,
   fit_models = FALSE,
@@ -125,7 +125,7 @@ covariances between an exogenous
 variable and an error term will not
 be added.}
 
-\item{ptable_name}{The name of the
+\item{partable_name}{The name of the
 original model. Used only if it cannot
 be generated from \code{object}.}
 

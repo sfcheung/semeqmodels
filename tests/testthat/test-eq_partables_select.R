@@ -32,7 +32,7 @@ fit_1_more_1_less <- lapply(
   parallel = FALSE
 )
 
-fit_1_more_1_less <- combine_ptables(fit_1_more_1_less)
+fit_1_more_1_less <- combine_partables(fit_1_more_1_less)
 
 # Tests
 
@@ -53,8 +53,8 @@ out2 <- models_have_pars_any(
   pars = c("fx~fm", "fx~~fm")
 )
 expect_setequal(
-  unname(get_digest_ptables(chk)),
-  unname(get_digest_ptables(out2))
+  unname(get_digest_partables(chk)),
+  unname(get_digest_partables(out2))
 )
 
 # all
@@ -87,8 +87,8 @@ out2 <- models_have_pars_none(
   pars = c("fm~~fy", "fx~fm")
 )
 expect_setequal(
-  unname(get_digest_ptables(chk)),
-  unname(get_digest_ptables(out2))
+  unname(get_digest_partables(chk)),
+  unname(get_digest_partables(out2))
 )
 
 # Zero length

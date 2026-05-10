@@ -35,7 +35,7 @@
 #' of models that are empirically
 #' equivalent to the original model.
 #'
-#' @param ptables A list of the class
+#' @param partables A list of the class
 #' `partables`.
 #'
 #' @param original_model The original
@@ -44,7 +44,7 @@
 #' If it is a `lavaan` parameter table,
 #' data will be simulated to fit the model.
 #' If it is omitted, then the first model
-#' in `ptables` will be used.
+#' in `partables` will be used.
 #'
 #' @param ... Optional arguments to be
 #' used when fitting models to the data.
@@ -142,26 +142,26 @@
 #' )
 #'
 #' # All equivalent
-#' ptables1 <- combine_ptables(fit1_1_more_1_less)
+#' partables1 <- combine_partables(fit1_1_more_1_less)
 #'
 #' # Some equivalent
-#' ptables3 <- combine_ptables(fit3_1_more_1_less)
+#' partables3 <- combine_partables(fit3_1_more_1_less)
 #'
 #' eq_out_1 <- eq_models(
-#'           ptables1,
+#'           partables1,
 #'           original_model = fit1,
 #'           parallel = FALSE
 #'         )
 #'
 #' eq_out_3 <- eq_models(
-#'           ptables3,
+#'           partables3,
 #'           original_model = fit3,
 #'           parallel = FALSE
 #'         )
 #'
 #' @export
 eq_models <- function(
-  ptables,
+  partables,
   original_model = NULL,
   ...,
   se = "none",
@@ -210,7 +210,7 @@ eq_models <- function(
 #' @rdname eq_models
 #' @export
 is_eq <- function(
-  ptables,
+  partables,
   original_model,
   ...,
   se = "none",
@@ -244,7 +244,7 @@ is_eq <- function(
 
 #' @noRd
 eq_models_internal <- function(
-  ptables,
+  partables,
   original_model = NULL,
   ...,
   se = "none",
@@ -266,16 +266,16 @@ eq_models_internal <- function(
   # - Empirical in-sample equivalence is used for now,
   #   not mathematical equivalence.
 
-  # Assume ptables are unique
+  # Assume partables are unique
   # TODO:
-  # - Keep only unique ptables
+  # - Keep only unique partables
 
   output <- match.arg(output)
 
   # ==== Handle 'original_model' ====
 
   sem_out1 <- emp_eq_fix_input(
-    ptables = ptables,
+    partables = partables,
     original_model = original_model,
     ...,
     se = se,
@@ -293,23 +293,23 @@ eq_models_internal <- function(
 
   # ==== Handle eq_partables =====
 
-  if (inherits(ptables, "eq_partables")) {
-    fits <- eq_fits(ptables)
+  if (inherits(partables, "eq_partables")) {
+    fits <- eq_fits(partables)
     fits_is_lavaan <- sapply(
             fits,
             inherits,
             what = "lavaan"
           )
     if (all(fits_is_lavaan)) {
-      fits_same_data <- eq_same_data(ptables)
+      fits_same_data <- eq_same_data(partables)
     } else {
       fits_same_data <- FALSE
     }
     if (all(fits_is_lavaan) &&
         fits_same_data) {
       do_fit_many <- FALSE
-      dfs <- eq_df(ptables)
-      chisqs <- eq_chisq(ptables)
+      dfs <- eq_df(partables)
+      chisqs <- eq_chisq(partables)
     }
   }
 
@@ -320,7 +320,7 @@ eq_models_internal <- function(
 
   if (do_fit_many) {
     fits <- suppressWarnings(modelbpp::fit_many(
-              model_list = ptables,
+              model_list = partables,
               sem_out = sem_out1,
               parallel = parallel,
               ncores = ncores,
@@ -335,8 +335,8 @@ eq_models_internal <- function(
       fits$fit,
       function(x) lavaan::fitMeasures(x, "chisq")
     )
-    ptables <- add_fit_many(
-                  ptables,
+    partables <- add_fit_many(
+                  partables,
                   fit_many_out = fits
                 )
   }
@@ -355,7 +355,7 @@ eq_models_internal <- function(
     # ==== output: logical ====
 
     out <- i
-    names(out) <- names(ptables)
+    names(out) <- names(partables)
     return(out)
   }
 
@@ -363,10 +363,10 @@ eq_models_internal <- function(
 
     # ==== output: models ====
 
-    ptables_eq <- ptables[i]
-    class(ptables_eq) <- class(ptables)
+    partables_eq <- partables[i]
+    class(partables_eq) <- class(partables)
 
-    return(ptables_eq)
+    return(partables_eq)
   }
 
   # Should not reach here
@@ -375,7 +375,7 @@ eq_models_internal <- function(
 
 #' @noRd
 emp_eq_fix_input <- function(
-  ptables,
+  partables,
   original_model = NULL,
   ...,
   se = "none",
@@ -386,12 +386,12 @@ emp_eq_fix_input <- function(
   # - A lavaan fit object
   fit_case <- "none"
   if (is.null(original_model)) {
-    # Use the first table in ptables as the original model
-    if (!isTRUE(is_partable(ptables[[1]]))) {
-      stop("ptables is not a list of parameter tables")
+    # Use the first table in partables as the original model
+    if (!isTRUE(is_partable(partables[[1]]))) {
+      stop("partables is not a list of parameter tables")
     }
-    ptable_original <- ptables[[1]]
-    original_model <- attr(ptable_original, "fit")
+    partable_original <- partables[[1]]
+    original_model <- attr(partable_original, "fit")
     if (inherits(original_model, "lavaan")) {
       if ((lavaan::lavInspect(original_model, "options")$se != se) ||
           (length(ddd) != 0)) {
@@ -406,7 +406,7 @@ emp_eq_fix_input <- function(
   } else if (is_partable(original_model)) {
     # original_model is a parameter table.
     # Create the dummy data and sem_out
-    ptable_original <- original_model
+    partable_original <- original_model
     fit_case <- "new_data"
   } else if (inherits(original_model, "lavaan")) {
     # original_model is a lavaan object.
@@ -424,10 +424,10 @@ emp_eq_fix_input <- function(
   if (fit_case == "new_data") {
     # TODO:
     # - Handle failed cases
-    dat_original <- dummy_data(ptable_original)
+    dat_original <- dummy_data(partable_original)
     ddd0 <- utils::modifyList(
               ddd,
-              list(model = ptable_original,
+              list(model = partable_original,
                    data = dat_original,
                    se = se)
             )
