@@ -24,7 +24,9 @@ NULL
 #'
 #' @param ... Optional arguments to be
 #' passed to the `lavaan` functions
-#' to be called.
+#' to be called. For the subsetting and
+#' assignment methods, they are arguments
+#' to be passed to those methods.
 #'
 #' @param simplify To be passed to
 #' [sapply()]. Note that the default is
@@ -278,6 +280,84 @@ eq_fits <- function(object) {
     attr,
     which = "fit"
   )
+  out
+}
+
+#' @details
+#'
+#' The class `eq_partables` has
+#' `[`, `[<-`, and `[[<-` methods for extracting
+#' and changing elements.
+#'
+#' @param x The `eq_partables` object to be used in
+#' subsetting or assignment.
+#'
+#' @return
+#' The `[`, `[<-`, and `[[<-` methods return
+#' an `eq_partables` object.
+#'
+#' @param x A 'eq_partables'-class object.
+#' @param i A numeric vector of model position(s),
+#'          a character vector of model name(s),
+#'          or a logical vector of model(s) to be selected.
+#'
+#' @rdname eq_partables_helpers
+#' @export
+`[.eq_partables` <- function(
+  x,
+  i
+) {
+  # This method just ensures that
+  # the output is also an eq_partables
+  # object.
+  out <- NextMethod("[")
+  class(out) <- class(x)
+  out
+}
+
+#' @details
+#' Though available, it is not advised
+#' to assign models to an `eq_partables`
+#' object because there is no guarantee
+#' that the names still reflect how the
+#' models are created.
+#'
+#' @param value The value(s) to be
+#' assigned to the `eq_partables` object.
+#'
+#' @rdname eq_partables_helpers
+#' @export
+`[<-.eq_partables` <- function(
+  x,
+  i,
+  value
+) {
+  # This method just ensures that
+  # the output is also an eq_partables
+  # object.
+  out <- NextMethod("[<-")
+  # No need for the naming. This behavior
+  # is not unique for eq_parables.
+  # warning("It is not advised to assign models to an eq_partables object.")
+  class(out) <- class(x)
+  out
+}
+
+#' @rdname eq_partables_helpers
+#' @export
+`[[<-.eq_partables` <- function(
+  # This method just ensures that
+  # the output is also an eq_partables
+  # object.
+  x,
+  i,
+  value
+) {
+  out <- NextMethod("[[<-")
+  # No need for the naming. This behavior
+  # is not unique for eq_parables.
+  # warning("It is not advised to assign models to an eq_partables object.")
+  class(out) <- class(x)
   out
 }
 
