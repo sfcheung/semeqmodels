@@ -336,3 +336,199 @@ remove_x_y_ecov <- function(
   partables
 }
 
+#' @details
+#' The function [must_not_be_y()]
+#' keep only models with variables
+#' (observed or latent) does not
+#' appear as the outcome in a
+#' regression equation (indicators
+#' not counted). They are
+#' defined as variables not
+#' in `"eqs.y"`
+#' as returned by [lavaan::lavNames()].
+#'
+#' @param vars A character vector of
+#' variables to be checked.
+#'
+#' @return
+#' The function [must_not_be_y()]
+#' returns a list of parameter tables,
+#' of the same class as `partables`.
+#'
+#' @rdname partable_select
+#' @export
+must_not_be_y <- function(
+  partables,
+  vars = NULL
+) {
+
+  chk <- sapply(
+            partables,
+            vars_is_eqsy,
+            vars = vars
+          )
+  chk <- !chk
+  out <- partables[chk]
+  class(out) <- class(partables)
+  out
+}
+
+
+#' @details
+#' The function [must_be_y()]
+#' keep only models with variables
+#' (observed or latent)
+#' appear as the outcome in at least one
+#' regression equation (indicators
+#' not counted). They are
+#' defined as variables
+#' in `"eqs.y"`
+#' as returned by [lavaan::lavNames()].
+#'
+#' @param vars A character vector of
+#' variables to be checked.
+#'
+#' @return
+#' The function [must_be_y()]
+#' returns a list of parameter tables,
+#' of the same class as `partables`.
+#'
+#' @rdname partable_select
+#' @export
+must_be_y <- function(
+  partables,
+  vars = NULL
+) {
+
+  chk <- sapply(
+            partables,
+            vars_is_eqsy,
+            vars = vars
+          )
+  out <- partables[chk]
+  class(out) <- class(partables)
+  out
+}
+
+
+#' @noRd
+vars_is_eqsy <- function(
+  partable,
+  vars = NULL
+) {
+  i <- lavaan::lavNames(
+          partable,
+          type = "eqs.y"
+        )
+  any(vars %in% i)
+}
+
+#' @details
+#' The function [must_not_have_paths()]
+#' keep only models that do not
+#' have any paths, direct or indirect,
+#' between selected pairs of variables.
+#'
+#' @param y_on_x A character vector of
+#' pairs of variables, specified as
+#' `"y ~ x"`, for which paths will be
+#' checked.
+#'
+#' @return
+#' The function [must_not_have_paths()]
+#' returns a list of parameter tables,
+#' of the same class as `partables`.
+#'
+#' @rdname partable_select
+#' @export
+must_not_have_paths <- function(
+  partables,
+  y_on_x = NULL
+) {
+  chk <- sapply(
+            partables,
+            has_x_to_y,
+            y_on_x = y_on_x
+          )
+  chk <- !chk
+  out <- partables[chk]
+  class(out) <- class(partables)
+  out
+}
+
+
+#' @details
+#' The function [must_have_paths()]
+#' keep only models
+#' at least one path, direct or indirect,
+#' between selected pairs of variables.
+#'
+#' @return
+#' The function [must_have_paths()]
+#' returns a list of parameter tables,
+#' of the same class as `partables`.
+#'
+#' @rdname partable_select
+#' @export
+must_have_paths <- function(
+  partables,
+  y_on_x = NULL
+) {
+  chk <- sapply(
+            partables,
+            has_x_to_y,
+            y_on_x = y_on_x
+          )
+  out <- partables[chk]
+  class(out) <- class(partables)
+  out
+}
+
+#' @noRd
+has_x_to_y <- function(
+  partable,
+  y_on_x
+) {
+  out <- sapply(
+    y_on_x,
+    has_x_to_y_i,
+    partable = partable
+  )
+  any(out)
+}
+
+#' @noRd
+has_x_to_y_i <- function(
+  partable,
+  y_on_x
+) {
+  y_on_x_pt <- lavaan::lavParseModelString(
+            y_on_x,
+            as.data.frame. = TRUE
+            )
+  x <- y_on_x_pt$rhs
+  y <- y_on_x_pt$lhs
+  fit0 <- lavaan::sem(
+            model = partable,
+            do.fit = FALSE
+          )
+  chk1 <- tryCatch(
+            manymome::all_indirect_paths(
+              fit = fit0,
+              x = x,
+              y = y
+            ),
+            error = function(e) e
+          )
+  if (inherits(chk1, "error")) {
+    i1 <- FALSE
+  } else {
+    i1 <- length(chk1) > 0
+  }
+  chk2 <- has_par_i(
+    partable,
+    par = y_on_x_pt
+  )
+  i2 <- chk2
+  any(i1, i2)
+}

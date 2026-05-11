@@ -9,6 +9,10 @@
 \alias{have_pars_any}
 \alias{have_pars_none}
 \alias{remove_x_y_ecov}
+\alias{must_not_be_y}
+\alias{must_be_y}
+\alias{must_not_have_paths}
+\alias{must_have_paths}
 \title{Select Parameter Tables}
 \usage{
 models_have_pars_all(partables, pars = NULL)
@@ -24,6 +28,14 @@ have_pars_any(partables, pars = NULL)
 have_pars_none(partables, pars = NULL)
 
 remove_x_y_ecov(partables)
+
+must_not_be_y(partables, vars = NULL)
+
+must_be_y(partables, vars = NULL)
+
+must_not_have_paths(partables, y_on_x = NULL)
+
+must_have_paths(partables, y_on_x = NULL)
 }
 \arguments{
 \item{partables}{A list of parameter
@@ -41,6 +53,14 @@ can process it. Covariances such as
 \code{"m ~~ x"} and \code{"x ~~ m"} are treated
 as the same and so only one of them
 is necessary.}
+
+\item{vars}{A character vector of
+variables to be checked.}
+
+\item{y_on_x}{A character vector of
+pairs of variables, specified as
+\code{"y ~ x"}, for which paths will be
+checked.}
 }
 \value{
 The function \code{\link[=models_have_pars_all]{models_have_pars_all()}}
@@ -73,6 +93,22 @@ specified.
 The function \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}
 return a list of parameter tables,
 of the same class as \code{partables}.
+
+The function \code{\link[=must_not_be_y]{must_not_be_y()}}
+returns a list of parameter tables,
+of the same class as \code{partables}.
+
+The function \code{\link[=must_be_y]{must_be_y()}}
+returns a list of parameter tables,
+of the same class as \code{partables}.
+
+The function \code{\link[=must_not_have_paths]{must_not_have_paths()}}
+returns a list of parameter tables,
+of the same class as \code{partables}.
+
+The function \code{\link[=must_have_paths]{must_have_paths()}}
+returns a list of parameter tables,
+of the same class as \code{partables}.
 }
 \description{
 Helper functions to
@@ -100,6 +136,36 @@ remove models from \code{partables} that
 have one or more covariances between
 an exogenous variable (observed
 or latent) and an error term.
+
+The function \code{\link[=must_not_be_y]{must_not_be_y()}}
+keep only models with variables
+(observed or latent) does not
+appear as the outcome in a
+regression equation (indicators
+not counted). They are
+defined as variables not
+in \code{"eqs.y"}
+as returned by \code{\link[lavaan:lavNames]{lavaan::lavNames()}}.
+
+The function \code{\link[=must_be_y]{must_be_y()}}
+keep only models with variables
+(observed or latent)
+appear as the outcome in at least one
+regression equation (indicators
+not counted). They are
+defined as variables
+in \code{"eqs.y"}
+as returned by \code{\link[lavaan:lavNames]{lavaan::lavNames()}}.
+
+The function \code{\link[=must_not_have_paths]{must_not_have_paths()}}
+keep only models that do not
+have any paths, direct or indirect,
+between selected pairs of variables.
+
+The function \code{\link[=must_have_paths]{must_have_paths()}}
+keep only models
+at least one path, direct or indirect,
+between selected pairs of variables.
 }
 \examples{
 
