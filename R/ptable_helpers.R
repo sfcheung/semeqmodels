@@ -294,32 +294,44 @@ union_eq_partables <- function(
 ) {
   # TODO:
   # - Need to add some sanity checks.
+  # - Add some tests.
   out0 <- c(x, y)
   class(out0) <- c("eq_partables", "partables", "list")
   out0 <- unique(out0)
   out0
 }
 
-
 #' @details
-#' The function [union_eq_partables()]
-#' combines the models in `x` and `y`,
-#' with duplicated models removed.
+#' The function [intersect_eq_partables()]
+#' find the models common in `x` and `y`.
 #'
 #' @return
-#' The function [union_eq_partables()]
+#' The function [intersect_eq_partables()]
 #' returns a list of parameter tables,
-#' of the class `eq_partables`.
+#' of the class `eq_partables`, common
+#' in both `x` and `y`.
 #'
 #' @rdname partable_helpers
 #' @export
-union_eq_partables <- function(
+intersect_eq_partables <- function(
   x,
   y
 ) {
-  out0 <- c(x, y)
+  # TODO:
+  # - Need to add some sanity checks.
+  # - Add some tests.
+  x_digest <- get_digest_partables(x)
+  y_digest <- get_digest_partables(y)
+  digest0 <- intersect(x_digest, y_digest)
+  if (length(digest0) > 0) {
+    out0 <- union_eq_partables(x, y)
+    tmp <- get_digest_partables(out0) %in%
+           digest0
+    out0 <- out0[tmp]
+  } else {
+    out0 <- list()
+  }
   class(out0) <- c("eq_partables", "partables", "list")
-  out0 <- unique(out0)
   out0
 }
 
