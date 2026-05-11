@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9019
+# semeqmodels 0.0.0.9020
 
 - Initialize the package.
   (0.0.0.9000)
@@ -159,3 +159,8 @@
   `eq_df_models()` to generate the list
   of models automatically.
   (0.0.0.9019)
+
+- Added `must_have_paths()`,
+  `must_not_have_paths()`,
+  `must_not_be_y()`, and `must_be_y()`.
+  (0.0.0.9020)
