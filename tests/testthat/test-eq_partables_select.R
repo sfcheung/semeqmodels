@@ -124,4 +124,36 @@ out <- must_not_be_y(
 expect_all_false(sapply(out, \(x) "fm" %in% lavNames(x, "lv.nox")))
 expect_all_false(sapply(out, \(x) "fx" %in% lavNames(x, "lv.nox")))
 
+# must_not_have_paths
+
+out <- must_not_have_paths(
+          fit_1_more_1_less,
+          y_on_x = "fy ~ fx"
+        )
+expect_length(out, 0)
+
+out <- must_not_have_paths(
+          fit_1_more_1_less,
+          y_on_x = "fx ~ fy"
+        )
+expect_length(out, 4)
+
+out <- must_not_have_paths(
+          fit_1_more_1_less,
+          y_on_x = "fm ~ fx"
+        )
+expect_length(out, 2)
+
+out <- must_not_have_paths(
+          fit_1_more_1_less,
+          y_on_x = "fm ~ x"
+        )
+expect_length(out, 4)
+
+out <- must_not_have_paths(
+          fit_1_more_1_less,
+          y_on_x = c("fm ~ fx", "fx ~ fy")
+        )
+expect_length(out, 2)
+
 })

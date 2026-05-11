@@ -10,6 +10,7 @@
 \alias{have_pars_none}
 \alias{remove_x_y_ecov}
 \alias{must_not_be_y}
+\alias{must_not_have_paths}
 \title{Select Parameter Tables}
 \usage{
 models_have_pars_all(partables, pars = NULL)
@@ -27,6 +28,8 @@ have_pars_none(partables, pars = NULL)
 remove_x_y_ecov(partables)
 
 must_not_be_y(partables, vars = NULL)
+
+must_not_have_paths(partables, y_on_x = NULL)
 }
 \arguments{
 \item{partables}{A list of parameter
@@ -47,6 +50,11 @@ is necessary.}
 
 \item{vars}{A character vector of
 variables to be checked.}
+
+\item{y_on_x}{A character vector of
+pairs of variables, specified as
+\code{"y ~ x"}, for which a model must
+not have any paths from \code{x} to \code{y}.}
 }
 \value{
 The function \code{\link[=models_have_pars_all]{models_have_pars_all()}}
@@ -81,6 +89,10 @@ return a list of parameter tables,
 of the same class as \code{partables}.
 
 The function \code{\link[=must_not_be_y]{must_not_be_y()}}
+returns a list of parameter tables,
+of the same class as \code{partables}.
+
+The function \code{\link[=must_not_have_paths]{must_not_have_paths()}}
 returns a list of parameter tables,
 of the same class as \code{partables}.
 }
@@ -120,6 +132,11 @@ not counted). They are
 defined as variables not
 in \code{"eqs.y"}
 as returned by \code{\link[lavaan:lavNames]{lavaan::lavNames()}}.
+
+The function \code{\link[=must_not_have_paths]{must_not_have_paths()}}
+keep only models that do not
+have any paths, direct or indirect,
+between selected pairs of variables.
 }
 \examples{
 
