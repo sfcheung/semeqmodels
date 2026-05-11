@@ -93,31 +93,31 @@ expect_setequal(
 
 # must_not_be_nox
 
-out <- must_not_be_nox(
+out <- must_not_be_y(
           fit_1_more_1_less,
           vars = "fx"
         )
 expect_all_false(sapply(out, \(x) "fx" %in% lavNames(x, "lv.nox")))
 
-out <- must_not_be_nox(
+out <- must_not_be_y(
           fit_1_more_1_less,
           vars = "fy"
         )
 expect_length(out, 0)
 
-out <- must_not_be_nox(
+out <- must_not_be_y(
           fit_1_more_1_less,
           vars = "fm"
         )
 expect_all_false(sapply(out, \(x) "fm" %in% lavNames(x, "lv.nox")))
 
-out <- must_not_be_nox(
+out <- must_not_be_y(
           fit_1_more_1_less,
           vars = c("fy", "fm")
         )
 expect_length(out, 0)
 
-out <- must_not_be_nox(
+out <- must_not_be_y(
           fit_1_more_1_less,
           vars = c("fx", "fm")
         )

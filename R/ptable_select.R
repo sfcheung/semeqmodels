@@ -336,35 +336,35 @@ remove_x_y_ecov <- function(
   partables
 }
 
-
 #' @details
-#' The function [must_not_be_nox()]
+#' The function [must_not_be_y()]
 #' keep only models with variables
-#' (observed or latent) that are
-#' not being affected or predicted
-#' by other variables. They are
+#' (observed or latent) does not
+#' appear as the outcome in a
+#' regression equation (indicators
+#' not counted). They are
 #' defined as variables not
-#' in `"ov.nox"` and `"lv.nox"`
+#' in `"eqs.y"`
 #' as returned by [lavaan::lavNames()].
 #'
 #' @param vars A character vector of
 #' variables to be checked.
 #'
 #' @return
-#' The function [must_not_be_nox()]
+#' The function [must_not_be_y()]
 #' returns a list of parameter tables,
 #' of the same class as `partables`.
 #'
 #' @rdname partable_select
 #' @export
-must_not_be_nox <- function(
+must_not_be_y <- function(
   partables,
   vars = NULL
 ) {
 
   chk <- sapply(
             partables,
-            vars_is_nox,
+            vars_is_eqsy,
             vars = vars
           )
   chk <- !chk
@@ -374,18 +374,13 @@ must_not_be_nox <- function(
 }
 
 #' @noRd
-vars_is_nox <- function(
+vars_is_eqsy <- function(
   partable,
   vars = NULL
 ) {
-  i1 <- lavaan::lavNames(
+  i <- lavaan::lavNames(
           partable,
-          type = "ov.nox"
+          type = "eqs.y"
         )
-  i2 <- lavaan::lavNames(
-          partable,
-          type = "lv.nox"
-        )
-  i <- union(i1, i2)
   any(vars %in% i)
 }
