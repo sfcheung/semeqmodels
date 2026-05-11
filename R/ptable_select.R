@@ -373,6 +373,44 @@ must_not_be_y <- function(
   out
 }
 
+
+#' @details
+#' The function [must_be_y()]
+#' keep only models with variables
+#' (observed or latent)
+#' appear as the outcome in at least one
+#' regression equation (indicators
+#' not counted). They are
+#' defined as variables
+#' in `"eqs.y"`
+#' as returned by [lavaan::lavNames()].
+#'
+#' @param vars A character vector of
+#' variables to be checked.
+#'
+#' @return
+#' The function [must_be_y()]
+#' returns a list of parameter tables,
+#' of the same class as `partables`.
+#'
+#' @rdname partable_select
+#' @export
+must_be_y <- function(
+  partables,
+  vars = NULL
+) {
+
+  chk <- sapply(
+            partables,
+            vars_is_eqsy,
+            vars = vars
+          )
+  out <- partables[chk]
+  class(out) <- class(partables)
+  out
+}
+
+
 #' @noRd
 vars_is_eqsy <- function(
   partable,
@@ -393,8 +431,8 @@ vars_is_eqsy <- function(
 #'
 #' @param y_on_x A character vector of
 #' pairs of variables, specified as
-#' `"y ~ x"`, for which a model must
-#' not have any paths from `x` to `y`.
+#' `"y ~ x"`, for which paths will be
+#' checked.
 #'
 #' @return
 #' The function [must_not_have_paths()]
@@ -413,6 +451,34 @@ must_not_have_paths <- function(
             y_on_x = y_on_x
           )
   chk <- !chk
+  out <- partables[chk]
+  class(out) <- class(partables)
+  out
+}
+
+
+#' @details
+#' The function [must_have_paths()]
+#' keep only models
+#' at least one path, direct or indirect,
+#' between selected pairs of variables.
+#'
+#' @return
+#' The function [must_have_paths()]
+#' returns a list of parameter tables,
+#' of the same class as `partables`.
+#'
+#' @rdname partable_select
+#' @export
+must_have_paths <- function(
+  partables,
+  y_on_x = NULL
+) {
+  chk <- sapply(
+            partables,
+            has_x_to_y,
+            y_on_x = y_on_x
+          )
   out <- partables[chk]
   class(out) <- class(partables)
   out
