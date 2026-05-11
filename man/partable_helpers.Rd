@@ -16,6 +16,8 @@
 \alias{\%pt_in\%}
 \alias{\%pt_notin\%}
 \alias{as_eq_partables}
+\alias{is_partable}
+\alias{is_partables}
 \title{Parameter Table Helpers}
 \usage{
 combine_partables(object_list, drop_duplicated = TRUE)
@@ -45,6 +47,10 @@ x \%pt_in\% table
 x \%pt_notin\% table
 
 as_eq_partables(sem_out = NULL, model_name = "original")
+
+is_partable(object, colchk = c("id", "lhs", "op", "rhs"))
+
+is_partables(object, colchk = c("id", "lhs", "op", "rhs"))
 }
 \arguments{
 \item{object_list}{A list of objects
@@ -82,6 +88,13 @@ Can be \code{NULL}.}
 
 \item{model_name}{The name of the
 model in the output.}
+
+\item{object}{The object to be
+checked whether it is a parameter
+table.}
+
+\item{colchk}{The columns to be
+checked.}
 }
 \value{
 The function \code{\link[=combine_partables]{combine_partables()}}
@@ -148,6 +161,16 @@ returns a one-element
 a \code{lavaan} output. It returns
 a zero-length \code{eq_partables} object
 otherwise.
+
+The function \code{\link[=is_partable]{is_partable()}} return
+either \code{TRUE} or \code{FALSE}. It is
+\code{TRUE} is the two conditions mentioned
+in Details are met.
+
+The function \code{\link[=is_partables]{is_partables()}} return
+either \code{TRUE} or \code{FALSE}. It is
+\code{TRUE} only if \code{\link[=is_partable]{is_partable()}} returns
+\code{TRUE} for all its elements.
 }
 \description{
 Helper functions to
@@ -221,6 +244,21 @@ element and the \code{lavaan} output in
 the attribute \code{"fit"}. If \code{sem_out}
 is not a \code{lavaan} object, a zero-length
 \code{eq_partables} object will be returned.
+
+The function \code{\link[=is_partable]{is_partable()}} check
+whether an object is probably a
+parameter table. It checks whether
+(a) the object is a \code{data.frame}-like
+object (by \code{\link[=is.data.frame]{is.data.frame()}}) and (b)
+the columns in \code{colchk} exist. If
+both conditions are met, then the
+object is considered a parameter
+table.
+
+The function \code{\link[=is_partables]{is_partables()}} check
+whether a list is likely a list of parameter
+tables. It simply call \code{\link[=is_partable]{is_partable()}}
+on all the elements.
 }
 \examples{
 

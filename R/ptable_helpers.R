@@ -423,11 +423,8 @@ match_eq_partables <- function(
   # TODO:
   # - Need to add some sanity checks.
   # - Add some tests.
-  if (!is_partable(x)) {
-    stop("'x' does not appear to be a parameter table.")
-  }
   table_digest <- get_digest_partables(table)
-  x_digest <- get_digest(x)
+  x_digest <- get_digest_partables(x)
   match(x = x_digest,
         table = table_digest,
         nomatch = nomatch)
@@ -524,4 +521,77 @@ as_eq_partables <- function(
   }
   class(out) <- c("eq_partables", "partables", "list")
   out
+}
+
+#' @details
+#' The function [is_partable()] check
+#' whether an object is probably a
+#' parameter table. It checks whether
+#' (a) the object is a `data.frame`-like
+#' object (by [is.data.frame()]) and (b)
+#' the columns in `colchk` exist. If
+#' both conditions are met, then the
+#' object is considered a parameter
+#' table.
+#'
+#' @param object The object to be
+#' checked whether it is a parameter
+#' table.
+#'
+#' @param colchk The columns to be
+#' checked.
+#'
+#' @return
+#' The function [is_partable()] return
+#' either `TRUE` or `FALSE`. It is
+#' `TRUE` is the two conditions mentioned
+#' in Details are met.
+#'
+#' @rdname partable_helpers
+#' @export
+is_partable <- function(
+  object,
+  colchk = c("id", "lhs", "op", "rhs")
+) {
+  # Check if a data frame is "likely" a
+  # lavaan parameter table
+  # Use only column names
+  # Not a 100% correct check but good enough
+  if (!is.data.frame(object)) {
+    return(FALSE)
+  }
+  col0 <- colnames(object)
+  if (all(colchk %in% col0)) {
+    return(TRUE)
+  }
+  return(FALSE)
+}
+
+#' @details
+#' The function [is_partables()] check
+#' whether a list is likely a list of parameter
+#' tables. It simply call [is_partable()]
+#' on all the elements.
+#'
+#' @return
+#' The function [is_partables()] return
+#' either `TRUE` or `FALSE`. It is
+#' `TRUE` only if [is_partable()] returns
+#' `TRUE` for all its elements.
+#'
+#' @rdname partable_helpers
+#' @export
+is_partables <- function(
+  object,
+  colchk = c("id", "lhs", "op", "rhs")
+) {
+  if (!is.list(object)) {
+    return(FALSE)
+  }
+  chk <- sapply(
+    object,
+    is_partable,
+    colchk = colchk
+  )
+  all(chk)
 }
