@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9017
+# semeqmodels 0.0.0.9018
 
 - Initialize the package.
   (0.0.0.9000)
@@ -138,3 +138,15 @@
   Use only `partable` and `partables`
   from now on.
   (0.0.0.9017)
+
+- Exported `setdiff_eq_partables()`,
+  `remove_x_y_ecov()`, and `as_eq_partables()`.
+  (0.0.0.9018)
+
+- Added `union_eq_partables()`,
+  `intersect_eq_partables()`,
+  `is_element_eq_partables()`,
+  `match_eq_partables()`,
+  `%pt_in%`, `%pt_notin%`,
+  `is_partable()`, and `is_partables()`.
+  (0.0.0.9018)
