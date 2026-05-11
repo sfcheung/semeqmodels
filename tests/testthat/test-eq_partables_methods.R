@@ -168,4 +168,14 @@ tmp[[2]] <- fit_1_more1[[3]]
 expect_equal(get_digest(tmp[[2]]),
              get_digest(fit_1_more1[[3]]))
 
+# is_partable
+
+expect_true(is_partables(fit_1_more1))
+expect_false(is_partable(NA))
+expect_false(is_partable(fit_1_more1))
+
+tmp <- fit_1_more1
+tmp[[2]] <- NA
+expect_false(is_partables(tmp))
+
 })
