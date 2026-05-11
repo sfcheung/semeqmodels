@@ -362,6 +362,38 @@ setequal_eq_partables <- function(
 }
 
 
+#' @details
+#' The function [is_element_eq_partables()]
+#' checks whether `el` is one of the
+#' models in `set`.
+#'
+#' @return
+#' The function [is_element_eq_partables()]
+#' returns `TRUE` or `FALSE`, based on
+#' the results of [is.element()] applied
+#' to the hash values from [get_digest()]
+#' and [get_digest_partables()].
+#'
+#' @param el A parameter table.
+#'
+#' @param set A list of parameter tables.
+#'
+#' @rdname partable_helpers
+#' @export
+is_element_eq_partables <- function(
+  el,
+  set
+) {
+  # TODO:
+  # - Need to add some sanity checks.
+  # - Add some tests.
+  if (!is_partable(el)) {
+    stop("'el' does not appear to be a parameter table.")
+  }
+  set_digest <- get_digest_partables(set)
+  el_digest <- get_digest(el)
+  is.element(el_digest, set_digest)
+}
 
 #' @details
 #' The function [as_eq_partables()] is

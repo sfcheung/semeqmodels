@@ -11,6 +11,7 @@
 \alias{union_eq_partables}
 \alias{intersect_eq_partables}
 \alias{setequal_eq_partables}
+\alias{is_element_eq_partables}
 \alias{as_eq_partables}
 \title{Parameter Table Helpers}
 \usage{
@@ -31,6 +32,8 @@ union_eq_partables(x, y)
 intersect_eq_partables(x, y)
 
 setequal_eq_partables(x, y)
+
+is_element_eq_partables(el, set)
 
 as_eq_partables(sem_out = NULL, model_name = "original")
 }
@@ -55,6 +58,10 @@ used.}
 \item{incomparables}{Not used.}
 
 \item{y}{An \code{eq_partables} object.}
+
+\item{el}{A parameter table.}
+
+\item{set}{A list of parameter tables.}
 
 \item{sem_out}{A \code{lavaan} object.
 Can be \code{NULL}.}
@@ -101,6 +108,12 @@ The function \code{\link[=setequal_eq_partables]{setequal_eq_partables()}}
 returns \code{TRUE} or \code{FALSE}, based on
 the results of \code{\link[=get_digest_partables]{get_digest_partables()}}
 applied to \code{x} and \code{y}.
+
+The function \code{\link[=is_element_eq_partables]{is_element_eq_partables()}}
+returns \code{TRUE} or \code{FALSE}, based on
+the results of \code{\link[=is.element]{is.element()}} applied
+to the hash values from \code{\link[=get_digest]{get_digest()}}
+and \code{\link[=get_digest_partables]{get_digest_partables()}}.
 
 The function \code{\link[=as_eq_partables]{as_eq_partables()}}
 returns a one-element
@@ -152,6 +165,10 @@ find the models common in \code{x} and \code{y}.
 The function \code{\link[=setequal_eq_partables]{setequal_eq_partables()}}
 check whether \code{x} and \code{y} has the
 same set of models. Orders are ignored.
+
+The function \code{\link[=is_element_eq_partables]{is_element_eq_partables()}}
+checks whether \code{el} is one of the
+models in \code{set}.
 
 The function \code{\link[=as_eq_partables]{as_eq_partables()}} is
 not a usual \code{as} function. It works
