@@ -337,6 +337,33 @@ intersect_eq_partables <- function(
 
 
 #' @details
+#' The function [setequal_eq_partables()]
+#' check whether `x` and `y` has the
+#' same set of models. Orders are ignored.
+#'
+#' @return
+#' The function [setequal_eq_partables()]
+#' returns `TRUE` or `FALSE`, based on
+#' the results of [get_digest_partables()]
+#' applied to `x` and `y`.
+#'
+#' @rdname partable_helpers
+#' @export
+setequal_eq_partables <- function(
+  x,
+  y
+) {
+  # TODO:
+  # - Need to add some sanity checks.
+  # - Add some tests.
+  x_digest <- get_digest_partables(x)
+  y_digest <- get_digest_partables(y)
+  setequal(x_digest, y_digest)
+}
+
+
+
+#' @details
 #' The function [as_eq_partables()] is
 #' not a usual `as` function. It works
 #' only on a `lavaan` output. It converts

@@ -10,6 +10,7 @@
 \alias{setdiff_eq_partables}
 \alias{union_eq_partables}
 \alias{intersect_eq_partables}
+\alias{setequal_eq_partables}
 \alias{as_eq_partables}
 \title{Parameter Table Helpers}
 \usage{
@@ -28,6 +29,8 @@ setdiff_eq_partables(x, y)
 union_eq_partables(x, y)
 
 intersect_eq_partables(x, y)
+
+setequal_eq_partables(x, y)
 
 as_eq_partables(sem_out = NULL, model_name = "original")
 }
@@ -94,6 +97,11 @@ returns a list of parameter tables,
 of the class \code{eq_partables}, common
 in both \code{x} and \code{y}.
 
+The function \code{\link[=setequal_eq_partables]{setequal_eq_partables()}}
+returns \code{TRUE} or \code{FALSE}, based on
+the results of \code{\link[=get_digest_partables]{get_digest_partables()}}
+applied to \code{x} and \code{y}.
+
 The function \code{\link[=as_eq_partables]{as_eq_partables()}}
 returns a one-element
 \code{eq_partables} object if \code{sem_out} is
@@ -140,6 +148,10 @@ with duplicated models removed.
 
 The function \code{\link[=intersect_eq_partables]{intersect_eq_partables()}}
 find the models common in \code{x} and \code{y}.
+
+The function \code{\link[=setequal_eq_partables]{setequal_eq_partables()}}
+check whether \code{x} and \code{y} has the
+same set of models. Orders are ignored.
 
 The function \code{\link[=as_eq_partables]{as_eq_partables()}} is
 not a usual \code{as} function. It works
