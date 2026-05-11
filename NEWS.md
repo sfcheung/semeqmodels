@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9020
+# semeqmodels 0.0.0.9021
 
 - Initialize the package.
   (0.0.0.9000)
@@ -164,3 +164,7 @@
   `must_not_have_paths()`,
   `must_not_be_y()`, and `must_be_y()`.
   (0.0.0.9020)
+
+- Added `model_diff()` to compare
+  two parameter tables.
+  (0.0.0.9021)
