@@ -8,6 +8,7 @@
 \alias{duplicated.eq_partables}
 \alias{unique.eq_partables}
 \alias{setdiff_eq_partables}
+\alias{union_eq_partables}
 \alias{as_eq_partables}
 \title{Parameter Table Helpers}
 \usage{
@@ -22,6 +23,8 @@ combine_partables(object_list, drop_duplicated = TRUE)
 \method{unique}{eq_partables}(x, incomparables = FALSE, ...)
 
 setdiff_eq_partables(x, y)
+
+union_eq_partables(x, y)
 
 as_eq_partables(sem_out = NULL, model_name = "original")
 }
@@ -79,6 +82,10 @@ returns a list of parameter tables,
 of the same class of \code{x}, with models
 present in \code{y} removed.
 
+The function \code{\link[=union_eq_partables]{union_eq_partables()}}
+returns a list of parameter tables,
+of the class \code{eq_partables}.
+
 The function \code{\link[=as_eq_partables]{as_eq_partables()}}
 returns a one-element
 \code{eq_partables} object if \code{sem_out} is
@@ -118,6 +125,10 @@ duplicated models, if any, removed.
 The function \code{\link[=setdiff_eq_partables]{setdiff_eq_partables()}}
 removes from \code{x} models that are
 also in \code{y}.
+
+The function \code{\link[=union_eq_partables]{union_eq_partables()}}
+combines the models in \code{x} and \code{y},
+with duplicated models removed.
 
 The function \code{\link[=as_eq_partables]{as_eq_partables()}} is
 not a usual \code{as} function. It works
