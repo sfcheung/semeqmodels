@@ -292,11 +292,37 @@ union_eq_partables <- function(
   x,
   y
 ) {
+  # TODO:
+  # - Need to add some sanity checks.
   out0 <- c(x, y)
   class(out0) <- c("eq_partables", "partables", "list")
   out0 <- unique(out0)
   out0
 }
+
+
+#' @details
+#' The function [union_eq_partables()]
+#' combines the models in `x` and `y`,
+#' with duplicated models removed.
+#'
+#' @return
+#' The function [union_eq_partables()]
+#' returns a list of parameter tables,
+#' of the class `eq_partables`.
+#'
+#' @rdname partable_helpers
+#' @export
+union_eq_partables <- function(
+  x,
+  y
+) {
+  out0 <- c(x, y)
+  class(out0) <- c("eq_partables", "partables", "list")
+  out0 <- unique(out0)
+  out0
+}
+
 
 #' @details
 #' The function [as_eq_partables()] is
