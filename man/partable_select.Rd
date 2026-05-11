@@ -9,6 +9,7 @@
 \alias{have_pars_any}
 \alias{have_pars_none}
 \alias{remove_x_y_ecov}
+\alias{must_not_be_nox}
 \title{Select Parameter Tables}
 \usage{
 models_have_pars_all(partables, pars = NULL)
@@ -24,6 +25,8 @@ have_pars_any(partables, pars = NULL)
 have_pars_none(partables, pars = NULL)
 
 remove_x_y_ecov(partables)
+
+must_not_be_nox(partables, vars = NULL)
 }
 \arguments{
 \item{partables}{A list of parameter
@@ -41,6 +44,9 @@ can process it. Covariances such as
 \code{"m ~~ x"} and \code{"x ~~ m"} are treated
 as the same and so only one of them
 is necessary.}
+
+\item{vars}{A character vector of
+variables to be checked.}
 }
 \value{
 The function \code{\link[=models_have_pars_all]{models_have_pars_all()}}
@@ -73,6 +79,10 @@ specified.
 The function \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}
 return a list of parameter tables,
 of the same class as \code{partables}.
+
+The function \code{\link[=must_not_be_nox]{must_not_be_nox()}}
+returns a list of parameter tables,
+of the same class as \code{partables}.
 }
 \description{
 Helper functions to
@@ -100,6 +110,15 @@ remove models from \code{partables} that
 have one or more covariances between
 an exogenous variable (observed
 or latent) and an error term.
+
+The function \code{\link[=must_not_be_nox]{must_not_be_nox()}}
+keep only models with variables
+(observed or latent) that are
+not being affected or predicted
+by other variables. They are
+defined as variables not
+in \code{"ov.nox"} and \code{"lv.nox"}
+as returned by \code{\link[lavaan:lavNames]{lavaan::lavNames()}}.
 }
 \examples{
 
