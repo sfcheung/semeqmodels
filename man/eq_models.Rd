@@ -6,7 +6,7 @@
 \title{Empirical Equivalent Models}
 \usage{
 eq_models(
-  partables,
+  partables = NULL,
   original_model = NULL,
   ...,
   se = "none",
@@ -14,31 +14,36 @@ eq_models(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   progress = TRUE,
-  tolerance = 1e-05
+  tolerance = 1e-05,
+  eq_df_models_args = list()
 )
 
 is_eq(
-  partables,
-  original_model,
+  partables = NULL,
+  original_model = NULL,
   ...,
   se = "none",
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   progress = TRUE,
-  tolerance = 1e-05
+  tolerance = 1e-05,
+  eq_df_models_args = list()
 )
 }
 \arguments{
 \item{partables}{A list of the class
-\code{partables}.}
+\code{partables}. If \code{NULL}, then
+it will try to generate the models
+by calling \code{\link[=eq_df_models]{eq_df_models()}} on the
+argument of \code{original_model}.}
 
 \item{original_model}{The original
 model, fitted by \code{\link[lavaan:lavaan]{lavaan::lavaan()}}
 or its wrapper, such as \code{\link[lavaan:sem]{lavaan::sem()}}.
 If it is a \code{lavaan} parameter table,
 data will be simulated to fit the model.
-If it is omitted, then the first model
+If it is \code{NULL}, then the first model
 in \code{partables} will be used.}
 
 \item{...}{Optional arguments to be
@@ -77,6 +82,14 @@ on screen.}
 \item{tolerance}{The maximum difference
 in model chi-squares for two models
 to be considered empirically equivalent.}
+
+\item{eq_df_models_args}{If \code{partables}
+is not supplied (\code{NULL}) but
+\code{original_model} is set, \code{\link[=eq_df_models]{eq_df_models()}}
+will be called to generate the models,
+used a \code{partables}. This argument
+is a named list of additional arguments
+to be passed to \code{\link[=eq_df_models]{eq_df_models()}}.}
 }
 \value{
 The function \code{\link[=eq_models]{eq_models()}}

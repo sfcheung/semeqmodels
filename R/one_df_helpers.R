@@ -58,9 +58,9 @@ dummy_data <- function(
   partable,
   n = NULL,
   n_min = 200,
-  n_per_p = 20,
+  n_per_p = 30,
   max_attempts = 10,
-  random_delta = c(.01, .10)
+  random_delta = c(-.40, .40)
 ) {
 
   fit0 <- lavaan::sem(
