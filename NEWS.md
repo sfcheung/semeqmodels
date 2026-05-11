@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9018
+# semeqmodels 0.0.0.9019
 
 - Initialize the package.
   (0.0.0.9000)
@@ -150,3 +150,12 @@
   `%pt_in%`, `%pt_notin%`,
   `is_partable()`, and `is_partables()`.
   (0.0.0.9018)
+
+- Updated `eq_models()` to accept
+  more types of inputs without
+  `partables`: a parameter
+  table, a lavaan model syntax, or
+  a `lavaan` output. It will call
+  `eq_df_models()` to generate the list
+  of models automatically.
+  (0.0.0.9019)
