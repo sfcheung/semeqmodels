@@ -1,0 +1,466 @@
+---
+title: "Finding Equivalent Models in SEM"
+date: "2026-05-12"
+output:
+  rmarkdown::html_vignette:
+    options:
+      toc:
+        depth: 2
+      number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Finding Equivalent Models in SEM}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+csl: apa.csl
+---
+
+
+
+(This is a work-in-progress draft, just
+for testing different workflows.)
+
+# Introduction
+
+This article is a brief illustration of how
+to use `semeqmodels()`
+from the package
+[semeqmodels](https://sfcheung.github.io/semeqmodels/)
+to find (empirically) equivalent models
+of a model fitted by structural
+equation modeling using `lavaan`.
+
+# Data
+
+A test dataset of `semeqmodels` will be
+used for illustration:
+
+
+``` r
+library(semeqmodels)
+packageVersion("semeqmodels")
+#> [1] '0.0.0.9024'
+head(round(data_test_3_factor_3_item, 2))
+#>      x1    x2    x3    m1    m2    m3    y1    y2    y3
+#> 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44
+#> 2 -1.77 -0.91 -0.23 -0.02  0.12 -0.33  0.85 -0.71 -0.72
+#> 3 -0.54  0.69 -0.10 -0.33 -0.34  2.31 -1.35 -0.02  0.76
+#> 4 -1.72 -1.04  0.07  0.11 -0.13 -0.28 -0.49  1.77  0.64
+#> 5 -0.44 -0.41 -0.12 -0.34 -0.27  0.57  2.43 -0.11 -0.20
+#> 6  1.42  1.24  0.78  0.47 -0.38  1.72  0.68  1.22 -1.16
+```
+
+# Model
+
+Suppose we are going to fit a model
+with three latent variables:
+
+
+``` r
+mod <-
+"
+fx =~ x1 + x2 + x3
+fm =~ m1 + m2 + m3
+fy =~ y1 + y2 + y3
+fm ~ fx
+fy ~ fm + fx
+"
+```
+
+
+``` r
+library(lavaan)
+fit <- sem(
+  model = mod,
+  data = data_test_3_factor_3_item
+)
+fit
+#> lavaan 0.6-21 ended normally after 41 iterations
+#> 
+#>   Estimator                                         ML
+#>   Optimization method                           NLMINB
+#>   Number of model parameters                        21
+#> 
+#>   Number of observations                           200
+#> 
+#> Model Test User Model:
+#>                                                       
+#>   Test statistic                                24.970
+#>   Degrees of freedom                                24
+#>   P-value (Chi-square)                           0.407
+```
+
+# Empirically Equivalent Models
+
+Let's defined *empirically* *equivalence*
+this way: Two models are empirically equivalent
+with respect to a dataset
+if the following conditions are met:
+
+- They have the same model degrees of
+  freedom.
+
+- They involves the same observed and
+  latent variables.
+
+- If fitted to this dataset, they have
+  *nearly* the same model $\chi^2$,
+  "nearly" defined by a tolerance.
+
+# Illustration
+
+To find a list of models that are empirically
+equivalent to the model fitted above,
+we can use `eq_models()`:
+
+
+``` r
+mod_eq <- eq_models(
+  original_model = fit
+)
+#> 19 processes started to run model fitting.
+#> The expected CPU time is about 0.02 second(s).
+```
+
+The output is a list of models, defined
+by `lavaan` parameter tables:
+
+
+``` r
+mod_eq
+#> 
+#> Call:
+#> NULL
+#> 
+#> Number of parameter tables: 13
+#> 
+#> The first 10 modification(s):
+#> original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy
+#> original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy
+#> original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm
+#> original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm
+#> original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx
+#> original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy
+#> original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx
+#> original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy
+#> original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx
+#> original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy
+```
+
+By default, the original model, if
+included in this list, will not be
+removed.
+
+The function `eq_chisq()` can be used
+to retrieve the model $\chi^2$s of
+the models:
+
+
+``` r
+eq_chisq(mod_eq)
+#> original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy 
+#>                                                                                                                       24.97025 
+#>                         original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy 
+#>                                                                                                                       24.97025 
+#>                         original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm 
+#>                                                                                                                       24.97025 
+#>                          original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm 
+#>                                                                                                                       24.97025 
+#>                           original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx 
+#>                                                                                                                       24.97025 
+#>                          original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy 
+#>                                                                                                                       24.97025 
+#>                                                original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx 
+#>                                                                                                                       24.97025 
+#>                                                 original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy 
+#>                                                                                                                       24.97025 
+#>                                                original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx 
+#>                                                                                                                       24.97025 
+#>                                                 original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy 
+#>                                                                                                                       24.97025 
+#>                                                                       original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx 
+#>                                                                                                                       24.97025 
+#>                                                                        original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm 
+#>                                                                                                                       24.97025 
+#>                                                                        original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy 
+#>                                                                                                                       24.97025
+```
+
+The function `eq_df()` can be used to
+retrieve the model *df*s:
+
+
+``` r
+eq_df(mod_eq)
+#> original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy 
+#>                                                                                                                             24 
+#>                         original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy 
+#>                                                                                                                             24 
+#>                         original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm 
+#>                                                                                                                             24 
+#>                          original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm 
+#>                                                                                                                             24 
+#>                           original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx 
+#>                                                                                                                             24 
+#>                          original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy 
+#>                                                                                                                             24 
+#>                                                original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx 
+#>                                                                                                                             24 
+#>                                                 original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy 
+#>                                                                                                                             24 
+#>                                                original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx 
+#>                                                                                                                             24 
+#>                                                 original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy 
+#>                                                                                                                             24 
+#>                                                                       original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx 
+#>                                                                                                                             24 
+#>                                                                        original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm 
+#>                                                                                                                             24 
+#>                                                                        original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy 
+#>                                                                                                                             24
+```
+
+The function `model_diff_many()` can
+be used to list the differences between
+the fitted models and each of the
+empirically equivalent models:
+
+
+``` r
+model_diff_many(
+  target_model = fit,
+  other_models = mod_eq
+)
+#> $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy`
+#> $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start    est
+#> 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282
+#> 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335
+#> 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104
+#>       se
+#> 10 0.136
+#> 11 0.109
+#> 12 0.140
+#> 
+#> $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level start
+#> 22 22  fx ~~  fm    1     1     1   19  0.200   0                  1 0.200
+#> 23 23  fm ~~  fy    1     1     1   20  0.421   0                  1 0.421
+#> 24 24  fx ~~  fy    1     1     1   21  0.000   0                  1 0.000
+#>       est se
+#> 22  0.198 NA
+#> 23  0.420 NA
+#> 24 -0.006 NA
+#> 
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy`
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start    est
+#> 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282
+#> 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335
+#> 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104
+#>       se
+#> 10 0.136
+#> 11 0.109
+#> 12 0.140
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level  start
+#> 22 22  fx  ~  fm    1     1     1   19  0.164   0                  1  0.164
+#> 23 23  fx  ~  fy    1     1     1   20 -0.036   0                  1 -0.036
+#> 24 24  fm  ~  fy    1     1     1   21  0.000   0                  1  0.000
+#>       est se
+#> 22  0.169 NA
+#> 23 -0.058 NA
+#> 24  0.317 NA
+#> 
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm`
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start    est
+#> 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282
+#> 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104
+#>       se
+#> 10 0.136
+#> 12 0.140
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level  start
+#> 22 22  fx  ~  fm    1     1     1   19  0.164   0                  1  0.164
+#> 23 23  fx  ~  fy    1     1     1   20 -0.036   0                  1 -0.036
+#>       est se
+#> 22  0.169 NA
+#> 23 -0.058 NA
+#> 
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm`
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start    est
+#> 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282
+#> 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335
+#> 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104
+#>       se
+#> 10 0.136
+#> 11 0.109
+#> 12 0.140
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level start
+#> 22 22  fx  ~  fy    1     1     1   19  0.007   0                  1 0.007
+#> 23 23  fm  ~  fy    1     1     1   20  0.298   0                  1 0.298
+#> 24 24  fx ~~  fm    1     1     1   21  0.000   0                  1 0.000
+#>       est se
+#> 22 -0.005 NA
+#> 23  0.317 NA
+#> 24  0.200 NA
+#> 
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx`
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start    est
+#> 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335
+#> 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104
+#>       se
+#> 11 0.109
+#> 12 0.140
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level start
+#> 22 22  fx  ~  fy    1     1     1   19  0.007   0                  1 0.007
+#> 23 23  fm  ~  fy    1     1     1   20  0.298   0                  1 0.298
+#>       est se
+#> 22 -0.005 NA
+#> 23  0.319 NA
+#> 
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start    est
+#> 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282
+#> 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335
+#> 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104
+#>       se
+#> 10 0.136
+#> 11 0.109
+#> 12 0.140
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level  start
+#> 22 22  fx  ~  fm    1     1     1   19  0.164   0                  1  0.164
+#> 23 23  fx  ~  fy    1     1     1   20 -0.036   0                  1 -0.036
+#> 24 24  fm ~~  fy    1     1     1   21  0.000   0                  1  0.000
+#>       est se
+#> 22  0.169 NA
+#> 23 -0.058 NA
+#> 24  0.420 NA
+#> 
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start   est
+#> 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0 0.282
+#>       se
+#> 10 0.136
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level start
+#> 23 23  fx  ~  fm    1     1     1   20   0.15   0                  1  0.15
+#>      est se
+#> 23 0.151 NA
+#> 
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start    est
+#> 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282
+#> 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104
+#>       se
+#> 10 0.136
+#> 12 0.140
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level start
+#> 23 23  fx  ~  fm    1     1     1   20   0.15   0                  1  0.15
+#> 24 24  fx ~~  fy    1     1     1   21   0.00   0                  1  0.00
+#>       est se
+#> 23  0.151 NA
+#> 24 -0.070 NA
+#> 
+#> 
+#> $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`
+#> $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start   est
+#> 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0 0.335
+#>       se
+#> 11 0.109
+#> 
+#> $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level start
+#> 23 23  fm  ~  fy    1     1     1   20  0.318   0                  1 0.318
+#>      est se
+#> 23 0.319 NA
+#> 
+#> 
+#> $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`
+#> $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start    est
+#> 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335
+#> 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104
+#>       se
+#> 11 0.109
+#> 12 0.140
+#> 
+#> $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level start
+#> 23 23  fm  ~  fy    1     1     1   20  0.318   0                  1 0.318
+#> 24 24  fx ~~  fy    1     1     1   21  0.000   0                  1 0.000
+#>       est se
+#> 23  0.319 NA
+#> 24 -0.006 NA
+#> 
+#> 
+#> $`original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx`
+#> $`original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx`$model_x_only
+#>  [1] id     lhs    op     rhs    user   block  group  free   ustart exo   
+#> [11] label  plabel start  est    se    
+#> <0 rows> (or 0-length row.names)
+#> 
+#> $`original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx`$model_y_only
+#>  [1] id     lhs    op     rhs    user   block  group  free   ustart exo   
+#> [11] label  plabel level  start  est    se    
+#> <0 rows> (or 0-length row.names)
+#> 
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm`
+#> $`original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start   est
+#> 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0 0.282
+#>       se
+#> 10 0.136
+#> 
+#> $`original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level start
+#> 24 24  fx ~~  fm    1     1     1   21      0   0                  1     0
+#>      est se
+#> 24 0.198 NA
+#> 
+#> 
+#> $`original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`
+#> $`original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`$model_x_only
+#>    id lhs op rhs user block group free ustart exo label plabel start   est
+#> 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0 0.335
+#>       se
+#> 11 0.109
+#> 
+#> $`original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`$model_y_only
+#>    id lhs op rhs user block group free ustart exo label plabel level start
+#> 24 24  fm ~~  fy    1     1     1   21      0   0                  1     0
+#>      est se
+#> 24 0.422 NA
+```
+
+# Limitations
+
+(Add some limitations in the current version.)
+
+# References

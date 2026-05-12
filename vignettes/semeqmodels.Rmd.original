@@ -43,6 +43,7 @@ used for illustration:
 
 ```{r}
 library(semeqmodels)
+packageVersion("semeqmodels")
 head(round(data_test_3_factor_3_item, 2))
 ```
 
@@ -94,9 +95,47 @@ To find a list of models that are empirically
 equivalent to the model fitted above,
 we can use `eq_models()`:
 
-```{r}
+```{r results="hide"}
 mod_eq <- eq_models(
   original_model = fit
+)
+```
+
+The output is a list of models, defined
+by `lavaan` parameter tables:
+
+```{r}
+mod_eq
+```
+
+By default, the original model, if
+included in this list, will not be
+removed.
+
+The function `eq_chisq()` can be used
+to retrieve the model $\chi^2$s of
+the models:
+
+```{r}
+eq_chisq(mod_eq)
+```
+
+The function `eq_df()` can be used to
+retrieve the model *df*s:
+
+```{r}
+eq_df(mod_eq)
+```
+
+The function `model_diff_many()` can
+be used to list the differences between
+the fitted models and each of the
+empirically equivalent models:
+
+```{r}
+model_diff_many(
+  target_model = fit,
+  other_models = mod_eq
 )
 ```
 
