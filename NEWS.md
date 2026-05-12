@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9024
+# semeqmodels 0.0.0.9025
 
 - Initialize the package.
   (0.0.0.9000)
@@ -181,3 +181,6 @@
 - Improved parallel processing in
   `eq_models()`.
   (0.0.0.9024)
+
+- Added a get-started vignette.
+  (0.0.0.9025)
