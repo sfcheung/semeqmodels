@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9021
+# semeqmodels 0.0.0.9022
 
 - Initialize the package.
   (0.0.0.9000)
@@ -168,3 +168,8 @@
 - Added `model_diff()` to compare
   two parameter tables.
   (0.0.0.9021)
+
+- Added `eq_partables()` to create
+  an `eq_partables` object from
+  parameter tables or lavaan output.
+  (0.0.0.9022)
