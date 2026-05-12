@@ -130,7 +130,9 @@ print.eq_partables <- function(
 #' objects to be combined. For the
 #' `print`-method of `eq_partables`
 #' objects, these arguments are not
-#' used.
+#' used. For [eq_partables()], it
+#' should be `lavaan` outputs or
+#' `lavaan` parameter tables.
 #'
 #' @rdname partable_helpers
 #' @export
@@ -212,6 +214,11 @@ unique.eq_partables <- function(
 to_eq_partables_list <- function(
   ...
 ) {
+  # Input
+  # - A list of eq_partables or partables,
+  #   may be a list of lists.
+  # Output
+  # - Ensure that the output is of the class `eq_partables`
   out0 <- list(...)
   out1 <- unlist_eq_partables(out0)
   tmp <- class(out1)
@@ -222,6 +229,10 @@ to_eq_partables_list <- function(
 
 #' @noRd
 unlist_eq_partables <- function(x) {
+  # Input
+  # - A list, which may have lists of lists.
+  # Output
+  # - A list of parameter tables
   out <- list()
   for (i in seq_along(x)) {
     if ((inherits(x[[i]], "eq_partables")) ||
@@ -475,18 +486,76 @@ match_eq_partables <- function(
 }
 
 #' @details
+#' The function [eq_partables()]
+#' creates an `eq_partables` object
+#' from `lavaan` parameter tables
+#' or `lavaan` outputs.
+#'
+#' @return
+#' The function [eq_partables()]
+#' returns an `eq_partables` object
+#' created from the one or more
+#' `lavaan` outputs or `lavaan`
+#' parameter tables.
+#'
+#' @rdname partable_helpers
+#' @export
+eq_partables <- function(
+  ...
+) {
+  out <- list(...)
+  out_names <- as.list(substitute(list(...)))[-1]
+  if (is.null(names(out))) {
+    names(out) <- out_names
+  }
+  tmp <- sapply(names(out), nchar)
+  if (any(tmp == 0L)) {
+    i <- which(tmp == 0L)
+    names(out)[i] <- out_names[i]
+  }
+  chk1 <- sapply(
+            out,
+            is_partable
+          )
+  chk2 <- sapply(
+            out,
+            \(x) inherits(x, "lavaan")
+          )
+  chk <- chk1 | chk2
+  if (!all(chk)) {
+    stop("Objects are not all parameter tables or lavaan outputs.")
+  }
+  if (any(chk2)) {
+    for (x in which(chk2)) {
+      x_pt <- as_eq_partables(out[[x]])
+      out[[x]] <- x_pt[[1]]
+    }
+  }
+  tmp <- class(out)
+  tmp <- tmp[!(tmp %in% c("eq_partables", "partables"))]
+  class(out) <- c("eq_partables", "partables", class(out))
+  # TODO:
+  # - Add names
+  out
+}
+
+#' @details
 #' The function [as_eq_partables()] is
 #' not a usual `as` function. It works
-#' only on a `lavaan` output. It converts
-#' a `lavaan` output to a one-element
+#' only on a `lavaan` output or
+#' `lavaan` parameter table. It converts
+#' `sem_out` to a one-element
 #' list of the class `eq_partables`,
 #' with the parameter table as the
-#' element and the `lavaan` output in
+#' element and the `lavaan` output,
+#' if `sem_out` is a `lavaan` output, in
 #' the attribute `"fit"`. If `sem_out`
-#' is not a `lavaan` object, a zero-length
+#' is not a `lavaan` object nor a
+#' `lavaan` parameter table, a zero-length
 #' `eq_partables` object will be returned.
 #'
-#' @param sem_out A `lavaan` object.
+#' @param sem_out A `lavaan` object
+#' or a `lavaan` parameter table.
 #' Can be `NULL`.
 #'
 #' @param model_name The name of the
@@ -496,7 +565,8 @@ match_eq_partables <- function(
 #' The function [as_eq_partables()]
 #' returns a one-element
 #' `eq_partables` object if `sem_out` is
-#' a `lavaan` output. It returns
+#' a `lavaan` output or a `lavaan`
+#' parameter table. It returns
 #' a zero-length `eq_partables` object
 #' otherwise.
 #'
@@ -511,10 +581,15 @@ as_eq_partables <- function(
   # If sem_out is NULL,
   # create a zero-length eq_partables object.
   # For concatenation
-  if (inherits(sem_out, "lavaan")) {
-    pt <- lavaan::parameterTable(sem_out)
-    out <- list(pt)
-    attr(out[[1]], "fit") <- sem_out
+  if (inherits(sem_out, "lavaan") ||
+      is_partable(sem_out)) {
+    if (inherits(sem_out, "lavaan")) {
+      pt <- lavaan::parameterTable(sem_out)
+      out <- list(pt)
+      attr(out[[1]], "fit") <- sem_out
+    } else {
+      out <- list(sem_out)
+    }
     names(out) <- model_name
   } else {
     out <- list()

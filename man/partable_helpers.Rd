@@ -15,6 +15,7 @@
 \alias{match_eq_partables}
 \alias{\%pt_in\%}
 \alias{\%pt_notin\%}
+\alias{eq_partables}
 \alias{as_eq_partables}
 \alias{is_partable}
 \alias{is_partables}
@@ -46,6 +47,8 @@ x \%pt_in\% table
 
 x \%pt_notin\% table
 
+eq_partables(...)
+
 as_eq_partables(sem_out = NULL, model_name = "original")
 
 is_partable(object, colchk = c("id", "lhs", "op", "rhs"))
@@ -68,7 +71,9 @@ object, these are \code{eq_partables}
 objects to be combined. For the
 \code{print}-method of \code{eq_partables}
 objects, these arguments are not
-used.}
+used. For \code{\link[=eq_partables]{eq_partables()}}, it
+should be \code{lavaan} outputs or
+\code{lavaan} parameter tables.}
 
 \item{incomparables}{Not used.}
 
@@ -83,7 +88,8 @@ used.}
 \item{nomatch}{The same argument from
 \code{\link[=match]{match()}}.}
 
-\item{sem_out}{A \code{lavaan} object.
+\item{sem_out}{A \code{lavaan} object
+or a \code{lavaan} parameter table.
 Can be \code{NULL}.}
 
 \item{model_name}{The name of the
@@ -155,10 +161,17 @@ the has values of \code{x} and \code{table.}
 the output of \verb{\%notin\%} applied to
 the has values of \code{x} and \code{table.}
 
+The function \code{\link[=eq_partables]{eq_partables()}}
+returns an \code{eq_partables} object
+created from the one or more
+\code{lavaan} outputs or \code{lavaan}
+parameter tables.
+
 The function \code{\link[=as_eq_partables]{as_eq_partables()}}
 returns a one-element
 \code{eq_partables} object if \code{sem_out} is
-a \code{lavaan} output. It returns
+a \code{lavaan} output or a \code{lavaan}
+parameter table. It returns
 a zero-length \code{eq_partables} object
 otherwise.
 
@@ -234,15 +247,23 @@ but works on parameter tables using
 but works on parameter tables using
 \code{\link[=match_eq_partables]{match_eq_partables()}}.
 
+The function \code{\link[=eq_partables]{eq_partables()}}
+creates an \code{eq_partables} object
+from \code{lavaan} parameter tables
+or \code{lavaan} outputs.
+
 The function \code{\link[=as_eq_partables]{as_eq_partables()}} is
 not a usual \code{as} function. It works
-only on a \code{lavaan} output. It converts
-a \code{lavaan} output to a one-element
+only on a \code{lavaan} output or
+\code{lavaan} parameter table. It converts
+\code{sem_out} to a one-element
 list of the class \code{eq_partables},
 with the parameter table as the
-element and the \code{lavaan} output in
+element and the \code{lavaan} output,
+if \code{sem_out} is a \code{lavaan} output, in
 the attribute \code{"fit"}. If \code{sem_out}
-is not a \code{lavaan} object, a zero-length
+is not a \code{lavaan} object nor a
+\code{lavaan} parameter table, a zero-length
 \code{eq_partables} object will be returned.
 
 The function \code{\link[=is_partable]{is_partable()}} check

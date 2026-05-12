@@ -131,6 +131,54 @@ expect_equal(
   names(out6)
 )
 
+# as_eq_partables
+
+tmp1 <- as_eq_partables(fit)
+tmp2 <- as_eq_partables(pt)
+expect_equal(
+  tmp1[[1]],
+  tmp2[[1]],
+  ignore_attr = TRUE
+)
+
+# eq_partables
+
+tmp1 <- eq_partables(
+          fit_1_more_1_less_with_fit[[1]][[1]],
+          fit_1_more_1_less_with_fit[[1]][[2]]
+        )
+tmp2 <- eq_partables(
+          fit_1_more_1_less_with_fit[[1]][[1]],
+          attr(fit_1_more_1_less_with_fit[[1]][[2]], "fit")
+        )
+tmp3 <- eq_partables(
+          model1 = fit_1_more_1_less_with_fit[[1]][[1]],
+          model2 = attr(fit_1_more_1_less_with_fit[[1]][[2]], "fit")
+        )
+expect_equal(names(tmp3),
+             c("model1", "model2"))
+
+tmp4 <- eq_partables(
+          fit_1_more_1_less_with_fit[[1]][[1]],
+          model2 = attr(fit_1_more_1_less_with_fit[[1]][[2]], "fit")
+        )
+expect_equal(names(tmp4),
+             c("fit_1_more_1_less_with_fit[[1]][[1]]", "model2"))
+
+tmp <- model_diff(tmp1[[1]], tmp2[[1]])
+expect_equal(unname(sapply(tmp, nrow)),
+             c(0, 0))
+tmp <- model_diff(tmp1[[2]], tmp2[[2]])
+expect_equal(unname(sapply(tmp, nrow)),
+             c(0, 0))
+
+tmp <- model_diff(tmp1[[1]], tmp3[[1]])
+expect_equal(unname(sapply(tmp, nrow)),
+             c(0, 0))
+tmp <- model_diff(tmp1[[2]], tmp3[[2]])
+expect_equal(unname(sapply(tmp, nrow)),
+             c(0, 0))
+
 # Subsetting
 
 tmp <- fit_1_more1[2]
