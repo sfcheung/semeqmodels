@@ -1,0 +1,146 @@
+---
+title: "Finding Equivalent Models in SEM"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    options:
+      toc:
+        depth: 2
+      number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Finding Equivalent Models in SEM}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+csl: apa.csl
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = ""
+)
+```
+
+(This is a work-in-progress draft, just
+for testing different workflows.)
+
+# Introduction
+
+This article is a brief illustration of how
+to use `semeqmodels()`
+from the package
+[semeqmodels](https://sfcheung.github.io/semeqmodels/)
+to find (empirically) equivalent models
+of a model fitted by structural
+equation modeling using `lavaan`.
+
+# Data
+
+A test dataset of `semeqmodels` will be
+used for illustration:
+
+```{r}
+library(semeqmodels)
+packageVersion("semeqmodels")
+head(round(data_test_3_factor_3_item, 2))
+```
+
+# Model
+
+Suppose we are going to fit a model
+with three latent variables:
+
+```{r}
+mod <-
+"
+fx =~ x1 + x2 + x3
+fm =~ m1 + m2 + m3
+fy =~ y1 + y2 + y3
+fm ~ fx
+fy ~ fm + fx
+"
+```
+
+```{r}
+library(lavaan)
+fit <- sem(
+  model = mod,
+  data = data_test_3_factor_3_item
+)
+fit
+```
+
+# Empirically Equivalent Models
+
+Let's defined *empirically* *equivalence*
+this way: Two models are empirically equivalent
+with respect to a dataset
+if the following conditions are met:
+
+- They have the same model degrees of
+  freedom.
+
+- They involves the same observed and
+  latent variables.
+
+- If fitted to this dataset, they have
+  *nearly* the same model $\chi^2$,
+  "nearly" defined by a tolerance.
+
+# Illustration
+
+To find a list of models that are empirically
+equivalent to the model fitted above,
+we can use `eq_models()`:
+
+```{r results="hide"}
+mod_eq <- eq_models(
+  original_model = fit
+)
+```
+
+The output is a list of models, defined
+by `lavaan` parameter tables:
+
+```{r}
+mod_eq
+```
+
+By default, the original model, if
+included in this list, will not be
+removed.
+
+The function `eq_chisq()` can be used
+to retrieve the model $\chi^2$s of
+the models:
+
+```{r}
+eq_chisq(mod_eq)
+```
+
+The function `eq_df()` can be used to
+retrieve the model *df*s:
+
+```{r}
+eq_df(mod_eq)
+```
+
+The function `model_diff_many()` can
+be used to list the differences between
+the fitted models and each of the
+empirically equivalent models:
+
+```{r}
+model_diff_many(
+  target_model = fit,
+  other_models = mod_eq
+)
+```
+
+# Limitations
+
+(Add some limitations in the current version.)
+
+# References

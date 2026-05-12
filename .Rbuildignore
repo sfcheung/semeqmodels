@@ -8,3 +8,5 @@
 ^\.vscode$
 ^data-raw$
 ^\.devcontainer$
+^vignettes/articles$
+^rebuild_vignettes.R$

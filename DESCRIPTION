@@ -15,6 +15,8 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Suggests:
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/testthat/parallel: true
@@ -28,3 +30,4 @@ Depends:
 URL: https://sfcheung.github.io/semeqmodels/
 LazyData: true
 Config/roxygen2/version: 8.0.0
+VignetteBuilder: knitr
