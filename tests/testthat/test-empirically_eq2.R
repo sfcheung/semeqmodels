@@ -45,6 +45,8 @@ eq_out_2 <- eq_models(
 
 # Only original_model: Model syntax
 
+# Need this seed for consistent dummy data
+set.seed(2345)
 eq_out_3 <- eq_models(
           original_model = mod1,
           parallel = FALSE,
