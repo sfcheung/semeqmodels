@@ -2,6 +2,7 @@
 % Please edit documentation in R/model_diff.R
 \name{model_diff}
 \alias{model_diff}
+\alias{model_diff_many}
 \title{Compare Two Models}
 \usage{
 model_diff(
@@ -10,6 +11,8 @@ model_diff(
   cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart", "start"),
   digits = 6
 )
+
+model_diff_many(target_model, other_models, ...)
 }
 \arguments{
 \item{model_x, model_y}{Parameter
@@ -28,6 +31,20 @@ are compared).}
 \item{digits}{The number of decimal
 places used to round \code{ustart} and
 \code{start} when doing the comparison.}
+
+\item{target_model}{A model
+(\code{lavaan} parameter table or
+\code{lavaan} output) to which other
+models will be compared.}
+
+\item{other_models}{A list of models
+(\code{lavaan} parameter tables o
+\code{lavaan} outputs) to be compared to
+the \code{target_model} by \code{\link[=model_diff]{model_diff()}}.}
+
+\item{...}{For \code{\link[=model_diff_many]{model_diff_many()}},
+these are arguments to be passed to
+\code{\link[=model_diff]{model_diff()}}.}
 }
 \value{
 The function \code{\link[=model_diff]{model_diff()}}
@@ -36,6 +53,10 @@ returns a list with two elements,
 Each element is a parameter table
 with parameters that are present only
 in one of the model.
+
+The function \code{\link[=model_diff_many]{model_diff_many()}}
+return a list of the results
+of \code{\link[=model_diff]{model_diff()}}.
 }
 \description{
 Helper functions to
@@ -60,6 +81,11 @@ the values are used only if a parameter
 is fixed. If a parameter is free,
 they will be recoded to \code{NA} when
 being compared.
+
+The function \code{\link[=model_diff_many]{model_diff_many()}}
+compare one model (\code{target_model})
+against other models (\code{other_models})
+using \code{\link[=model_diff]{model_diff()}}.
 }
 \examples{
 

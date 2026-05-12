@@ -146,6 +146,47 @@ model_diff <- function(
   out
 }
 
+#' @details
+#' The function [model_diff_many()]
+#' compare one model (`target_model`)
+#' against other models (`other_models`)
+#' using [model_diff()].
+#'
+#' @return
+#' The function [model_diff_many()]
+#' return a list of the results
+#' of [model_diff()].
+#'
+#' @param target_model A model
+#' (`lavaan` parameter table or
+#' `lavaan` output) to which other
+#' models will be compared.
+#'
+#' @param other_models A list of models
+#' (`lavaan` parameter tables o
+#' `lavaan` outputs) to be compared to
+#' the `target_model` by [model_diff()].
+#'
+#' @param ... For [model_diff_many()],
+#' these are arguments to be passed to
+#' [model_diff()].
+#'
+#' @rdname model_diff
+#' @export
+model_diff_many <- function(
+  target_model,
+  other_models,
+  ...
+) {
+  out0 <- lapply(
+    other_models,
+    model_diff,
+    model_x = target_model,
+    ...
+  )
+  out0
+}
+
 #' @noRd
 fix_pt <- function(
   object,

@@ -78,4 +78,22 @@ expect_equal(as.data.frame(out2[[2]]),
              as.data.frame(out[[2]]),
              ignore_attr = TRUE)
 
+# model_diff_many
+
+pt_others <- pt[2:3]
+
+out <- model_diff_many(
+  pt1,
+  pt_others
+)
+
+chk1 <- model_diff(pt1, pt2)
+chk2 <- model_diff(pt1, pt3)
+expect_equal(as.data.frame(out[[1]][[1]]),
+             as.data.frame(chk1[[1]]),
+             ignore_attr = TRUE)
+expect_equal(as.data.frame(out[[2]][[1]]),
+             as.data.frame(chk2[[1]]),
+             ignore_attr = TRUE)
+
 })
