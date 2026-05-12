@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9022
+# semeqmodels 0.0.0.9023
 
 - Initialize the package.
   (0.0.0.9000)
@@ -173,3 +173,7 @@
   an `eq_partables` object from
   parameter tables or lavaan output.
   (0.0.0.9022)
+
+- Added `model_difF_many()` for comparing
+  several models with one model.
+  (0.0.0.9023)
