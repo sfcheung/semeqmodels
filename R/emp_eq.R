@@ -384,6 +384,10 @@ eq_models_internal <- function(
           sep = "\n")
     }
 
+    original_model <- fix_call(
+                        original_model,
+                        env_for_call = parent.frame()
+                      )
     eq_df_models_args0 <- eq_df_models_args
     eq_df_models_args0 <- utils::modifyList(
       eq_df_models_args0,

@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9023
+# semeqmodels 0.0.0.9024
 
 - Initialize the package.
   (0.0.0.9000)
@@ -177,3 +177,7 @@
 - Added `model_difF_many()` for comparing
   several models with one model.
   (0.0.0.9023)
+
+- Improved parallel processing in
+  `eq_models()`.
+  (0.0.0.9024)
