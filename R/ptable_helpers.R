@@ -477,16 +477,20 @@ match_eq_partables <- function(
 #' @details
 #' The function [as_eq_partables()] is
 #' not a usual `as` function. It works
-#' only on a `lavaan` output. It converts
-#' a `lavaan` output to a one-element
+#' only on a `lavaan` output or
+#' `lavaan` parameter table. It converts
+#' `sem_out` to a one-element
 #' list of the class `eq_partables`,
 #' with the parameter table as the
-#' element and the `lavaan` output in
+#' element and the `lavaan` output,
+#' if `sem_out` is a `lavaan` output, in
 #' the attribute `"fit"`. If `sem_out`
-#' is not a `lavaan` object, a zero-length
+#' is not a `lavaan` object nor a
+#' `lavaan` parameter table, a zero-length
 #' `eq_partables` object will be returned.
 #'
-#' @param sem_out A `lavaan` object.
+#' @param sem_out A `lavaan` object
+#' or a `lavaan` parameter table.
 #' Can be `NULL`.
 #'
 #' @param model_name The name of the
@@ -496,7 +500,8 @@ match_eq_partables <- function(
 #' The function [as_eq_partables()]
 #' returns a one-element
 #' `eq_partables` object if `sem_out` is
-#' a `lavaan` output. It returns
+#' a `lavaan` output or a `lavaan`
+#' parameter table. It returns
 #' a zero-length `eq_partables` object
 #' otherwise.
 #'
@@ -511,10 +516,15 @@ as_eq_partables <- function(
   # If sem_out is NULL,
   # create a zero-length eq_partables object.
   # For concatenation
-  if (inherits(sem_out, "lavaan")) {
-    pt <- lavaan::parameterTable(sem_out)
-    out <- list(pt)
-    attr(out[[1]], "fit") <- sem_out
+  if (inherits(sem_out, "lavaan") ||
+      is_partable(sem_out)) {
+    if (inherits(sem_out, "lavaan")) {
+      pt <- lavaan::parameterTable(sem_out)
+      out <- list(pt)
+      attr(out[[1]], "fit") <- sem_out
+    } else {
+      out <- list(sem_out)
+    }
     names(out) <- model_name
   } else {
     out <- list()

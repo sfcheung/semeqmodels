@@ -131,6 +131,16 @@ expect_equal(
   names(out6)
 )
 
+# as_eq_partables
+
+tmp1 <- as_eq_partables(fit)
+tmp2 <- as_eq_partables(pt)
+expect_equal(
+  tmp1[[1]],
+  tmp2[[1]],
+  ignore_attr = TRUE
+)
+
 # Subsetting
 
 tmp <- fit_1_more1[2]
