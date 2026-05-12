@@ -130,7 +130,9 @@ print.eq_partables <- function(
 #' objects to be combined. For the
 #' `print`-method of `eq_partables`
 #' objects, these arguments are not
-#' used.
+#' used. For [eq_partables()], it
+#' should be `lavaan` outputs or
+#' `lavaan` parameter tables.
 #'
 #' @rdname partable_helpers
 #' @export
@@ -481,6 +483,60 @@ match_eq_partables <- function(
     x,
     table,
     nomatch = 0L) == 0L
+}
+
+#' @details
+#' The function [eq_partables()]
+#' creates an `eq_partables` object
+#' from `lavaan` parameter tables
+#' or `lavaan` outputs.
+#'
+#' @return
+#' The function [eq_partables()]
+#' returns an `eq_partables` object
+#' created from the one or more
+#' `lavaan` outputs or `lavaan`
+#' parameter tables.
+#'
+#' @rdname partable_helpers
+#' @export
+eq_partables <- function(
+  ...
+) {
+  out <- list(...)
+  out_names <- as.list(substitute(list(...)))[-1]
+  if (is.null(names(out))) {
+    names(out) <- out_names
+  }
+  tmp <- sapply(names(out), nchar)
+  if (any(tmp == 0L)) {
+    i <- which(tmp == 0L)
+    names(out)[i] <- out_names[i]
+  }
+  chk1 <- sapply(
+            out,
+            is_partable
+          )
+  chk2 <- sapply(
+            out,
+            \(x) inherits(x, "lavaan")
+          )
+  chk <- chk1 | chk2
+  if (!all(chk)) {
+    stop("Objects are not all parameter tables or lavaan outputs.")
+  }
+  if (any(chk2)) {
+    for (x in which(chk2)) {
+      x_pt <- as_eq_partables(out[[x]])
+      out[[x]] <- x_pt[[1]]
+    }
+  }
+  tmp <- class(out)
+  tmp <- tmp[!(tmp %in% c("eq_partables", "partables"))]
+  class(out) <- c("eq_partables", "partables", class(out))
+  # TODO:
+  # - Add names
+  out
 }
 
 #' @details

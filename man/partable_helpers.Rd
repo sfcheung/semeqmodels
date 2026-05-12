@@ -15,6 +15,7 @@
 \alias{match_eq_partables}
 \alias{\%pt_in\%}
 \alias{\%pt_notin\%}
+\alias{eq_partables}
 \alias{as_eq_partables}
 \alias{is_partable}
 \alias{is_partables}
@@ -46,6 +47,8 @@ x \%pt_in\% table
 
 x \%pt_notin\% table
 
+eq_partables(...)
+
 as_eq_partables(sem_out = NULL, model_name = "original")
 
 is_partable(object, colchk = c("id", "lhs", "op", "rhs"))
@@ -68,7 +71,9 @@ object, these are \code{eq_partables}
 objects to be combined. For the
 \code{print}-method of \code{eq_partables}
 objects, these arguments are not
-used.}
+used. For \code{\link[=eq_partables]{eq_partables()}}, it
+should be \code{lavaan} outputs or
+\code{lavaan} parameter tables.}
 
 \item{incomparables}{Not used.}
 
@@ -156,6 +161,12 @@ the has values of \code{x} and \code{table.}
 the output of \verb{\%notin\%} applied to
 the has values of \code{x} and \code{table.}
 
+The function \code{\link[=eq_partables]{eq_partables()}}
+returns an \code{eq_partables} object
+created from the one or more
+\code{lavaan} outputs or \code{lavaan}
+parameter tables.
+
 The function \code{\link[=as_eq_partables]{as_eq_partables()}}
 returns a one-element
 \code{eq_partables} object if \code{sem_out} is
@@ -235,6 +246,11 @@ but works on parameter tables using
 \verb{\%pt_notin\%} is similar to \verb{\%notin\%},
 but works on parameter tables using
 \code{\link[=match_eq_partables]{match_eq_partables()}}.
+
+The function \code{\link[=eq_partables]{eq_partables()}}
+creates an \code{eq_partables} object
+from \code{lavaan} parameter tables
+or \code{lavaan} outputs.
 
 The function \code{\link[=as_eq_partables]{as_eq_partables()}} is
 not a usual \code{as} function. It works
