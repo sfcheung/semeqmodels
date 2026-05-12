@@ -212,6 +212,11 @@ unique.eq_partables <- function(
 to_eq_partables_list <- function(
   ...
 ) {
+  # Input
+  # - A list of eq_partables or partables,
+  #   may be a list of lists.
+  # Output
+  # - Ensure that the output is of the class `eq_partables`
   out0 <- list(...)
   out1 <- unlist_eq_partables(out0)
   tmp <- class(out1)
@@ -222,6 +227,10 @@ to_eq_partables_list <- function(
 
 #' @noRd
 unlist_eq_partables <- function(x) {
+  # Input
+  # - A list, which may have lists of lists.
+  # Output
+  # - A list of parameter tables
   out <- list()
   for (i in seq_along(x)) {
     if ((inherits(x[[i]], "eq_partables")) ||
