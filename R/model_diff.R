@@ -51,6 +51,11 @@ NULL
 #' places used to round `ustart` and
 #' `start` when doing the comparison.
 #'
+#' @param model_x_name,model_y_name The
+#' names of the models used in the output.
+#' If `NULL`, the name will be generated
+#' automatically.
+#'
 #' @examples
 #'
 #' library(lavaan)
@@ -87,8 +92,16 @@ model_diff <- function(
   model_x,
   model_y,
   cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart", "start"),
-  digits = 6
+  digits = 6,
+  model_x_name = NULL,
+  model_y_name = NULL
 ) {
+  if (is.null(model_x_name)) {
+    model_x_name <- deparse(substitute(model_x))
+  }
+  if (is.null(model_y_name)) {
+    model_y_name <- deparse(substitute(model_y))
+  }
   if (inherits(model_x, "lavaan")) {
     model_x <- lavaan::parameterTable(model_x)
   }
@@ -144,10 +157,13 @@ model_diff <- function(
   y2 <- y0[y0$digest0 %in% y1_only_d0, ]
   x3 <- fix_pt_reverse(x2)
   y3 <- fix_pt_reverse(y2)
+  attr(x3, "model_name") <- model_x_name
+  attr(y3, "model_name") <- model_y_name
   out <- list(
     model_x_only = x3,
     model_y_only = y3
   )
+  names(out) <- c(model_x_name, model_y_name)
   out
 }
 
@@ -176,19 +192,52 @@ model_diff <- function(
 #' these are arguments to be passed to
 #' [model_diff()].
 #'
+#' @param target_model_name,other_models_names
+#' Names of the models, to be passed to
+#' [model_diff()]. If `NULL`, they will
+#' be generated automatically.
+#'
 #' @rdname model_diff
 #' @export
 model_diff_many <- function(
   target_model,
   other_models,
-  ...
+  ...,
+  target_model_name = NULL,
+  other_models_names = NULL
 ) {
-  out0 <- lapply(
-    other_models,
+  # out0 <- lapply(
+  #   other_models,
+  #   model_diff,
+  #   model_x = target_model,
+  #   ...
+  # )
+  if (is.null(target_model_name)) {
+    target_model_name <- deparse(substitute(target_model))
+  }
+  if (is.null(other_models_names)) {
+    other_models_names <- names(other_models)
+    if (is.null(other_models_names)) {
+      other_models_names <- paste0(
+        "Model_y_",
+        seq_along(other_models)
+      )
+    }
+  }
+  ddd <- list(...)
+  out0 <- mapply(
     model_diff,
-    model_x = target_model,
-    ...
+    model_y = other_models,
+    model_y_name = other_models_names,
+    MoreArgs = c(
+        list(model_x = target_model,
+            model_x_name = target_model_name),
+        ddd
+      ),
+    SIMPLIFY = FALSE,
+    USE.NAMES = FALSE
   )
+  names(out0) <- other_models_names
   out0
 }
 

@@ -9,10 +9,18 @@ model_diff(
   model_x,
   model_y,
   cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart", "start"),
-  digits = 6
+  digits = 6,
+  model_x_name = NULL,
+  model_y_name = NULL
 )
 
-model_diff_many(target_model, other_models, ...)
+model_diff_many(
+  target_model,
+  other_models,
+  ...,
+  target_model_name = NULL,
+  other_models_names = NULL
+)
 }
 \arguments{
 \item{model_x, model_y}{Parameter
@@ -32,6 +40,11 @@ are compared).}
 places used to round \code{ustart} and
 \code{start} when doing the comparison.}
 
+\item{model_x_name, model_y_name}{The
+names of the models used in the output.
+If \code{NULL}, the name will be generated
+automatically.}
+
 \item{target_model}{A model
 (\code{lavaan} parameter table or
 \code{lavaan} output) to which other
@@ -45,6 +58,10 @@ the \code{target_model} by \code{\link[=model_diff]{model_diff()}}.}
 \item{...}{For \code{\link[=model_diff_many]{model_diff_many()}},
 these are arguments to be passed to
 \code{\link[=model_diff]{model_diff()}}.}
+
+\item{target_model_name, other_models_names}{Names of the models, to be passed to
+\code{\link[=model_diff]{model_diff()}}. If \code{NULL}, they will
+be generated automatically.}
 }
 \value{
 The function \code{\link[=model_diff]{model_diff()}}
