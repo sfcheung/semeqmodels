@@ -103,15 +103,18 @@ model_diff <- function(
   }
   x0 <- model_x
   y0 <- model_y
+  algo <- getOption("semeqmodels.algo") %||% "xxhash32"
   x0$digest0 <- apply(
                 x0,
                 MARGIN = 1,
-                digest::digest
+                digest::digest,
+                algo = algo
               )
   y0$digest0 <- apply(
                 y0,
                 MARGIN = 1,
-                digest::digest
+                digest::digest,
+                algo = algo
               )
   x0 <- fix_pt(x0, digits = digits)
   y0 <- fix_pt(y0, digits = digits)
@@ -124,12 +127,14 @@ model_diff <- function(
   x1$digest <- apply(
                 x1[, -x1d],
                 MARGIN = 1,
-                digest::digest
+                digest::digest,
+                algo = algo
               )
   y1$digest <- apply(
                 y1[, -y1d],
                 MARGIN = 1,
-                digest::digest
+                digest::digest,
+                algo = algo
               )
   x1_only <- setdiff(x1$digest, y1$digest)
   y1_only <- setdiff(y1$digest, x1$digest)

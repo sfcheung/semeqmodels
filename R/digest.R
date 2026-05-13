@@ -55,6 +55,11 @@
 #' sorting the rows, if `sort_rows` is
 #' `TRUE`.
 #'
+#' @param algo The algorithm used to
+#' by [digest::digest()]. Note that the
+#' default value is different from that
+#' of [digest::digest()]
+#'
 #' @param ... For [digest_partable()],
 #' these are optional arguments to be
 #' passed to [digest::digest()]. For
@@ -114,6 +119,7 @@ digest_partable <- function(
   digits = 6,
   sort_rows = TRUE,
   sort_by = c("lhs", "op", "rhs", "block", "group"),
+  algo = getOption("semeqmodels.algo") %||% "xxhash32",
   ...
 ) {
 
@@ -146,6 +152,7 @@ digest_partable <- function(
   do.call(
       digest::digest,
       list(object = out0,
+          algo = algo,
           ...
       )
     )

@@ -14,6 +14,7 @@ digest_partable(
   digits = 6,
   sort_rows = TRUE,
   sort_by = c("lhs", "op", "rhs", "block", "group"),
+  algo = getOption("semeqmodels.algo") \%||\% "xxhash32",
   ...
 )
 
@@ -52,6 +53,11 @@ hash value.}
 \item{sort_by}{The columns used when
 sorting the rows, if \code{sort_rows} is
 \code{TRUE}.}
+
+\item{algo}{The algorithm used to
+by \code{\link[digest:digest]{digest::digest()}}. Note that the
+default value is different from that
+of \code{\link[digest:digest]{digest::digest()}}}
 
 \item{...}{For \code{\link[=digest_partable]{digest_partable()}},
 these are optional arguments to be
