@@ -10,10 +10,12 @@
 \usage{
 digest_partable(
   partable,
-  cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart", "start"),
-  digits = 6,
+  cols = getOption("semeqmodels.digest_cols", default = c("lhs", "op", "rhs", "block",
+    "group", "free", "ustart", "start")),
+  digits = getOption("semeqmodels.digest_digits", default = 6),
   sort_rows = TRUE,
-  sort_by = c("lhs", "op", "rhs", "block", "group"),
+  sort_by = getOption("semeqmodels.digest_sort_by", default = c("lhs", "op", "rhs",
+    "block", "group")),
   algo = getOption("semeqmodels.algo", default = "xxhash32"),
   ...
 )
