@@ -1,0 +1,187 @@
+#' @noRd
+remove_dropped <- function(
+  partable
+) {
+
+  # Remove parameter(s) fixed to zero when
+  # generated from the original model
+
+  ids <- attr(partable, "ids_dropped")
+  if (length(ids) > 0) {
+    partable <- partable[-ids, ]
+  }
+  partable
+}
+
+#' @noRd
+remove_fixed_zero <- function(
+  partable,
+  op = c("~~", "~")
+) {
+
+  # Remove parameter(s) fixed to zero
+
+  i_free <- partable$free == 0
+  i_zero <- partable$start == 0
+  i_op <- partable$op %in% op
+  i <- i_free & i_zero & i_op
+  out <- partable
+  out[!i, ]
+}
+
+#' @noRd
+fix_object <- function(
+  object
+) {
+  if (inherits(object, "lavaan")) {
+    fit <- object
+    partable <- lavaan::parameterTable(fit)
+  } else {
+    # Assume the object is a parameter table
+    partable <- object
+    dat <- dummy_data(partable)
+    # TODO:
+    # - Accept other options to sem()
+    fit <- lavaan::sem(
+              model = partable,
+              data = dat,
+              test = "standard",
+              se = "none"
+            )
+  }
+  list(partable = partable,
+       fit = fit)
+}
+
+#' @noRd
+dummy_data <- function(
+  partable,
+  n = NULL,
+  n_min = 200,
+  n_per_p = 30,
+  max_attempts = 10,
+  random_delta = c(-.40, .40)
+) {
+
+  fit0 <- lavaan::sem(
+            model = partable,
+            do.fit = FALSE
+          )
+  ovnames <- lavaan::lavNames(
+          fit0,
+          "ov"
+        )
+  p <- length(ovnames)
+  if (is.null(n)) {
+    n <- min(p * n_per_p, n_min)
+  }
+  partablei <- partable
+  k <- (partablei$free > 0) &
+       (partablei$start < .Machine$double.eps)
+  i <- max_attempts
+  out <- NULL
+  while ((i > 0) &&
+         !is.data.frame(out)) {
+    if (any(k)) {
+      tmp <- stats::runif(
+                sum(k),
+                min = random_delta[1],
+                max = random_delta[2]
+              )
+      tmp <- tmp * sample(c(-1, 1), sum(k), replace =  TRUE)
+      partablei[k, "start"] <- tmp
+    }
+    out <- tryCatch(suppressWarnings(
+              lavaan::simulateData(
+                model = partablei,
+                sample.nobs = n
+              )
+            ),
+            error = function(e) e)
+    i <- i - 1
+  }
+  if (!is.data.frame(out)) {
+    stop("Failed to generate the dummy data.")
+  }
+  out
+}
+
+#' @noRd
+x_y_ecov <- function(
+  object
+) {
+  # Form a vector of covariances
+  # between an exogenous variable
+  # and an error terms.
+  # To be used in `must_not_add`.
+  all_x1 <- lavaan::lavNames(
+    object,
+    "ov.x"
+  )
+  all_x2 <- lavaan::lavNames(
+    object,
+    "lv.x"
+  )
+  all_x <- c(all_x1, all_x2)
+  all_y1 <- lavaan::lavNames(
+    object,
+    "ov.nox"
+  )
+  all_y2 <- lavaan::lavNames(
+    object,
+    "lv.nox"
+  )
+  all_y <- c(all_y1, all_y2)
+  all_ind <- lavaan::lavNames(
+    object,
+    "ov.ind"
+  )
+  all_x <- setdiff(all_x, all_ind)
+  all_y <- setdiff(all_y, all_ind)
+  out0 <- expand.grid(
+            x = all_x,
+            y = all_y,
+            stringsAsFactors = FALSE
+          )
+  out1a <- apply(
+      out0,
+      MARGIN = 1,
+      \(x) paste(x, collapse = "~~")
+    )
+  out1b <- apply(
+      out0[, c("y", "x")],
+      MARGIN = 1,
+      \(x) paste(x, collapse = "~~")
+    )
+  out <- unique(c(out1a, out1b))
+  out
+}
+
+#' @noRd
+has_x_y_ecov <- function(
+  object
+) {
+  # Check whether a model has
+  # a covariance between an exogenous
+  # variable and an error term
+  chk <- x_y_ecov(object)
+  if (length(chk) == 0) {
+    return(FALSE)
+  }
+  if (inherits(object, "lavaan")) {
+    object <- lavaan::parameterTable(object)
+  }
+  i1 <- object$op == "~~"
+  i2 <- object$lhs != object$rhs
+  i <- i1 & i2
+  if (all(!i)) {
+    return(FALSE)
+  }
+  all_cov <- apply(
+    object[i, c("lhs", "op", "rhs")],
+    MARGIN = 1,
+    paste0,
+    collapse = ""
+  )
+  any(all_cov %in% chk)
+}

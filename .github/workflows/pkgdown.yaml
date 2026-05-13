@@ -3,9 +3,9 @@
 on:
 # Set to 'branches: [main, master]' when making public
   push:
-    branches: [temp]
+    branches: [main, master]
   pull_request:
-    branches: [temp]
+    branches: [main, master]
   release:
     types: [published]
   workflow_dispatch:
@@ -33,9 +33,17 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Temp install of GitHub versions
+        run: |
+          install.packages("remotes")
+          remotes::install_github("sfcheung/modelbpp")
+        shell: Rscript {0}
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, local::.
+          extra-packages: |
+            any::pkgdown
+            local::.
           needs: website
 
       - name: Build site
