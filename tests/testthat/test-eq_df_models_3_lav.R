@@ -49,6 +49,8 @@ path_all_list <- function(
   }
 }
 
+# Set seed for reproducible results
+set.seed(1)
 out <- eq_df_models(
   sem_out = fit,
   parallel = FALSE,
