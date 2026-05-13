@@ -2,7 +2,7 @@
 
 Find equivalent models in structural equation modeling
 
-(Version 0.0.0.9000, updated on 2026-04-14, [release
+(Version 0.0.0.9025, updated on 2026-05-12, [release
 history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 # semeqmodels: Equivalent Models in Structural Equation Models
@@ -18,9 +18,10 @@ For more information on this package, please visit its GitHub page:
 # Installation
 
 The latest developmental version of this package can be installed by
-`remotes::install_github`:
+[`remotes::install_github`](https://remotes.r-lib.org/reference/install_github.html):
 
 ``` r
+
 remotes::install_github("sfcheung/semeqmodels")
 ```
 

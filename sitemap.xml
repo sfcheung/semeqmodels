@@ -1,10 +1,22 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://sfcheung.github.io/semeqmodels/404.html</loc></url>
 <url><loc>https://sfcheung.github.io/semeqmodels/LICENSE.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/articles/index.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/articles/semeqmodels.html</loc></url>
 <url><loc>https://sfcheung.github.io/semeqmodels/authors.html</loc></url>
 <url><loc>https://sfcheung.github.io/semeqmodels/index.html</loc></url>
 <url><loc>https://sfcheung.github.io/semeqmodels/news/index.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/data_test_3_factor_3_item.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/data_test_4_factor_3_item.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/digest_partable.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/eq_df_models.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/eq_models.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.html</loc></url>
 <url><loc>https://sfcheung.github.io/semeqmodels/reference/index.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/model_diff.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/modified_models.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/partable_helpers.html</loc></url>
+<url><loc>https://sfcheung.github.io/semeqmodels/reference/partable_select.html</loc></url>
 <url><loc>https://sfcheung.github.io/semeqmodels/reference/semeqmodels-package.html</loc></url>
 </urlset>
 
