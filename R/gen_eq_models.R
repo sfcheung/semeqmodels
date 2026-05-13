@@ -61,6 +61,13 @@
 #' [drop_k()] or [add_k()] will also
 #' be displayed.
 #'
+#' @param short_names If `TRUE`, then
+#' short names (from the digests) will
+#' be used to name the models. Though
+#' these names are not meaning words,
+#' the full names describing the changes
+#' can be very long.
+#'
 #' @examples
 #'
 #' # TODO:
@@ -100,7 +107,8 @@ eq_df_models <- function(
   parallel = FALSE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = TRUE,
-  gen_models_progress = FALSE
+  gen_models_progress = FALSE,
+  short_names = TRUE
 ) {
   # TODO:
   # - Add other arguments, e.g., for add_k() and drop_k().
@@ -302,6 +310,12 @@ eq_df_models <- function(
         length(out)
       )
     cat(tmp)
+  }
+
+  # ==== Short names? ====
+
+  if (short_names) {
+    out <- rename_to_digest(out)
   }
 
   # TODO:

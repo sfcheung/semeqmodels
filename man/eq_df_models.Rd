@@ -15,7 +15,8 @@ eq_df_models(
   parallel = FALSE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = TRUE,
-  gen_models_progress = FALSE
+  gen_models_progress = FALSE,
+  short_names = TRUE
 )
 }
 \arguments{
@@ -73,6 +74,13 @@ progress of the search.}
 then progress in each call to
 \code{\link[=drop_k]{drop_k()}} or \code{\link[=add_k]{add_k()}} will also
 be displayed.}
+
+\item{short_names}{If \code{TRUE}, then
+short names (from the digests) will
+be used to name the models. Though
+these names are not meaning words,
+the full names describing the changes
+can be very long.}
 }
 \value{
 The function \code{\link[=eq_df_models]{eq_df_models()}}
