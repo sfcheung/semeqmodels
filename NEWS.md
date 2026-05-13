@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9025
+# semeqmodels 0.0.0.9026
 
 - Initialize the package.
   (0.0.0.9000)
@@ -184,3 +184,18 @@
 
 - Added a get-started vignette.
   (0.0.0.9025)
+
+- Some options of `digest_partable` can
+  now be set through options.
+  (0.0.0.9026)
+
+- Added more arguments of `drop_k()`
+  and `add_k()` to `eq_df_models()`.
+  (0.0.0.9026)
+
+- Revised `eq_df_models()` to use
+  digests as the names of model.
+  Can resort to `modelbpp::gen_models()`
+  names by setting `short_names` to
+  `FALSE`.
+  (0.0.0.9026)
