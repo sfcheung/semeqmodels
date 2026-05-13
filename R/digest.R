@@ -119,7 +119,7 @@ digest_partable <- function(
   digits = 6,
   sort_rows = TRUE,
   sort_by = c("lhs", "op", "rhs", "block", "group"),
-  algo = getOption("semeqmodels.algo") %||% "xxhash32",
+  algo = getOption("semeqmodels.algo", default = "xxhash32"),
   ...
 ) {
 
