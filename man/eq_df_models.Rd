@@ -7,6 +7,10 @@
 eq_df_models(
   sem_out,
   fit_models = FALSE,
+  loadings_to_exclude_from_drop = "all",
+  must_not_drop = NULL,
+  must_not_add = NULL,
+  se = "none",
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
@@ -23,6 +27,31 @@ generated from this model.}
 \item{fit_models}{Whether the models
 will be fitted to the data. To be
 passed to \code{\link[=drop_k]{drop_k()}} and \code{\link[=add_k]{add_k()}}.}
+
+\item{loadings_to_exclude_from_drop}{How factor loadings will be handled.
+Default is \code{"all"} and no factor loadings
+will be dropped.
+To be passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.
+This argument should not be changed.
+Included for internal use.}
+
+\item{must_not_drop}{A character vector
+of parameters that must not be removed,
+and so will not be modified. To be
+passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.}
+
+\item{must_not_add}{A character
+vector of parameters that must not
+be added. To be passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.}
+
+\item{se}{Whether standard error will
+be computed. This argument will be
+passed to \code{\link[lavaan:lavaan]{lavaan::lavaan()}}.
+Default is \code{"none"}, and
+this setting overrides the setting
+in \code{object}. The standard errors are
+irrelevant in checking whether two
+models are equivalent.}
 
 \item{exclude_x_y_ecov}{If \code{TRUE},
 models with one or more covariance
