@@ -54,13 +54,8 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
-            modelbpp=?ignore
             any::rcmdcheck
           needs: check
-
-              extra-packages: |
-      any/package?ignore
-      another-package?ignore
 
       - uses: r-lib/actions/check-r-package@v2
         with:
