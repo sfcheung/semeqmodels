@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9027
+# semeqmodels 0.0.0.9028
 
 - Initialize the package.
   (0.0.0.9000)
@@ -206,3 +206,6 @@
   with `print`-methods for user-friendly
   printouts.
   (0.0.0.9027)
+
+- Improved `print.eq_partables()`.
+  (0.0.0.9028)
