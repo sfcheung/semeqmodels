@@ -3,6 +3,9 @@
 \name{model_diff}
 \alias{model_diff}
 \alias{model_diff_many}
+\alias{model_diff.print}
+\alias{print.model_diff}
+\alias{print.model_diff_many}
 \title{Compare Two Models}
 \usage{
 model_diff(
@@ -21,6 +24,12 @@ model_diff_many(
   target_model_name = NULL,
   other_models_names = NULL
 )
+
+model_diff.print(x, format = c("summary", "data.frame"), ...)
+
+\method{print}{model_diff}(x, format = c("summary", "data.frame"), ...)
+
+\method{print}{model_diff_many}(x, format = "summary", ...)
 }
 \arguments{
 \item{model_x, model_y}{Parameter
@@ -57,11 +66,20 @@ the \code{target_model} by \code{\link[=model_diff]{model_diff()}}.}
 
 \item{...}{For \code{\link[=model_diff_many]{model_diff_many()}},
 these are arguments to be passed to
-\code{\link[=model_diff]{model_diff()}}.}
+\code{\link[=model_diff]{model_diff()}}. For the \code{print}-methods,
+these arguments are ignored.}
 
 \item{target_model_name, other_models_names}{Names of the models, to be passed to
 \code{\link[=model_diff]{model_diff()}}. If \code{NULL}, they will
 be generated automatically.}
+
+\item{x}{The object to be printed.}
+
+\item{format}{The format of the output
+when printing model differences.
+Either a user-friendly summary
+(\code{"summary"}) or the original parameter
+table (\code{"data.frame"}).}
 }
 \value{
 The function \code{\link[=model_diff]{model_diff()}}
@@ -74,6 +92,21 @@ in one of the model.
 The function \code{\link[=model_diff_many]{model_diff_many()}}
 return a list of the results
 of \code{\link[=model_diff]{model_diff()}}.
+
+The \code{print}-method of the output
+of \code{\link[=model_diff]{model_diff()}} returns \code{x}
+invisibly.
+It is called for its side-effect.
+
+The \code{print}-method of the output
+of \code{\link[=model_diff]{model_diff()}} returns \code{x}
+invisibly.
+It is called for its side-effect.
+
+The \code{print}-method of the output
+of \code{\link[=model_diff_many]{model_diff_many()}} returns \code{x}
+invisibly.
+It is called for its side-effect.
 }
 \description{
 Helper functions to
@@ -103,6 +136,22 @@ The function \code{\link[=model_diff_many]{model_diff_many()}}
 compare one model (\code{target_model})
 against other models (\code{other_models})
 using \code{\link[=model_diff]{model_diff()}}.
+
+The \code{print} method of the output
+of \code{\link[=model_diff]{model_diff()}} prints the differences
+between models in a user-friendly
+way.
+
+The \code{print} method of the output
+of \code{\link[=model_diff]{model_diff()}} prints the differences
+between models in a user-friendly
+way.
+
+The \code{print} method of the output
+of \code{\link[=model_diff_many]{model_diff_many()}} prints the
+list of model differences in a
+user-friendly
+way.
 }
 \examples{
 
