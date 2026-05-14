@@ -70,8 +70,6 @@ fy ~ fm + fx
 
 ``` r
 library(lavaan)
-#> This is lavaan 0.6-21
-#> lavaan is FREE software! Please report any bugs.
 fit <- sem(
   model = mod,
   data = data_test_3_factor_3_item
@@ -121,7 +119,7 @@ mod_eq <- eq_models(
   original_model = fit
 )
 #> 19 processes started to run model fitting.
-#> The expected CPU time is about 0.02 second(s).
+#> The expected CPU time is about 0.05 second(s).
 ```
 
 The output is a list of models, defined
@@ -131,22 +129,67 @@ by `lavaan` parameter tables:
 ``` r
 mod_eq
 #> 
-#> Call:
-#> NULL
+#> Number of models: 13
 #> 
-#> Number of parameter tables: 13
+#> The models:
 #> 
-#> The first 10 modification(s):
-#> 7cfc96da
-#> bc0d3b3c
-#> 9eefbf8f
-#> 370609a4
-#> 31ffe311
-#> 74f316e6
-#> b4893a92
-#> fa6f9416
-#> 1296cb7b
-#> 834bb36f
+#>    Model   
+#> 1  7cfc96da
+#> 2  bc0d3b3c
+#> 3  9eefbf8f
+#> 4  370609a4
+#> 5  31ffe311
+#> 6  74f316e6
+#> 7  b4893a92
+#> 8  fa6f9416
+#> 9  1296cb7b
+#> 10 834bb36f
+#> 11 013c70fe
+#> 12 75628bda
+#> 13 311a900b 
+#> 
+#> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
+#> "long"' to use the long descriptive names, if available, for the
+#> models.
+```
+
+For more readable printout, call `print()`
+and add `names_to_use = "long"`:
+
+
+``` r
+print(mod_eq,
+      names_to_use = "long")
+#> 
+#> Number of models: 13
+#> 
+#> The models:
+#> 
+#> Model
+#> 1 7cfc96da := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~fy,
+#>     drop:fm~fx, add:fx~~fm, drop:fm~fy, add:fm~~fy, drop:fx~fy,
+#>     add:fx~~fy
+#> 2 bc0d3b3c := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
+#>     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fm~fy
+#> 3 9eefbf8f := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
+#>     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fy~fm
+#> 4 370609a4 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
+#>     drop:fy~fm, add:fm~fy, drop:fx~fm, add:fx~~fm
+#> 5 31ffe311 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
+#>     drop:fy~fm, add:fm~fy, drop:fx~fm, add:fm~fx
+#> 6 74f316e6 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
+#>     drop:fy~fm, add:fm~fy, drop:fm~fy, add:fm~~fy
+#> 7 b4893a92 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~~fy,
+#>     drop:fx~~fy, add:fy~fx
+#> 8 fa6f9416 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
+#>     drop:fx~fy, add:fx~~fy
+#> 9 1296cb7b := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~~fy,
+#>     drop:fx~~fy, add:fy~fx
+#> 10 834bb36f := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~fy,
+#>     drop:fx~fy, add:fx~~fy
+#> 11 013c70fe := original, drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx
+#> 12 75628bda := original, drop:fm~fx, add:fx~fm, drop:fx~fm, add:fx~~fm
+#> 13 311a900b := original, drop:fy~fm, add:fm~fy, drop:fm~fy, add:fm~~fy
 ```
 
 By default, the original model, if
