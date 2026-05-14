@@ -94,6 +94,28 @@ combine_partables <- function(
 #' If not of zero-length, the `print`-method
 #' for `partables` will be used.
 #'
+#' @param max_models The maximum number
+#' of models to print. If `NULL`, all
+#' models will be printed.
+#'
+#' @param names_to_use If `"default"`,
+#' the names in `x`, which may not be
+#' descriptive, will be used. If `"long"`,
+#' the names from [modelbpp::gen_models()]
+#' will be used if available.
+#' They can be very long,
+#' but describes the changes leading to
+#' a model.
+#'
+#' @param wrap_long_names If `TRUE`,
+#' long names will be wrapped when
+#' printed. Used only when `names_to_use`
+#' is `"long"`.
+#'
+#' @param readable_long_names If `TRUE`,
+#' the long names will be modified to
+#' make them more readable.`
+#'
 #' @return
 #' The `print`-method of `eq_partables`
 #' return `x` invisibly. It is called
@@ -103,13 +125,94 @@ combine_partables <- function(
 #' @export
 print.eq_partables <- function(
   x,
+  max_models = NULL,
+  names_to_use = c("default", "long"),
+  wrap_long_names = TRUE,
+  readable_long_names = TRUE,
   ...
 ) {
+  names_to_use <- match.arg(names_to_use)
   if (length(x) == 0) {
     cat("The number of models is zero.\n")
-  } else {
-    NextMethod()
+    return(invisible(x))
   }
+  x_n <- length(x)
+  x_org_names <- names(x)
+  x_gen_models_names <- mapply(
+    function(x, y) {
+      tmp <- attr(x, "gen_models_name")
+      return(tmp %||% y)
+    },
+    x = x,
+    y = x_org_names,
+    SIMPLIFY = TRUE
+  )
+  x_gen_models_names <- unname(x_gen_models_names)
+  if (readable_long_names) {
+    x_gen_models_names <- gsub(
+                            ".add: ",
+                            ", add:",
+                            x_gen_models_names,
+                          fixed = TRUE)
+    x_gen_models_names <- gsub(
+                            ".drop: ",
+                            ", drop:",
+                            x_gen_models_names,
+                          fixed = TRUE)
+  }
+  if (names_to_use == "long") {
+    if (all(x_org_names != x_gen_models_names)) {
+      x_names <- paste0(x_org_names,
+                        " := ",
+                        x_gen_models_names)
+    } else {
+      x_names <- x_gen_models_names
+    }
+  }
+  if (names_to_use == "default") {
+    x_names <- x_org_names
+  }
+  cat("\n")
+  cat("Number of models: ", x_n, "\n", sep = "")
+  cat("\n")
+  if (isTRUE(x_n > max_models)) {
+      x_tmp <- x_names[seq_len(max_models)]
+      cat("The first", max_models, "model(s):\n")
+    } else {
+      x_tmp <- x_names
+      cat("The models:\n")
+    }
+  # if (names_to_use == "long") {
+  #   x_tmp <- strsplit(x_tmp, ".", fixed = TRUE)
+  #   x_tmp <- sapply(
+  #         x_tmp,
+  #         \(x) paste(x, collapse = ",\n")
+  #       )
+  # }
+  x_tmp2 <- data.frame(Model = x_tmp)
+  x_tmp3 <- utils::capture.output(print(x_tmp2, right = FALSE))
+  if ((names_to_use == "long") &&
+      wrap_long_names) {
+    x_tmp3 <- sapply(
+      x_tmp3,
+      strwrap,
+      exdent = 4
+    )
+  }
+  cat("\n")
+  cat(paste(unlist(x_tmp3), collapse = "\n"), "\n")
+
+  if (names_to_use == "default") {
+    tmp <- strwrap(
+      paste0("NOTE: 'default' names are used. ",
+             "Call 'print()' and add 'names_to_use = \"long\"' ",
+             "to use the long descriptive names, if available, ",
+             "for the models.")
+    )
+    cat("\n")
+    cat(tmp, sep = "\n")
+  }
+
   invisible(x)
 }
 

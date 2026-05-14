@@ -108,6 +108,14 @@ by `lavaan` parameter tables:
 mod_eq
 ```
 
+For more readable printout, call `print()`
+and add `names_to_use = "long"`:
+
+```{r}
+print(mod_eq,
+      names_to_use = "long")
+```
+
 By default, the original model, if
 included in this list, will not be
 removed.
