@@ -8,11 +8,16 @@ Generate a list of models with *df* equal to a fitted model.
 eq_df_models(
   sem_out,
   fit_models = FALSE,
+  loadings_to_exclude_from_drop = "all",
+  must_not_drop = NULL,
+  must_not_add = NULL,
+  se = "none",
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = TRUE,
-  gen_models_progress = FALSE
+  gen_models_progress = FALSE,
+  short_names = TRUE
 )
 ```
 
@@ -30,6 +35,33 @@ eq_df_models(
   [`drop_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
   and
   [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md).
+
+- loadings_to_exclude_from_drop:
+
+  How factor loadings will be handled. Default is `"all"` and no factor
+  loadings will be dropped. To be passed to
+  [`modelbpp::gen_models()`](https://sfcheung.github.io/modelbpp/reference/model_set.html).
+  This argument should not be changed. Included for internal use.
+
+- must_not_drop:
+
+  A character vector of parameters that must not be removed, and so will
+  not be modified. To be passed to
+  [`modelbpp::gen_models()`](https://sfcheung.github.io/modelbpp/reference/model_set.html).
+
+- must_not_add:
+
+  A character vector of parameters that must not be added. To be passed
+  to
+  [`modelbpp::gen_models()`](https://sfcheung.github.io/modelbpp/reference/model_set.html).
+
+- se:
+
+  Whether standard error will be computed. This argument will be passed
+  to [`lavaan::lavaan()`](https://rdrr.io/pkg/lavaan/man/lavaan.html).
+  Default is `"none"`, and this setting overrides the setting in
+  `object`. The standard errors are irrelevant in checking whether two
+  models are equivalent.
 
 - exclude_x_y_ecov:
 
@@ -56,6 +88,12 @@ eq_df_models(
   or
   [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
   will also be displayed.
+
+- short_names:
+
+  If `TRUE`, then short names (from the digests) will be used to name
+  the models. Though these names are not meaning words, the full names
+  describing the changes can be very long.
 
 ## Value
 

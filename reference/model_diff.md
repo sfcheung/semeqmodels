@@ -9,11 +9,28 @@ differences.
 model_diff(
   model_x,
   model_y,
-  cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart", "start"),
-  digits = 6
+  cols = getOption("semeqmodels.digest_cols", default = c("lhs", "op", "rhs", "block",
+    "group", "free", "ustart", "start")),
+  digits = 6,
+  model_x_name = NULL,
+  model_y_name = NULL
 )
 
-model_diff_many(target_model, other_models, ...)
+model_diff_many(
+  target_model,
+  other_models,
+  ...,
+  target_model_name = NULL,
+  other_models_names = NULL
+)
+
+model_diff.print(x, format = c("summary", "data.frame"), ...)
+
+# S3 method for class 'model_diff'
+print(x, format = c("summary", "data.frame"), ...)
+
+# S3 method for class 'model_diff_many'
+print(x, format = "summary", ...)
 ```
 
 ## Arguments
@@ -35,6 +52,11 @@ model_diff_many(target_model, other_models, ...)
   The number of decimal places used to round `ustart` and `start` when
   doing the comparison.
 
+- model_x_name, model_y_name:
+
+  The names of the models used in the output. If `NULL`, the name will
+  be generated automatically.
+
 - target_model:
 
   A model (`lavaan` parameter table or `lavaan` output) to which other
@@ -48,7 +70,22 @@ model_diff_many(target_model, other_models, ...)
 - ...:
 
   For `model_diff_many()`, these are arguments to be passed to
-  `model_diff()`.
+  `model_diff()`. For the `print`-methods, these arguments are ignored.
+
+- target_model_name, other_models_names:
+
+  Names of the models, to be passed to `model_diff()`. If `NULL`, they
+  will be generated automatically.
+
+- x:
+
+  The object to be printed.
+
+- format:
+
+  The format of the output when printing model differences. Either a
+  user-friendly summary (`"summary"`) or the original parameter table
+  (`"data.frame"`).
 
 ## Value
 
@@ -58,6 +95,15 @@ with parameters that are present only in one of the model.
 
 The function `model_diff_many()` return a list of the results of
 `model_diff()`.
+
+The `print`-method of the output of `model_diff()` returns `x`
+invisibly. It is called for its side-effect.
+
+The `print`-method of the output of `model_diff()` returns `x`
+invisibly. It is called for its side-effect.
+
+The `print`-method of the output of `model_diff_many()` returns `x`
+invisibly. It is called for its side-effect.
 
 ## Details
 
@@ -76,6 +122,15 @@ when being compared.
 
 The function `model_diff_many()` compare one model (`target_model`)
 against other models (`other_models`) using `model_diff()`.
+
+The `print` method of the output of `model_diff()` prints the
+differences between models in a user-friendly way.
+
+The `print` method of the output of `model_diff()` prints the
+differences between models in a user-friendly way.
+
+The `print` method of the output of `model_diff_many()` prints the list
+of model differences in a user-friendly way.
 
 ## Examples
 
@@ -106,36 +161,29 @@ pt2 <- parameterTable(sem(mod2, do.fit = FALSE))
 pt3 <- parameterTable(sem(mod3, do.fit = FALSE))
 
 model_diff(pt1, pt2)
-#> $model_x_only
-#>   id lhs op rhs user block group free ustart exo label plabel start est
-#> 3  3   y  ~   x    1     1     1    3     NA   0         .p3.     0   0
 #> 
-#> $model_y_only
-#>  [1] id     lhs    op     rhs    user   block  group  free   ustart exo   
-#> [11] label  plabel start  est   
-#> <0 rows> (or 0-length row.names)
+#> Model: pt1
+#> y~x (free)
 #> 
+#> Model: pt2
+#> No parameter only in this model.
 model_diff(pt1, pt3)
-#> $model_x_only
-#>   id lhs op rhs user block group free ustart exo label plabel start est
-#> 1  1   m  ~   x    1     1     1    1     NA   0         .p1.     0   0
-#> 4  4   m ~~   m    0     1     1    4     NA   0         .p4.     1   1
 #> 
-#> $model_y_only
-#>   id lhs op rhs user block group free ustart exo label plabel start est
-#> 4  4   m ~~   m    0     1     1    0     NA   1         .p4.     1   1
-#> 5  5   m ~~   x    0     1     1    0     NA   1         .p5.     0   0
+#> Model: pt1
+#> m~x (free)
+#> m~~m (free)
 #> 
+#> Model: pt3
+#> m~~m (fixed to 1)
+#> m~~x (fixed to 0)
 model_diff(pt2, pt3)
-#> $model_x_only
-#>   id lhs op rhs user block group free ustart exo label plabel start est
-#> 1  1   m  ~   x    1     1     1    1     NA   0         .p1.     0   0
-#> 3  3   m ~~   m    0     1     1    3     NA   0         .p3.     1   1
 #> 
-#> $model_y_only
-#>   id lhs op rhs user block group free ustart exo label plabel start est
-#> 2  2   y  ~   x    1     1     1    2     NA   0         .p2.     0   0
-#> 4  4   m ~~   m    0     1     1    0     NA   1         .p4.     1   1
-#> 5  5   m ~~   x    0     1     1    0     NA   1         .p5.     0   0
+#> Model: pt2
+#> m~x (free)
+#> m~~m (free)
 #> 
+#> Model: pt3
+#> y~x (free)
+#> m~~m (fixed to 1)
+#> m~~x (fixed to 0)
 ```

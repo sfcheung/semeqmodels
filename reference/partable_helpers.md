@@ -8,7 +8,14 @@ Helper functions to manipulate parameter tables.
 combine_partables(object_list, drop_duplicated = TRUE)
 
 # S3 method for class 'eq_partables'
-print(x, ...)
+print(
+  x,
+  max_models = NULL,
+  names_to_use = c("default", "long"),
+  wrap_long_names = TRUE,
+  readable_long_names = TRUE,
+  ...
+)
 
 # S3 method for class 'eq_partables'
 c(..., drop_duplicated = TRUE)
@@ -57,6 +64,29 @@ is_partables(object, colchk = c("id", "lhs", "op", "rhs"))
 - x:
 
   An `eq_partables` object.
+
+- max_models:
+
+  The maximum number of models to print. If `NULL`, all models will be
+  printed.
+
+- names_to_use:
+
+  If `"default"`, the names in `x`, which may not be descriptive, will
+  be used. If `"long"`, the names from
+  [`modelbpp::gen_models()`](https://sfcheung.github.io/modelbpp/reference/model_set.html)
+  will be used if available. They can be very long, but describes the
+  changes leading to a model.
+
+- wrap_long_names:
+
+  If `TRUE`, long names will be wrapped when printed. Used only when
+  `names_to_use` is `"long"`.
+
+- readable_long_names:
+
+  If `TRUE`, the long names will be modified to make them more
+  readable.\`
 
 - ...:
 

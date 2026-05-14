@@ -8,10 +8,13 @@ to facilitate comparisons.
 ``` r
 digest_partable(
   partable,
-  cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart", "start"),
-  digits = 6,
+  cols = getOption("semeqmodels.digest_cols", default = c("lhs", "op", "rhs", "block",
+    "group", "free", "ustart", "start")),
+  digits = getOption("semeqmodels.digest_digits", default = 6),
   sort_rows = TRUE,
-  sort_by = c("lhs", "op", "rhs", "block", "group"),
+  sort_by = getOption("semeqmodels.digest_sort_by", default = c("lhs", "op", "rhs",
+    "block", "group")),
+  algo = getOption("semeqmodels.algo", default = "xxhash32"),
   ...
 )
 
@@ -52,6 +55,13 @@ get_digest_partables(partables, ...)
 - sort_by:
 
   The columns used when sorting the rows, if `sort_rows` is `TRUE`.
+
+- algo:
+
+  The algorithm used to by
+  [`digest::digest()`](https://eddelbuettel.github.io/digest/man/digest.html).
+  Note that the default value is different from that of
+  [`digest::digest()`](https://eddelbuettel.github.io/digest/man/digest.html)
 
 - ...:
 
@@ -201,7 +211,7 @@ pt2
 #> 24 24  fm ~~  fm    0     1     1   21     NA   0        .p24. 0.050 0.050
 
 digest_partable(pt1)
-#> [1] "a0fc3ee9fc9cb0ad6a3ea400c9defe39"
+#> [1] "fd631766"
 digest_partable(pt2)
-#> [1] "a0fc3ee9fc9cb0ad6a3ea400c9defe39"
+#> [1] "fd631766"
 ```

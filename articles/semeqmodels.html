@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9025</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9028</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@
 
       <h1>Finding Equivalent Models in SEM</h1>
             
-            <h4 data-toc-skip class="date">2026-05-12</h4>
+            <h4 data-toc-skip class="date">2026-05-14</h4>
       
 
       <div class="d-none name"><code>semeqmodels.Rmd</code></div>
@@ -81,7 +81,7 @@ illustration:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sfcheung.github.io/semeqmodels/">semeqmodels</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"semeqmodels"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.0.0.9024'</span></span>
+<span><span class="co">#&gt; [1] '0.0.0.9027'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">data_test_3_factor_3_item</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      x1    x2    x3    m1    m2    m3    y1    y2    y3</span></span>
 <span><span class="co">#&gt; 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44</span></span>
@@ -150,326 +150,251 @@ fitted above, we can use <code><a href="../reference/eq_models.html">eq_models()
 <span>  original_model <span class="op">=</span> <span class="va">fit</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; 19 processes started to run model fitting.</span></span>
-<span><span class="co">#&gt; The expected CPU time is about 0.02 second(s).</span></span></code></pre></div>
+<span><span class="co">#&gt; The expected CPU time is about 0.05 second(s).</span></span></code></pre></div>
 <p>The output is a list of models, defined by <code>lavaan</code>
 parameter tables:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_eq</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; Number of models: 13</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of parameter tables: 13</span></span>
+<span><span class="co">#&gt; The models:</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; The first 10 modification(s):</span></span>
-<span><span class="co">#&gt; original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy</span></span>
-<span><span class="co">#&gt; original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy</span></span>
-<span><span class="co">#&gt; original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm</span></span>
-<span><span class="co">#&gt; original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm</span></span>
-<span><span class="co">#&gt; original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx</span></span>
-<span><span class="co">#&gt; original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy</span></span>
-<span><span class="co">#&gt; original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx</span></span>
-<span><span class="co">#&gt; original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy</span></span>
-<span><span class="co">#&gt; original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx</span></span>
-<span><span class="co">#&gt; original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy</span></span></code></pre></div>
+<span><span class="co">#&gt;    Model   </span></span>
+<span><span class="co">#&gt; 1  7cfc96da</span></span>
+<span><span class="co">#&gt; 2  bc0d3b3c</span></span>
+<span><span class="co">#&gt; 3  9eefbf8f</span></span>
+<span><span class="co">#&gt; 4  370609a4</span></span>
+<span><span class="co">#&gt; 5  31ffe311</span></span>
+<span><span class="co">#&gt; 6  74f316e6</span></span>
+<span><span class="co">#&gt; 7  b4893a92</span></span>
+<span><span class="co">#&gt; 8  fa6f9416</span></span>
+<span><span class="co">#&gt; 9  1296cb7b</span></span>
+<span><span class="co">#&gt; 10 834bb36f</span></span>
+<span><span class="co">#&gt; 11 013c70fe</span></span>
+<span><span class="co">#&gt; 12 75628bda</span></span>
+<span><span class="co">#&gt; 13 311a900b </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span></span>
+<span><span class="co">#&gt; "long"' to use the long descriptive names, if available, for the</span></span>
+<span><span class="co">#&gt; models.</span></span></code></pre></div>
+<p>For more readable printout, call <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and add
+<code>names_to_use = "long"</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_eq</span>,</span>
+<span>      names_to_use <span class="op">=</span> <span class="st">"long"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of models: 13</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; The models:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model</span></span>
+<span><span class="co">#&gt; 1 7cfc96da := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~fy,</span></span>
+<span><span class="co">#&gt;     drop:fm~fx, add:fx~~fm, drop:fm~fy, add:fm~~fy, drop:fx~fy,</span></span>
+<span><span class="co">#&gt;     add:fx~~fy</span></span>
+<span><span class="co">#&gt; 2 bc0d3b3c := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,</span></span>
+<span><span class="co">#&gt;     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fm~fy</span></span>
+<span><span class="co">#&gt; 3 9eefbf8f := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,</span></span>
+<span><span class="co">#&gt;     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fy~fm</span></span>
+<span><span class="co">#&gt; 4 370609a4 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,</span></span>
+<span><span class="co">#&gt;     drop:fy~fm, add:fm~fy, drop:fx~fm, add:fx~~fm</span></span>
+<span><span class="co">#&gt; 5 31ffe311 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,</span></span>
+<span><span class="co">#&gt;     drop:fy~fm, add:fm~fy, drop:fx~fm, add:fm~fx</span></span>
+<span><span class="co">#&gt; 6 74f316e6 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,</span></span>
+<span><span class="co">#&gt;     drop:fy~fm, add:fm~fy, drop:fm~fy, add:fm~~fy</span></span>
+<span><span class="co">#&gt; 7 b4893a92 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~~fy,</span></span>
+<span><span class="co">#&gt;     drop:fx~~fy, add:fy~fx</span></span>
+<span><span class="co">#&gt; 8 fa6f9416 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,</span></span>
+<span><span class="co">#&gt;     drop:fx~fy, add:fx~~fy</span></span>
+<span><span class="co">#&gt; 9 1296cb7b := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~~fy,</span></span>
+<span><span class="co">#&gt;     drop:fx~~fy, add:fy~fx</span></span>
+<span><span class="co">#&gt; 10 834bb36f := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~fy,</span></span>
+<span><span class="co">#&gt;     drop:fx~fy, add:fx~~fy</span></span>
+<span><span class="co">#&gt; 11 013c70fe := original, drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx</span></span>
+<span><span class="co">#&gt; 12 75628bda := original, drop:fm~fx, add:fx~fm, drop:fx~fm, add:fx~~fm</span></span>
+<span><span class="co">#&gt; 13 311a900b := original, drop:fy~fm, add:fm~fy, drop:fm~fy, add:fm~~fy</span></span></code></pre></div>
 <p>By default, the original model, if included in this list, will not be
 removed.</p>
 <p>The function <code><a href="../reference/eq_partables_helpers.html">eq_chisq()</a></code> can be used to retrieve the
 model
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>s
 of the models:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_chisq</a></span><span class="op">(</span><span class="va">mod_eq</span><span class="op">)</span></span>
-<span><span class="co">#&gt; original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                         original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                         original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                          original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                           original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                          original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                                                original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                                                 original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                                                original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                                                 original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                                                                       original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                                                                        original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025 </span></span>
-<span><span class="co">#&gt;                                                                        original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                       24.97025</span></span></code></pre></div>
+<span><span class="co">#&gt; 7cfc96da bc0d3b3c 9eefbf8f 370609a4 31ffe311 74f316e6 b4893a92 fa6f9416 </span></span>
+<span><span class="co">#&gt; 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 </span></span>
+<span><span class="co">#&gt; 1296cb7b 834bb36f 013c70fe 75628bda 311a900b </span></span>
+<span><span class="co">#&gt; 24.97025 24.97025 24.97025 24.97025 24.97025</span></span></code></pre></div>
 <p>The function <code><a href="../reference/eq_partables_helpers.html">eq_df()</a></code> can be used to retrieve the model
 <em>df</em>s:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_df</a></span><span class="op">(</span><span class="va">mod_eq</span><span class="op">)</span></span>
-<span><span class="co">#&gt; original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                         original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                         original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                          original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                           original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                          original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                                                original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                                                 original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                                                original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                                                 original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                                                                       original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                                                                        original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm </span></span>
-<span><span class="co">#&gt;                                                                                                                             24 </span></span>
-<span><span class="co">#&gt;                                                                        original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy </span></span>
-<span><span class="co">#&gt;                                                                                                                             24</span></span></code></pre></div>
+<span><span class="co">#&gt; 7cfc96da bc0d3b3c 9eefbf8f 370609a4 31ffe311 74f316e6 b4893a92 fa6f9416 </span></span>
+<span><span class="co">#&gt;       24       24       24       24       24       24       24       24 </span></span>
+<span><span class="co">#&gt; 1296cb7b 834bb36f 013c70fe 75628bda 311a900b </span></span>
+<span><span class="co">#&gt;       24       24       24       24       24</span></span></code></pre></div>
 <p>The function <code><a href="../reference/model_diff.html">model_diff_many()</a></code> can be used to list the
 differences between the fitted models and each of the empirically
 equivalent models:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/model_diff.html">model_diff_many</a></span><span class="op">(</span></span>
 <span>  target_model <span class="op">=</span> <span class="va">fit</span>,</span>
 <span>  other_models <span class="op">=</span> <span class="va">mod_eq</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy`</span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start    est</span></span>
-<span><span class="co">#&gt; 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282</span></span>
-<span><span class="co">#&gt; 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335</span></span>
-<span><span class="co">#&gt; 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 10 0.136</span></span>
-<span><span class="co">#&gt; 11 0.109</span></span>
-<span><span class="co">#&gt; 12 0.140</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fm~fx.add: fx~~fm.drop: fm~fy.add: fm~~fy.drop: fx~fy.add: fx~~fy`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level start</span></span>
-<span><span class="co">#&gt; 22 22  fx ~~  fm    1     1     1   19  0.200   0                  1 0.200</span></span>
-<span><span class="co">#&gt; 23 23  fm ~~  fy    1     1     1   20  0.421   0                  1 0.421</span></span>
-<span><span class="co">#&gt; 24 24  fx ~~  fy    1     1     1   21  0.000   0                  1 0.000</span></span>
-<span><span class="co">#&gt;       est se</span></span>
-<span><span class="co">#&gt; 22  0.198 NA</span></span>
-<span><span class="co">#&gt; 23  0.420 NA</span></span>
-<span><span class="co">#&gt; 24 -0.006 NA</span></span>
+<span><span class="co">#&gt; -------------</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Models: fit vs. 7cfc96da</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy`</span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start    est</span></span>
-<span><span class="co">#&gt; 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282</span></span>
-<span><span class="co">#&gt; 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335</span></span>
-<span><span class="co">#&gt; 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 10 0.136</span></span>
-<span><span class="co">#&gt; 11 0.109</span></span>
-<span><span class="co">#&gt; 12 0.140</span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
+<span><span class="co">#&gt; fy~fm (free)</span></span>
+<span><span class="co">#&gt; fy~fx (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fm~fy`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level  start</span></span>
-<span><span class="co">#&gt; 22 22  fx  ~  fm    1     1     1   19  0.164   0                  1  0.164</span></span>
-<span><span class="co">#&gt; 23 23  fx  ~  fy    1     1     1   20 -0.036   0                  1 -0.036</span></span>
-<span><span class="co">#&gt; 24 24  fm  ~  fy    1     1     1   21  0.000   0                  1  0.000</span></span>
-<span><span class="co">#&gt;       est se</span></span>
-<span><span class="co">#&gt; 22  0.169 NA</span></span>
-<span><span class="co">#&gt; 23 -0.058 NA</span></span>
-<span><span class="co">#&gt; 24  0.317 NA</span></span>
+<span><span class="co">#&gt; Model: 7cfc96da</span></span>
+<span><span class="co">#&gt; fx~~fm (free)</span></span>
+<span><span class="co">#&gt; fm~~fy (free)</span></span>
+<span><span class="co">#&gt; fx~~fy (free)</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm`</span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start    est</span></span>
-<span><span class="co">#&gt; 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282</span></span>
-<span><span class="co">#&gt; 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 10 0.136</span></span>
-<span><span class="co">#&gt; 12 0.140</span></span>
+<span><span class="co">#&gt; Models: fit vs. bc0d3b3c</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~~fy.drop: fm~~fy.add: fy~fm`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level  start</span></span>
-<span><span class="co">#&gt; 22 22  fx  ~  fm    1     1     1   19  0.164   0                  1  0.164</span></span>
-<span><span class="co">#&gt; 23 23  fx  ~  fy    1     1     1   20 -0.036   0                  1 -0.036</span></span>
-<span><span class="co">#&gt;       est se</span></span>
-<span><span class="co">#&gt; 22  0.169 NA</span></span>
-<span><span class="co">#&gt; 23 -0.058 NA</span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
+<span><span class="co">#&gt; fy~fm (free)</span></span>
+<span><span class="co">#&gt; fy~fx (free)</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: bc0d3b3c</span></span>
+<span><span class="co">#&gt; fx~fm (free)</span></span>
+<span><span class="co">#&gt; fx~fy (free)</span></span>
+<span><span class="co">#&gt; fm~fy (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm`</span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start    est</span></span>
-<span><span class="co">#&gt; 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282</span></span>
-<span><span class="co">#&gt; 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335</span></span>
-<span><span class="co">#&gt; 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 10 0.136</span></span>
-<span><span class="co">#&gt; 11 0.109</span></span>
-<span><span class="co">#&gt; 12 0.140</span></span>
+<span><span class="co">#&gt; -------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fx~~fm`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level start</span></span>
-<span><span class="co">#&gt; 22 22  fx  ~  fy    1     1     1   19  0.007   0                  1 0.007</span></span>
-<span><span class="co">#&gt; 23 23  fm  ~  fy    1     1     1   20  0.298   0                  1 0.298</span></span>
-<span><span class="co">#&gt; 24 24  fx ~~  fm    1     1     1   21  0.000   0                  1 0.000</span></span>
-<span><span class="co">#&gt;       est se</span></span>
-<span><span class="co">#&gt; 22 -0.005 NA</span></span>
-<span><span class="co">#&gt; 23  0.317 NA</span></span>
-<span><span class="co">#&gt; 24  0.200 NA</span></span>
+<span><span class="co">#&gt; Models: fit vs. 9eefbf8f</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
+<span><span class="co">#&gt; fy~fx (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx`</span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start    est</span></span>
-<span><span class="co">#&gt; 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335</span></span>
-<span><span class="co">#&gt; 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 11 0.109</span></span>
-<span><span class="co">#&gt; 12 0.140</span></span>
+<span><span class="co">#&gt; Model: 9eefbf8f</span></span>
+<span><span class="co">#&gt; fx~fm (free)</span></span>
+<span><span class="co">#&gt; fx~fy (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fx~fm.add: fm~fx`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level start</span></span>
-<span><span class="co">#&gt; 22 22  fx  ~  fy    1     1     1   19  0.007   0                  1 0.007</span></span>
-<span><span class="co">#&gt; 23 23  fm  ~  fy    1     1     1   20  0.298   0                  1 0.298</span></span>
-<span><span class="co">#&gt;       est se</span></span>
-<span><span class="co">#&gt; 22 -0.005 NA</span></span>
-<span><span class="co">#&gt; 23  0.319 NA</span></span>
+<span><span class="co">#&gt; -------------</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Models: fit vs. 370609a4</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`</span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start    est</span></span>
-<span><span class="co">#&gt; 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282</span></span>
-<span><span class="co">#&gt; 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335</span></span>
-<span><span class="co">#&gt; 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 10 0.136</span></span>
-<span><span class="co">#&gt; 11 0.109</span></span>
-<span><span class="co">#&gt; 12 0.140</span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
+<span><span class="co">#&gt; fy~fm (free)</span></span>
+<span><span class="co">#&gt; fy~fx (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level  start</span></span>
-<span><span class="co">#&gt; 22 22  fx  ~  fm    1     1     1   19  0.164   0                  1  0.164</span></span>
-<span><span class="co">#&gt; 23 23  fx  ~  fy    1     1     1   20 -0.036   0                  1 -0.036</span></span>
-<span><span class="co">#&gt; 24 24  fm ~~  fy    1     1     1   21  0.000   0                  1  0.000</span></span>
-<span><span class="co">#&gt;       est se</span></span>
-<span><span class="co">#&gt; 22  0.169 NA</span></span>
-<span><span class="co">#&gt; 23 -0.058 NA</span></span>
-<span><span class="co">#&gt; 24  0.420 NA</span></span>
+<span><span class="co">#&gt; Model: 370609a4</span></span>
+<span><span class="co">#&gt; fx~fy (free)</span></span>
+<span><span class="co">#&gt; fm~fy (free)</span></span>
+<span><span class="co">#&gt; fx~~fm (free)</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`</span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start   est</span></span>
-<span><span class="co">#&gt; 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0 0.282</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 10 0.136</span></span>
+<span><span class="co">#&gt; Models: fit vs. 31ffe311</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level start</span></span>
-<span><span class="co">#&gt; 23 23  fx  ~  fm    1     1     1   20   0.15   0                  1  0.15</span></span>
-<span><span class="co">#&gt;      est se</span></span>
-<span><span class="co">#&gt; 23 0.151 NA</span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fy~fm (free)</span></span>
+<span><span class="co">#&gt; fy~fx (free)</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: 31ffe311</span></span>
+<span><span class="co">#&gt; fx~fy (free)</span></span>
+<span><span class="co">#&gt; fm~fy (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`</span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start    est</span></span>
-<span><span class="co">#&gt; 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0  0.282</span></span>
-<span><span class="co">#&gt; 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 10 0.136</span></span>
-<span><span class="co">#&gt; 12 0.140</span></span>
+<span><span class="co">#&gt; -------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level start</span></span>
-<span><span class="co">#&gt; 23 23  fx  ~  fm    1     1     1   20   0.15   0                  1  0.15</span></span>
-<span><span class="co">#&gt; 24 24  fx ~~  fy    1     1     1   21   0.00   0                  1  0.00</span></span>
-<span><span class="co">#&gt;       est se</span></span>
-<span><span class="co">#&gt; 23  0.151 NA</span></span>
-<span><span class="co">#&gt; 24 -0.070 NA</span></span>
+<span><span class="co">#&gt; Models: fit vs. 74f316e6</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
+<span><span class="co">#&gt; fy~fm (free)</span></span>
+<span><span class="co">#&gt; fy~fx (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`</span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start   est</span></span>
-<span><span class="co">#&gt; 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0 0.335</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 11 0.109</span></span>
+<span><span class="co">#&gt; Model: 74f316e6</span></span>
+<span><span class="co">#&gt; fx~fm (free)</span></span>
+<span><span class="co">#&gt; fx~fy (free)</span></span>
+<span><span class="co">#&gt; fm~~fy (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~~fy.drop: fx~~fy.add: fy~fx`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level start</span></span>
-<span><span class="co">#&gt; 23 23  fm  ~  fy    1     1     1   20  0.318   0                  1 0.318</span></span>
-<span><span class="co">#&gt;      est se</span></span>
-<span><span class="co">#&gt; 23 0.319 NA</span></span>
+<span><span class="co">#&gt; -------------</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Models: fit vs. b4893a92</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`</span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start    est</span></span>
-<span><span class="co">#&gt; 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0  0.335</span></span>
-<span><span class="co">#&gt; 12 12  fy  ~  fx    1     1     1    9     NA   0        .p12.     0 -0.104</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 11 0.109</span></span>
-<span><span class="co">#&gt; 12 0.140</span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fy~fx.add: fx~fy.drop: fx~fy.add: fx~~fy`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level start</span></span>
-<span><span class="co">#&gt; 23 23  fm  ~  fy    1     1     1   20  0.318   0                  1 0.318</span></span>
-<span><span class="co">#&gt; 24 24  fx ~~  fy    1     1     1   21  0.000   0                  1 0.000</span></span>
-<span><span class="co">#&gt;       est se</span></span>
-<span><span class="co">#&gt; 23  0.319 NA</span></span>
-<span><span class="co">#&gt; 24 -0.006 NA</span></span>
+<span><span class="co">#&gt; Model: b4893a92</span></span>
+<span><span class="co">#&gt; fx~fm (free)</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx`</span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx`$model_x_only</span></span>
-<span><span class="co">#&gt;  [1] id     lhs    op     rhs    user   block  group  free   ustart exo   </span></span>
-<span><span class="co">#&gt; [11] label  plabel start  est    se    </span></span>
-<span><span class="co">#&gt; &lt;0 rows&gt; (or 0-length row.names)</span></span>
+<span><span class="co">#&gt; Models: fit vs. fa6f9416</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~~fm.drop: fx~~fm.add: fm~fx`$model_y_only</span></span>
-<span><span class="co">#&gt;  [1] id     lhs    op     rhs    user   block  group  free   ustart exo   </span></span>
-<span><span class="co">#&gt; [11] label  plabel level  start  est    se    </span></span>
-<span><span class="co">#&gt; &lt;0 rows&gt; (or 0-length row.names)</span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
+<span><span class="co">#&gt; fy~fx (free)</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: fa6f9416</span></span>
+<span><span class="co">#&gt; fx~fm (free)</span></span>
+<span><span class="co">#&gt; fx~~fy (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm`</span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start   est</span></span>
-<span><span class="co">#&gt; 10 10  fm  ~  fx    1     1     1    7     NA   0        .p10.     0 0.282</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 10 0.136</span></span>
+<span><span class="co">#&gt; -------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fm~fx.add: fx~fm.drop: fx~fm.add: fx~~fm`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level start</span></span>
-<span><span class="co">#&gt; 24 24  fx ~~  fm    1     1     1   21      0   0                  1     0</span></span>
-<span><span class="co">#&gt;      est se</span></span>
-<span><span class="co">#&gt; 24 0.198 NA</span></span>
+<span><span class="co">#&gt; Models: fit vs. 1296cb7b</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fy~fm (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`</span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`$model_x_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel start   est</span></span>
-<span><span class="co">#&gt; 11 11  fy  ~  fm    1     1     1    8     NA   0        .p11.     0 0.335</span></span>
-<span><span class="co">#&gt;       se</span></span>
-<span><span class="co">#&gt; 11 0.109</span></span>
+<span><span class="co">#&gt; Model: 1296cb7b</span></span>
+<span><span class="co">#&gt; fm~fy (free)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`original.drop: fy~fm.add: fm~fy.drop: fm~fy.add: fm~~fy`$model_y_only</span></span>
-<span><span class="co">#&gt;    id lhs op rhs user block group free ustart exo label plabel level start</span></span>
-<span><span class="co">#&gt; 24 24  fm ~~  fy    1     1     1   21      0   0                  1     0</span></span>
-<span><span class="co">#&gt;      est se</span></span>
-<span><span class="co">#&gt; 24 0.422 NA</span></span></code></pre></div>
+<span><span class="co">#&gt; -------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Models: fit vs. 834bb36f</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fy~fm (free)</span></span>
+<span><span class="co">#&gt; fy~fx (free)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: 834bb36f</span></span>
+<span><span class="co">#&gt; fm~fy (free)</span></span>
+<span><span class="co">#&gt; fx~~fy (free)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Models: fit vs. 013c70fe</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; No parameter only in this model.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: 013c70fe</span></span>
+<span><span class="co">#&gt; No parameter only in this model.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Models: fit vs. 75628bda</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: 75628bda</span></span>
+<span><span class="co">#&gt; fx~~fm (free)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Models: fit vs. 311a900b</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fy~fm (free)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model: 311a900b</span></span>
+<span><span class="co">#&gt; fm~~fy (free)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>

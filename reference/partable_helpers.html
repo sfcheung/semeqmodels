@@ -9,7 +9,7 @@ manipulate parameter tables."><meta name="google-site-verification" content="0VL
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9025</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9028</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,14 @@ manipulate parameter tables.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">combine_partables</span><span class="op">(</span><span class="va">object_list</span>, drop_duplicated <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'eq_partables'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  max_models <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  names_to_use <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"long"</span><span class="op">)</span>,</span>
+<span>  wrap_long_names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  readable_long_names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'eq_partables'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">...</span>, drop_duplicated <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -98,6 +105,36 @@ duplicated models will be removed.</p></dd>
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An <code>eq_partables</code> object.</p></dd>
+
+
+<dt id="arg-max-models">max_models<a class="anchor" aria-label="anchor" href="#arg-max-models"></a></dt>
+<dd><p>The maximum number
+of models to print. If <code>NULL</code>, all
+models will be printed.</p></dd>
+
+
+<dt id="arg-names-to-use">names_to_use<a class="anchor" aria-label="anchor" href="#arg-names-to-use"></a></dt>
+<dd><p>If <code>"default"</code>,
+the names in <code>x</code>, which may not be
+descriptive, will be used. If <code>"long"</code>,
+the names from <code><a href="https://sfcheung.github.io/modelbpp/reference/model_set.html" class="external-link">modelbpp::gen_models()</a></code>
+will be used if available.
+They can be very long,
+but describes the changes leading to
+a model.</p></dd>
+
+
+<dt id="arg-wrap-long-names">wrap_long_names<a class="anchor" aria-label="anchor" href="#arg-wrap-long-names"></a></dt>
+<dd><p>If <code>TRUE</code>,
+long names will be wrapped when
+printed. Used only when <code>names_to_use</code>
+is <code>"long"</code>.</p></dd>
+
+
+<dt id="arg-readable-long-names">readable_long_names<a class="anchor" aria-label="anchor" href="#arg-readable-long-names"></a></dt>
+<dd><p>If <code>TRUE</code>,
+the long names will be modified to
+make them more readable.`</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

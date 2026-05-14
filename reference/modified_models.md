@@ -223,15 +223,18 @@ fit_1_more1
 fit_1_more2 <- drop_k(pt)
 fit_1_more2
 #> 
-#> Call:
-#> NULL
+#> Number of models: 3
 #> 
-#> Number of parameter tables: 3
+#> The models:
 #> 
-#> The modifications/models:
-#> drop: fm~fx
-#> drop: fy~fm
-#> drop: fy~fx 
+#>   Model      
+#> 1 drop: fm~fx
+#> 2 drop: fy~fm
+#> 3 drop: fy~fx 
+#> 
+#> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
+#> "long"' to use the long descriptive names, if available, for the
+#> models.
 
 
 # ==== add_k ====

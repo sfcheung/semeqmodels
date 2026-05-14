@@ -1,6 +1,6 @@
 # Changelog
 
-## semeqmodels 0.0.0.9025
+## semeqmodels 0.0.0.9028
 
 - Initialize the package. (0.0.0.9000)
 
@@ -171,3 +171,31 @@
   (0.0.0.9024)
 
 - Added a get-started vignette. (0.0.0.9025)
+
+- Some options of `digest_partable` can now be set through options.
+  (0.0.0.9026)
+
+- Added more arguments of
+  [`drop_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
+  and
+  [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
+  to
+  [`eq_df_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_df_models.md).
+  (0.0.0.9026)
+
+- Revised
+  [`eq_df_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_df_models.md)
+  to use digests as the names of model. Can resort to
+  [`modelbpp::gen_models()`](https://sfcheung.github.io/modelbpp/reference/model_set.html)
+  names by setting `short_names` to `FALSE`. (0.0.0.9026)
+
+- The outputs of
+  [`model_diff()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
+  and
+  [`model_diff_many()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
+  are of the classes `model_diff` and `model_diff_many`, with
+  `print`-methods for user-friendly printouts. (0.0.0.9027)
+
+- Improved
+  [`print.eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md).
+  (0.0.0.9028)

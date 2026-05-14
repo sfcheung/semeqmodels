@@ -28,6 +28,9 @@
   : Helpers for 'eq_partables' Object
 - [`model_diff()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
   [`model_diff_many()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
+  [`model_diff.print()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
+  [`print(`*`<model_diff>`*`)`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
+  [`print(`*`<model_diff_many>`*`)`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
   : Compare Two Models
 - [`drop_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
   [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)

@@ -13,7 +13,7 @@ comparisons."><meta name="google-site-verification" content="0VLBmFnW_UJFI-7gXnO
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9025</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9028</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,10 +50,13 @@ comparisons.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">digest_partable</span><span class="op">(</span></span>
 <span>  <span class="va">partable</span>,</span>
-<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lhs"</span>, <span class="st">"op"</span>, <span class="st">"rhs"</span>, <span class="st">"block"</span>, <span class="st">"group"</span>, <span class="st">"free"</span>, <span class="st">"ustart"</span>, <span class="st">"start"</span><span class="op">)</span>,</span>
-<span>  digits <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"semeqmodels.digest_cols"</span>, default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lhs"</span>, <span class="st">"op"</span>, <span class="st">"rhs"</span>, <span class="st">"block"</span>,</span>
+<span>    <span class="st">"group"</span>, <span class="st">"free"</span>, <span class="st">"ustart"</span>, <span class="st">"start"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"semeqmodels.digest_digits"</span>, default <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>,</span>
 <span>  sort_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  sort_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lhs"</span>, <span class="st">"op"</span>, <span class="st">"rhs"</span>, <span class="st">"block"</span>, <span class="st">"group"</span><span class="op">)</span>,</span>
+<span>  sort_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"semeqmodels.digest_sort_by"</span>, default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lhs"</span>, <span class="st">"op"</span>, <span class="st">"rhs"</span>,</span>
+<span>    <span class="st">"block"</span>, <span class="st">"group"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  algo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"semeqmodels.algo"</span>, default <span class="op">=</span> <span class="st">"xxhash32"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -105,6 +108,13 @@ hash value.</p></dd>
 <dd><p>The columns used when
 sorting the rows, if <code>sort_rows</code> is
 <code>TRUE</code>.</p></dd>
+
+
+<dt id="arg-algo">algo<a class="anchor" aria-label="anchor" href="#arg-algo"></a></dt>
+<dd><p>The algorithm used to
+by <code><a href="https://eddelbuettel.github.io/digest/man/digest.html" class="external-link">digest::digest()</a></code>. Note that the
+default value is different from that
+of <code><a href="https://eddelbuettel.github.io/digest/man/digest.html" class="external-link">digest::digest()</a></code></p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -268,9 +278,9 @@ parameter tables.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 24  fm ~~  fm    0     1     1   21     NA   0        .p24. 0.050 0.050</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">digest_partable</span><span class="op">(</span><span class="va">pt1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a0fc3ee9fc9cb0ad6a3ea400c9defe39"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fd631766"</span>
 <span class="r-in"><span><span class="fu">digest_partable</span><span class="op">(</span><span class="va">pt2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a0fc3ee9fc9cb0ad6a3ea400c9defe39"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fd631766"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

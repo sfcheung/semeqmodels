@@ -9,7 +9,7 @@ with df equal to a fitted model."><meta name="google-site-verification" content=
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9025</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9028</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,11 +45,16 @@ with <em>df</em> equal to a fitted model.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">eq_df_models</span><span class="op">(</span></span>
 <span>  <span class="va">sem_out</span>,</span>
 <span>  fit_models <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  loadings_to_exclude_from_drop <span class="op">=</span> <span class="st">"all"</span>,</span>
+<span>  must_not_drop <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  must_not_add <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  se <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  exclude_x_y_ecov <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  parallel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ncores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span>logical <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  gen_models_progress <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  gen_models_progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  short_names <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -68,6 +73,39 @@ generated from this model.</p></dd>
 <dd><p>Whether the models
 will be fitted to the data. To be
 passed to <code><a href="modified_models.html">drop_k()</a></code> and <code><a href="modified_models.html">add_k()</a></code>.</p></dd>
+
+
+<dt id="arg-loadings-to-exclude-from-drop">loadings_to_exclude_from_drop<a class="anchor" aria-label="anchor" href="#arg-loadings-to-exclude-from-drop"></a></dt>
+<dd><p>How factor loadings will be handled.
+Default is <code>"all"</code> and no factor loadings
+will be dropped.
+To be passed to <code><a href="https://sfcheung.github.io/modelbpp/reference/model_set.html" class="external-link">modelbpp::gen_models()</a></code>.
+This argument should not be changed.
+Included for internal use.</p></dd>
+
+
+<dt id="arg-must-not-drop">must_not_drop<a class="anchor" aria-label="anchor" href="#arg-must-not-drop"></a></dt>
+<dd><p>A character vector
+of parameters that must not be removed,
+and so will not be modified. To be
+passed to <code><a href="https://sfcheung.github.io/modelbpp/reference/model_set.html" class="external-link">modelbpp::gen_models()</a></code>.</p></dd>
+
+
+<dt id="arg-must-not-add">must_not_add<a class="anchor" aria-label="anchor" href="#arg-must-not-add"></a></dt>
+<dd><p>A character
+vector of parameters that must not
+be added. To be passed to <code><a href="https://sfcheung.github.io/modelbpp/reference/model_set.html" class="external-link">modelbpp::gen_models()</a></code>.</p></dd>
+
+
+<dt id="arg-se">se<a class="anchor" aria-label="anchor" href="#arg-se"></a></dt>
+<dd><p>Whether standard error will
+be computed. This argument will be
+passed to <code><a href="https://rdrr.io/pkg/lavaan/man/lavaan.html" class="external-link">lavaan::lavaan()</a></code>.
+Default is <code>"none"</code>, and
+this setting overrides the setting
+in <code>object</code>. The standard errors are
+irrelevant in checking whether two
+models are equivalent.</p></dd>
 
 
 <dt id="arg-exclude-x-y-ecov">exclude_x_y_ecov<a class="anchor" aria-label="anchor" href="#arg-exclude-x-y-ecov"></a></dt>
@@ -99,6 +137,15 @@ progress of the search.</p></dd>
 then progress in each call to
 <code><a href="modified_models.html">drop_k()</a></code> or <code><a href="modified_models.html">add_k()</a></code> will also
 be displayed.</p></dd>
+
+
+<dt id="arg-short-names">short_names<a class="anchor" aria-label="anchor" href="#arg-short-names"></a></dt>
+<dd><p>If <code>TRUE</code>, then
+short names (from the digests) will
+be used to name the models. Though
+these names are not meaning words,
+the full names describing the changes
+can be very long.</p></dd>
 
 </dl></div>
     <div class="section level2">
