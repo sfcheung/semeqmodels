@@ -11,7 +11,8 @@
 model_diff(
   model_x,
   model_y,
-  cols = c("lhs", "op", "rhs", "block", "group", "free", "ustart", "start"),
+  cols = getOption("semeqmodels.digest_cols", default = c("lhs", "op", "rhs", "block",
+    "group", "free", "ustart", "start")),
   digits = 6,
   model_x_name = NULL,
   model_y_name = NULL
