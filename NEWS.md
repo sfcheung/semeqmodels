@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9026
+# semeqmodels 0.0.0.9027
 
 - Initialize the package.
   (0.0.0.9000)
@@ -199,3 +199,10 @@
   names by setting `short_names` to
   `FALSE`.
   (0.0.0.9026)
+
+- The outputs of `model_diff()` and
+  `model_diff_many()` are of the classes
+  `model_diff` and `model_diff_many`,
+  with `print`-methods for user-friendly
+  printouts.
+  (0.0.0.9027)
