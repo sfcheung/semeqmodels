@@ -28,6 +28,9 @@
 #' returns an `eq_partables` objects,
 #' which is a list of parameter tables.
 #'
+#' @inheritParams drop_k
+#' @inheritParams add_k
+#'
 #' @param sem_out A `lavaan` object, which
 #' is usually the output of [lavaan::sem()]
 #' or similar wrappers. Models will be
@@ -57,6 +60,13 @@
 #' then progress in each call to
 #' [drop_k()] or [add_k()] will also
 #' be displayed.
+#'
+#' @param short_names If `TRUE`, then
+#' short names (from the digests) will
+#' be used to name the models. Though
+#' these names are not meaning words,
+#' the full names describing the changes
+#' can be very long.
 #'
 #' @examples
 #'
@@ -89,11 +99,16 @@
 eq_df_models <- function(
   sem_out,
   fit_models = FALSE,
+  loadings_to_exclude_from_drop = "all",
+  must_not_drop = NULL,
+  must_not_add = NULL,
+  se = "none",
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = TRUE,
-  gen_models_progress = FALSE
+  gen_models_progress = FALSE,
+  short_names = TRUE
 ) {
   # TODO:
   # - Add other arguments, e.g., for add_k() and drop_k().
@@ -168,6 +183,9 @@ eq_df_models <- function(
         drop_k,
         sem_out = sem_out0,
         fit_models = fit_models,
+        loadings_to_exclude_from_drop = loadings_to_exclude_from_drop,
+        must_not_drop = must_not_drop,
+        se = se,
         parallel = FALSE,
         progress = gen_models_progress,
         chunk.size = 1
@@ -178,6 +196,9 @@ eq_df_models <- function(
         drop_k,
         sem_out = sem_out0,
         fit_models = fit_models,
+        loadings_to_exclude_from_drop = loadings_to_exclude_from_drop,
+        must_not_drop = must_not_drop,
+        se = se,
         parallel = FALSE,
         progress = gen_models_progress
       )
@@ -228,6 +249,9 @@ eq_df_models <- function(
         add_k,
         sem_out = sem_out,
         fit_models = fit_models,
+        must_not_add = must_not_add,
+        exclude_x_y_ecov = exclude_x_y_ecov,
+        se = se,
         parallel = FALSE,
         progress = gen_models_progress,
         chunk.size = 1
@@ -238,6 +262,9 @@ eq_df_models <- function(
         add_k,
         sem_out = sem_out,
         fit_models = fit_models,
+        must_not_add = must_not_add,
+        exclude_x_y_ecov = exclude_x_y_ecov,
+        se = se,
         parallel = FALSE,
         progress = gen_models_progress
       )
@@ -283,6 +310,12 @@ eq_df_models <- function(
         length(out)
       )
     cat(tmp)
+  }
+
+  # ==== Short names? ====
+
+  if (short_names) {
+    out <- rename_to_digest(out)
   }
 
   # TODO:

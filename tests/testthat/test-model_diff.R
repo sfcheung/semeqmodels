@@ -34,43 +34,47 @@ pt <- combine_partables(
 
 out <- model_diff(pt[[1]], pt[[2]])
 expect_true(has_par_i(
-                out$model_x_only,
+                out[[1]],
                 lavParseModelString("y ~ x", as.data.frame. = TRUE)
             ))
-expect_true(nrow(out$model_y_only) == 0)
+expect_true(nrow(out[[2]]) == 0)
 
-out <- model_diff(pt[[1]], pt[[3]])
+out <- model_diff(pt[[1]], pt[[3]],
+                  model_x_name = "Model 1")
 expect_true(has_pars_i(
-                out$model_x_only,
+                out[[1]],
                 list(lavParseModelString("m ~ x", as.data.frame. = TRUE),
                      lavParseModelString("m ~~ m", as.data.frame. = TRUE))
             ))
 expect_false(has_pars_i(
-                out$model_y_only,
+                out[[2]],
                 list(lavParseModelString("m ~~ x", as.data.frame. = TRUE),
                      lavParseModelString("m ~~ m", as.data.frame. = TRUE))
             ))
-expect_all_true(out$model_y_only$free == 0)
+expect_all_true(out[[2]]$free == 0)
 
-out <- model_diff(pt[[2]], pt[[3]])
+out <- model_diff(pt[[2]], pt[[3]],
+                  model_y_name = "Model2")
 expect_true(has_pars_i(
-                out$model_x_only,
+                out[[1]],
                 list(lavParseModelString("m ~ x", as.data.frame. = TRUE),
                      lavParseModelString("m ~~ m", as.data.frame. = TRUE))
             ))
 expect_true(has_pars_i(
-                out$model_y_only,
+                out[[2]],
                 list(lavParseModelString("y ~ x", as.data.frame. = TRUE))
             ))
 expect_false(has_pars_i(
-                out$model_y_only,
+                out[[2]],
                 list(lavParseModelString("m ~~ x", as.data.frame. = TRUE))
             ))
-expect_equal(sum(out$model_y_only$free == 0), 2)
+expect_equal(sum(out[[2]]$free == 0), 2)
 
 # Use lavaan output as input
 
-out2 <- model_diff(pt2, pt3)
+out2 <- model_diff(pt2, pt3,
+                   model_x_name = "Modelx",
+                   model_y_name = "Model 2")
 expect_equal(as.data.frame(out2[[1]]),
              as.data.frame(out[[1]]),
              ignore_attr = TRUE)

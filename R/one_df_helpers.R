@@ -185,3 +185,42 @@ has_x_y_ecov <- function(
   )
   any(all_cov %in% chk)
 }
+
+#' @noRd
+rename_to_digest <- function(
+  object_list
+) {
+  # Usually for eq_partables object
+  # If the "gen_models_name" attribute is NULL
+  # store the current name to this attribute,
+  # then rename to the hash value (store or new)
+  # Output:
+  # - object_list with
+  #   - attribute "gen_models_name" set
+  #   - digest added
+  #   - hash values as names
+
+  old_names <- names(object_list)
+
+  # ==== Add gen_models_name, if absent ====
+
+  for (x in seq_along(object_list)) {
+    tmp <- object_list[[x]]
+    if (is.null(attr(tmp, "gen_models_name"))) {
+      attr(tmp, "gen_models_name") <- old_names[x]
+      object_list[[x]] <- tmp
+    }
+  }
+
+  # ==== Add digest ====
+
+  out <- add_digest_partables(object_list)
+
+  # ==== Use digest as name ====
+
+  new_names <- get_digest_partables(out)
+  names(out) <- new_names
+
+  out
+
+}

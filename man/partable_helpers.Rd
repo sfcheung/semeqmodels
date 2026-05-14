@@ -23,7 +23,14 @@
 \usage{
 combine_partables(object_list, drop_duplicated = TRUE)
 
-\method{print}{eq_partables}(x, ...)
+\method{print}{eq_partables}(
+  x,
+  max_models = NULL,
+  names_to_use = c("default", "long"),
+  wrap_long_names = TRUE,
+  readable_long_names = TRUE,
+  ...
+)
 
 \method{c}{eq_partables}(..., drop_duplicated = TRUE)
 
@@ -64,6 +71,28 @@ of the class
 duplicated models will be removed.}
 
 \item{x}{An \code{eq_partables} object.}
+
+\item{max_models}{The maximum number
+of models to print. If \code{NULL}, all
+models will be printed.}
+
+\item{names_to_use}{If \code{"default"},
+the names in \code{x}, which may not be
+descriptive, will be used. If \code{"long"},
+the names from \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}
+will be used if available.
+They can be very long,
+but describes the changes leading to
+a model.}
+
+\item{wrap_long_names}{If \code{TRUE},
+long names will be wrapped when
+printed. Used only when \code{names_to_use}
+is \code{"long"}.}
+
+\item{readable_long_names}{If \code{TRUE},
+the long names will be modified to
+make them more readable.`}
 
 \item{...}{For the \code{c}-method of
 \code{eq_partables}
