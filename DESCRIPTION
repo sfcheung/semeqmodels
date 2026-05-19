@@ -1,6 +1,6 @@
 Package: semeqmodels
 Title: Equivalent Models in Structural Equation Models
-Version: 0.0.0.9017
+Version: 0.0.0.9028
 Authors@R:
     c(person(given = "Shu Fai",
              family = "Cheung",
@@ -15,15 +15,19 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Suggests:
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Imports:
     lavaan,
     modelbpp (>= 0.2.0.5),
-    digest
+    digest,
+    manymome
 Depends:
     R (>= 4.1.0)
 URL: https://sfcheung.github.io/semeqmodels/
 LazyData: true
 Config/roxygen2/version: 8.0.0
+VignetteBuilder: knitr

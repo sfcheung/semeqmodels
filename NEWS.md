@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9017
+# semeqmodels 0.0.0.9028
 
 - Initialize the package.
   (0.0.0.9000)
@@ -138,3 +138,74 @@
   Use only `partable` and `partables`
   from now on.
   (0.0.0.9017)
+
+- Exported `setdiff_eq_partables()`,
+  `remove_x_y_ecov()`, and `as_eq_partables()`.
+  (0.0.0.9018)
+
+- Added `union_eq_partables()`,
+  `intersect_eq_partables()`,
+  `is_element_eq_partables()`,
+  `match_eq_partables()`,
+  `%pt_in%`, `%pt_notin%`,
+  `is_partable()`, and `is_partables()`.
+  (0.0.0.9018)
+
+- Updated `eq_models()` to accept
+  more types of inputs without
+  `partables`: a parameter
+  table, a lavaan model syntax, or
+  a `lavaan` output. It will call
+  `eq_df_models()` to generate the list
+  of models automatically.
+  (0.0.0.9019)
+
+- Added `must_have_paths()`,
+  `must_not_have_paths()`,
+  `must_not_be_y()`, and `must_be_y()`.
+  (0.0.0.9020)
+
+- Added `model_diff()` to compare
+  two parameter tables.
+  (0.0.0.9021)
+
+- Added `eq_partables()` to create
+  an `eq_partables` object from
+  parameter tables or lavaan output.
+  (0.0.0.9022)
+
+- Added `model_difF_many()` for comparing
+  several models with one model.
+  (0.0.0.9023)
+
+- Improved parallel processing in
+  `eq_models()`.
+  (0.0.0.9024)
+
+- Added a get-started vignette.
+  (0.0.0.9025)
+
+- Some options of `digest_partable` can
+  now be set through options.
+  (0.0.0.9026)
+
+- Added more arguments of `drop_k()`
+  and `add_k()` to `eq_df_models()`.
+  (0.0.0.9026)
+
+- Revised `eq_df_models()` to use
+  digests as the names of model.
+  Can resort to `modelbpp::gen_models()`
+  names by setting `short_names` to
+  `FALSE`.
+  (0.0.0.9026)
+
+- The outputs of `model_diff()` and
+  `model_diff_many()` are of the classes
+  `model_diff` and `model_diff_many`,
+  with `print`-methods for user-friendly
+  printouts.
+  (0.0.0.9027)
+
+- Improved `print.eq_partables()`.
+  (0.0.0.9028)

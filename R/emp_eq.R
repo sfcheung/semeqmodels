@@ -36,14 +36,17 @@
 #' equivalent to the original model.
 #'
 #' @param partables A list of the class
-#' `partables`.
+#' `partables`. If `NULL`, then
+#' it will try to generate the models
+#' by calling [eq_df_models()] on the
+#' argument of `original_model`.
 #'
 #' @param original_model The original
 #' model, fitted by [lavaan::lavaan()]
 #' or its wrapper, such as [lavaan::sem()].
 #' If it is a `lavaan` parameter table,
 #' data will be simulated to fit the model.
-#' If it is omitted, then the first model
+#' If it is `NULL`, then the first model
 #' in `partables` will be used.
 #'
 #' @param ... Optional arguments to be
@@ -82,6 +85,14 @@
 #' @param tolerance The maximum difference
 #' in model chi-squares for two models
 #' to be considered empirically equivalent.
+#'
+#' @param eq_df_models_args If `partables`
+#' is not supplied (`NULL`) but
+#' `original_model` is set, [eq_df_models()]
+#' will be called to generate the models,
+#' used a `partables`. This argument
+#' is a named list of additional arguments
+#' to be passed to [eq_df_models()].
 #'
 #' @references
 #' Pesigan, I. J. A., Cheung, S. F.,
@@ -161,7 +172,7 @@
 #'
 #' @export
 eq_models <- function(
-  partables,
+  partables = NULL,
   original_model = NULL,
   ...,
   se = "none",
@@ -169,7 +180,8 @@ eq_models <- function(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   progress = TRUE,
-  tolerance = 1e-5
+  tolerance = 1e-5,
+  eq_df_models_args = list()
 ) {
 
   args <- as.list(match.call()[-1])
@@ -210,15 +222,16 @@ eq_models <- function(
 #' @rdname eq_models
 #' @export
 is_eq <- function(
-  partables,
-  original_model,
+  partables = NULL,
+  original_model = NULL,
   ...,
   se = "none",
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   progress = TRUE,
-  tolerance = 1e-5
+  tolerance = 1e-5,
+  eq_df_models_args = list()
 ) {
 
   args <- as.list(match.call()[-1])
@@ -244,7 +257,7 @@ is_eq <- function(
 
 #' @noRd
 eq_models_internal <- function(
-  partables,
+  partables = NULL,
   original_model = NULL,
   ...,
   se = "none",
@@ -254,6 +267,7 @@ eq_models_internal <- function(
   progress = TRUE,
   tolerance = 1e-5,
   env_for_update = parent.frame(),
+  eq_df_models_args = list(),
   output = c("logical", "models")
 ) {
 
@@ -272,7 +286,129 @@ eq_models_internal <- function(
 
   output <- match.arg(output)
 
+  # ==== Handle main objects ====
+
+  if (is.null(partables) &&
+      is.null(original_model)) {
+    stop("partables and original_model cannot be both NULL.")
+  }
+
+  # ==== Handle 'partables' is NULL ====
+
+  # original_model must not be NULL
+
+  if (is.null(partables) &&
+      !is.null(original_model)) {
+
+    # ==== Call eq_df_models ====
+
+    if (inherits(original_model, "lavaan")) {
+
+      # Use original_model in eq_df_models
+
+      # Placeholder
+
+    } else if (is_partable(original_model) ||
+               is.character(original_model)) {
+
+      if (is.character(original_model)) {
+
+        # original_model is character
+
+        # Try to parse the model and
+        # create a parameter table
+
+        ddd1 <- utils::modifyList(
+                  list(...),
+                  list(
+                      model = original_model,
+                      do.fit = FALSE,
+                      warn = FALSE
+                    ),
+                )
+        tmp <- tryCatch(
+                  suppressWarnings(do.call(
+                    lavaan::sem,
+                    ddd1
+                  )),
+                  error = function(e) e
+                )
+        if (inherits(tmp, "error")) {
+          stop("original_model is not a valid lavaan model.")
+        }
+
+        partables_original <- lavaan::parameterTable(tmp)
+
+        # Use original_model in eq_df_models
+
+      } else {
+
+        # original_model is a parameter table
+
+        partables_original <- original_model
+
+      }
+
+      dat_original <- dummy_data(partables_original)
+
+      ddd1 <- utils::modifyList(
+                list(...),
+                list(
+                    model = partables_original,
+                    data = dat_original,
+                    se = "none",
+                    warn = FALSE
+                  ),
+              )
+      # Heywood case can be ignored
+      original_model <- suppressWarnings(do.call(
+          lavaan::sem,
+          ddd1
+        ))
+
+    } else {
+      stop("original model is not a supported object.")
+    }
+
+    # Call eq_df_models
+    # Set the output to partables
+
+    if (progress) {
+      tmp <- paste(
+              "Models not provided. They will be",
+              "generated from 'original_model'."
+            )
+      cat(strwrap(
+            tmp,
+          ),
+          sep = "\n")
+    }
+
+    original_model <- fix_call(
+                        original_model,
+                        env_for_call = parent.frame()
+                      )
+    eq_df_models_args0 <- eq_df_models_args
+    eq_df_models_args0 <- utils::modifyList(
+      eq_df_models_args0,
+      list(
+        sem_out = original_model,
+        parallel = parallel,
+        ncores = ncores,
+        progress = progress
+      )
+    )
+    partables <- do.call(
+                  eq_df_models,
+                  eq_df_models_args0
+                )
+
+  }
+
   # ==== Handle 'original_model' ====
+
+  # partables is not NULL,
+  # original model may or may not be NULL
 
   sem_out1 <- emp_eq_fix_input(
     partables = partables,
@@ -375,7 +511,7 @@ eq_models_internal <- function(
 
 #' @noRd
 emp_eq_fix_input <- function(
-  partables,
+  partables = NULL,
   original_model = NULL,
   ...,
   se = "none",
