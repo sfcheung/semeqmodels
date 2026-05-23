@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9030
+# semeqmodels 0.0.0.9031
 
 - Initialize the package.
   (0.0.0.9000)
@@ -218,3 +218,8 @@
 - Updated `digest_partable() to ignore
   order of variables in covariances.
   (0.0.0.9030)
+
+- Fixed `setdiff_eq_partables()` when
+  one list is a proper subset of the
+  other list.
+  (0.0.0.9031)
