@@ -311,6 +311,12 @@ drop_k <- function(
 #' removed before generating modified
 #' models.
 #'
+#' @param remove_dropped Whether the
+#' previously dropped parameter, if
+#' stored, will be removed from the
+#' original parameter table. This is
+#' necessary for reversing a path.
+#'
 #' @param add_name Whether the name of
 #' the original model will be added as
 #' a prefix to the names of the generated
@@ -346,6 +352,7 @@ add_k <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
+  remove_dropped = TRUE,
   remove_zeros = FALSE,
   add_name = FALSE
 ) {
@@ -418,8 +425,9 @@ add_k <- function(
 
   # ==== Remove coefficients fixed to zero ====
 
-  partable1 <- remove_dropped(partable)
-
+  if (remove_dropped) {
+    partable1 <- remove_dropped(partable)
+  }
   if (remove_zeros) {
     partable1 <- remove_fixed_zero(partable)
   }
