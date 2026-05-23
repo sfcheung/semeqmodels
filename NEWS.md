@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9029
+# semeqmodels 0.0.0.9030
 
 - Initialize the package.
   (0.0.0.9000)
@@ -214,3 +214,7 @@
   work on observed-variable-only
   models.
   (0.0.0.9029)
+
+- Updated `digest_partable() to ignore
+  order of variables in covariances.
+  (0.0.0.9030)
