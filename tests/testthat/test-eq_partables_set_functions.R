@@ -59,4 +59,12 @@ expect_equal(pt1 %pt_in% pt2,
 expect_equal(pt1 %pt_notin% pt2,
              !c(FALSE, TRUE, TRUE))
 
+# setdiff
+
+pt1 <- pt0[1:2]
+pt2 <- pt0[1:3]
+
+expect_length(setdiff_eq_partables(pt1, pt2), 0)
+expect_length(setdiff_eq_partables(pt2, pt1), 1)
+
 })
