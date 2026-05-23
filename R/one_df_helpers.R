@@ -259,9 +259,44 @@ partable_fixedx <- function(
             "free",
             drop.list.single.group = FALSE
           )[[1]]$psi
-    fixed.x <- !(any(diag(tmp)[xnames] > 0))
+    fixed.x <- any(diag(tmp)[xnames] == 0)
   } else {
     fixed.x <- TRUE
   }
   fixed.x
+}
+
+fix_partable_for_new_exo <- function(
+  partable
+) {
+  if (!partable_fixedx(partable)) {
+    # Only process models with fixed.x = TRUE
+    return(partable)
+  }
+  xnames <- lavaan::lavNames(
+    partable,
+    "ov.x"
+  )
+  dvs <- lavaan::lavNames(
+    partable,
+    "eqs.y"
+  )
+  pure_x <- setdiff(xnames, dvs)
+  if (length(pure_x) == 0) {
+    return(partable)
+  }
+  i <- partable$exo == 1
+  j <- (partable$lhs == partable$rhs) &
+       (partable$lhs %in% pure_x) &
+       (partable$op == "~~")
+  k <- j & !i
+  if (isFALSE(any(k))) {
+    return(partable)
+  }
+  out <- partable
+  out$exo[k] <- 1
+  out$free[k] <- 0
+  m <- out$free > 0
+  out$free[m] <- seq_len(sum(m))
+  out
 }

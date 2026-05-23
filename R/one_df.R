@@ -397,13 +397,15 @@ add_k <- function(
     dat <- dummy_data(partable)
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
+    fixed.x <- partable_fixedx(partable)
     fit <- suppressWarnings(
               do.call(
                 lavaan::sem,
                 list(
                   model = partable,
                   data = dat,
-                  se = se
+                  se = se,
+                  fixed.x = fixed.x
                 )
               )
             )
@@ -421,6 +423,7 @@ add_k <- function(
     sem_out@call <- tmp
     # fit will be used if fit_models is TRUE
     fit <- sem_out
+    fixed.x <- lavaan::lavInspect(fit, "fixed.x")
   }
 
   # ==== Remove coefficients fixed to zero ====
@@ -431,6 +434,8 @@ add_k <- function(
   if (remove_zeros) {
     partable1 <- remove_fixed_zero(partable)
   }
+
+  partable1 <- fix_partable_for_new_exo(partable1)
 
   # ==== Set must_not_add ====
 
