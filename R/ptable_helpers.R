@@ -385,6 +385,8 @@ setdiff_eq_partables <- function(
   i <- !(x_digest %in% y_digest)
   if (any(i)) {
     out <- x[i]
+  } else {
+    out <- list()
   }
   class(out) <- class(x)
   out
