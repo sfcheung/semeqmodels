@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9028
+# semeqmodels 0.0.0.9029
 
 - Initialize the package.
   (0.0.0.9000)
@@ -209,3 +209,8 @@
 
 - Improved `print.eq_partables()`.
   (0.0.0.9028)
+
+- Updated `add_k()` and `drop_k()` to
+  work on observed-variable-only
+  models.
+  (0.0.0.9029)
