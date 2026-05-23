@@ -184,6 +184,7 @@ drop_k <- function(
   # ==== Update the fit ====
 
   if (is.null(sem_out)) {
+    fixed.x <- partable_fixedx(partable = partable)
     dat <- dummy_data(partable)
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
@@ -193,7 +194,8 @@ drop_k <- function(
                 list(
                   model = partable,
                   data = dat,
-                  se = se
+                  se = se,
+                  fixed.x = fixed.x
                 )
               )
             )
@@ -309,6 +311,12 @@ drop_k <- function(
 #' removed before generating modified
 #' models.
 #'
+#' @param remove_dropped Whether the
+#' previously dropped parameter, if
+#' stored, will be removed from the
+#' original parameter table. This is
+#' necessary for reversing a path.
+#'
 #' @param add_name Whether the name of
 #' the original model will be added as
 #' a prefix to the names of the generated
@@ -344,6 +352,7 @@ add_k <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
+  remove_dropped = TRUE,
   remove_zeros = FALSE,
   add_name = FALSE
 ) {
@@ -388,13 +397,15 @@ add_k <- function(
     dat <- dummy_data(partable)
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
+    fixed.x <- partable_fixedx(partable)
     fit <- suppressWarnings(
               do.call(
                 lavaan::sem,
                 list(
                   model = partable,
                   data = dat,
-                  se = se
+                  se = se,
+                  fixed.x = fixed.x
                 )
               )
             )
@@ -412,15 +423,19 @@ add_k <- function(
     sem_out@call <- tmp
     # fit will be used if fit_models is TRUE
     fit <- sem_out
+    fixed.x <- lavaan::lavInspect(fit, "fixed.x")
   }
 
   # ==== Remove coefficients fixed to zero ====
 
-  partable1 <- remove_dropped(partable)
-
+  if (remove_dropped) {
+    partable1 <- remove_dropped(partable)
+  }
   if (remove_zeros) {
     partable1 <- remove_fixed_zero(partable)
   }
+
+  partable1 <- fix_partable_for_new_exo(partable1)
 
   # ==== Set must_not_add ====
 

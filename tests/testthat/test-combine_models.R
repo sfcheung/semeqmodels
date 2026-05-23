@@ -3,6 +3,9 @@ suppressMessages(library(lavaan))
 
 test_that("Combine models", {
 
+# Make results with dummy data reproducible
+set.seed(4321)
+
 mod <-
 "
 fx =~ x1 + x2 + x3

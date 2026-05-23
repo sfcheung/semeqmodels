@@ -71,6 +71,7 @@ dummy_data <- function(
           fit0,
           "ov"
         )
+  fixed.x <- partable_fixedx(partable = partable)
   p <- length(ovnames)
   if (is.null(n)) {
     n <- min(p * n_per_p, n_min)
@@ -91,17 +92,33 @@ dummy_data <- function(
       tmp <- tmp * sample(c(-1, 1), sum(k), replace =  TRUE)
       partablei[k, "start"] <- tmp
     }
-    out <- tryCatch(suppressWarnings(
+    out <- tryCatch(
               lavaan::simulateData(
                 model = partablei,
                 sample.nobs = n
-              )
-            ),
-            error = function(e) e)
+              ),
+            error = function(e) e,
+            warning = function(w) w)
+    if (!inherits(out, "error") &&
+        !inherits(out, "warning")) {
+      # ==== Ensure that the model can be fitted ====
+      fit_chk <- tryCatch(
+                lavaan::sem(
+                  model = partablei,
+                  data = out,
+                  fixed.x = fixed.x
+                ),
+                error = function(e) e,
+                warning = function(w) w)
+    }
+    if (inherits(fit_chk, "error") ||
+        inherits(fit_chk, "warning")) {
+      out <- try(stop(), silent = TRUE)
+    }
     i <- i - 1
   }
   if (!is.data.frame(out)) {
-    stop("Failed to generate the dummy data.")
+    stop("Failed to generate simulated data. Please use a lavaan output.")
   }
   out
 }
@@ -223,4 +240,63 @@ rename_to_digest <- function(
 
   out
 
+}
+
+partable_fixedx <- function(
+  partable
+) {
+  xnames <- lavaan::lavNames(
+    partable,
+    "ov.x"
+  )
+  if (length(xnames) > 0) {
+    # ==== fixed.x? ====
+    fit0 <- lavaan::sem(
+              model = partable,
+              do.fit = FALSE
+            )
+    tmp <- lavaan::lavInspect(fit0,
+            "free",
+            drop.list.single.group = FALSE
+          )[[1]]$psi
+    fixed.x <- any(diag(tmp)[xnames] == 0)
+  } else {
+    fixed.x <- TRUE
+  }
+  fixed.x
+}
+
+fix_partable_for_new_exo <- function(
+  partable
+) {
+  if (!partable_fixedx(partable)) {
+    # Only process models with fixed.x = TRUE
+    return(partable)
+  }
+  xnames <- lavaan::lavNames(
+    partable,
+    "ov.x"
+  )
+  dvs <- lavaan::lavNames(
+    partable,
+    "eqs.y"
+  )
+  pure_x <- setdiff(xnames, dvs)
+  if (length(pure_x) == 0) {
+    return(partable)
+  }
+  i <- partable$exo == 1
+  j <- (partable$lhs == partable$rhs) &
+       (partable$lhs %in% pure_x) &
+       (partable$op == "~~")
+  k <- j & !i
+  if (isFALSE(any(k))) {
+    return(partable)
+  }
+  out <- partable
+  out$exo[k] <- 1
+  out$free[k] <- 0
+  m <- out$free > 0
+  out$free[m] <- seq_len(sum(m))
+  out
 }
