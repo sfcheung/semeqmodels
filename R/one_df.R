@@ -184,6 +184,7 @@ drop_k <- function(
   # ==== Update the fit ====
 
   if (is.null(sem_out)) {
+    fixed.x <- partable_fixedx(partable = partable)
     dat <- dummy_data(partable)
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
@@ -193,7 +194,8 @@ drop_k <- function(
                 list(
                   model = partable,
                   data = dat,
-                  se = se
+                  se = se,
+                  fixed.x = fixed.x
                 )
               )
             )
