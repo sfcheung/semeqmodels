@@ -133,6 +133,8 @@ digest_partable <- function(
     partable <- lavaan::parameterTable(partable)
   }
 
+  partable <- sort_cov_pairs(partable)
+
   if (sort_rows) {
     partable <- sort_partable(
               partable = partable,
@@ -305,4 +307,18 @@ sort_partable <- function(
           )
   out0 <- partable[i, ]
   out0
+}
+
+#' @noRd
+sort_cov_pairs <- function(
+  partable
+) {
+  # Sort x~~y pairs to ensure a consistent order
+  for (i in seq_len(nrow(partable))) {
+    if (partable[i, "op"] == "~~") {
+      tmp <- sort(unlist(partable[i, c("lhs", "rhs")]))
+      partable[i, c("lhs", "rhs")] <- tmp
+    }
+  }
+  partable
 }
