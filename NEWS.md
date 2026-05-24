@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9031
+# semeqmodels 0.0.0.9032
 
 - Initialize the package.
   (0.0.0.9000)
@@ -223,3 +223,8 @@
   one list is a proper subset of the
   other list.
   (0.0.0.9031)
+
+- Added several internal functions to
+  examine the search history. These
+  functions may be exported in the future.
+  (0.0.0.9032)
