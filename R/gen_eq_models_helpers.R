@@ -180,6 +180,9 @@ gen_plot <- function(
 ) {
   # Internal function (for now)
   # Generate the plot for a model
+
+  pt$lavlabel <- lavaan::lav_partable_labels(pt)
+
   p_fit <- semPlot::semPaths(
     pt,
     ...,
@@ -187,6 +190,12 @@ gen_plot <- function(
     structural = structural,
     DoNotPlot = TRUE
   )
+
+  # ==== Set the colors for nodes ====
+
+  # TODO:
+  # - Can use semptools::set_edge_color()
+
   k_nodes <- length(p_fit$graphAttributes$Nodes$color)
   if (k_nodes <= 12) {
     color_nodes <- RColorBrewer::brewer.pal(k_nodes, "Set3")
@@ -199,8 +208,10 @@ gen_plot <- function(
       DoNotPlot = TRUE
     )
   }
+
+  # ==== Configure covariance edges ====
+
   p_fit_vars <- names(p_fit$graphAttributes$Nodes$labels)
-  pt$lavlabel <- lavaan::lav_partable_labels(pt)
   i <- (pt$lhs %in% p_fit_vars) &
        (pt$op == "~~") &
        (pt$lhs != pt$rhs)
@@ -213,6 +224,39 @@ gen_plot <- function(
                 color_list = cov_colors
               )
   }
+
+  # ==== Configure paths fixed to zero ====
+
+  i_fixed_zero <- (pt$free == 0) &
+                  (pt$op %in% c("~", "~~", "=~")) &
+                  (pt$start == 0)
+  if (any(i_fixed_zero)) {
+    pars_fixed_zero <- pt$lavlabel[i_fixed_zero]
+    tmp1 <- "white"
+    names(tmp1) <- pars_fixed_zero
+    tmp2 <- 0
+    names(tmp2) <- pars_fixed_zero
+    for (xx in pars_fixed_zero) {
+      p_fit <- tryCatch(
+          semptools::set_edge_color(
+            p_fit,
+            color_list = tmp1
+          ),
+          error = function(e) p_fit
+        )
+      p_fit <- tryCatch(
+          semptools::set_edge_attribute(
+            p_fit,
+            values = tmp2,
+            attribute_name = "width"
+          ),
+          error = function(e) p_fit
+        )
+    }
+  }
+
+  # ==== Configure new parameters ====
+
   if (!is.null(new_par)) {
     tmp1 <- new_par_color
     names(tmp1) <- new_par
@@ -229,6 +273,7 @@ gen_plot <- function(
       attribute_name = "width"
     )
   }
+
   p_fit
 }
 
