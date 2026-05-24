@@ -235,6 +235,14 @@ drop_k <- function(
     out0 <- out0[i]
   }
 
+  # ==== Store additional info  ====
+
+  if (length(out0) > 0) {
+    for (i in seq_along(out0)) {
+      attr(out0[[i]], "from_partable") <- get_digest(partable)
+    }
+  }
+
   class(out0) <- class_out0
 
   # Convert to eq_partables
@@ -518,6 +526,13 @@ add_k <- function(
     }
   }
 
+  # ==== Store additional info  ====
+
+  if (length(out0) > 0) {
+    for (i in seq_along(out0)) {
+      attr(out0[[i]], "from_partable") <- get_digest(partable)
+    }
+  }
   class(out0) <- c("eq_partables", class_out0)
 
   if (length(out0) == 0) {
