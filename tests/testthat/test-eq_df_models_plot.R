@@ -1,9 +1,8 @@
-skip("WIP")
-
 skip_on_cran()
 
 skip_if_not_installed("semPlot")
 skip_if_not_installed("semptools")
+skip_if_not_installed("RColorBrewer")
 
 library(testthat)
 suppressMessages(library(lavaan))
@@ -67,5 +66,14 @@ plot_a_to_b_i(p2)
 plot_a_to_b_i(p3)
 
 plot_search_history(pall1)
+
+p_org <- gen_plots_eq_models(
+  original_model = fit,
+  other_models = out,
+  layout = layout_i,
+  asize = 10
+)
+
+plot_eq_models(p_org)
 
 })

@@ -284,6 +284,36 @@ gen_plot <- function(
 }
 
 #' @noRd
+gen_plots_eq_models <- function(
+  original_model,
+  other_models,
+  ...,
+  new_par_color = "blue",
+  new_par_width = 5
+) {
+  original_model_fixed <- fix_object(original_model)
+  out0 <- list()
+  out0$from_model <- original_model_fixed$partable
+  out0$to_model <- other_models
+  p0 <- gen_plots_a_to_b_i(
+    out0,
+    ...,
+    new_par_color = new_par_color,
+    new_par_width = new_par_width
+  )
+  p0
+}
+
+#' @noRd
+plot_eq_models <- function(
+  p
+) {
+  # Just an alias for now.
+  # Will add more features later.
+  plot_a_to_b_i(p)
+}
+
+#' @noRd
 gen_plots_a_to_b_i <- function(
   x,
   ...,
