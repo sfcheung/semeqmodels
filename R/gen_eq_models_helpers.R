@@ -233,10 +233,10 @@ gen_plot <- function(
   if (any(i_fixed_zero)) {
     pars_fixed_zero <- pt$lavlabel[i_fixed_zero]
     tmp1 <- "white"
-    names(tmp1) <- pars_fixed_zero
     tmp2 <- 0
-    names(tmp2) <- pars_fixed_zero
     for (xx in pars_fixed_zero) {
+      names(tmp1) <- xx
+      names(tmp2) <- xx
       p_fit <- tryCatch(
           semptools::set_edge_color(
             p_fit,
@@ -259,19 +259,25 @@ gen_plot <- function(
 
   if (!is.null(new_par)) {
     tmp1 <- new_par_color
-    names(tmp1) <- new_par
     tmp2 <- new_par_width
-    names(tmp2) <- new_par
-    p_fit <- semptools::set_edge_attribute(
-      p_fit,
-      values = tmp1,
-      attribute_name = "color"
-    )
-    p_fit <- semptools::set_edge_attribute(
-      p_fit,
-      values = tmp2,
-      attribute_name = "width"
-    )
+    for (xx in new_par) {
+      names(tmp1) <- xx
+      names(tmp2) <- xx
+      p_fit <- tryCatch(
+        semptools::set_edge_attribute(
+          p_fit,
+          values = tmp1,
+          attribute_name = "color"
+        ),
+        error = function(e) p_fit)
+      p_fit <- tryCatch(
+        semptools::set_edge_attribute(
+          p_fit,
+          values = tmp2,
+          attribute_name = "width"
+        ),
+        error = function(e) p_fit)
+    }
   }
 
   p_fit
@@ -329,7 +335,7 @@ gen_plots_a_to_b_i <- function(
       p_b_i
     )
     diff_i <- p_b_i_diff$p_b_i
-    if (diff_i$free > 0) {
+    if (any(diff_i$free > 0)) {
       new_par <- lavaan::lav_partable_labels(diff_i)
     } else {
       new_par <- NULL
