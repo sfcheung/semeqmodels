@@ -30,6 +30,14 @@ out <- eq_df_models(
 )
 out
 
+out1 <- eq_models(
+          out,
+          original_model = fit,
+          parallel = FALSE,
+          progress = !is_testing()
+        )
+out1
+
 # Check for error is OK. The history
 # may change if the search algorithm changes.
 expect_no_error(partables_a_to_b(out, "same_to_more", iteration = 1))
@@ -37,10 +45,24 @@ expect_no_error(partables_a_to_b(out, "same_to_more", iteration = 2))
 expect_no_error(partables_a_to_b(out, "more_to_same", iteration = 1))
 expect_no_error(partables_a_to_b(out, "same_to_more", iteration = 2))
 
+# Check for error is OK. The history
+# may change if the search algorithm changes.
+expect_no_error(partables_a_to_b(out1, "same_to_more", iteration = 1))
+expect_no_error(partables_a_to_b(out1, "same_to_more", iteration = 2))
+expect_no_error(partables_a_to_b(out1, "more_to_same", iteration = 1))
+expect_no_error(partables_a_to_b(out1, "same_to_more", iteration = 2))
+
+
 out_pts <- inspect_search(out, "same_to_more", iteration = 2)
 expect_true(is_partable(out_pts[[1]]$from_model))
 expect_true(is_partables(out_pts[[1]]$to_model))
 out_diff <- inspect_search(out, "more_to_same", iteration = 5, what = "model_diff")
 expect_s3_class(out_diff[[1]], "model_diff_many")
+
+out1_pts <- inspect_search(out1, "same_to_more", iteration = 2)
+expect_true(is_partable(out1_pts[[1]]$from_model))
+expect_true(is_partables(out1_pts[[1]]$to_model))
+out1_diff <- inspect_search(out1, "more_to_same", iteration = 5, what = "model_diff")
+expect_s3_class(out1_diff[[1]], "model_diff_many")
 
 })
