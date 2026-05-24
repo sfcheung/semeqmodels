@@ -135,3 +135,245 @@ inspect_search <- function(
   )
   out0
 }
+
+#' @noRd
+inspect_search_full <- function(
+  object
+) {
+  k_same_to_more <- length(
+      attr(object, "pts_same_to_more_history")
+    )
+  k_more_to_same <- length(
+      attr(object, "pts_more_to_same_history")
+    )
+  k <- max(k_same_to_more, k_more_to_same)
+  out0 <- vector("list", k)
+  for (i in seq_len(k)) {
+    if (i <= k_same_to_more) {
+      out0[[i]]$same_to_more <- inspect_search(
+        object,
+        "same_to_more",
+        iteration = i
+      )
+    }
+    if (i <= k_more_to_same) {
+      out0[[i]]$more_to_same <- inspect_search(
+        object,
+        "more_to_same",
+        iteration = i
+      )
+    }
+  }
+  out0
+}
+
+#' @noRd
+gen_plot <- function(
+  pt,
+  ...,
+  fix_cov = FALSE,
+  cov_color = "red",
+  new_par = NULL,
+  new_par_color = "black",
+  new_par_width = 2,
+  structural = TRUE
+) {
+  # Internal function (for now)
+  # Generate the plot for a model
+  p_fit <- semPlot::semPaths(
+    pt,
+    ...,
+    residuals = FALSE,
+    structural = structural,
+    DoNotPlot = TRUE
+  )
+  k_nodes <- length(p_fit$graphAttributes$Nodes$color)
+  if (k_nodes <= 12) {
+    color_nodes <- RColorBrewer::brewer.pal(k_nodes, "Set3")
+    p_fit <- semPlot::semPaths(
+      pt,
+      ...,
+      color = color_nodes,
+      residuals = FALSE,
+      structural = structural,
+      DoNotPlot = TRUE
+    )
+  }
+  p_fit_vars <- names(p_fit$graphAttributes$Nodes$labels)
+  pt$lavlabel <- lavaan::lav_partable_labels(pt)
+  i <- (pt$lhs %in% p_fit_vars) &
+       (pt$op == "~~") &
+       (pt$lhs != pt$rhs)
+  if (any(i) && fix_cov) {
+    covs <- pt$lavlabel[i]
+    cov_colors <- rep(cov_color, length(covs))
+    names(cov_colors) <- covs
+    p_fit <- semptools::set_edge_color(
+                p_fit,
+                color_list = cov_colors
+              )
+  }
+  if (!is.null(new_par)) {
+    tmp1 <- new_par_color
+    names(tmp1) <- new_par
+    tmp2 <- new_par_width
+    names(tmp2) <- new_par
+    p_fit <- semptools::set_edge_attribute(
+      p_fit,
+      values = tmp1,
+      attribute_name = "color"
+    )
+    p_fit <- semptools::set_edge_attribute(
+      p_fit,
+      values = tmp2,
+      attribute_name = "width"
+    )
+  }
+  p_fit
+}
+
+#' @noRd
+gen_plots_a_to_b_i <- function(
+  x,
+  ...
+) {
+  # An internal function
+  # Generate to plots for for
+  # one model in an iteration.
+  # Should be the output of
+  # inspect_search(), with output
+  # format parameter tables.
+  if (length(x$to_model) == 0) {
+    # No b-models
+    has_b_models <- FALSE
+  } else {
+    has_b_models <- TRUE
+  }
+  p_a <- x$from_model
+  plot_from <- gen_plot(
+    pt = remove_fixed_zero(p_a),
+    ...
+  )
+  if (!has_b_models) {
+    out <- list(
+            plot_from = plot_from,
+            plot_to = list()
+          )
+    return(out)
+  }
+  p_b <- x$to_model
+  f <- function(
+    p_b_i
+  ) {
+    p_b_i_diff <- model_diff(
+      p_a,
+      p_b_i
+    )
+    diff_i <- p_b_i_diff$p_b_i
+    if (diff_i$free > 0) {
+      new_par <- lavaan::lav_partable_labels(diff_i)
+      new_par_color <- "blue"
+      new_par_width <- 5
+    } else {
+      new_par <- NULL
+      new_par_color <- "white"
+      new_par_width <- 0
+    }
+    tmp <- gen_plot(
+      pt = remove_fixed_zero(p_b_i),
+      ...,
+      new_par = new_par,
+      new_par_color = new_par_color,
+      new_par_width = new_par_width
+    )
+    tmp
+  }
+  plot_to <- sapply(
+    p_b,
+    FUN = f,
+    simplify = FALSE,
+    USE.NAMES = TRUE
+  )
+  list(plot_from = plot_from,
+       plot_to = plot_to)
+}
+
+plot_a_to_b_i <- function(
+  p
+) {
+  k_to <- length(p$plot_to)
+  if (k_to == 0) {
+    has_to_models <- FALSE
+    k_to <- 1
+  } else {
+    has_to_models <- TRUE
+  }
+  parold <- par(mfrow = c(1, 2), no.readonly = TRUE)
+  on.exit(par(parold))
+  if (!has_to_models) {
+    plot(p$plot_from)
+    plot.new()
+    text(.5, .5, "No model")
+  } else {
+    for (i in seq_len(k_to)) {
+      plot(p$plot_from)
+      segments(1.25, 0, 1.5, 0, col = "red")
+      plot(p$plot_to[[i]])
+      arrows(-1.5, 0, -1.25, 0, col = "red")
+    }
+  }
+}
+
+#' @noRd
+gen_plots_for_search <- function(
+  object,
+  ...
+) {
+  # Internal function (for now)
+  # General the plots for the full search
+  # history.
+  # object should be the output of
+  # inspect_search_full().
+  k <- length(object)
+  out <- vector("list", k)
+  for (i in seq_len(k)) {
+    if (length(object[[i]]$same_to_more) > 0) {
+      out[[i]]$same_to_more_plots <- sapply(
+        object[[i]]$same_to_more,
+        gen_plots_a_to_b_i,
+        ...,
+        simplify = FALSE,
+        USE.NAMES = TRUE
+      )
+    } else {
+      out[[i]]$same_to_more_plots <- list()
+    }
+    if (length(object[[i]]$more_to_same) > 0) {
+      out[[i]]$more_to_same <- sapply(
+        object[[i]]$more_to_same,
+        gen_plots_a_to_b_i,
+        ...,
+        simplify = FALSE,
+        USE.NAMES = TRUE
+      )
+    }
+  }
+  out
+}
+
+#' @noRd
+plot_search_history <- function(
+  p_full
+) {
+  # Internal function (for now)
+  # Plot all the plots in the outputs
+  # of gen_plots_for_search()
+  for (xx in p_full) {
+    for (yy in xx$same_to_more) {
+      plot_a_to_b_i(yy)
+    }
+    for (yy in xx$more_to_same) {
+      plot_a_to_b_i(yy)
+    }
+  }
+}
