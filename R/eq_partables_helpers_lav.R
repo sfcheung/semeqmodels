@@ -311,6 +311,12 @@ eq_fits <- function(object) {
   # the output is also an eq_partables
   # object.
   out <- NextMethod("[")
+
+  # Keep the attributes
+  for (xx in setdiff(names(attributes(x)), c("names", "class"))) {
+    attr(out, xx) <- attr(x, xx)
+  }
+
   class(out) <- class(x)
   out
 }
@@ -339,6 +345,12 @@ eq_fits <- function(object) {
   # No need for the naming. This behavior
   # is not unique for eq_parables.
   # warning("It is not advised to assign models to an eq_partables object.")
+
+  # Keep the attributes
+  for (xx in setdiff(names(attributes(x)), c("names", "class"))) {
+    attr(out, xx) <- attr(x, xx)
+  }
+
   class(out) <- class(x)
   out
 }
@@ -357,6 +369,12 @@ eq_fits <- function(object) {
   # No need for the naming. This behavior
   # is not unique for eq_parables.
   # warning("It is not advised to assign models to an eq_partables object.")
+
+  # Keep the attributes
+  for (xx in setdiff(names(attributes(x)), c("names", "class"))) {
+    attr(out, xx) <- attr(x, xx)
+  }
+
   class(out) <- class(x)
   out
 }

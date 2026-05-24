@@ -146,6 +146,9 @@ eq_df_models <- function(
 
   # ==== Start the loop ====
 
+  pts_same_to_more_history <- list()
+  pts_more_to_same_history <- list()
+
   while (k_old < k_new) {
     k_old <- length(out)
     if (length(out) == 0) {
@@ -204,6 +207,18 @@ eq_df_models <- function(
       )
     }
 
+    # ==== Store drop_k() history ====
+
+    out_i_digest <- unname(get_digest_partables(out_i))
+    same_to_more_i <- lapply(
+        out_drop_i,
+        \(x) unname(get_digest_partables(x))
+      )
+    names(same_to_more_i) <- out_i_digest
+    pts_same_to_more_history <- append(
+      pts_same_to_more_history,
+      list(same_to_more_i)
+    )
     out_drop_i <- combine_partables(
               out_drop_i
             )
@@ -270,6 +285,19 @@ eq_df_models <- function(
       )
     }
 
+    # ==== Store add_k() history ====
+
+    out_drop_i_digest <- unname(get_digest_partables(out_drop_i))
+    more_to_same_i <- lapply(
+        out_add_i,
+        \(x) unname(get_digest_partables(x))
+      )
+    names(more_to_same_i) <- out_drop_i_digest
+    pts_more_to_same_history <- append(
+      pts_more_to_same_history,
+      list(more_to_same_i)
+    )
+
     out_add_i <- combine_partables(
               out_add_i
             )
@@ -294,6 +322,8 @@ eq_df_models <- function(
 
   # ==== Exclude models with x-error covariances ====
 
+  out_full <- out
+
   if (exclude_x_y_ecov) {
     tmp <- length(out)
     out <- remove_x_y_ecov(
@@ -317,6 +347,11 @@ eq_df_models <- function(
   if (short_names) {
     out <- rename_to_digest(out)
   }
+
+  attr(out, "pts_same_to_more_history") <- pts_same_to_more_history
+  attr(out, "pts_more_to_same_history") <- pts_more_to_same_history
+  attr(out, "pts_more_df_all") <- rename_to_digest(out_drop_tried)
+  attr(out, "pts_excluded") <- setdiff_eq_partables(out_full, out)
 
   # TODO:
   # - Should sem_out be excluded?
