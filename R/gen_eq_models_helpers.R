@@ -280,7 +280,9 @@ gen_plot <- function(
 #' @noRd
 gen_plots_a_to_b_i <- function(
   x,
-  ...
+  ...,
+  new_par_color = "blue",
+  new_par_width = 5
 ) {
   # An internal function
   # Generate to plots for for
@@ -288,17 +290,26 @@ gen_plots_a_to_b_i <- function(
   # Should be the output of
   # inspect_search(), with output
   # format parameter tables.
+
   if (length(x$to_model) == 0) {
     # No b-models
     has_b_models <- FALSE
   } else {
     has_b_models <- TRUE
   }
+
+  # ==== Generate the plot for 'from_model' ====
+
   p_a <- x$from_model
   plot_from <- gen_plot(
-    pt = remove_fixed_zero(p_a),
+    pt = p_a,
     ...
   )
+  attr(plot_from, "digest") <- get_digest(x$from_model)
+  attr(plot_from, "gen_models_name") <- attr(x$from_model, "gen_models_name")
+
+  # ==== No 'to_model' ====
+
   if (!has_b_models) {
     out <- list(
             plot_from = plot_from,
@@ -306,6 +317,9 @@ gen_plots_a_to_b_i <- function(
           )
     return(out)
   }
+
+  # ==== Generate the plots for 'to_model' ====
+
   p_b <- x$to_model
   f <- function(
     p_b_i
@@ -317,21 +331,19 @@ gen_plots_a_to_b_i <- function(
     diff_i <- p_b_i_diff$p_b_i
     if (diff_i$free > 0) {
       new_par <- lavaan::lav_partable_labels(diff_i)
-      new_par_color <- "blue"
-      new_par_width <- 5
     } else {
       new_par <- NULL
-      new_par_color <- "white"
-      new_par_width <- 0
     }
-    tmp <- gen_plot(
-      pt = remove_fixed_zero(p_b_i),
+    plot_to_i <- gen_plot(
+      pt = p_b_i,
       ...,
       new_par = new_par,
       new_par_color = new_par_color,
       new_par_width = new_par_width
     )
-    tmp
+    attr(plot_to_i, "digest") <- get_digest(p_b_i)
+    attr(plot_to_i, "gen_models_name") <- attr(p_b_i, "gen_models_name")
+    plot_to_i
   }
   plot_to <- sapply(
     p_b,
@@ -363,8 +375,16 @@ plot_a_to_b_i <- function(
     for (i in seq_len(k_to)) {
       plot(p$plot_from)
       segments(1.25, 0, 1.5, 0, col = "red")
+      p_digest <- attr(p$plot_from, "digest")
+      if (!is.null(p_digest)) {
+        title(main = p_digest)
+      }
       plot(p$plot_to[[i]])
       arrows(-1.5, 0, -1.25, 0, col = "red")
+      p_digest <- attr(p$plot_to[[i]], "digest")
+      if (!is.null(p_digest)) {
+        title(main = p_digest)
+      }
     }
   }
 }
