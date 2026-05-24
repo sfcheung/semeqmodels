@@ -107,15 +107,16 @@ inspect_search <- function(
     pts_a_i,
     pts_b_i,
     a_to_b_matrix) {
+    out_i <- list(
+      from_model = pts_a_i[[xx]]
+    )
     tmp <- a_to_b_matrix[, xx] > 0
     if (isFALSE(any(tmp))) {
-      return(NA)
+      b_names_xx <- rownames(a_to_b_matrix)[tmp]
+      out_i$to_model <- pts_b_i[b_names_xx]
+    } else {
+      out_i$to_model <- list()
     }
-    b_names_xx <- rownames(a_to_b_matrix)[tmp]
-    out_i <- list(
-      from_model = pts_a_i[[xx]],
-      to_model = pts_b_i[b_names_xx]
-    )
     out_i
   }
   f <- switch(
