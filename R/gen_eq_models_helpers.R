@@ -369,6 +369,10 @@ plot_a_to_b_i <- function(
   on.exit(par(parold))
   if (!has_to_models) {
     plot(p$plot_from)
+    p_digest <- attr(p$plot_from, "digest")
+    if (!is.null(p_digest)) {
+      title(main = p_digest)
+    }
     plot.new()
     text(.5, .5, "No model")
   } else {
