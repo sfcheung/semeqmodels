@@ -112,10 +112,10 @@ inspect_search <- function(
     )
     tmp <- a_to_b_matrix[, xx] > 0
     if (isFALSE(any(tmp))) {
+      out_i$to_model <- list()
+    } else {
       b_names_xx <- rownames(a_to_b_matrix)[tmp]
       out_i$to_model <- pts_b_i[b_names_xx]
-    } else {
-      out_i$to_model <- list()
     }
     out_i
   }
