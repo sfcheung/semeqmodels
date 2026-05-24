@@ -1,3 +1,10 @@
+#' @importFrom graphics arrows
+#' @importFrom graphics par
+#' @importFrom graphics plot.new
+#' @importFrom graphics segments
+#' @importFrom graphics text
+#' @importFrom graphics title
+
 #' @noRd
 partables_a_to_b <- function(
   object,
