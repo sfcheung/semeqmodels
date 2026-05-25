@@ -284,6 +284,96 @@ has_x_y_ecov <- function(
 }
 
 #' @noRd
+has_x_y_ecov2 <- function(
+  object
+) {
+  # Check whether a model has
+  # a covariance between an exogenous
+  # variable and an error term
+
+  if (is_partable(object)) {
+    object <- lavaan::sem(
+      object,
+      do.fit = FALSE,
+      fixed.x = FALSE
+    )
+  }
+
+  mm <- lavaan::lavInspect(
+    object,
+    "partable",
+    drop.list.single.group = TRUE
+  )
+
+  pt <- lavaan::parameterTable(object)
+
+  x_y <- x_y_pairs(pt)
+
+  if (nrow(x_y) == 0) {
+    # ==== No x-y pairs ====
+    return(FALSE)
+  }
+
+  # ==== Create the adjacent matrix ====
+
+  beta <- unclass(mm$beta)
+  psi <- unclass(mm$psi)
+  for (i in pt$id) {
+    i_fixed <- pt[pt$id == i, "free"] == 0
+    i_start_0 <- pt[pt$id == i, "start"] == 0
+    if (i_fixed && i_start_0) {
+      beta[beta == i] <- 0
+      psi[psi == i] <- 0
+    }
+  }
+
+  # Form the matrix of relations
+
+  m_check <- beta + psi
+  m_check[m_check > 0] <- 1
+  m_check_a <- m_check
+  m_check_a[upper.tri(m_check_a, diag = TRUE)] <- 0
+  m_check_b <- t(m_check)
+  m_check_b[upper.tri(m_check_b, diag = TRUE)] <- 0
+
+  # ==== Any direct or indirect x-y covariation? ====
+
+  m_igraph <- igraph::graph_from_adjacency_matrix(
+                t(m_check),
+                mode = "directed"
+              )
+
+  m_names <- colnames(m_check)
+  for (i in seq_len(nrow(x_y))) {
+    x_i <- x_y$x[i]
+    y_i <- x_y$y[i]
+    if (!(x_i %in% m_names) ||
+        !(y_i %in% m_names)) {
+      next
+    }
+    x_to_y_i <- igraph::all_simple_paths(
+      m_igraph,
+      from = x_i,
+      to = y_i,
+      mode = "out"
+    )
+    y_to_x_i <- igraph::all_simple_paths(
+      m_igraph,
+      from = y_i,
+      to = x_i,
+      mode = "out"
+    )
+    if ((length(x_to_y_i) > 0) &&
+        (length(y_to_x_i) > 0)) {
+      return(TRUE)
+    }
+  }
+  # Default to No (FALSE)
+  return(FALSE)
+}
+
+
+#' @noRd
 rename_to_digest <- function(
   object_list
 ) {
