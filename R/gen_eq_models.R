@@ -257,6 +257,9 @@ eq_df_models <- function(
     # ==== Find 1-less-df models ====
 
     out_drop_tried <- c(out_drop_tried, out_drop_i)
+    # exclude_x_y_ecov will be done again when
+    # finalizing the outputs.
+    # They need to included during the search.
     if (parallel) {
       out_add_i <- parallel::parLapplyLB(
         cl = cl,
@@ -265,7 +268,7 @@ eq_df_models <- function(
         sem_out = sem_out,
         fit_models = fit_models,
         must_not_add = must_not_add,
-        exclude_x_y_ecov = exclude_x_y_ecov,
+        exclude_x_y_ecov = FALSE,
         se = se,
         parallel = FALSE,
         progress = gen_models_progress,
@@ -278,7 +281,7 @@ eq_df_models <- function(
         sem_out = sem_out,
         fit_models = fit_models,
         must_not_add = must_not_add,
-        exclude_x_y_ecov = exclude_x_y_ecov,
+        exclude_x_y_ecov = FALSE,
         se = se,
         parallel = FALSE,
         progress = gen_models_progress
