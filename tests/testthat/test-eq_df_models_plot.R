@@ -9,6 +9,8 @@ suppressMessages(library(lavaan))
 
 test_that("eq_df_models: Plot history", {
 
+pdf(NULL)
+
 mod <-
 "
 fx =~ x1 + x2 + x3
@@ -61,12 +63,6 @@ p3 <- gen_plots_a_to_b_i(tmp2[[4]], layout = layout_i, asize = 10)
 
 pall1 <- gen_plots_for_search(tmp3, layout = layout_i, asize = 10)
 
-plot_a_to_b_i(p1)
-plot_a_to_b_i(p2)
-plot_a_to_b_i(p3)
-
-plot_search_history(pall1)
-
 p_org <- gen_plots_eq_models(
   original_model = fit,
   other_models = out,
@@ -74,6 +70,25 @@ p_org <- gen_plots_eq_models(
   asize = 10
 )
 
+expect_no_error(plot_a_to_b_i(p1))
+expect_no_error(plot_a_to_b_i(p2))
+expect_no_error(plot_a_to_b_i(p3))
+
+expect_no_error(plot_search_history(pall1))
+
+expect_no_error(plot_eq_models(p_org))
+
+dev.off()
+
+skip("Plots: Test in an interactive session")
+
+plot_a_to_b_i(p1)
+plot_a_to_b_i(p2)
+plot_a_to_b_i(p3)
+
+plot_search_history(pall1)
+
 plot_eq_models(p_org)
+
 
 })
