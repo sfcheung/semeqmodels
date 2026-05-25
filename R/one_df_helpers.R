@@ -300,3 +300,41 @@ fix_partable_for_new_exo <- function(
   out$free[m] <- seq_len(sum(m))
   out
 }
+
+#' @noRd
+alternative_pars <- function(
+  partable
+) {
+  # If x~y has been dropped
+  # then x~~y can be added.
+  # If x~~y has been dropped
+  # then x~y and y~x can be added
+  if (is.null(attr(partable, "parameters_dropped"))) {
+    return(character(0))
+  }
+  pars_dropped <- attr(partable, "parameters_dropped_list")
+  f <- function(xx) {
+    if (xx["op"] == "~") {
+      out <- xx
+      out["op"] <- "~~"
+      out <- paste0(out, collapse = "")
+    } else if (xx["op"] == "~~") {
+      out1 <- xx
+      out1["op"] <- "~"
+      out2 <- c(lhs = unname(xx["rhs"]),
+                op = "~",
+                rhs = unname(xx["lhs"]))
+      out1 <- paste0(out1, collapse = "")
+      out2 <- paste0(out2, collapse = "")
+      out <- c(out1, out2)
+    } else {
+      out <- character(0)
+    }
+    out
+  }
+  out <- lapply(
+    pars_dropped,
+    FUN = f
+  )
+  unlist(out)
+}
