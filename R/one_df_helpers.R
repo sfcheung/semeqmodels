@@ -179,26 +179,8 @@ x_y_pairs <- function(
             stringsAsFactors = FALSE
           )
 
-  # If no x-y pairs, out0 will have 0 rows
-
-  out0
-}
-
-#' @noRd
-x_y_ecov <- function(
-  object
-) {
-  # Form a vector of covariances
-  # between an exogenous variable
-  # and an error terms.
-  # To be used in `must_not_add`.
-
-  # The output of x_y_pairs is always a data frame,
-  # though may have zero row.
-  out0 <- x_y_pairs(object)
-
   if (nrow(out0) == 0) {
-    return(character(0))
+    return(out0)
   }
 
   # ==== Check for direct paths ====
@@ -234,11 +216,30 @@ x_y_ecov <- function(
   }
 
   i <- out0$direct | out0$indirect
-  if (!any(i)) {
-    return(character(0))
-  }
 
   out0 <- out0[i, c("x", "y")]
+
+  # If no x-y pairs, out0 will have 0 rows
+
+  out0
+}
+
+#' @noRd
+x_y_ecov <- function(
+  object
+) {
+  # Form a vector of covariances
+  # between an exogenous variable
+  # and an error terms.
+  # To be used in `must_not_add`.
+
+  # The output of x_y_pairs is always a data frame,
+  # though may have zero row.
+  out0 <- x_y_pairs(object)
+
+  if (nrow(out0) == 0) {
+    return(character(0))
+  }
 
   out1a <- apply(
       out0,
