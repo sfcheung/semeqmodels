@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9033
+# semeqmodels 0.0.0.9034
 
 - Initialize the package.
   (0.0.0.9000)
@@ -233,3 +233,8 @@
   covariances like `x~~m` and `m~~x` as
   identical.
   (0.0.0.9033)
+
+- Updated the search to be more liberal
+  in handling covariances, resulting in
+  more models identified in some cases.
+  (0.0.0.9034)
