@@ -27,7 +27,8 @@ Imports:
     lavaan,
     modelbpp (>= 0.2.0.5),
     digest,
-    manymome
+    manymome,
+    igraph
 Depends:
     R (>= 4.1.0)
 URL: https://sfcheung.github.io/semeqmodels/
