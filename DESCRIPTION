@@ -1,6 +1,6 @@
 Package: semeqmodels
 Title: Equivalent Models in Structural Equation Models
-Version: 0.0.0.9034
+Version: 0.0.0.9035
 Authors@R:
     c(person(given = "Shu Fai",
              family = "Cheung",
@@ -27,7 +27,8 @@ Imports:
     lavaan,
     modelbpp (>= 0.2.0.5),
     digest,
-    manymome
+    manymome,
+    igraph
 Depends:
     R (>= 4.1.0)
 URL: https://sfcheung.github.io/semeqmodels/

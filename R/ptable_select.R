@@ -328,6 +328,11 @@ remove_x_y_ecov <- function(
             partables,
             has_x_y_ecov
           )
+  chk2 <- sapply(
+            partables,
+            has_x_y_ecov2
+          )
+  chk <- chk | chk2
   if (any(chk)) {
     tmp <- class(partables)
     partables <- partables[!chk]

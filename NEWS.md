@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9034
+# semeqmodels 0.0.0.9035
 
 - Initialize the package.
   (0.0.0.9000)
@@ -238,3 +238,9 @@
   in handling covariances, resulting in
   more models identified in some cases.
   (0.0.0.9034)
+
+- Added the internal function `has_x_y_ecov2()`
+  to check for covariation between an
+  `x` variable and the error term of its
+  `y` variable, even indirectly.
+  (0.0.0.9035)
