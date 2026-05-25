@@ -235,6 +235,14 @@ drop_k <- function(
     out0 <- out0[i]
   }
 
+  # ==== Store additional info  ====
+
+  if (length(out0) > 0) {
+    for (i in seq_along(out0)) {
+      attr(out0[[i]], "from_partable") <- get_digest(partable)
+    }
+  }
+
   class(out0) <- class_out0
 
   # Convert to eq_partables
@@ -426,13 +434,22 @@ add_k <- function(
     fixed.x <- lavaan::lavInspect(fit, "fixed.x")
   }
 
+  # ==== Allow for variations of the dropped parameters ====
+
+  must_add <- alternative_pars(partable)
+
+  # ==== Prepare the partable for gen_models() ====
+
+  partable1 <- partable
+
   # ==== Remove coefficients fixed to zero ====
 
   if (remove_dropped) {
-    partable1 <- remove_dropped(partable)
+    partable1 <- remove_dropped(partable1)
   }
+
   if (remove_zeros) {
-    partable1 <- remove_fixed_zero(partable)
+    partable1 <- remove_fixed_zero(partable1)
   }
 
   partable1 <- fix_partable_for_new_exo(partable1)
@@ -486,6 +503,7 @@ add_k <- function(
     drop_equivalent_models = FALSE,
     remove_duplicated = TRUE,
     must_not_add = must_not_add,
+    must_add = must_add,
     # original = partable_name,
     progress = progress
   )
@@ -518,6 +536,13 @@ add_k <- function(
     }
   }
 
+  # ==== Store additional info  ====
+
+  if (length(out0) > 0) {
+    for (i in seq_along(out0)) {
+      attr(out0[[i]], "from_partable") <- get_digest(partable)
+    }
+  }
   class(out0) <- c("eq_partables", class_out0)
 
   if (length(out0) == 0) {

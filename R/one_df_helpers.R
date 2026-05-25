@@ -131,35 +131,98 @@ x_y_ecov <- function(
   # between an exogenous variable
   # and an error terms.
   # To be used in `must_not_add`.
-  all_x1 <- lavaan::lavNames(
+
+  # # Whether a variable is in "ov.nox" depends
+  # # on fixed.x. Should use eqs.x and eqs.y.
+  # all_x1 <- lavaan::lavNames(
+  #   object,
+  #   "ov.x"
+  # )
+  # all_x2 <- lavaan::lavNames(
+  #   object,
+  #   "lv.x"
+  # )
+  all_x1 <- character(0)
+  all_x2 <- character(0)
+  all_x3 <- lavaan::lavNames(
     object,
-    "ov.x"
+    "eqs.x"
   )
-  all_x2 <- lavaan::lavNames(
+  all_x <- unique(c(all_x1, all_x2, all_x3))
+  # # Whether a variable is in "ov.nox" depends
+  # # on fixed.x. Should use eqs.x and eqs.y.
+  # all_y1 <- lavaan::lavNames(
+  #   object,
+  #   "ov.nox"
+  # )
+  # all_y2 <- lavaan::lavNames(
+  #   object,
+  #   "lv.nox"
+  # )
+  all_y1 <- character(0)
+  all_y2 <- character(0)
+  all_y3 <- lavaan::lavNames(
     object,
-    "lv.x"
+    "eqs.y"
   )
-  all_x <- c(all_x1, all_x2)
-  all_y1 <- lavaan::lavNames(
-    object,
-    "ov.nox"
-  )
-  all_y2 <- lavaan::lavNames(
-    object,
-    "lv.nox"
-  )
-  all_y <- c(all_y1, all_y2)
+  all_y <- unique(c(all_y1, all_y2, all_y3))
   all_ind <- lavaan::lavNames(
     object,
     "ov.ind"
   )
   all_x <- setdiff(all_x, all_ind)
   all_y <- setdiff(all_y, all_ind)
+
+  if ((length(all_x) == 0) ||
+      (length(all_y) == 0)) {
+    return(character(0))
+  }
+
   out0 <- expand.grid(
             x = all_x,
             y = all_y,
             stringsAsFactors = FALSE
           )
+
+  # ==== Check for direct paths ====
+
+  out0$direct <- FALSE
+  for (i in seq_len(nrow(out0))) {
+    ii <- (object$rhs == out0[i, "x"]) &
+          (object$lhs == out0[i, "y"]) &
+          (object$op == "~")
+    if (any(ii)) {
+      out0[i, "direct"] <- TRUE
+    }
+  }
+
+  # ==== Check for indirect paths ====
+
+  fit <- lavaan::sem(
+    object,
+    do.fit = FALSE
+  )
+  out0$indirect <- FALSE
+  ind_paths <- manymome::all_indirect_paths(
+    fit = fit,
+    x = all_x,
+    y = all_y
+  )
+  if (length(ind_paths) > 0) {
+    for (ii in ind_paths) {
+      jj <- (out0$x == ii$x) &
+            (out0$y == ii$y)
+      out0$indirect[jj] <- TRUE
+    }
+  }
+
+  i <- out0$direct | out0$indirect
+  if (!any(i)) {
+    return(character(0))
+  }
+
+  out0 <- out0[i, c("x", "y")]
+
   out1a <- apply(
       out0,
       MARGIN = 1,
@@ -299,4 +362,42 @@ fix_partable_for_new_exo <- function(
   m <- out$free > 0
   out$free[m] <- seq_len(sum(m))
   out
+}
+
+#' @noRd
+alternative_pars <- function(
+  partable
+) {
+  # If x~y has been dropped
+  # then x~~y can be added.
+  # If x~~y has been dropped
+  # then x~y and y~x can be added
+  if (is.null(attr(partable, "parameters_dropped"))) {
+    return(character(0))
+  }
+  pars_dropped <- attr(partable, "parameters_dropped_list")
+  f <- function(xx) {
+    if (xx["op"] == "~") {
+      out <- xx
+      out["op"] <- "~~"
+      out <- paste0(out, collapse = "")
+    } else if (xx["op"] == "~~") {
+      out1 <- xx
+      out1["op"] <- "~"
+      out2 <- c(lhs = unname(xx["rhs"]),
+                op = "~",
+                rhs = unname(xx["lhs"]))
+      out1 <- paste0(out1, collapse = "")
+      out2 <- paste0(out2, collapse = "")
+      out <- c(out1, out2)
+    } else {
+      out <- character(0)
+    }
+    out
+  }
+  out <- lapply(
+    pars_dropped,
+    FUN = f
+  )
+  unlist(out)
 }

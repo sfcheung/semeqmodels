@@ -282,6 +282,10 @@ get_digest_partables <- function(
 ) {
   # TOOD:
   # - Add some sanity checks.
+  if (is.null(partables) ||
+      (length(partables) == 0)) {
+    return(character(0))
+  }
   out0 <- sapply(
     partables,
     get_digest,

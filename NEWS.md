@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9031
+# semeqmodels 0.0.0.9034
 
 - Initialize the package.
   (0.0.0.9000)
@@ -223,3 +223,18 @@
   one list is a proper subset of the
   other list.
   (0.0.0.9031)
+
+- Added several internal functions to
+  examine the search history. These
+  functions may be exported in the future.
+  (0.0.0.9032)
+
+- Fixed `model_diff()` to treat
+  covariances like `x~~m` and `m~~x` as
+  identical.
+  (0.0.0.9033)
+
+- Updated the search to be more liberal
+  in handling covariances, resulting in
+  more models identified in some cases.
+  (0.0.0.9034)
