@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9032
+# semeqmodels 0.0.0.9033
 
 - Initialize the package.
   (0.0.0.9000)
@@ -228,3 +228,8 @@
   examine the search history. These
   functions may be exported in the future.
   (0.0.0.9032)
+
+- Fixed `model_diff()` to treat
+  covariances like `x~~m` and `m~~x` as
+  identical.
+  (0.0.0.9033)
