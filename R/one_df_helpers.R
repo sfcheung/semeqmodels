@@ -124,13 +124,13 @@ dummy_data <- function(
 }
 
 #' @noRd
-x_y_ecov <- function(
+x_y_pairs <- function(
   object
 ) {
-  # Form a vector of covariances
-  # between an exogenous variable
-  # and an error terms.
-  # To be used in `must_not_add`.
+
+  # Output
+  # - Always a data frame, though may have
+  #   0 row.
 
   # # Whether a variable is in "ov.nox" depends
   # # on fixed.x. Should use eqs.x and eqs.y.
@@ -173,16 +173,33 @@ x_y_ecov <- function(
   all_x <- setdiff(all_x, all_ind)
   all_y <- setdiff(all_y, all_ind)
 
-  if ((length(all_x) == 0) ||
-      (length(all_y) == 0)) {
-    return(character(0))
-  }
-
   out0 <- expand.grid(
             x = all_x,
             y = all_y,
             stringsAsFactors = FALSE
           )
+
+  # If no x-y pairs, out0 will have 0 rows
+
+  out0
+}
+
+#' @noRd
+x_y_ecov <- function(
+  object
+) {
+  # Form a vector of covariances
+  # between an exogenous variable
+  # and an error terms.
+  # To be used in `must_not_add`.
+
+  # The output of x_y_pairs is always a data frame,
+  # though may have zero row.
+  out0 <- x_y_pairs(object)
+
+  if (nrow(out0) == 0) {
+    return(character(0))
+  }
 
   # ==== Check for direct paths ====
 
@@ -205,8 +222,8 @@ x_y_ecov <- function(
   out0$indirect <- FALSE
   ind_paths <- manymome::all_indirect_paths(
     fit = fit,
-    x = all_x,
-    y = all_y
+    x = unique(out0$x),
+    y = unique(out0$y)
   )
   if (length(ind_paths) > 0) {
     for (ii in ind_paths) {
