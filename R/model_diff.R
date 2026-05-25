@@ -114,8 +114,8 @@ model_diff <- function(
   if (!is_partable(model_y)) {
     stop("model_y does not appear to be a parameter table")
   }
-  x0 <- model_x
-  y0 <- model_y
+  x0 <- sort_cov_pairs(model_x)
+  y0 <- sort_cov_pairs(model_y)
   algo <- getOption("semeqmodels.algo") %||% "xxhash32"
   x0$digest0 <- apply(
                 x0,
