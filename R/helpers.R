@@ -5,6 +5,19 @@ fix_call <- function(
   # Evaluate all the arguments and
   # set the call with the values
   call0 <- stats::getCall(object)
+
+  # ==== Any names? ====
+
+  chk_names <- sapply(
+    call0[-1],
+    is.name
+  )
+  if (!any(chk_names)) {
+    return(object)
+  }
+
+  # ==== Evaluate the argument values ====
+
   tmp <- lapply(
             call0,
             \(x, envir0) eval(x, envir0),
