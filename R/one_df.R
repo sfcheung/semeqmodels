@@ -434,13 +434,22 @@ add_k <- function(
     fixed.x <- lavaan::lavInspect(fit, "fixed.x")
   }
 
+  # ==== Allow for variations of the dropped parameters ====
+
+  must_add <- alternative_pars(partable)
+
+  # ==== Prepare the partable for gen_models() ====
+
+  partable1 <- partable
+
   # ==== Remove coefficients fixed to zero ====
 
   if (remove_dropped) {
-    partable1 <- remove_dropped(partable)
+    partable1 <- remove_dropped(partable1)
   }
+
   if (remove_zeros) {
-    partable1 <- remove_fixed_zero(partable)
+    partable1 <- remove_fixed_zero(partable1)
   }
 
   partable1 <- fix_partable_for_new_exo(partable1)
@@ -494,6 +503,7 @@ add_k <- function(
     drop_equivalent_models = FALSE,
     remove_duplicated = TRUE,
     must_not_add = must_not_add,
+    must_add = must_add,
     # original = partable_name,
     progress = progress
   )
