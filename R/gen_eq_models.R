@@ -346,7 +346,7 @@ eq_df_models <- function(
 
   if (progress) {
     tmp <- sprintf(
-        "Model(s) retrained: %d\n",
+        "Model(s) retained: %d\n",
         length(out)
       )
     cat(tmp)
