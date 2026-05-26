@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9039
+# semeqmodels 0.0.0.9040
 
 - Initialize the package.
   (0.0.0.9000)
@@ -265,3 +265,7 @@
   relation is fixed to zero in the original
   model.
   (0.0.0.9039)
+
+- Added test datasets and tests for
+  more models.
+  (0.0.0.9040)
