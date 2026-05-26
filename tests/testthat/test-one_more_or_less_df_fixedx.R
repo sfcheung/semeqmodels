@@ -20,20 +20,20 @@ pt <- parameterTable(fit)
 
 # ==== Test: drop_k ====
 
-fit_1_more1 <- drop_k(fit)
+expect_error(fit_1_more1 <- drop_k(fit))
 
-fit_1_more2 <- drop_k(pt)
+expect_error(fit_1_more2 <- drop_k(pt))
 
-expect_setequal(names(fit_1_more1),
-                names(fit_1_more2))
+# expect_setequal(names(fit_1_more1),
+#                 names(fit_1_more2))
 
 # With fit_mondels
 
-fit_1_more1_with_fit <- drop_k(fit,
+expect_error(fit_1_more1_with_fit <- drop_k(fit,
               fit_models = TRUE,
-              parallel = FALSE)
-expect_s4_class(attr(fit_1_more1_with_fit[[1]], "fit"),
-                "lavaan")
+              parallel = FALSE))
+# expect_s4_class(attr(fit_1_more1_with_fit[[1]], "fit"),
+#                 "lavaan")
 
 # ==== Test: add_k ====
 
@@ -59,13 +59,13 @@ expect_s4_class(attr(fit_1_more1_with_fit[[1]], "fit"),
 #               )
 # expect_null(fit_1_less_with_fit)
 
-fit_1_more_1_less <- lapply(
+expect_error(fit_1_more_1_less <- lapply(
   fit_1_more1,
   add_k,
   fit_models = FALSE,
   parallel = FALSE
-)
+))
 
-expect_null(fit_1_more_1_less$`fit_1_more_1_less`)
+# expect_null(fit_1_more_1_less$`fit_1_more_1_less`)
 
 })

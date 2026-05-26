@@ -165,6 +165,9 @@ drop_k <- function(
   if (inherits(object, "lavaan")) {
     # Ignore sem_out if object is a fit object
     sem_out <- object
+    if (lavaan::lavInspect(sem_out, "fixed.x")) {
+      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+    }
     partable <- lavaan::parameterTable(sem_out)
   } else {
     # Assume it is a parameter table
@@ -185,6 +188,9 @@ drop_k <- function(
 
   if (is.null(sem_out)) {
     fixed.x <- partable_fixedx(partable = partable)
+    if (fixed.x) {
+      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+    }
     dat <- dummy_data(partable)
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
@@ -383,6 +389,9 @@ add_k <- function(
   if (inherits(object, "lavaan")) {
     # Ignore sem_out if object is a fit object
     sem_out <- object
+    if (lavaan::lavInspect(sem_out, "fixed.x")) {
+      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+    }
     partable <- lavaan::parameterTable(sem_out)
   } else {
     # Assume it is a parameter table
@@ -406,6 +415,9 @@ add_k <- function(
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fixed.x <- partable_fixedx(partable)
+    if (fixed.x) {
+      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+    }
     fit <- suppressWarnings(
               do.call(
                 lavaan::sem,
@@ -488,7 +500,8 @@ add_k <- function(
             lavaan::update(
               object = fit,
               model = partable1,
-              warn = FALSE
+              warn = FALSE,
+              fixed.x = FALSE
             )
           )
 
