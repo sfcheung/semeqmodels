@@ -68,6 +68,12 @@
 #' the full names describing the changes
 #' can be very long.
 #'
+#' @param must_not_add_nil_parameters
+#' If `TRUE`, nil parameters (paths or
+#' covariances fixed to zer) will not
+#' be added. They will be added to
+#' `must_not_add`.
+#'
 #' @examples
 #'
 #' # TODO:
@@ -108,7 +114,8 @@ eq_df_models <- function(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = TRUE,
   gen_models_progress = FALSE,
-  short_names = TRUE
+  short_names = TRUE,
+  must_not_add_nil_parameters = TRUE
 ) {
   # TODO:
   # - Add other arguments, e.g., for add_k() and drop_k().
@@ -118,6 +125,16 @@ eq_df_models <- function(
   out_add_tried <- as_eq_partables()
   k_old <- -1
   k_new <- 0
+
+  # ==== Handle nil parameters ====
+
+  if (must_not_add_nil_parameters) {
+    all_nil <- all_nil_parameters(sem_out)
+    must_not_add <- c(
+      must_not_add,
+      all_nil
+    )
+  }
 
   # ==== Parallel processing ====
 

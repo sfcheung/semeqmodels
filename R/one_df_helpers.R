@@ -537,3 +537,73 @@ alternative_pars <- function(
   )
   unlist(out)
 }
+
+#' @noRd
+all_nil_parameters <- function(
+  object
+) {
+  if (is_partable(object)) {
+    pt <- object
+    fit <- tryCatch(lavaan::sem(
+      pt,
+      do.fit = FALSE,
+      fixed.x = FALSE,
+      warn = FALSE
+    ), error = function(e) e)
+    if (inherits(fit, "error")) {
+      if (isTRUE(grepl("not defined in the LISREL representation",
+                        fit$message))) {
+        fit <- tryCatch(lavaan::sem(
+          pt,
+          do.fit = FALSE,
+          fixed.x = FALSE,
+          warn = FALSE,
+          representation = "RAM"
+        ), error = function(e) e)
+      }
+      if (inherits(fit, "error")) {
+        stop(fit)
+      }
+    }
+  } else {
+    # Assume it is a lavaan object
+    fit <- object
+    pt <- lavaan::parameterTable(fit)
+  }
+  fit_opts <- lavaan::lavInspect(fit, "options")
+  mm <- lavaan::lavInspect(fit, "partable")
+
+  if (fit_opts$representation == "LISREL") {
+    beta <- unclass(mm$beta)
+    psi <- unclass(mm$psi)
+  }
+  if (fit_opts$representation == "RAM") {
+    beta <- unclass(mm$A)
+    psi <- unclass(mm$S)
+  }
+
+  for (i in pt$id) {
+    i_fixed <- pt[pt$id == i, "free"] == 0
+    i_start_0 <- pt[pt$id == i, "start"] == 0
+    if (i_fixed && i_start_0) {
+      beta[beta == i] <- 0
+      psi[psi == i] <- 0
+    }
+  }
+  m_check <- beta + psi + t(beta)
+  out <- character(0)
+  vnames <- colnames(m_check)
+  for (i in vnames) {
+    for (j in vnames) {
+      if (m_check[i, j] == 0) {
+        out <- c(
+          out,
+          paste0(i, c("~", "~~"), j),
+          paste0(j, c("~", "~~"), i)
+        )
+      }
+    }
+  }
+  out <- unique(out)
+  out
+}
