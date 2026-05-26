@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9037
+# semeqmodels 0.0.0.9038
 
 - Initialize the package.
   (0.0.0.9000)
@@ -243,8 +243,14 @@
   to check for covariation between an
   `x` variable and the error term of its
   `y` variable, even indirectly.
-  (0.0.0.9035, 0.0.0.9037)
+  (0.0.0.9035, 0.0.0.9038)
 
 - Updated `eq_df_models()` to use
   `fix_call()`.
   (0.0.0.9037)
+
+- Disallow `fixed.x = TRUE` for now.
+  If a model is fitted with `fixed.x = TRUE`,
+  the default in `lavaan`, an error will
+  be thrown.
+  (0.0.0.9038)
