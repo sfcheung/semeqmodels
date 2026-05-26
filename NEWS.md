@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9036
+# semeqmodels 0.0.0.9037
 
 - Initialize the package.
   (0.0.0.9000)
@@ -243,4 +243,8 @@
   to check for covariation between an
   `x` variable and the error term of its
   `y` variable, even indirectly.
-  (0.0.0.9035, 0.0.0.9036)
+  (0.0.0.9035, 0.0.0.9037)
+
+- Updated `eq_df_models()` to use
+  `fix_call()`.
+  (0.0.0.9037)
