@@ -46,7 +46,8 @@ fix_object <- function(
               model = partable,
               data = dat,
               test = "standard",
-              se = "none"
+              se = "none",
+              fixed.x = FALSE
             )
   }
   list(partable = partable,
@@ -65,13 +66,17 @@ dummy_data <- function(
 
   fit0 <- lavaan::sem(
             model = partable,
-            do.fit = FALSE
+            do.fit = FALSE,
+            fixed.x = FALSE
           )
   ovnames <- lavaan::lavNames(
           fit0,
           "ov"
         )
   fixed.x <- partable_fixedx(partable = partable)
+  if (fixed.x) {
+    stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+  }
   p <- length(ovnames)
   if (is.null(n)) {
     n <- min(p * n_per_p, n_min)
@@ -199,7 +204,8 @@ x_y_pairs <- function(
 
   fit <- lavaan::sem(
     object,
-    do.fit = FALSE
+    do.fit = FALSE,
+    fixed.x = FALSE
   )
   out0$indirect <- FALSE
   ind_paths <- manymome::all_indirect_paths(
@@ -432,7 +438,8 @@ partable_fixedx <- function(
           )[[1]]$psi
     fixed.x <- any(diag(tmp)[xnames] == 0)
   } else {
-    fixed.x <- TRUE
+    # No observed variables
+    fixed.x <- FALSE
   }
   fixed.x
 }
