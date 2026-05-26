@@ -144,6 +144,13 @@ eq_df_models <- function(
                           )
   }
 
+  # ==== fix_call ====
+
+  sem_out <- fix_call(
+                sem_out,
+                env_for_call = parent.frame()
+              )
+
   # ==== Start the loop ====
 
   pts_same_to_more_history <- list()
@@ -339,7 +346,7 @@ eq_df_models <- function(
 
   if (progress) {
     tmp <- sprintf(
-        "Model(s) retrained: %d\n",
+        "Model(s) retained: %d\n",
         length(out)
       )
     cat(tmp)
