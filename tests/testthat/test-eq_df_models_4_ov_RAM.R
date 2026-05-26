@@ -1,7 +1,3 @@
-skip("WIP")
-
-# Too long to run. Wait for parallel processing in eq_df_models().
-
 skip("Long test: Test in an interactive session")
 skip_on_cran()
 
@@ -35,7 +31,7 @@ expect_setequal(all_nil_parameters(pt),
 set.seed(1)
 out <- eq_df_models(
   sem_out = fit,
-  parallel = FALSE,
+  parallel = TRUE,
   progress = !is_testing()
 )
 out
@@ -43,7 +39,7 @@ out
 out1 <- eq_models(
           out,
           original_model = fit,
-          parallel = FALSE,
+          parallel = TRUE,
           progress = !is_testing()
         )
 out1
