@@ -17,7 +17,8 @@ eq_df_models(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = TRUE,
   gen_models_progress = FALSE,
-  short_names = TRUE
+  short_names = TRUE,
+  must_not_add_nil_parameters = TRUE
 )
 ```
 
@@ -95,6 +96,11 @@ eq_df_models(
   the models. Though these names are not meaning words, the full names
   describing the changes can be very long.
 
+- must_not_add_nil_parameters:
+
+  If `TRUE`, nil parameters (paths or covariances fixed to zer) will not
+  be added. They will be added to `must_not_add`.
+
 ## Value
 
 The function `eq_df_models()` returns an `eq_partables` objects, which
@@ -142,8 +148,35 @@ fit1 <- sem(
 out <- eq_df_models(
   sem_out = fit1
 )
-#> Searching for models with one more degree of freedom ...
-#> Error in eval(x): object 'mod1' not found
+#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 4 / Total model(s) found: 4
+#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 8 / Total model(s) found: 12
+#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 11 / Total model(s) found: 23
+#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 2 / Total model(s) found: 25
+#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 0 / Total model(s) found: 25
+#> 
+#> Model(s) retained: 13
 out
-#> Error: object 'out' not found
+#> 
+#> Number of models: 13
+#> 
+#> The models:
+#> 
+#>    Model   
+#> 1  b06d06b7
+#> 2  48b7b745
+#> 3  13a4905d
+#> 4  12082a3b
+#> 5  d5e7a556
+#> 6  d1680b44
+#> 7  fd631766
+#> 8  e17b82e5
+#> 9  40e885ad
+#> 10 308e482f
+#> 11 e3216f0e
+#> 12 83d13831
+#> 13 c535b8cb 
+#> 
+#> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
+#> "long"' to use the long descriptive names, if available, for the
+#> models.
 ```

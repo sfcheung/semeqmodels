@@ -4,8 +4,12 @@
 
 - [`data_test_3_factor_3_item`](https://sfcheung.github.io/semeqmodels/reference/data_test_3_factor_3_item.md)
   : Test Dataset: 3-Factor-3-Item
+- [`data_test_3obvs`](https://sfcheung.github.io/semeqmodels/reference/data_test_3obvs.md)
+  : Test Dataset: 3obvs
 - [`data_test_4_factor_3_item`](https://sfcheung.github.io/semeqmodels/reference/data_test_4_factor_3_item.md)
   : Test Dataset: 4-Factor-3-Item
+- [`data_test_4obvs`](https://sfcheung.github.io/semeqmodels/reference/data_test_4obvs.md)
+  : Test Dataset: 4obvs
 - [`digest_partable()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
   [`add_digest()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
   [`get_digest()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)

@@ -36,6 +36,7 @@ add_k(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
+  remove_dropped = TRUE,
   remove_zeros = FALSE,
   add_name = FALSE
 )
@@ -142,6 +143,12 @@ add_k(
 
   The name of the original model. Used only if it cannot be generated
   from `object`.
+
+- remove_dropped:
+
+  Whether the previously dropped parameter, if stored, will be removed
+  from the original parameter table. This is necessary for reversing a
+  path.
 
 - remove_zeros:
 

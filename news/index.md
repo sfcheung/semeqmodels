@@ -1,6 +1,6 @@
 # Changelog
 
-## semeqmodels 0.0.0.9028
+## semeqmodels 0.0.0.9040
 
 - Initialize the package. (0.0.0.9000)
 
@@ -199,3 +199,48 @@
 - Improved
   [`print.eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md).
   (0.0.0.9028)
+
+- Updated
+  [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
+  and
+  [`drop_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
+  to work on observed-variable-only models. (0.0.0.9029)
+
+- Updated \`digest_partable() to ignore order of variables in
+  covariances. (0.0.0.9030)
+
+- Fixed
+  [`setdiff_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  when one list is a proper subset of the other list. (0.0.0.9031)
+
+- Added several internal functions to examine the search history. These
+  functions may be exported in the future. (0.0.0.9032)
+
+- Fixed
+  [`model_diff()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
+  to treat covariances like `x~~m` and `m~~x` as identical. (0.0.0.9033)
+
+- Updated the search to be more liberal in handling covariances,
+  resulting in more models identified in some cases. (0.0.0.9034)
+
+- Added the internal function `has_x_y_ecov2()` to check for covariation
+  between an `x` variable and the error term of its `y` variable, even
+  indirectly. (0.0.0.9035, 0.0.0.9038)
+
+- Updated
+  [`eq_df_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_df_models.md)
+  to use `fix_call()`. (0.0.0.9037)
+
+- Disallow `fixed.x = TRUE` for now. If a model is fitted with
+  `fixed.x = TRUE`, the default in `lavaan`, an error will be thrown.
+  (0.0.0.9038)
+
+- If a model cannot be fitted using LISREL representation, RAM
+  representation will be used automatically. (0.0.0.9039)
+
+- In
+  [`eq_df_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_df_models.md),
+  no free parameters will be added to two variables if their relation is
+  fixed to zero in the original model. (0.0.0.9039)
+
+- Added test datasets and tests for more models. (0.0.0.9040)
