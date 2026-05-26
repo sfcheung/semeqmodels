@@ -21,6 +21,13 @@ Useful links:
 Authors:
 \itemize{
   \item Shu Fai Cheung \email{shufai.cheung@gmail.com} (\href{https://orcid.org/0000-0002-9871-9448}{ORCID})
+  \item Borui Yang (\href{https://orcid.org/0009-0006-7532-8950}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Wenting Xu [contributor]
+  \item Wendie Yang (\href{https://orcid.org/0009-0000-8388-6481}{ORCID}) [contributor]
 }
 
 }

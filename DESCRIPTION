@@ -6,7 +6,19 @@ Authors@R:
              family = "Cheung",
              role = c("aut", "cre"),
              email = "shufai.cheung@gmail.com",
-             comment = c(ORCID = "0000-0002-9871-9448")))
+             comment = c(ORCID = "0000-0002-9871-9448")),
+      person(given = "Borui",
+             family = "Yang",
+             role = c("aut"),
+             comment = c(ORCID = "0009-0006-7532-8950")),
+      person(given = "Wenting",
+             family = "Xu",
+             role = c("ctb")),
+      person(given = "Wendie",
+             family = "Yang",
+             role = c("ctb"),
+             comment = c(ORCID = "0009-0000-8388-6481"))
+      )
 Description: For identifying the sets of probably equivalent
   models for structural equation models fitted by
   the 'lavaan' package developed by
