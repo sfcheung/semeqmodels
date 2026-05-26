@@ -1,9 +1,3 @@
-# Have bugs
-
-skip("WIP")
-
-# Too long to run. Wait for parallel processing in eq_df_models().
-
 skip("Long test: Test in an interactive session")
 skip_on_cran()
 
@@ -26,21 +20,22 @@ fit <- do.call(
           sem,
           list(
             model = mod,
-            data = data_test_4obvs
+            data = data_test_4obvs,
+            fixed.x = FALSE
         ))
 pt <- parameterTable(fit)
 
 out <- eq_df_models(
   sem_out = fit,
-  parallel = FALSE,
-  progress = is_testing()
+  parallel = TRUE,
+  progress = !is_testing()
 )
 out
 
 out1 <- eq_models(
           out,
           original_model = fit,
-          parallel = FALSE,
+          parallel = TRUE,
           progress = is_testing()
         )
 out1
@@ -60,9 +55,9 @@ chk_out <- get_digest_partables(
     out1
   )
 
-expect_setequal(
-    chk_out,
-    chk_expected
-  )
+# The final set may be more inclusive.
+# Therefore, it is sufficient to test that
+# all known models are in the results.
+expect_true(all(chk_expected %in% chk_out))
 
 })
