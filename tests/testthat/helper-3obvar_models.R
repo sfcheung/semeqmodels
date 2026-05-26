@@ -12,7 +12,8 @@ mod1 <- c(
 fit1 <- sem(
           model = mod1,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt1 <- parameterTable(fit1)
 
@@ -24,7 +25,8 @@ mod2 <- c(
 fit2 <- sem(
           model = mod2,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt2 <- parameterTable(fit2)
 
@@ -36,7 +38,8 @@ mod3 <- c(
 fit3 <- sem(
           model = mod3,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt3 <- parameterTable(fit3)
 
@@ -48,7 +51,8 @@ mod4 <- c(
 fit4 <- sem(
           model = mod4,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt4 <- parameterTable(fit4)
 
@@ -60,7 +64,8 @@ mod5 <- c(
 fit5 <- sem(
           model = mod5,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt5 <- parameterTable(fit5)
 
@@ -72,7 +77,8 @@ mod6 <- c(
 fit6 <- sem(
           model = mod6,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt6 <- parameterTable(fit6)
 
@@ -84,7 +90,8 @@ mod7 <- c(
 fit7 <- sem(
           model = mod7,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt7 <- parameterTable(fit7)
 
@@ -96,7 +103,8 @@ mod8 <- c(
 fit8 <- sem(
           model = mod8,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt8 <- parameterTable(fit8)
 
@@ -108,7 +116,8 @@ mod9 <- c(
 fit9 <- sem(
           model = mod9,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt9 <- parameterTable(fit9)
 
@@ -120,7 +129,8 @@ mod10 <- c(
 fit10 <- sem(
           model = mod10,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt10 <- parameterTable(fit10)
 
@@ -132,7 +142,8 @@ mod11 <- c(
 fit11 <- sem(
           model = mod11,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt11 <- parameterTable(fit11)
 
@@ -144,7 +155,8 @@ mod12 <- c(
 fit12 <- sem(
           model = mod12,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt12 <- parameterTable(fit12)
 
@@ -156,7 +168,8 @@ mod13 <- c(
 fit13 <- sem(
           model = mod13,
           data = data_test_3obvs,
-          do.fit = FALSE
+          do.fit = FALSE,
+          fixed.x = FALSE
         )
 pt13 <- parameterTable(fit13)
 

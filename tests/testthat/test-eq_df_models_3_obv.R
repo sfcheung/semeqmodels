@@ -1,5 +1,3 @@
-# Have bugs
-
 skip_on_cran()
 
 library(testthat)
@@ -16,7 +14,8 @@ fit <- do.call(
           sem,
           list(
             model = mod,
-            data = data_test_3obvs
+            data = data_test_3obvs,
+            fixed.x = FALSE
         ))
 pt <- parameterTable(fit)
 
