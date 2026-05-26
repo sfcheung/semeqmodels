@@ -46,7 +46,8 @@ fix_object <- function(
               model = partable,
               data = dat,
               test = "standard",
-              se = "none"
+              se = "none",
+              fixed.x = FALSE
             )
   }
   list(partable = partable,
@@ -65,13 +66,17 @@ dummy_data <- function(
 
   fit0 <- lavaan::sem(
             model = partable,
-            do.fit = FALSE
+            do.fit = FALSE,
+            fixed.x = FALSE
           )
   ovnames <- lavaan::lavNames(
           fit0,
           "ov"
         )
   fixed.x <- partable_fixedx(partable = partable)
+  if (fixed.x) {
+    stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+  }
   p <- length(ovnames)
   if (is.null(n)) {
     n <- min(p * n_per_p, n_min)
@@ -199,7 +204,8 @@ x_y_pairs <- function(
 
   fit <- lavaan::sem(
     object,
-    do.fit = FALSE
+    do.fit = FALSE,
+    fixed.x = FALSE
   )
   out0$indirect <- FALSE
   ind_paths <- manymome::all_indirect_paths(
@@ -317,20 +323,41 @@ has_x_y_ecov2 <- function(
 
   # ==== Create the adjacent matrix ====
 
-  beta <- unclass(mm$beta)
-  psi <- unclass(mm$psi)
-  for (i in pt$id) {
-    i_fixed <- pt[pt$id == i, "free"] == 0
-    i_start_0 <- pt[pt$id == i, "start"] == 0
-    if (i_fixed && i_start_0) {
-      beta[beta == i] <- 0
-      psi[psi == i] <- 0
+  fit_opts <- lavaan::lavInspect(
+    object,
+    "options"
+  )
+
+  if (fit_opts$representation == "LISREL") {
+    beta <- unclass(mm$beta)
+    psi <- unclass(mm$psi)
+    for (i in pt$id) {
+      i_fixed <- pt[pt$id == i, "free"] == 0
+      i_start_0 <- pt[pt$id == i, "start"] == 0
+      if (i_fixed && i_start_0) {
+        beta[beta == i] <- 0
+        psi[psi == i] <- 0
+      }
     }
+    m_check <- beta + psi
+  }
+
+  if (fit_opts$representation == "RAM") {
+    mmA <- unclass(mm$A)
+    mmS <- unclass(mm$S)
+    for (i in pt$id) {
+      i_fixed <- pt[pt$id == i, "free"] == 0
+      i_start_0 <- pt[pt$id == i, "start"] == 0
+      if (i_fixed && i_start_0) {
+        mmA[mmA == i] <- 0
+        mmS[mmS == i] <- 0
+      }
+    }
+    m_check <- mmA + mmS
   }
 
   # Form the matrix of relations
 
-  m_check <- beta + psi
   m_check[m_check > 0] <- 1
   m_check_a <- m_check
   m_check_a[upper.tri(m_check_a, diag = TRUE)] <- 0
@@ -432,7 +459,8 @@ partable_fixedx <- function(
           )[[1]]$psi
     fixed.x <- any(diag(tmp)[xnames] == 0)
   } else {
-    fixed.x <- TRUE
+    # No observed variables
+    fixed.x <- FALSE
   }
   fixed.x
 }
@@ -508,4 +536,74 @@ alternative_pars <- function(
     FUN = f
   )
   unlist(out)
+}
+
+#' @noRd
+all_nil_parameters <- function(
+  object
+) {
+  if (is_partable(object)) {
+    pt <- object
+    fit <- tryCatch(lavaan::sem(
+      pt,
+      do.fit = FALSE,
+      fixed.x = FALSE,
+      warn = FALSE
+    ), error = function(e) e)
+    if (inherits(fit, "error")) {
+      if (isTRUE(grepl("not defined in the LISREL representation",
+                        fit$message))) {
+        fit <- tryCatch(lavaan::sem(
+          pt,
+          do.fit = FALSE,
+          fixed.x = FALSE,
+          warn = FALSE,
+          representation = "RAM"
+        ), error = function(e) e)
+      }
+      if (inherits(fit, "error")) {
+        stop(fit)
+      }
+    }
+  } else {
+    # Assume it is a lavaan object
+    fit <- object
+    pt <- lavaan::parameterTable(fit)
+  }
+  fit_opts <- lavaan::lavInspect(fit, "options")
+  mm <- lavaan::lavInspect(fit, "partable")
+
+  if (fit_opts$representation == "LISREL") {
+    beta <- unclass(mm$beta)
+    psi <- unclass(mm$psi)
+  }
+  if (fit_opts$representation == "RAM") {
+    beta <- unclass(mm$A)
+    psi <- unclass(mm$S)
+  }
+
+  for (i in pt$id) {
+    i_fixed <- pt[pt$id == i, "free"] == 0
+    i_start_0 <- pt[pt$id == i, "start"] == 0
+    if (i_fixed && i_start_0) {
+      beta[beta == i] <- 0
+      psi[psi == i] <- 0
+    }
+  }
+  m_check <- beta + psi + t(beta)
+  out <- character(0)
+  vnames <- colnames(m_check)
+  for (i in vnames) {
+    for (j in vnames) {
+      if (m_check[i, j] == 0) {
+        out <- c(
+          out,
+          paste0(i, c("~", "~~"), j),
+          paste0(j, c("~", "~~"), i)
+        )
+      }
+    }
+  }
+  out <- unique(out)
+  out
 }

@@ -16,7 +16,8 @@ eq_df_models(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = TRUE,
   gen_models_progress = FALSE,
-  short_names = TRUE
+  short_names = TRUE,
+  must_not_add_nil_parameters = TRUE
 )
 }
 \arguments{
@@ -81,6 +82,11 @@ be used to name the models. Though
 these names are not meaning words,
 the full names describing the changes
 can be very long.}
+
+\item{must_not_add_nil_parameters}{If \code{TRUE}, nil parameters (paths or
+covariances fixed to zer) will not
+be added. They will be added to
+\code{must_not_add}.}
 }
 \value{
 The function \code{\link[=eq_df_models]{eq_df_models()}}

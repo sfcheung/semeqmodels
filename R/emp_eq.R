@@ -323,7 +323,8 @@ eq_models_internal <- function(
                   list(
                       model = original_model,
                       do.fit = FALSE,
-                      warn = FALSE
+                      warn = FALSE,
+                      fixed.x = FALSE
                     ),
                 )
         tmp <- tryCatch(
@@ -357,7 +358,8 @@ eq_models_internal <- function(
                     model = partables_original,
                     data = dat_original,
                     se = "none",
-                    warn = FALSE
+                    warn = FALSE,
+                    fixed.x = FALSE
                   ),
               )
       # Heywood case can be ignored
@@ -565,7 +567,8 @@ emp_eq_fix_input <- function(
               ddd,
               list(model = partable_original,
                    data = dat_original,
-                   se = se)
+                   se = se,
+                   fixed.x = FALSE)
             )
     # Heywood case can be ignored
     sem_out <- suppressWarnings(do.call(
@@ -589,6 +592,7 @@ emp_eq_fix_input <- function(
     sem_out <- lavaan::update(
       original_model,
       se = se,
+      fixed.x = FALSE,
       ...
     )
   } else if (fit_case == "user_fit") {
