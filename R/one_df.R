@@ -195,7 +195,7 @@ drop_k <- function(
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fit <- suppressWarnings(
-              do.call(
+              tryCatch(do.call(
                 lavaan::sem,
                 list(
                   model = partable,
@@ -204,7 +204,27 @@ drop_k <- function(
                   fixed.x = fixed.x
                 )
               )
-            )
+            , error = function(e) e))
+    if (inherits(fit, "error")) {
+      if (isTRUE(grepl("not defined in the LISREL representation",
+                      fit$message))) {
+        fit <- suppressWarnings(
+                  tryCatch(do.call(
+                    lavaan::sem,
+                    list(
+                      model = partable,
+                      data = dat,
+                      se = se,
+                      fixed.x = fixed.x,
+                      representation = "RAM"
+                    )
+                  )
+                , error = function(e) e))
+        if (inherits(fit)) {
+          stop(fit)
+        }
+      }
+    }
   } else {
     # Need this for lavaan::update()
     tmp0 <- stats::getCall(sem_out)
@@ -419,7 +439,7 @@ add_k <- function(
       stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     fit <- suppressWarnings(
-              do.call(
+              tryCatch(do.call(
                 lavaan::sem,
                 list(
                   model = partable,
@@ -427,8 +447,28 @@ add_k <- function(
                   se = se,
                   fixed.x = fixed.x
                 )
-              )
-            )
+              ),
+              error = function(e) e))
+    if (inherits(fit, "error")) {
+      if (isTRUE(grepl("not defined in the LISREL representation",
+                       fit$message))) {
+        fit <- suppressWarnings(
+                  tryCatch(do.call(
+                    lavaan::sem,
+                    list(
+                      model = partable,
+                      data = dat,
+                      se = se,
+                      fixed.x = fixed.x,
+                      representation = "RAM"
+                    )
+                  ),
+                  error = function(e) e))
+        if (inherits(fit)) {
+          stop(fit)
+        }
+      }
+    }
   } else {
     # Need this for lavaan::update()
     tmp0 <- stats::getCall(sem_out)
@@ -497,13 +537,32 @@ add_k <- function(
   # TODO:
   # - Remove the need to use update
   fit_i <- suppressWarnings(
-            lavaan::update(
+            tryCatch(lavaan::update(
               object = fit,
               model = partable1,
               warn = FALSE,
               fixed.x = FALSE
-            )
+            ),
+            error = function(e) e)
           )
+  if (inherits(fit_i, "error")) {
+    if (isTRUE(grepl("not defined in the LISREL representation",
+                     fit_i$message))) {
+      fit_i <- suppressWarnings(
+                tryCatch(lavaan::update(
+                  object = fit,
+                  model = partable1,
+                  warn = FALSE,
+                  fixed.x = FALSE,
+                  representation = "RAM"
+                ),
+                error = function(e) e)
+              )
+      if (inherits(fit_i, "error")) {
+        stop(fit_i)
+      }
+    }
+  }
 
   # ==== Generate models ====
 
