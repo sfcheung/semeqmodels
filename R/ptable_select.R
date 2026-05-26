@@ -328,6 +328,11 @@ remove_x_y_ecov <- function(
             partables,
             has_x_y_ecov
           )
+  chk2 <- sapply(
+            partables,
+            has_x_y_ecov2
+          )
+  chk <- chk | chk2
   if (any(chk)) {
     tmp <- class(partables)
     partables <- partables[!chk]
@@ -510,7 +515,8 @@ has_x_to_y_i <- function(
   y <- y_on_x_pt$lhs
   fit0 <- lavaan::sem(
             model = partable,
-            do.fit = FALSE
+            do.fit = FALSE,
+            fixed.x = FALSE
           )
   chk1 <- tryCatch(
             manymome::all_indirect_paths(

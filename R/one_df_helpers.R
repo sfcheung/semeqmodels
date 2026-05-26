@@ -46,7 +46,8 @@ fix_object <- function(
               model = partable,
               data = dat,
               test = "standard",
-              se = "none"
+              se = "none",
+              fixed.x = FALSE
             )
   }
   list(partable = partable,
@@ -65,12 +66,17 @@ dummy_data <- function(
 
   fit0 <- lavaan::sem(
             model = partable,
-            do.fit = FALSE
+            do.fit = FALSE,
+            fixed.x = FALSE
           )
   ovnames <- lavaan::lavNames(
           fit0,
           "ov"
         )
+  fixed.x <- partable_fixedx(partable = partable)
+  if (fixed.x) {
+    stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+  }
   p <- length(ovnames)
   if (is.null(n)) {
     n <- min(p * n_per_p, n_min)
@@ -91,19 +97,137 @@ dummy_data <- function(
       tmp <- tmp * sample(c(-1, 1), sum(k), replace =  TRUE)
       partablei[k, "start"] <- tmp
     }
-    out <- tryCatch(suppressWarnings(
+    out <- tryCatch(
               lavaan::simulateData(
                 model = partablei,
                 sample.nobs = n
-              )
-            ),
-            error = function(e) e)
+              ),
+            error = function(e) e,
+            warning = function(w) w)
+    if (!inherits(out, "error") &&
+        !inherits(out, "warning")) {
+      # ==== Ensure that the model can be fitted ====
+      fit_chk <- tryCatch(
+                lavaan::sem(
+                  model = partablei,
+                  data = out,
+                  fixed.x = fixed.x
+                ),
+                error = function(e) e,
+                warning = function(w) w)
+    }
+    if (inherits(fit_chk, "error") ||
+        inherits(fit_chk, "warning")) {
+      out <- try(stop(), silent = TRUE)
+    }
     i <- i - 1
   }
   if (!is.data.frame(out)) {
-    stop("Failed to generate the dummy data.")
+    stop("Failed to generate simulated data. Please use a lavaan output.")
   }
   out
+}
+
+#' @noRd
+x_y_pairs <- function(
+  object
+) {
+
+  # Output
+  # - Always a data frame, though may have
+  #   0 row.
+
+  # # Whether a variable is in "ov.nox" depends
+  # # on fixed.x. Should use eqs.x and eqs.y.
+  # all_x1 <- lavaan::lavNames(
+  #   object,
+  #   "ov.x"
+  # )
+  # all_x2 <- lavaan::lavNames(
+  #   object,
+  #   "lv.x"
+  # )
+  all_x1 <- character(0)
+  all_x2 <- character(0)
+  all_x3 <- lavaan::lavNames(
+    object,
+    "eqs.x"
+  )
+  all_x <- unique(c(all_x1, all_x2, all_x3))
+  # # Whether a variable is in "ov.nox" depends
+  # # on fixed.x. Should use eqs.x and eqs.y.
+  # all_y1 <- lavaan::lavNames(
+  #   object,
+  #   "ov.nox"
+  # )
+  # all_y2 <- lavaan::lavNames(
+  #   object,
+  #   "lv.nox"
+  # )
+  all_y1 <- character(0)
+  all_y2 <- character(0)
+  all_y3 <- lavaan::lavNames(
+    object,
+    "eqs.y"
+  )
+  all_y <- unique(c(all_y1, all_y2, all_y3))
+  all_ind <- lavaan::lavNames(
+    object,
+    "ov.ind"
+  )
+  all_x <- setdiff(all_x, all_ind)
+  all_y <- setdiff(all_y, all_ind)
+
+  out0 <- expand.grid(
+            x = all_x,
+            y = all_y,
+            stringsAsFactors = FALSE
+          )
+
+  if (nrow(out0) == 0) {
+    return(out0)
+  }
+
+  # ==== Check for direct paths ====
+
+  out0$direct <- FALSE
+  for (i in seq_len(nrow(out0))) {
+    ii <- (object$rhs == out0[i, "x"]) &
+          (object$lhs == out0[i, "y"]) &
+          (object$op == "~")
+    if (any(ii)) {
+      out0[i, "direct"] <- TRUE
+    }
+  }
+
+  # ==== Check for indirect paths ====
+
+  fit <- lavaan::sem(
+    object,
+    do.fit = FALSE,
+    fixed.x = FALSE
+  )
+  out0$indirect <- FALSE
+  ind_paths <- manymome::all_indirect_paths(
+    fit = fit,
+    x = unique(out0$x),
+    y = unique(out0$y)
+  )
+  if (length(ind_paths) > 0) {
+    for (ii in ind_paths) {
+      jj <- (out0$x == ii$x) &
+            (out0$y == ii$y)
+      out0$indirect[jj] <- TRUE
+    }
+  }
+
+  i <- out0$direct | out0$indirect
+
+  out0 <- out0[i, c("x", "y")]
+
+  # If no x-y pairs, out0 will have 0 rows
+
+  out0
 }
 
 #' @noRd
@@ -114,35 +238,15 @@ x_y_ecov <- function(
   # between an exogenous variable
   # and an error terms.
   # To be used in `must_not_add`.
-  all_x1 <- lavaan::lavNames(
-    object,
-    "ov.x"
-  )
-  all_x2 <- lavaan::lavNames(
-    object,
-    "lv.x"
-  )
-  all_x <- c(all_x1, all_x2)
-  all_y1 <- lavaan::lavNames(
-    object,
-    "ov.nox"
-  )
-  all_y2 <- lavaan::lavNames(
-    object,
-    "lv.nox"
-  )
-  all_y <- c(all_y1, all_y2)
-  all_ind <- lavaan::lavNames(
-    object,
-    "ov.ind"
-  )
-  all_x <- setdiff(all_x, all_ind)
-  all_y <- setdiff(all_y, all_ind)
-  out0 <- expand.grid(
-            x = all_x,
-            y = all_y,
-            stringsAsFactors = FALSE
-          )
+
+  # The output of x_y_pairs is always a data frame,
+  # though may have zero row.
+  out0 <- x_y_pairs(object)
+
+  if (nrow(out0) == 0) {
+    return(character(0))
+  }
+
   out1a <- apply(
       out0,
       MARGIN = 1,
@@ -187,6 +291,117 @@ has_x_y_ecov <- function(
 }
 
 #' @noRd
+has_x_y_ecov2 <- function(
+  object
+) {
+  # Check whether a model has
+  # a covariance between an exogenous
+  # variable and an error term
+
+  if (is_partable(object)) {
+    object <- lavaan::sem(
+      object,
+      do.fit = FALSE,
+      fixed.x = FALSE
+    )
+  }
+
+  mm <- lavaan::lavInspect(
+    object,
+    "partable",
+    drop.list.single.group = TRUE
+  )
+
+  pt <- lavaan::parameterTable(object)
+
+  x_y <- x_y_pairs(pt)
+
+  if (nrow(x_y) == 0) {
+    # ==== No x-y pairs ====
+    return(FALSE)
+  }
+
+  # ==== Create the adjacent matrix ====
+
+  fit_opts <- lavaan::lavInspect(
+    object,
+    "options"
+  )
+
+  if (fit_opts$representation == "LISREL") {
+    beta <- unclass(mm$beta)
+    psi <- unclass(mm$psi)
+    for (i in pt$id) {
+      i_fixed <- pt[pt$id == i, "free"] == 0
+      i_start_0 <- pt[pt$id == i, "start"] == 0
+      if (i_fixed && i_start_0) {
+        beta[beta == i] <- 0
+        psi[psi == i] <- 0
+      }
+    }
+    m_check <- beta + psi
+  }
+
+  if (fit_opts$representation == "RAM") {
+    mmA <- unclass(mm$A)
+    mmS <- unclass(mm$S)
+    for (i in pt$id) {
+      i_fixed <- pt[pt$id == i, "free"] == 0
+      i_start_0 <- pt[pt$id == i, "start"] == 0
+      if (i_fixed && i_start_0) {
+        mmA[mmA == i] <- 0
+        mmS[mmS == i] <- 0
+      }
+    }
+    m_check <- mmA + mmS
+  }
+
+  # Form the matrix of relations
+
+  m_check[m_check > 0] <- 1
+  m_check_a <- m_check
+  m_check_a[upper.tri(m_check_a, diag = TRUE)] <- 0
+  m_check_b <- t(m_check)
+  m_check_b[upper.tri(m_check_b, diag = TRUE)] <- 0
+
+  # ==== Any direct or indirect x-y covariation? ====
+
+  m_igraph <- igraph::graph_from_adjacency_matrix(
+                t(m_check),
+                mode = "directed"
+              )
+
+  m_names <- colnames(m_check)
+  for (i in seq_len(nrow(x_y))) {
+    x_i <- x_y$x[i]
+    y_i <- x_y$y[i]
+    if (!(x_i %in% m_names) ||
+        !(y_i %in% m_names)) {
+      next
+    }
+    x_to_y_i <- igraph::all_simple_paths(
+      m_igraph,
+      from = x_i,
+      to = y_i,
+      mode = "out"
+    )
+    y_to_x_i <- igraph::all_simple_paths(
+      m_igraph,
+      from = y_i,
+      to = x_i,
+      mode = "out"
+    )
+    if ((length(x_to_y_i) > 0) &&
+        (length(y_to_x_i) > 0)) {
+      return(TRUE)
+    }
+  }
+  # Default to No (FALSE)
+  return(FALSE)
+}
+
+
+#' @noRd
 rename_to_digest <- function(
   object_list
 ) {
@@ -223,4 +438,172 @@ rename_to_digest <- function(
 
   out
 
+}
+
+partable_fixedx <- function(
+  partable
+) {
+  xnames <- lavaan::lavNames(
+    partable,
+    "ov.x"
+  )
+  if (length(xnames) > 0) {
+    # ==== fixed.x? ====
+    fit0 <- lavaan::sem(
+              model = partable,
+              do.fit = FALSE
+            )
+    tmp <- lavaan::lavInspect(fit0,
+            "free",
+            drop.list.single.group = FALSE
+          )[[1]]$psi
+    fixed.x <- any(diag(tmp)[xnames] == 0)
+  } else {
+    # No observed variables
+    fixed.x <- FALSE
+  }
+  fixed.x
+}
+
+fix_partable_for_new_exo <- function(
+  partable
+) {
+  if (!partable_fixedx(partable)) {
+    # Only process models with fixed.x = TRUE
+    return(partable)
+  }
+  xnames <- lavaan::lavNames(
+    partable,
+    "ov.x"
+  )
+  dvs <- lavaan::lavNames(
+    partable,
+    "eqs.y"
+  )
+  pure_x <- setdiff(xnames, dvs)
+  if (length(pure_x) == 0) {
+    return(partable)
+  }
+  i <- partable$exo == 1
+  j <- (partable$lhs == partable$rhs) &
+       (partable$lhs %in% pure_x) &
+       (partable$op == "~~")
+  k <- j & !i
+  if (isFALSE(any(k))) {
+    return(partable)
+  }
+  out <- partable
+  out$exo[k] <- 1
+  out$free[k] <- 0
+  m <- out$free > 0
+  out$free[m] <- seq_len(sum(m))
+  out
+}
+
+#' @noRd
+alternative_pars <- function(
+  partable
+) {
+  # If x~y has been dropped
+  # then x~~y can be added.
+  # If x~~y has been dropped
+  # then x~y and y~x can be added
+  if (is.null(attr(partable, "parameters_dropped"))) {
+    return(character(0))
+  }
+  pars_dropped <- attr(partable, "parameters_dropped_list")
+  f <- function(xx) {
+    if (xx["op"] == "~") {
+      out <- xx
+      out["op"] <- "~~"
+      out <- paste0(out, collapse = "")
+    } else if (xx["op"] == "~~") {
+      out1 <- xx
+      out1["op"] <- "~"
+      out2 <- c(lhs = unname(xx["rhs"]),
+                op = "~",
+                rhs = unname(xx["lhs"]))
+      out1 <- paste0(out1, collapse = "")
+      out2 <- paste0(out2, collapse = "")
+      out <- c(out1, out2)
+    } else {
+      out <- character(0)
+    }
+    out
+  }
+  out <- lapply(
+    pars_dropped,
+    FUN = f
+  )
+  unlist(out)
+}
+
+#' @noRd
+all_nil_parameters <- function(
+  object
+) {
+  if (is_partable(object)) {
+    pt <- object
+    fit <- tryCatch(lavaan::sem(
+      pt,
+      do.fit = FALSE,
+      fixed.x = FALSE,
+      warn = FALSE
+    ), error = function(e) e)
+    if (inherits(fit, "error")) {
+      if (isTRUE(grepl("not defined in the LISREL representation",
+                        fit$message))) {
+        fit <- tryCatch(lavaan::sem(
+          pt,
+          do.fit = FALSE,
+          fixed.x = FALSE,
+          warn = FALSE,
+          representation = "RAM"
+        ), error = function(e) e)
+      }
+      if (inherits(fit, "error")) {
+        stop(fit)
+      }
+    }
+  } else {
+    # Assume it is a lavaan object
+    fit <- object
+    pt <- lavaan::parameterTable(fit)
+  }
+  fit_opts <- lavaan::lavInspect(fit, "options")
+  mm <- lavaan::lavInspect(fit, "partable")
+
+  if (fit_opts$representation == "LISREL") {
+    beta <- unclass(mm$beta)
+    psi <- unclass(mm$psi)
+  }
+  if (fit_opts$representation == "RAM") {
+    beta <- unclass(mm$A)
+    psi <- unclass(mm$S)
+  }
+
+  for (i in pt$id) {
+    i_fixed <- pt[pt$id == i, "free"] == 0
+    i_start_0 <- pt[pt$id == i, "start"] == 0
+    if (i_fixed && i_start_0) {
+      beta[beta == i] <- 0
+      psi[psi == i] <- 0
+    }
+  }
+  m_check <- beta + psi + t(beta)
+  out <- character(0)
+  vnames <- colnames(m_check)
+  for (i in vnames) {
+    for (j in vnames) {
+      if (m_check[i, j] == 0) {
+        out <- c(
+          out,
+          paste0(i, c("~", "~~"), j),
+          paste0(j, c("~", "~~"), i)
+        )
+      }
+    }
+  }
+  out <- unique(out)
+  out
 }

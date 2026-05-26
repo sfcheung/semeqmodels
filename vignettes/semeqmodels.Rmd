@@ -1,6 +1,6 @@
 ---
 title: "Finding Equivalent Models in SEM"
-date: "2026-05-14"
+date: "2026-05-26"
 output:
   rmarkdown::html_vignette:
     options:
@@ -39,7 +39,7 @@ used for illustration:
 ``` r
 library(semeqmodels)
 packageVersion("semeqmodels")
-#> [1] '0.0.0.9027'
+#> [1] '0.0.0.9040'
 head(round(data_test_3_factor_3_item, 2))
 #>      x1    x2    x3    m1    m2    m3    y1    y2    y3
 #> 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44
@@ -70,6 +70,8 @@ fy ~ fm + fx
 
 ``` r
 library(lavaan)
+#> This is lavaan 0.6-21
+#> lavaan is FREE software! Please report any bugs.
 fit <- sem(
   model = mod,
   data = data_test_3_factor_3_item
@@ -119,7 +121,7 @@ mod_eq <- eq_models(
   original_model = fit
 )
 #> 19 processes started to run model fitting.
-#> The expected CPU time is about 0.05 second(s).
+#> The expected CPU time is about 0.02 second(s).
 ```
 
 The output is a list of models, defined
@@ -134,19 +136,19 @@ mod_eq
 #> The models:
 #> 
 #>    Model   
-#> 1  7cfc96da
-#> 2  bc0d3b3c
-#> 3  9eefbf8f
-#> 4  370609a4
-#> 5  31ffe311
-#> 6  74f316e6
-#> 7  b4893a92
-#> 8  fa6f9416
-#> 9  1296cb7b
-#> 10 834bb36f
-#> 11 013c70fe
-#> 12 75628bda
-#> 13 311a900b 
+#> 1  74f316e6
+#> 2  aaa762b0
+#> 3  f3a45a7d
+#> 4  bc0d3b3c
+#> 5  b4893a92
+#> 6  1296cb7b
+#> 7  013c70fe
+#> 8  9eefbf8f
+#> 9  fa6f9416
+#> 10 31ffe311
+#> 11 834bb36f
+#> 12 311a900b
+#> 13 1a96de27 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the
@@ -166,30 +168,36 @@ print(mod_eq,
 #> The models:
 #> 
 #> Model
-#> 1 7cfc96da := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~fy,
-#>     drop:fm~fx, add:fx~~fm, drop:fm~fy, add:fm~~fy, drop:fx~fy,
+#> 1 74f316e6 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
+#>     drop:fy~fx, add:fx~~fy, drop:fx~~fy, add:fx~fy, drop:fx~~fm,
+#>     add:fx~fm
+#> 2 aaa762b0 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
+#>     drop:fy~fx, add:fx~~fy, drop:fx~~fy, add:fx~fy, drop:fm~~fy,
+#>     add:fm~fy
+#> 3 f3a45a7d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
+#>     drop:fy~fx, add:fx~~fy, drop:fx~~fy, add:fx~fy, drop:fx~fy,
 #>     add:fx~~fy
-#> 2 bc0d3b3c := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
-#>     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fm~fy
-#> 3 9eefbf8f := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
+#> 4 bc0d3b3c := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~~fy,
+#>     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fm~fy, drop:fx~~fy,
+#>     add:fx~fy
+#> 5 b4893a92 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
+#>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fy~fm
+#> 6 1296cb7b := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
+#>     drop:fm~~fy, add:fm~fy, drop:fx~~fm, add:fm~fx
+#> 7 013c70fe := original, drop:fm~fx, add:fx~~fm, drop:fy~fx, add:fx~~fy,
+#>     drop:fx~~fm, add:fm~fx, drop:fx~~fy, add:fy~fx
+#> 8 9eefbf8f := original, drop:fm~fx, add:fx~~fm, drop:fy~fx, add:fx~~fy,
+#>     drop:fx~~fy, add:fx~fy, drop:fx~~fm, add:fx~fm
+#> 9 fa6f9416 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~~fy,
 #>     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fy~fm
-#> 4 370609a4 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
-#>     drop:fy~fm, add:fm~fy, drop:fx~fm, add:fx~~fm
-#> 5 31ffe311 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
+#> 10 31ffe311 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
 #>     drop:fy~fm, add:fm~fy, drop:fx~fm, add:fm~fx
-#> 6 74f316e6 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
-#>     drop:fy~fm, add:fm~fy, drop:fm~fy, add:fm~~fy
-#> 7 b4893a92 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~~fy,
-#>     drop:fx~~fy, add:fy~fx
-#> 8 fa6f9416 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
-#>     drop:fx~fy, add:fx~~fy
-#> 9 1296cb7b := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~~fy,
-#>     drop:fx~~fy, add:fy~fx
-#> 10 834bb36f := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~fy,
-#>     drop:fx~fy, add:fx~~fy
-#> 11 013c70fe := original, drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx
-#> 12 75628bda := original, drop:fm~fx, add:fx~fm, drop:fx~fm, add:fx~~fm
-#> 13 311a900b := original, drop:fy~fm, add:fm~fy, drop:fm~fy, add:fm~~fy
+#> 11 834bb36f := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~~fy,
+#>     drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx
+#> 12 311a900b := original, drop:fm~fx, add:fx~~fm, drop:fy~fm,
+#>     add:fm~~fy, drop:fx~~fm, add:fm~fx
+#> 13 1a96de27 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm,
+#>     add:fm~~fy, drop:fm~~fy, add:fy~fm
 ```
 
 By default, the original model, if
@@ -203,9 +211,9 @@ the models:
 
 ``` r
 eq_chisq(mod_eq)
-#> 7cfc96da bc0d3b3c 9eefbf8f 370609a4 31ffe311 74f316e6 b4893a92 fa6f9416 
+#> 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f 
 #> 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 
-#> 1296cb7b 834bb36f 013c70fe 75628bda 311a900b 
+#> fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 
 #> 24.97025 24.97025 24.97025 24.97025 24.97025
 ```
 
@@ -215,9 +223,9 @@ retrieve the model *df*s:
 
 ``` r
 eq_df(mod_eq)
-#> 7cfc96da bc0d3b3c 9eefbf8f 370609a4 31ffe311 74f316e6 b4893a92 fa6f9416 
+#> 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f 
 #>       24       24       24       24       24       24       24       24 
-#> 1296cb7b 834bb36f 013c70fe 75628bda 311a900b 
+#> fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 
 #>       24       24       24       24       24
 ```
 
@@ -235,15 +243,43 @@ model_diff_many(
 #> 
 #> -------------
 #> 
-#> Models: fit vs. 7cfc96da
+#> Models: fit vs. 74f316e6
 #> 
 #> Model: fit
 #> fm~fx (free)
 #> fy~fm (free)
 #> fy~fx (free)
 #> 
-#> Model: 7cfc96da
-#> fx~~fm (free)
+#> Model: 74f316e6
+#> fm~~fy (free)
+#> fx~fy (free)
+#> fx~fm (free)
+#> 
+#> -------------
+#> 
+#> Models: fit vs. aaa762b0
+#> 
+#> Model: fit
+#> fm~fx (free)
+#> fy~fm (free)
+#> fy~fx (free)
+#> 
+#> Model: aaa762b0
+#> fm~~fx (free)
+#> fx~fy (free)
+#> fm~fy (free)
+#> 
+#> -------------
+#> 
+#> Models: fit vs. f3a45a7d
+#> 
+#> Model: fit
+#> fm~fx (free)
+#> fy~fm (free)
+#> fy~fx (free)
+#> 
+#> Model: f3a45a7d
+#> fm~~fx (free)
 #> fm~~fy (free)
 #> fx~~fy (free)
 #> 
@@ -258,8 +294,38 @@ model_diff_many(
 #> 
 #> Model: bc0d3b3c
 #> fx~fm (free)
-#> fx~fy (free)
 #> fm~fy (free)
+#> fx~fy (free)
+#> 
+#> -------------
+#> 
+#> Models: fit vs. b4893a92
+#> 
+#> Model: fit
+#> fm~fx (free)
+#> 
+#> Model: b4893a92
+#> fx~fm (free)
+#> 
+#> -------------
+#> 
+#> Models: fit vs. 1296cb7b
+#> 
+#> Model: fit
+#> fy~fm (free)
+#> 
+#> Model: 1296cb7b
+#> fm~fy (free)
+#> 
+#> -------------
+#> 
+#> Models: fit vs. 013c70fe
+#> 
+#> Model: fit
+#> No parameter only in this model.
+#> 
+#> Model: 013c70fe
+#> No parameter only in this model.
 #> 
 #> -------------
 #> 
@@ -270,57 +336,7 @@ model_diff_many(
 #> fy~fx (free)
 #> 
 #> Model: 9eefbf8f
-#> fx~fm (free)
 #> fx~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 370609a4
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> fy~fm (free)
-#> fy~fx (free)
-#> 
-#> Model: 370609a4
-#> fx~fy (free)
-#> fm~fy (free)
-#> fx~~fm (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 31ffe311
-#> 
-#> Model: fit
-#> fy~fm (free)
-#> fy~fx (free)
-#> 
-#> Model: 31ffe311
-#> fx~fy (free)
-#> fm~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 74f316e6
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> fy~fm (free)
-#> fy~fx (free)
-#> 
-#> Model: 74f316e6
-#> fx~fm (free)
-#> fx~fy (free)
-#> fm~~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. b4893a92
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> 
-#> Model: b4893a92
 #> fx~fm (free)
 #> 
 #> -------------
@@ -337,12 +353,14 @@ model_diff_many(
 #> 
 #> -------------
 #> 
-#> Models: fit vs. 1296cb7b
+#> Models: fit vs. 31ffe311
 #> 
 #> Model: fit
 #> fy~fm (free)
+#> fy~fx (free)
 #> 
-#> Model: 1296cb7b
+#> Model: 31ffe311
+#> fx~fy (free)
 #> fm~fy (free)
 #> 
 #> -------------
@@ -359,26 +377,6 @@ model_diff_many(
 #> 
 #> -------------
 #> 
-#> Models: fit vs. 013c70fe
-#> 
-#> Model: fit
-#> No parameter only in this model.
-#> 
-#> Model: 013c70fe
-#> No parameter only in this model.
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 75628bda
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> 
-#> Model: 75628bda
-#> fx~~fm (free)
-#> 
-#> -------------
-#> 
 #> Models: fit vs. 311a900b
 #> 
 #> Model: fit
@@ -386,6 +384,16 @@ model_diff_many(
 #> 
 #> Model: 311a900b
 #> fm~~fy (free)
+#> 
+#> -------------
+#> 
+#> Models: fit vs. 1a96de27
+#> 
+#> Model: fit
+#> fm~fx (free)
+#> 
+#> Model: 1a96de27
+#> fm~~fx (free)
 ```
 
 # Limitations

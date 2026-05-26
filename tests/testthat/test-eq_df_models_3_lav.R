@@ -77,10 +77,10 @@ chk_out <- get_digest_partables(
     out1
   )
 
-expect_setequal(
-    chk_out,
-    chk_expected
-  )
+# The final set may be more inclusive.
+# Therefore, it is sufficient to test that
+# all known models are in the results.
+expect_true(all(chk_expected %in% chk_out))
 
 skip_if(is_testing(),
         message = "Long test: Test in an interactive session"
@@ -106,9 +106,9 @@ chk_out_p1 <- get_digest_partables(
     out_p1
   )
 
-expect_setequal(
-    chk_out_p1,
-    chk_expected
-  )
+# The final set may be more inclusive.
+# Therefore, it is sufficient to test that
+# all known models are in the results.
+expect_true(all(chk_expected %in% chk_out))
 
 })

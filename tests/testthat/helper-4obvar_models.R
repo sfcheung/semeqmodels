@@ -4,16 +4,7 @@ suppressMessages(library(lavaan))
 # No need to fit the model.
 # Only the parameter tables are needed.
 
-mod_measurement <-
-  "
-  fx =~ x1 + x2 + x3
-  fm1 =~ m1 + m2 + m3
-  fm2 =~ m4 + m5 + m6
-  fy =~ y1 + y2 + y3
-  "
-
 mod1 <- c(
-  mod_measurement,
   "fm1 ~~ fx",
   "fy ~~ fm1",
   "fy ~~ fm2",
@@ -23,7 +14,6 @@ mod1 <- c(
 )
 
 mod2 <- c(
-  mod_measurement,
   "fm1 ~ fx",
   "fy ~~ fm1",
   "fy ~~ fm2",
@@ -33,7 +23,6 @@ mod2 <- c(
 )
 
 mod3 <- c(
-  mod_measurement,
   "fx ~ fm1",
   "fm2 ~ fm1",
   "fy ~ fm1",
@@ -43,7 +32,6 @@ mod3 <- c(
 )
 
 mod4 <- c(
-  mod_measurement,
   "fx ~ fm2",
   "fm1 ~ fm2",
   "fy ~ fm2",
@@ -53,7 +41,6 @@ mod4 <- c(
 )
 
 mod5 <- c(
-  mod_measurement,
   "fx ~ fy",
   "fm1 ~ fy",
   "fm2 ~ fy",
@@ -63,7 +50,6 @@ mod5 <- c(
 )
 
 mod6 <- c(
-  mod_measurement,
   "fm2 ~ fx",
   "fm2 ~ fm1",
   "fy ~ fx",
@@ -73,7 +59,6 @@ mod6 <- c(
 )
 
 mod7 <- c(
-  mod_measurement,
   "fm1 ~ fx",
   "fm1 ~ fm2",
   "fy ~ fx",
@@ -83,7 +68,6 @@ mod7 <- c(
 )
 
 mod8 <- c(
-  mod_measurement,
   "fx ~~ fy",
   "fm1 ~~ fm2",
   "fm1 ~ fx",
@@ -93,7 +77,6 @@ mod8 <- c(
 )
 
 mod9 <- c(
-  mod_measurement,
   "fm1 ~~ fm2",
   "fx ~~ fy",
   "fx ~ fm1",
@@ -103,7 +86,6 @@ mod9 <- c(
 )
 
 mod10 <- c(
-  mod_measurement,
   "fm1 ~~ fy",
   "fx ~~ fm2",
   "fx ~ fm1",
@@ -113,7 +95,6 @@ mod10 <- c(
 )
 
 mod11 <- c(
-  mod_measurement,
   "fm2 ~~ fy",
   "fx ~~ fm1",
   "fx ~ fm2",
@@ -123,7 +104,6 @@ mod11 <- c(
 )
 
 mod12 <- c(
-  mod_measurement,
   "fx ~~ fm1",
   "fx ~~ fm2",
   "fm1 ~~ fm2",
@@ -133,7 +113,6 @@ mod12 <- c(
 )
 
 mod13 <- c(
-  mod_measurement,
   "fx ~~ fm1",
   "fx ~~ fy",
   "fm1 ~~ fy",
@@ -143,7 +122,6 @@ mod13 <- c(
 )
 
 mod14 <- c(
-  mod_measurement,
   "fx ~~ fm2",
   "fx ~~ fy",
   "fm2 ~~ fy",
@@ -153,7 +131,6 @@ mod14 <- c(
 )
 
 mod15 <- c(
-  mod_measurement,
   "fm1 ~~ fm2",
   "fm1 ~~ fy",
   "fm2 ~~ fy",
@@ -163,7 +140,6 @@ mod15 <- c(
 )
 
 mod16 <- c(
-  mod_measurement,
   "fx ~~ fm1",
   "fm2 ~ fx",
   "fm2 ~ fm1",
@@ -173,7 +149,6 @@ mod16 <- c(
 )
 
 mod17 <- c(
-  mod_measurement,
   "fx ~~ fm1",
   "fy ~ fx",
   "fy ~ fm1",
@@ -183,7 +158,6 @@ mod17 <- c(
 )
 
 mod18 <- c(
-  mod_measurement,
   "fx ~~ fm2",
   "fm1 ~ fx",
   "fm1 ~ fm2",
@@ -193,7 +167,6 @@ mod18 <- c(
 )
 
 mod19 <- c(
-  mod_measurement,
   "fx ~~ fm2",
   "fy ~ fx",
   "fy ~ fm2",
@@ -203,7 +176,6 @@ mod19 <- c(
 )
 
 mod20 <- c(
-  mod_measurement,
   "fx ~~ fy",
   "fm1 ~ fx",
   "fm1 ~ fy",
@@ -213,7 +185,6 @@ mod20 <- c(
 )
 
 mod21 <- c(
-  mod_measurement,
   "fx ~~ fy",
   "fm2 ~ fx",
   "fm2 ~ fy",
@@ -223,7 +194,6 @@ mod21 <- c(
 )
 
 mod22 <- c(
-  mod_measurement,
   "fm1 ~~ fm2",
   "fx ~ fm1",
   "fx ~ fm2",
@@ -233,7 +203,6 @@ mod22 <- c(
 )
 
 mod23 <- c(
-  mod_measurement,
   "fm1 ~~ fm2",
   "fy ~ fm1",
   "fy ~ fm2",
@@ -243,7 +212,6 @@ mod23 <- c(
 )
 
 mod24 <- c(
-  mod_measurement,
   "fm1 ~~ fy",
   "fx ~ fm1",
   "fx ~ fy",
@@ -253,7 +221,6 @@ mod24 <- c(
 )
 
 mod25 <- c(
-  mod_measurement,
   "fm1 ~~ fy",
   "fm2 ~ fm1",
   "fm2 ~ fy",
@@ -263,7 +230,6 @@ mod25 <- c(
 )
 
 mod26 <- c(
-  mod_measurement,
   "fm2 ~~ fy",
   "fx ~ fm2",
   "fx ~ fy",
@@ -273,7 +239,6 @@ mod26 <- c(
 )
 
 mod27 <- c(
-  mod_measurement,
   "fm2 ~~ fy",
   "fm1 ~ fm2",
   "fm1 ~ fy",
@@ -283,7 +248,6 @@ mod27 <- c(
 )
 
 mod28 <- c(
-  mod_measurement,
   "fm1 ~~ fm2",
   "fm1 ~ fx",
   "fm2 ~ fx",
@@ -293,7 +257,6 @@ mod28 <- c(
 )
 
 mod29 <- c(
-  mod_measurement,
   "fm1 ~~ fy",
   "fm1 ~ fx",
   "fy ~ fx",
@@ -303,7 +266,6 @@ mod29 <- c(
 )
 
 mod30 <- c(
-  mod_measurement,
   "fm2 ~~ fy",
   "fm2 ~ fx",
   "fy ~ fx",
@@ -313,7 +275,6 @@ mod30 <- c(
 )
 
 mod31 <- c(
-  mod_measurement,
   "fx ~~ fm2",
   "fx ~ fm1",
   "fm2 ~ fm1",
@@ -323,7 +284,6 @@ mod31 <- c(
 )
 
 mod32 <- c(
-  mod_measurement,
   "fx ~~ fy",
   "fx ~ fm1",
   "fy ~ fm1",
@@ -333,7 +293,6 @@ mod32 <- c(
 )
 
 mod33 <- c(
-  mod_measurement,
   "fm2 ~~ fy",
   "fm2 ~ fm1",
   "fy ~ fm1",
@@ -343,7 +302,6 @@ mod33 <- c(
 )
 
 mod34 <- c(
-  mod_measurement,
   "fx ~~ fm1",
   "fx ~ fm2",
   "fm1 ~ fm2",
@@ -353,7 +311,6 @@ mod34 <- c(
 )
 
 mod35 <- c(
-  mod_measurement,
   "fx ~~ fy",
   "fx ~ fm2",
   "fy ~ fm2",
@@ -363,7 +320,6 @@ mod35 <- c(
 )
 
 mod36 <- c(
-  mod_measurement,
   "fm1 ~~ fy",
   "fm1 ~ fm2",
   "fy ~ fm2",
@@ -373,7 +329,6 @@ mod36 <- c(
 )
 
 mod37 <- c(
-  mod_measurement,
   "fx ~~ fm1",
   "fx ~ fy",
   "fm1 ~ fy",
@@ -383,7 +338,6 @@ mod37 <- c(
 )
 
 mod38 <- c(
-  mod_measurement,
   "fx ~~ fm2",
   "fx ~ fy",
   "fm2 ~ fy",
@@ -393,7 +347,6 @@ mod38 <- c(
 )
 
 mod39 <- c(
-  mod_measurement,
   "fm1 ~~ fm2",
   "fm1 ~ fy",
   "fm2 ~ fy",
@@ -403,7 +356,6 @@ mod39 <- c(
 )
 
 mod40 <- c(
-  mod_measurement,
   "fm2 ~~ fy",
   "fm1 ~ fx",
   "fm2 ~ fx",
@@ -413,7 +365,6 @@ mod40 <- c(
 )
 
 mod41 <- c(
-  mod_measurement,
   "fm1 ~~ fy",
   "fm2 ~ fx",
   "fm1 ~ fx",
@@ -423,7 +374,6 @@ mod41 <- c(
 )
 
 mod42 <- c(
-  mod_measurement,
   "fm1 ~~ fm2",
   "fy ~ fx",
   "fm1 ~ fx",
@@ -433,7 +383,6 @@ mod42 <- c(
 )
 
 mod43 <- c(
-  mod_measurement,
   "fm2 ~~ fy",
   "fx ~ fm1",
   "fm2 ~ fm1",
@@ -443,7 +392,6 @@ mod43 <- c(
 )
 
 mod44 <- c(
-  mod_measurement,
   "fx ~~ fy",
   "fm2 ~ fm1",
   "fx ~ fm1",
@@ -453,7 +401,6 @@ mod44 <- c(
 )
 
 mod45 <- c(
-  mod_measurement,
   "fx ~~ fm2",
   "fy ~ fm1",
   "fx ~ fm1",
@@ -463,7 +410,6 @@ mod45 <- c(
 )
 
 mod46 <- c(
-  mod_measurement,
   "fm1 ~~ fy",
   "fx ~ fm2",
   "fm1 ~ fm2",
@@ -473,7 +419,6 @@ mod46 <- c(
 )
 
 mod47 <- c(
-  mod_measurement,
   "fx ~~ fy",
   "fm1 ~ fm2",
   "fx ~ fm2",
@@ -483,7 +428,6 @@ mod47 <- c(
 )
 
 mod48 <- c(
-  mod_measurement,
   "fx ~~ fm1",
   "fy ~ fm2",
   "fx ~ fm2",
@@ -493,7 +437,6 @@ mod48 <- c(
 )
 
 mod49 <- c(
-  mod_measurement,
   "fm1 ~~ fm2",
   "fx ~ fy",
   "fm1 ~ fy",
@@ -503,7 +446,6 @@ mod49 <- c(
 )
 
 mod50 <- c(
-  mod_measurement,
   "fx ~~ fm2",
   "fm1 ~ fy",
   "fx ~ fy",
@@ -513,7 +455,6 @@ mod50 <- c(
 )
 
 mod51 <- c(
-  mod_measurement,
   "fx ~~ fm1",
   "fm2 ~ fy",
   "fx ~ fy",
@@ -523,7 +464,6 @@ mod51 <- c(
 )
 
 mod52 <- c(
-  mod_measurement,
   "fm1 ~ fx",
   "fm2 ~ fx",
   "fm2 ~ fm1",
@@ -533,7 +473,6 @@ mod52 <- c(
 )
 
 mod53 <- c(
-  mod_measurement,
   "fm1 ~ fx",
   "fy ~ fx",
   "fy ~ fm1",
@@ -543,7 +482,6 @@ mod53 <- c(
 )
 
 mod54 <- c(
-  mod_measurement,
   "fm2 ~ fx",
   "fm1 ~ fx",
   "fm1 ~ fm2",
@@ -553,7 +491,6 @@ mod54 <- c(
 )
 
 mod55<- c(
-  mod_measurement,
   "fm2 ~ fx",
   "fy ~ fx",
   "fy ~ fm2",
@@ -563,7 +500,6 @@ mod55<- c(
 )
 
 mod56 <- c(
-  mod_measurement,
   "fy ~ fx",
   "fm1 ~ fx",
   "fm1 ~ fy",
@@ -573,7 +509,6 @@ mod56 <- c(
 )
 
 mod57 <- c(
-  mod_measurement,
   "fy ~ fx",
   "fm2 ~ fx",
   "fm2 ~ fy",
@@ -583,7 +518,6 @@ mod57 <- c(
 )
 
 mod58<- c(
-  mod_measurement,
   "fx ~ fm1",
   "fm2 ~ fm1",
   "fm2 ~ fx",
@@ -593,7 +527,6 @@ mod58<- c(
 )
 
 mod59 <- c(
-  mod_measurement,
   "fx ~ fm1",
   "fy ~ fm1",
   "fy ~ fx",
@@ -603,7 +536,6 @@ mod59 <- c(
 )
 
 mod60 <- c(
-  mod_measurement,
   "fm2 ~ fm1",
   "fx ~ fm1",
   "fx ~ fm2",
@@ -613,7 +545,6 @@ mod60 <- c(
 )
 
 mod61 <- c(
-  mod_measurement,
   "fm2 ~ fm1",
   "fy ~ fm1",
   "fy ~ fm2",
@@ -623,7 +554,6 @@ mod61 <- c(
 )
 
 mod62 <- c(
-  mod_measurement,
   "fy ~ fm1",
   "fx ~ fm1",
   "fx ~ fy",
@@ -633,7 +563,6 @@ mod62 <- c(
 )
 
 mod63 <- c(
-  mod_measurement,
   "fy ~ fm1",
   "fm2 ~ fm1",
   "fm2 ~ fy",
@@ -643,7 +572,6 @@ mod63 <- c(
 )
 
 mod64 <- c(
-  mod_measurement,
   "fx ~ fm2",
   "fm1 ~ fm2",
   "fm1 ~ fx",
@@ -653,7 +581,6 @@ mod64 <- c(
 )
 
 mod65 <- c(
-  mod_measurement,
   "fx ~ fm2",
   "fy ~ fm2",
   "fy ~ fx",
@@ -663,7 +590,6 @@ mod65 <- c(
 )
 
 mod66 <- c(
-  mod_measurement,
   "fm1 ~ fm2",
   "fx ~ fm2",
   "fx ~ fm1",
@@ -673,7 +599,6 @@ mod66 <- c(
 )
 
 mod67 <- c(
-  mod_measurement,
   "fm1 ~ fm2",
   "fy ~ fm2",
   "fy ~ fm1",
@@ -683,7 +608,6 @@ mod67 <- c(
 )
 
 mod68 <- c(
-  mod_measurement,
   "fy ~ fm2",
   "fx ~ fm2",
   "fx ~ fy",
@@ -693,7 +617,6 @@ mod68 <- c(
 )
 
 mod69 <- c(
-  mod_measurement,
   "fy ~ fm2",
   "fm1 ~ fm2",
   "fm1 ~ fy",
@@ -703,7 +626,6 @@ mod69 <- c(
 )
 
 mod70 <- c(
-  mod_measurement,
   "fx ~ fy",
   "fm1 ~ fy",
   "fm1 ~ fx",
@@ -713,7 +635,6 @@ mod70 <- c(
 )
 
 mod71 <- c(
-  mod_measurement,
   "fx ~ fy",
   "fm2 ~ fy",
   "fm2 ~ fx",
@@ -723,7 +644,6 @@ mod71 <- c(
 )
 
 mod72 <- c(
-  mod_measurement,
   "fm1 ~ fy",
   "fx ~ fy",
   "fx ~ fm1",
@@ -733,7 +653,6 @@ mod72 <- c(
 )
 
 mod73 <- c(
-  mod_measurement,
   "fm1 ~ fy",
   "fm2 ~ fy",
   "fm2 ~ fm1",
@@ -743,7 +662,6 @@ mod73 <- c(
 )
 
 mod74 <- c(
-  mod_measurement,
   "fm2 ~ fy",
   "fx ~ fy",
   "fx ~ fm2",
@@ -753,7 +671,6 @@ mod74 <- c(
 )
 
 mod75 <- c(
-  mod_measurement,
   "fm2 ~ fy",
   "fm1 ~ fy",
   "fm1 ~ fm2",
@@ -763,13 +680,14 @@ mod75 <- c(
 )
 
 system.time(
-  pt_list_4_lav <- lapply(
+  pt_list_4_obv <- lapply(
     seq_len(75),
     \(x) {
       fit <- sem(
         model = get(paste0("mod", x)),
-        data  = data_test_4_factor_3_item,
-        do.fit = FALSE
+        data  = data_test_4obvs,
+        do.fit = FALSE,
+        fixed.x = FALSE
       )
       parameterTable(fit)
     }

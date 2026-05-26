@@ -7,14 +7,10 @@ skip_on_cran()
 library(testthat)
 suppressMessages(library(lavaan))
 
-test_that("eq_df_models: 4 latent factors", {
+test_that("eq_df_models: 4 observed variables", {
 
 mod <-
 "
-fx =~ x1 + x2 + x3
-fm1 =~ m1 + m2 + m3
-fm2 =~ m4 + m5 + m6
-fy =~ y1 + y2 + y3
 fm1 ~ fx
 fm2 ~ fx
 fy ~ fm1 + fm2 + fx
@@ -24,7 +20,8 @@ fit <- do.call(
           sem,
           list(
             model = mod,
-            data = data_test_4_factor_3_item
+            data = data_test_4obvs,
+            fixed.x = FALSE
         ))
 pt <- parameterTable(fit)
 
@@ -39,21 +36,19 @@ out1 <- eq_models(
           out,
           original_model = fit,
           parallel = TRUE,
-          progress = !is_testing()
+          progress = is_testing()
         )
 out1
 
 expect_identical(names(out),
                  names(out1))
-# saveRDS(out1, "C:/temp/to_check_4_lav.RDS")
 
-# TO PROCESS
 
-length(pt_list_4_lav)
+length(pt_list_4_obv)
 length(out1)
 
 chk_expected <- get_digest_partables(
-    pt_list_4_lav
+    pt_list_4_obv
   )
 
 chk_out <- get_digest_partables(
