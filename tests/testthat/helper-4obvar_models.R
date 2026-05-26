@@ -686,7 +686,8 @@ system.time(
       fit <- sem(
         model = get(paste0("mod", x)),
         data  = data_test_4obvs,
-        do.fit = FALSE
+        do.fit = FALSE,
+        fixed.x = FALSE
       )
       parameterTable(fit)
     }
