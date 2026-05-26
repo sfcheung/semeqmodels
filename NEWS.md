@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9038
+# semeqmodels 0.0.0.9039
 
 - Initialize the package.
   (0.0.0.9000)
@@ -254,3 +254,14 @@
   the default in `lavaan`, an error will
   be thrown.
   (0.0.0.9038)
+
+- If a model cannot be fitted using
+  LISREL representation, RAM
+  representation will be used automatically.
+  (0.0.0.9039)
+
+- In `eq_df_models()`, no free parameters
+  will be added to two variables if their
+  relation is fixed to zero in the original
+  model.
+  (0.0.0.9039)
