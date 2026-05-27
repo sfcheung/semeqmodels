@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9042
+# semeqmodels 0.0.0.9043
 
 - Initialize the package.
   (0.0.0.9000)
@@ -278,3 +278,8 @@
   Still longer than 5 seconds occasionally,
   but is much faster now.
   (0.0.0.9042)
+
+- Added an internal helper `auto_ram()`
+  for switching to RAM automatically if
+  LISREL fails.
+  (0.0.0.9043)
