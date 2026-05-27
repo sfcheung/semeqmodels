@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9041
+# semeqmodels 0.0.0.9042
 
 - Initialize the package.
   (0.0.0.9000)
@@ -270,6 +270,11 @@
   more models.
   (0.0.0.9040)
 
-- Change the default of `progress` to
+- Changed the default of `progress` to
   `interactive()`.
   (0.0.0.9041)
+
+- Simplified the example of `eq_df_model()`.
+  Still longer than 5 seconds occasionally,
+  but is much faster now.
+  (0.0.0.9042)
