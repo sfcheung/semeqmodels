@@ -179,7 +179,7 @@ eq_models <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  progress = TRUE,
+  progress = interactive(),
   tolerance = 1e-5,
   eq_df_models_args = list()
 ) {
@@ -229,7 +229,7 @@ is_eq <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  progress = TRUE,
+  progress = interactive(),
   tolerance = 1e-5,
   eq_df_models_args = list()
 ) {
@@ -264,7 +264,7 @@ eq_models_internal <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  progress = TRUE,
+  progress = interactive(),
   tolerance = 1e-5,
   env_for_update = parent.frame(),
   eq_df_models_args = list(),

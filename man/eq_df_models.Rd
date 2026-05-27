@@ -14,7 +14,7 @@ eq_df_models(
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
-  progress = TRUE,
+  progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
   must_not_add_nil_parameters = TRUE

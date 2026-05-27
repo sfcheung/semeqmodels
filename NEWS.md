@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9040
+# semeqmodels 0.0.0.9041
 
 - Initialize the package.
   (0.0.0.9000)
@@ -269,3 +269,7 @@
 - Added test datasets and tests for
   more models.
   (0.0.0.9040)
+
+- Change the default of `progress` to
+  `interactive()`.
+  (0.0.0.9041)
