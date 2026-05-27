@@ -28,3 +28,38 @@ fix_call <- function(
   object@call <- tmp
   object
 }
+
+#' @noRd
+auto_ram <- function(
+  FUN = lavaan::sem,
+  ...
+) {
+  ddd <- list(...)
+  fit <- suppressWarnings(
+              tryCatch(do.call(
+                FUN,
+                ddd
+              ),
+            error = function(e) e)
+          )
+  if (inherits(fit, "error")) {
+    if (isTRUE(grepl("not defined in the LISREL representation",
+                    fit$message))) {
+      ddd <- utils::modifyList(
+        ddd,
+        list(representation = "RAM")
+      )
+      fit <- suppressWarnings(
+                  tryCatch(do.call(
+                    FUN,
+                    ddd
+                  ),
+                error = function(e) e)
+              )
+      if (inherits(fit, "error")) {
+        stop(fit)
+      }
+    }
+  }
+  fit
+}
