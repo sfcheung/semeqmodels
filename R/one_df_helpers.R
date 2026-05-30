@@ -72,6 +72,7 @@ dummy_data <- function(
               fixed.x = FALSE
             )
           )
+  fit_rep <- lavaan::lavTech(fit0, "options")$representation
   # fit0 <- lavaan::sem(
   #           model = partable,
   #           do.fit = FALSE,
@@ -108,7 +109,8 @@ dummy_data <- function(
     out <- tryCatch(
               lavaan::simulateData(
                 model = partablei,
-                sample.nobs = n
+                sample.nobs = n,
+                representation = fit_rep
               ),
             error = function(e) e,
             warning = function(w) w)
@@ -119,7 +121,8 @@ dummy_data <- function(
                 lavaan::sem(
                   model = partablei,
                   data = out,
-                  fixed.x = fixed.x
+                  fixed.x = fixed.x,
+                  representation = fit_rep
                 ),
                 error = function(e) e,
                 warning = function(w) w)
