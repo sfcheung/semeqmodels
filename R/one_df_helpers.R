@@ -63,12 +63,20 @@ dummy_data <- function(
   max_attempts = 10,
   random_delta = c(-.40, .40)
 ) {
-
-  fit0 <- lavaan::sem(
-            model = partable,
-            do.fit = FALSE,
-            fixed.x = FALSE
+  fit0 <- do.call(
+            auto_ram,
+            list(
+              FUN = lavaan::sem,
+              model = partable,
+              do.fit = FALSE,
+              fixed.x = FALSE
+            )
           )
+  # fit0 <- lavaan::sem(
+  #           model = partable,
+  #           do.fit = FALSE,
+  #           fixed.x = FALSE
+  #         )
   ovnames <- lavaan::lavNames(
           fit0,
           "ov"
@@ -115,10 +123,10 @@ dummy_data <- function(
                 ),
                 error = function(e) e,
                 warning = function(w) w)
-    }
-    if (inherits(fit_chk, "error") ||
-        inherits(fit_chk, "warning")) {
-      out <- try(stop(), silent = TRUE)
+      if (inherits(fit_chk, "error") ||
+          inherits(fit_chk, "warning")) {
+        out <- try(stop(), silent = TRUE)
+      }
     }
     i <- i - 1
   }
