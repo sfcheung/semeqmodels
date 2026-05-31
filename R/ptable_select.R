@@ -513,11 +513,12 @@ has_x_to_y_i <- function(
             )
   x <- y_on_x_pt$rhs
   y <- y_on_x_pt$lhs
-  fit0 <- lavaan::sem(
-            model = partable,
-            do.fit = FALSE,
-            fixed.x = FALSE
-          )
+  fit0 <- auto_ram(
+    FUN = lavaan::sem,
+    model = partable,
+    do.fit = FALSE,
+    fixed.x = FALSE
+  )
   chk1 <- tryCatch(
             manymome::all_indirect_paths(
               fit = fit0,

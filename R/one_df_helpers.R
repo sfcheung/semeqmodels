@@ -42,13 +42,13 @@ fix_object <- function(
     dat <- dummy_data(partable)
     # TODO:
     # - Accept other options to sem()
-    fit <- lavaan::sem(
-              model = partable,
-              data = dat,
-              test = "standard",
-              se = "none",
-              fixed.x = FALSE
-            )
+    fit <- auto_ram(
+      FUN = lavaan::sem,
+      data = dat,
+      test = "standard",
+      se = "none",
+      fixed.x = FALSE
+    )
   }
   list(partable = partable,
        fit = fit)
@@ -73,11 +73,6 @@ dummy_data <- function(
             )
           )
   fit_rep <- lavaan::lavTech(fit0, "options")$representation
-  # fit0 <- lavaan::sem(
-  #           model = partable,
-  #           do.fit = FALSE,
-  #           fixed.x = FALSE
-  #         )
   ovnames <- lavaan::lavNames(
           fit0,
           "ov"
@@ -136,6 +131,7 @@ dummy_data <- function(
   if (!is.data.frame(out)) {
     stop("Failed to generate simulated data. Please use a lavaan output.")
   }
+  attr(out, "representation") <- fit_rep
   out
 }
 
@@ -213,8 +209,9 @@ x_y_pairs <- function(
 
   # ==== Check for indirect paths ====
 
-  fit <- lavaan::sem(
-    object,
+  fit <- auto_ram(
+    FUN = lavaan::sem,
+    model = object,
     do.fit = FALSE,
     fixed.x = FALSE
   )
@@ -310,7 +307,8 @@ has_x_y_ecov2 <- function(
   # variable and an error term
 
   if (is_partable(object)) {
-    object <- lavaan::sem(
+    object <- auto_ram(
+      FUN = lavaan::sem,
       object,
       do.fit = FALSE,
       fixed.x = FALSE
@@ -460,10 +458,11 @@ partable_fixedx <- function(
   )
   if (length(xnames) > 0) {
     # ==== fixed.x? ====
-    fit0 <- lavaan::sem(
-              model = partable,
-              do.fit = FALSE
-            )
+    fit0 <- auto_ram(
+      FUN = lavaan::sem,
+      model = partable,
+      do.fit = FALSE
+    )
     tmp <- lavaan::lavInspect(fit0,
             "free",
             drop.list.single.group = FALSE
@@ -555,7 +554,8 @@ all_nil_parameters <- function(
 ) {
   if (is_partable(object)) {
     pt <- object
-    fit <- tryCatch(lavaan::sem(
+    fit <- tryCatch(auto_ram(
+      FUN = lavaan::sem,
       pt,
       do.fit = FALSE,
       fixed.x = FALSE,
@@ -564,7 +564,8 @@ all_nil_parameters <- function(
     if (inherits(fit, "error")) {
       if (isTRUE(grepl("not defined in the LISREL representation",
                         fit$message))) {
-        fit <- tryCatch(lavaan::sem(
+        fit <- tryCatch(auto_ram(
+          FUN = lavaan::sem,
           pt,
           do.fit = FALSE,
           fixed.x = FALSE,
