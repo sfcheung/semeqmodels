@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9043
+# semeqmodels 0.0.0.9044
 
 - Initialize the package.
   (0.0.0.9000)
@@ -283,3 +283,7 @@
   for switching to RAM automatically if
   LISREL fails.
   (0.0.0.9043)
+
+- Replaced calls to `lavaan::sem()` with
+  `auto_ram()` if appropriate.
+  (0.0.0.9044)
