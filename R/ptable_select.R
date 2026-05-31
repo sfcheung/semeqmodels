@@ -90,11 +90,11 @@ models_have_pars_all <- function(
 #' specified in `pars`.
 #'
 #' @return
-#' The function [models_have_pars_all()]
+#' The function [models_have_pars_any()]
 #' returns a list of parameter tables
 #' that have any the free parameters
 #' specified in `pars`.
-#' The function [have_pars_all()] returns
+#' The function [have_pars_any()] returns
 #' a logical vector to indicate models
 #' that have any of the free parameters
 #' specified.
