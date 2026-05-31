@@ -121,7 +121,7 @@ models_have_pars_any <- function(
 #' @details
 #' The functions [models_have_pars_none()]
 #' and [have_pars_none()] identify models
-#' that have all none of the free parameters
+#' that have none of the free parameters
 #' specified in `pars`.
 #'
 #' @return

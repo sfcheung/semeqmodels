@@ -128,7 +128,7 @@ specified in \code{pars}.
 
 The functions \code{\link[=models_have_pars_none]{models_have_pars_none()}}
 and \code{\link[=have_pars_none]{have_pars_none()}} identify models
-that have all none of the free parameters
+that have none of the free parameters
 specified in \code{pars}.
 
 The function \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}
