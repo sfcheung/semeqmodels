@@ -5,27 +5,45 @@ Helper functions to select parameter tables based on parameters.
 ## Usage
 
 ``` r
-models_have_pars_all(partables, pars = NULL)
+have_pars_all(
+  partables,
+  pars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-models_have_pars_any(partables, pars = NULL)
+have_pars_any(
+  partables,
+  pars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-models_have_pars_none(partables, pars = NULL)
+have_pars_none(
+  partables,
+  pars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-have_pars_all(partables, pars = NULL)
+remove_x_y_ecov(partables, output = c("models", "partables", "logical"))
 
-have_pars_any(partables, pars = NULL)
+must_not_be_y(
+  partables,
+  vars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-have_pars_none(partables, pars = NULL)
+must_be_y(partables, vars = NULL, output = c("models", "partables", "logical"))
 
-remove_x_y_ecov(partables)
+must_not_have_paths(
+  partables,
+  y_on_x = NULL,
+  output = c("models", "partables", "logical")
+)
 
-must_not_be_y(partables, vars = NULL)
-
-must_be_y(partables, vars = NULL)
-
-must_not_have_paths(partables, y_on_x = NULL)
-
-must_have_paths(partables, y_on_x = NULL)
+must_have_paths(
+  partables,
+  y_on_x = NULL,
+  output = c("models", "partables", "logical")
+)
 ```
 
 ## Arguments
@@ -44,6 +62,13 @@ must_have_paths(partables, y_on_x = NULL)
   can process it. Covariances such as `"m ~~ x"` and `"x ~~ m"` are
   treated as the same and so only one of them is necessary.
 
+- output:
+
+  The type of output. If `"models"` or `"partables"`, a list of `lavaan`
+  parameter tables is returned. If `"logical"`, a logical vector of the
+  same length as `partables` is returned to indicate models that match
+  the selection criteria.
+
 - vars:
 
   A character vector of variables to be checked.
@@ -55,46 +80,56 @@ must_have_paths(partables, y_on_x = NULL)
 
 ## Value
 
-The function `models_have_pars_all()` returns a list of parameter tables
-that have all the free parameters specified in `pars`. The function
-`have_pars_all()` returns a logical vector to indicate models that have
-all the free parameters specified.
+The function `have_pars_all()`, by default, returns a list of parameter
+tables that have all the free parameters specified in `pars`. If
+`output` set to `"logical"`, it returns a logical vector to indicate
+models that have all the free parameters specified.
 
-The function `models_have_pars_all()` returns a list of parameter tables
-that have any the free parameters specified in `pars`. The function
-`have_pars_all()` returns a logical vector to indicate models that have
-any of the free parameters specified.
+The function `have_pars_any()`, by default, returns a list of parameter
+tables that have any of the free parameters specified in `pars`. If
+`output` set to `"logical"`, it returns a logical vector to indicate
+models that have all any of free parameters specified.
 
-The function `models_have_pars_none()` returns a list of parameter
-tables that have none of the free parameters specified in `pars`. The
-function `have_pars_none()` returns a logical vector to indicate models
-that have none of the free parameters specified.
+The function `have_pars_none()`, by default, returns a list of parameter
+tables that have all the free parameters specified in `pars`. If
+`output` set to `"logical"`, it returns a logical vector to indicate
+models that have all the free parameters specified.
 
-The function `remove_x_y_ecov()` return a list of parameter tables, of
-the same class as `partables`.
+The function `remove_x_y_ecov()`, by default, returns a list of
+parameter tables, of the same class as `partables`. If `output` is
+`"logical"`, it returns a logical vector for selecting models identical
+to the output of `remove_x_y_ecov()`.
 
 The function `must_not_be_y()` returns a list of parameter tables, of
-the same class as `partables`.
+the same class as `partables`. If `output` is `"logical"`, it returns a
+logical vector for selecting models identical to the output of
+`must_not_be_y()`.
 
 The function `must_be_y()` returns a list of parameter tables, of the
-same class as `partables`.
+same class as `partables`. If `output` is `"logical"`, it returns a
+logical vector for selecting models identical to the output of
+`must_be_y()`.
 
 The function `must_not_have_paths()` returns a list of parameter tables,
-of the same class as `partables`.
+of the same class as `partables`. If `output` is `"logical"`, it returns
+a logical vector for selecting models identical to the output of
+`must_not_have_paths()`.
 
 The function `must_have_paths()` returns a list of parameter tables, of
-the same class as `partables`.
+the same class as `partables`. If `output` is `"logical"`, it returns a
+logical vector for selecting models identical to the output of
+`must_have_paths()`.
 
 ## Details
 
-The functions `models_have_pars_all()` and `have_pars_all()` identify
-models that have all the free parameters specified in `pars`.
+The function `have_pars_all()` identify models that have all the free
+parameters specified in `pars`.
 
-The functions `models_have_pars_any()` and `have_pars_any()` identify
-models that have any of the free parameters specified in `pars`.
+The function `have_pars_any()` identify models that have any of the free
+parameters specified in `pars`.
 
-The functions `models_have_pars_none()` and `have_pars_none()` identify
-models that have all none of the free parameters specified in `pars`.
+The function `have_pars_none()` identify models that have none of the
+free parameters specified in `pars`.
 
 The function `remove_x_y_ecov()` remove models from `partables` that
 have one or more covariances between an exogenous variable (observed or
@@ -151,20 +186,23 @@ partables1 <- combine_partables(fit1_1_more_1_less)
 partables1
 #> Error: object 'partables1' not found
 
-models_have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
-#> Error: object 'partables1' not found
 have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
 #> Error: object 'partables1' not found
-
-
-models_have_pars_any(partables1, c("fx ~~ fm", "fm ~ fy"))
+have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"),
+              output = "logical")
 #> Error: object 'partables1' not found
+
+
 have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"))
 #> Error: object 'partables1' not found
-
-
-models_have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
+have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"),
+              output = "logical")
 #> Error: object 'partables1' not found
+
+
 have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
+#> Error: object 'partables1' not found
+have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"),
+               output = "logical")
 #> Error: object 'partables1' not found
 ```

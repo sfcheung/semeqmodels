@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9040</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9046</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.0.9040" id="semeqmodels-0009040">semeqmodels 0.0.0.9040<a class="anchor" aria-label="anchor" href="#semeqmodels-0009040"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.0.0.9046" id="semeqmodels-0009046">semeqmodels 0.0.0.9046<a class="anchor" aria-label="anchor" href="#semeqmodels-0009046"></a></h2>
 <ul><li><p>Initialize the package. (0.0.0.9000)</p></li>
 <li><p>Added a temp test helper to see whether it works. (0.0.0.9001)</p></li>
 <li><p>Added a test dataset. (0.0.0.9002)</p></li>
@@ -92,6 +92,13 @@
 <li><p>If a model cannot be fitted using LISREL representation, RAM representation will be used automatically. (0.0.0.9039)</p></li>
 <li><p>In <code><a href="../reference/eq_df_models.html">eq_df_models()</a></code>, no free parameters will be added to two variables if their relation is fixed to zero in the original model. (0.0.0.9039)</p></li>
 <li><p>Added test datasets and tests for more models. (0.0.0.9040)</p></li>
+<li><p>Changed the default of <code>progress</code> to <code><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive()</a></code>. (0.0.0.9041)</p></li>
+<li><p>Simplified the example of <code>eq_df_model()</code>. Still longer than 5 seconds occasionally, but is much faster now. (0.0.0.9042)</p></li>
+<li><p>Added an internal helper <code>auto_ram()</code> for switching to RAM automatically if LISREL fails. (0.0.0.9043)</p></li>
+<li><p>Replaced calls to <code><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">lavaan::sem()</a></code> with <code>auto_ram()</code> if appropriate. (0.0.0.9044)</p></li>
+<li><p>Fixed a harmless warning in <code>has_x_to_y_i()</code>. (0.0.0.9045)</p></li>
+<li><p>Removed <code>models_have_*()</code>. (0.0.0.9046)</p></li>
+<li><p>Updated all model selectors to be able to return a logical vector. (0.0.0.9046)</p></li>
 </ul></div>
   </main></div>
 

@@ -2,7 +2,7 @@
 
 Find equivalent models in structural equation modeling
 
-(Version 0.0.0.9040, updated on 2026-05-25, [release
+(Version 0.0.0.9046, updated on 2026-05-31, [release
 history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 # semeqmodels: Equivalent Models in Structural Equation Models
@@ -89,10 +89,7 @@ a GitHub issue. Thanks.
   [`is_partable()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
   [`is_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
   : Parameter Table Helpers
-- [`models_have_pars_all()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
-  [`models_have_pars_any()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
-  [`models_have_pars_none()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
-  [`have_pars_all()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
+- [`have_pars_all()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`have_pars_any()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`have_pars_none()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`remove_x_y_ecov()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)

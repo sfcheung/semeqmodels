@@ -14,7 +14,7 @@ eq_models(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  progress = TRUE,
+  progress = interactive(),
   tolerance = 1e-05,
   eq_df_models_args = list()
 )
@@ -27,7 +27,7 @@ is_eq(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  progress = TRUE,
+  progress = interactive(),
   tolerance = 1e-05,
   eq_df_models_args = list()
 )

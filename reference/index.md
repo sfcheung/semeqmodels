@@ -57,10 +57,7 @@
   [`is_partable()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
   [`is_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
   : Parameter Table Helpers
-- [`models_have_pars_all()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
-  [`models_have_pars_any()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
-  [`models_have_pars_none()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
-  [`have_pars_all()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
+- [`have_pars_all()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`have_pars_any()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`have_pars_none()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`remove_x_y_ecov()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)

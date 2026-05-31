@@ -15,7 +15,7 @@ eq_df_models(
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
-  progress = TRUE,
+  progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
   must_not_add_nil_parameters = TRUE
@@ -134,47 +134,34 @@ library(lavaan)
 
 mod1 <-
 "
-fx =~ x1 + x2 + x3
-fm =~ m1 + m2 + m3
-fy =~ y1 + y2 + y3
 fm ~ fx
-fy ~ fm + fx
+fy ~ fm
 "
 fit1 <- sem(
           model = mod1,
-          data = data_test_3_factor_3_item
+          data = data_test_3obvs,
+          fixed.x = FALSE
         )
 
 out <- eq_df_models(
   sem_out = fit1
 )
-#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 4 / Total model(s) found: 4
-#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 8 / Total model(s) found: 12
-#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 11 / Total model(s) found: 23
-#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 2 / Total model(s) found: 25
-#> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 0 / Total model(s) found: 25
-#> 
-#> Model(s) retained: 13
 out
 #> 
-#> Number of models: 13
+#> Number of models: 9
 #> 
 #> The models:
 #> 
-#>    Model   
-#> 1  b06d06b7
-#> 2  48b7b745
-#> 3  13a4905d
-#> 4  12082a3b
-#> 5  d5e7a556
-#> 6  d1680b44
-#> 7  fd631766
-#> 8  e17b82e5
-#> 9  40e885ad
-#> 10 308e482f
-#> 11 e3216f0e
-#> 12 83d13831
-#> 13 c535b8cb 
+#>   Model   
+#> 1 f6b32a38
+#> 2 12672c47
+#> 3 45f61ccf
+#> 4 b0a9b170
+#> 5 efdeea17
+#> 6 6f675f0c
+#> 7 81fb9dff
+#> 8 459cd495
+#> 9 c02043f3 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the

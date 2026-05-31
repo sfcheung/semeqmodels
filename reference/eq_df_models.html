@@ -9,7 +9,7 @@ with df equal to a fitted model."><meta name="google-site-verification" content=
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9040</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9046</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@ with <em>df</em> equal to a fitted model.</p>
 <span>  exclude_x_y_ecov <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  parallel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ncores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span>logical <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  progress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  progress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  gen_models_progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  short_names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  must_not_add_nil_parameters <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -193,47 +193,34 @@ until no more new models are found.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mod1</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span><span class="st">"</span></span></span>
-<span class="r-in"><span><span class="st">fx =~ x1 + x2 + x3</span></span></span>
-<span class="r-in"><span><span class="st">fm =~ m1 + m2 + m3</span></span></span>
-<span class="r-in"><span><span class="st">fy =~ y1 + y2 + y3</span></span></span>
 <span class="r-in"><span><span class="st">fm ~ fx</span></span></span>
-<span class="r-in"><span><span class="st">fy ~ fm + fx</span></span></span>
+<span class="r-in"><span><span class="st">fy ~ fm</span></span></span>
 <span class="r-in"><span><span class="st">"</span></span></span>
 <span class="r-in"><span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">sem</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>          model <span class="op">=</span> <span class="va">mod1</span>,</span></span>
-<span class="r-in"><span>          data <span class="op">=</span> <span class="va">data_test_3_factor_3_item</span></span></span>
+<span class="r-in"><span>          data <span class="op">=</span> <span class="va">data_test_3obvs</span>,</span></span>
+<span class="r-in"><span>          fixed.x <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>        <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">eq_df_models</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  sem_out <span class="op">=</span> <span class="va">fit1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 4 / Total model(s) found: 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 8 / Total model(s) found: 12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 11 / Total model(s) found: 23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 2 / Total model(s) found: 25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Searching for models with one more degree of freedom ...                                                                                  Searching for models with the same degree of freedom ...                                                                                  New model(s): 0 / Total model(s) found: 25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model(s) retained: 13</span>
 <span class="r-in"><span><span class="va">out</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of models: 13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of models: 9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The models:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Model   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  b06d06b7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  48b7b745</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  13a4905d</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  12082a3b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  d5e7a556</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  d1680b44</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  fd631766</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  e17b82e5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  40e885ad</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 308e482f</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 e3216f0e</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 83d13831</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 c535b8cb </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Model   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 f6b32a38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 12672c47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 45f61ccf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 b0a9b170</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 efdeea17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 6f675f0c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 81fb9dff</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 459cd495</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 c02043f3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "long"' to use the long descriptive names, if available, for the</span>
