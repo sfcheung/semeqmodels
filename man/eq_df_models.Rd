@@ -14,7 +14,7 @@ eq_df_models(
   exclude_x_y_ecov = TRUE,
   parallel = FALSE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
-  progress = TRUE,
+  progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
   must_not_add_nil_parameters = TRUE
@@ -128,15 +128,13 @@ library(lavaan)
 
 mod1 <-
 "
-fx =~ x1 + x2 + x3
-fm =~ m1 + m2 + m3
-fy =~ y1 + y2 + y3
 fm ~ fx
-fy ~ fm + fx
+fy ~ fm
 "
 fit1 <- sem(
           model = mod1,
-          data = data_test_3_factor_3_item
+          data = data_test_3obvs,
+          fixed.x = FALSE
         )
 
 out <- eq_df_models(

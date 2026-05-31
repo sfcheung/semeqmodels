@@ -8,17 +8,18 @@
 NULL
 
 #' @details
-#' The functions [models_have_pars_all()]
-#' and [have_pars_all()] identify models
+#' The function
+#' [have_pars_all()] identify models
 #' that have all the free parameters
 #' specified in `pars`.
 #'
 #' @return
-#' The function [models_have_pars_all()]
+#' The function [have_pars_all()], by default,
 #' returns a list of parameter tables
 #' that have all the free parameters
 #' specified in `pars`.
-#' The function [have_pars_all()] returns
+#' If `output` set to `"logical"`,
+#' it returns
 #' a logical vector to indicate models
 #' that have all the free parameters
 #' specified.
@@ -38,6 +39,15 @@ NULL
 #' `"m ~~ x"` and `"x ~~ m"` are treated
 #' as the same and so only one of them
 #' is necessary.
+#'
+#' @param output The type of output.
+#' If `"models"` or `"partables"`,
+#' a list of `lavaan` parameter tables
+#' is returned. If `"logical"`, a
+#' logical vector of the same length as
+#' `partables` is returned to indicate
+#' models that match the selection
+#' criteria.
 #'
 #' @examples
 #'
@@ -66,132 +76,101 @@ NULL
 #' partables1 <- combine_partables(fit1_1_more_1_less)
 #' partables1
 #'
-#' models_have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
 #' have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
+#' have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"),
+#'               output = "logical")
 #'
-#' @rdname partable_select
-#' @export
-models_have_pars_all <- function(
-  partables,
-  pars = NULL
-) {
-  have_pars(
-    partables = partables,
-    pars = pars,
-    mode = "all",
-    output = "partables"
-  )
-}
-
-#' @details
-#' The functions [models_have_pars_any()]
-#' and [have_pars_any()] identify models
-#' that have any of the free parameters
-#' specified in `pars`.
-#'
-#' @return
-#' The function [models_have_pars_all()]
-#' returns a list of parameter tables
-#' that have any the free parameters
-#' specified in `pars`.
-#' The function [have_pars_all()] returns
-#' a logical vector to indicate models
-#' that have any of the free parameters
-#' specified.
-#'
-#' @examples
-#'
-#' models_have_pars_any(partables1, c("fx ~~ fm", "fm ~ fy"))
-#' have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"))
-#'
-#' @rdname partable_select
-#' @export
-models_have_pars_any <- function(
-  partables,
-  pars = NULL
-) {
-  have_pars(
-    partables = partables,
-    pars = pars,
-    mode = "any",
-    output = "partables"
-  )
-}
-
-#' @details
-#' The functions [models_have_pars_none()]
-#' and [have_pars_none()] identify models
-#' that have all none of the free parameters
-#' specified in `pars`.
-#'
-#' @return
-#' The function [models_have_pars_none()]
-#' returns a list of parameter tables
-#' that have none of the free parameters
-#' specified in `pars`.
-#' The function [have_pars_none()] returns
-#' a logical vector to indicate models
-#' that have none of the free parameters
-#' specified.
-#'
-#' @examples
-#'
-#' models_have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
-#' have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
-#'
-#' @rdname partable_select
-#' @export
-models_have_pars_none <- function(
-  partables,
-  pars = NULL
-) {
-  have_pars(
-    partables = partables,
-    pars = pars,
-    mode = "none",
-    output = "partables"
-  )
-}
-
 #' @rdname partable_select
 #' @export
 have_pars_all <- function(
   partables,
-  pars = NULL
+  pars = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
   have_pars(
     partables = partables,
     pars = pars,
     mode = "all",
-    output = "logical"
+    output = output
   )
 }
 
+#' @details
+#' The function
+#' [have_pars_any()] identify models
+#' that have any of the free parameters
+#' specified in `pars`.
+#'
+#' @return
+#' The function [have_pars_any()], by default,
+#' returns a list of parameter tables
+#' that have any of the free parameters
+#' specified in `pars`.
+#' If `output` set to `"logical"`,
+#' it returns
+#' a logical vector to indicate models
+#' that have all any of free parameters
+#' specified.
+#'
+#' @examples
+#'
+#' have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"))
+#' have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"),
+#'               output = "logical")
+#'
 #' @rdname partable_select
 #' @export
 have_pars_any <- function(
   partables,
-  pars = NULL
+  pars = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
   have_pars(
     partables = partables,
     pars = pars,
     mode = "any",
-    output = "logical"
+    output = output
   )
 }
 
+#' @details
+#' The function
+#' [have_pars_none()] identify models
+#' that have none of the free parameters
+#' specified in `pars`.
+#'
+#' @return
+#' The function [have_pars_none()], by default,
+#' returns a list of parameter tables
+#' that have all the free parameters
+#' specified in `pars`.
+#' If `output` set to `"logical"`,
+#' it returns
+#' a logical vector to indicate models
+#' that have all the free parameters
+#' specified.
+#'
+#' @examples
+#'
+#' have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
+#' have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"),
+#'                output = "logical")
+#'
 #' @rdname partable_select
 #' @export
 have_pars_none <- function(
   partables,
-  pars = NULL
+  pars = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
   have_pars(
     partables = partables,
     pars = pars,
     mode = "none",
-    output = "logical"
+    output = output
   )
 }
 
@@ -200,7 +179,7 @@ have_pars <- function(
   partables,
   pars = NULL,
   mode = c("any", "all", "none"),
-  output = c("logical", "models", "partables")
+  output = c("models", "partables", "logical")
 ) {
   # Which models in the list:
   # - has any/all/none of the parameters?
@@ -312,15 +291,20 @@ has_par_i <- function(
 #' or latent) and an error term.
 #'
 #' @return
-#' The function [remove_x_y_ecov()]
-#' return a list of parameter tables,
+#' The function [remove_x_y_ecov()], by default,
+#' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [remove_x_y_ecov()].
 #'
 #' @rdname partable_select
 #' @export
 remove_x_y_ecov <- function(
-  partables
+  partables,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
 
   # Remove models with x_y_ecov
 
@@ -333,6 +317,11 @@ remove_x_y_ecov <- function(
             has_x_y_ecov2
           )
   chk <- chk | chk2
+  if (output == "logical") {
+    out <- !chk
+    names(out) <- names(partables)
+    return(out)
+  }
   if (any(chk)) {
     tmp <- class(partables)
     partables <- partables[!chk]
@@ -359,13 +348,18 @@ remove_x_y_ecov <- function(
 #' The function [must_not_be_y()]
 #' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [must_not_be_y()].
 #'
 #' @rdname partable_select
 #' @export
 must_not_be_y <- function(
   partables,
-  vars = NULL
+  vars = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
 
   chk <- sapply(
             partables,
@@ -373,6 +367,11 @@ must_not_be_y <- function(
             vars = vars
           )
   chk <- !chk
+  if (output == "logical") {
+    out <- chk
+    names(out) <- names(partables)
+    return(out)
+  }
   out <- partables[chk]
   class(out) <- class(partables)
   out
@@ -397,19 +396,29 @@ must_not_be_y <- function(
 #' The function [must_be_y()]
 #' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [must_be_y()].
 #'
 #' @rdname partable_select
 #' @export
 must_be_y <- function(
   partables,
-  vars = NULL
+  vars = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
 
   chk <- sapply(
             partables,
             vars_is_eqsy,
             vars = vars
           )
+  if (output == "logical") {
+    out <- chk
+    names(out) <- names(partables)
+    return(out)
+  }
   out <- partables[chk]
   class(out) <- class(partables)
   out
@@ -443,19 +452,29 @@ vars_is_eqsy <- function(
 #' The function [must_not_have_paths()]
 #' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [must_not_have_paths()].
 #'
 #' @rdname partable_select
 #' @export
 must_not_have_paths <- function(
   partables,
-  y_on_x = NULL
+  y_on_x = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
   chk <- sapply(
             partables,
             has_x_to_y,
             y_on_x = y_on_x
           )
   chk <- !chk
+  if (output == "logical") {
+    out <- chk
+    names(out) <- names(partables)
+    return(out)
+  }
   out <- partables[chk]
   class(out) <- class(partables)
   out
@@ -472,18 +491,28 @@ must_not_have_paths <- function(
 #' The function [must_have_paths()]
 #' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [must_have_paths()].
 #'
 #' @rdname partable_select
 #' @export
 must_have_paths <- function(
   partables,
-  y_on_x = NULL
+  y_on_x = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
   chk <- sapply(
             partables,
             has_x_to_y,
             y_on_x = y_on_x
           )
+  if (output == "logical") {
+    out <- chk
+    names(out) <- names(partables)
+    return(out)
+  }
   out <- partables[chk]
   class(out) <- class(partables)
   out
@@ -513,17 +542,18 @@ has_x_to_y_i <- function(
             )
   x <- y_on_x_pt$rhs
   y <- y_on_x_pt$lhs
-  fit0 <- lavaan::sem(
-            model = partable,
-            do.fit = FALSE,
-            fixed.x = FALSE
-          )
+  fit0 <- auto_ram(
+    FUN = lavaan::sem,
+    model = partable,
+    do.fit = FALSE,
+    fixed.x = FALSE
+  )
   chk1 <- tryCatch(
-            manymome::all_indirect_paths(
+            suppressWarnings(manymome::all_indirect_paths(
               fit = fit0,
               x = x,
               y = y
-            ),
+            )),
             error = function(e) e
           )
   if (inherits(chk1, "error")) {

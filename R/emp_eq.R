@@ -179,7 +179,7 @@ eq_models <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  progress = TRUE,
+  progress = interactive(),
   tolerance = 1e-5,
   eq_df_models_args = list()
 ) {
@@ -229,7 +229,7 @@ is_eq <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  progress = TRUE,
+  progress = interactive(),
   tolerance = 1e-5,
   eq_df_models_args = list()
 ) {
@@ -264,7 +264,7 @@ eq_models_internal <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  progress = TRUE,
+  progress = interactive(),
   tolerance = 1e-5,
   env_for_update = parent.frame(),
   eq_df_models_args = list(),
@@ -321,6 +321,7 @@ eq_models_internal <- function(
         ddd1 <- utils::modifyList(
                   list(...),
                   list(
+                      FUN = lavaan::sem,
                       model = original_model,
                       do.fit = FALSE,
                       warn = FALSE,
@@ -329,13 +330,16 @@ eq_models_internal <- function(
                 )
         tmp <- tryCatch(
                   suppressWarnings(do.call(
-                    lavaan::sem,
+                    auto_ram,
                     ddd1
                   )),
                   error = function(e) e
                 )
         if (inherits(tmp, "error")) {
-          stop("original_model is not a valid lavaan model.")
+          tmp2 <- paste0("original_model is not a valid lavaan model. ",
+                         "lavaan's error message: ",
+                         tmp$message)
+          stop(tmp2)
         }
 
         partables_original <- lavaan::parameterTable(tmp)
@@ -359,7 +363,8 @@ eq_models_internal <- function(
                     data = dat_original,
                     se = "none",
                     warn = FALSE,
-                    fixed.x = FALSE
+                    fixed.x = FALSE,
+                    representation = attr(dat_original, "fit_rep")
                   ),
               )
       # Heywood case can be ignored
@@ -568,7 +573,8 @@ emp_eq_fix_input <- function(
               list(model = partable_original,
                    data = dat_original,
                    se = se,
-                   fixed.x = FALSE)
+                   fixed.x = FALSE,
+                   representation = attr(dat_original, "fit_rep"))
             )
     # Heywood case can be ignored
     sem_out <- suppressWarnings(do.call(

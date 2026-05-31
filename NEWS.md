@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9040
+# semeqmodels 0.0.0.9046
 
 - Initialize the package.
   (0.0.0.9000)
@@ -269,3 +269,32 @@
 - Added test datasets and tests for
   more models.
   (0.0.0.9040)
+
+- Changed the default of `progress` to
+  `interactive()`.
+  (0.0.0.9041)
+
+- Simplified the example of `eq_df_model()`.
+  Still longer than 5 seconds occasionally,
+  but is much faster now.
+  (0.0.0.9042)
+
+- Added an internal helper `auto_ram()`
+  for switching to RAM automatically if
+  LISREL fails.
+  (0.0.0.9043)
+
+- Replaced calls to `lavaan::sem()` with
+  `auto_ram()` if appropriate.
+  (0.0.0.9044)
+
+- Fixed a harmless warning in
+  `has_x_to_y_i()`.
+  (0.0.0.9045)
+
+- Removed `models_have_*()`.
+  (0.0.0.9046)
+
+- Updated all model selectors to be able
+  to return a logical vector.
+  (0.0.0.9046)
