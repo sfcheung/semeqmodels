@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9044
+# semeqmodels 0.0.0.9045
 
 - Initialize the package.
   (0.0.0.9000)
@@ -287,3 +287,7 @@
 - Replaced calls to `lavaan::sem()` with
   `auto_ram()` if appropriate.
   (0.0.0.9044)
+
+- Fixed a harmless warning in
+  `has_x_to_y_i()`.
+  (0.0.0.9045)
