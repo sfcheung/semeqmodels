@@ -2,9 +2,6 @@
 % Please edit documentation in R/ptable_select.R
 \name{partable_select}
 \alias{partable_select}
-\alias{models_have_pars_all}
-\alias{models_have_pars_any}
-\alias{models_have_pars_none}
 \alias{have_pars_all}
 \alias{have_pars_any}
 \alias{have_pars_none}
@@ -15,17 +12,23 @@
 \alias{must_have_paths}
 \title{Select Parameter Tables}
 \usage{
-models_have_pars_all(partables, pars = NULL)
+have_pars_all(
+  partables,
+  pars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-models_have_pars_any(partables, pars = NULL)
+have_pars_any(
+  partables,
+  pars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-models_have_pars_none(partables, pars = NULL)
-
-have_pars_all(partables, pars = NULL)
-
-have_pars_any(partables, pars = NULL)
-
-have_pars_none(partables, pars = NULL)
+have_pars_none(
+  partables,
+  pars = NULL,
+  output = c("models", "partables", "logical")
+)
 
 remove_x_y_ecov(partables)
 
@@ -54,6 +57,15 @@ can process it. Covariances such as
 as the same and so only one of them
 is necessary.}
 
+\item{output}{The type of output.
+If \code{"models"} or \code{"partables"},
+a list of \code{lavaan} parameter tables
+is returned. If \code{"logical"}, a
+logical vector of the same length as
+\code{partables} is returned to indicate
+models that match the selection
+criteria.}
+
 \item{vars}{A character vector of
 variables to be checked.}
 
@@ -63,31 +75,34 @@ pairs of variables, specified as
 checked.}
 }
 \value{
-The function \code{\link[=models_have_pars_all]{models_have_pars_all()}}
+The function \code{\link[=have_pars_all]{have_pars_all()}}, by default,
 returns a list of parameter tables
 that have all the free parameters
 specified in \code{pars}.
-The function \code{\link[=have_pars_all]{have_pars_all()}} returns
+If \code{output} set to \code{"logical"},
+it returns
 a logical vector to indicate models
 that have all the free parameters
 specified.
 
-The function \code{\link[=models_have_pars_any]{models_have_pars_any()}}
+The function \code{\link[=have_pars_any]{have_pars_any()}}, by default,
 returns a list of parameter tables
-that have any the free parameters
-specified in \code{pars}.
-The function \code{\link[=have_pars_any]{have_pars_any()}} returns
-a logical vector to indicate models
 that have any of the free parameters
+specified in \code{pars}.
+If \code{output} set to \code{"logical"},
+it returns
+a logical vector to indicate models
+that have all any of free parameters
 specified.
 
-The function \code{\link[=models_have_pars_none]{models_have_pars_none()}}
+The function \code{\link[=have_pars_none]{have_pars_none()}}, by default,
 returns a list of parameter tables
-that have none of the free parameters
+that have all the free parameters
 specified in \code{pars}.
-The function \code{\link[=have_pars_none]{have_pars_none()}} returns
+If \code{output} set to \code{"logical"},
+it returns
 a logical vector to indicate models
-that have none of the free parameters
+that have all the free parameters
 specified.
 
 The function \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}
@@ -116,18 +131,18 @@ select parameter tables based on
 parameters.
 }
 \details{
-The functions \code{\link[=models_have_pars_all]{models_have_pars_all()}}
-and \code{\link[=have_pars_all]{have_pars_all()}} identify models
+The function
+\code{\link[=have_pars_all]{have_pars_all()}} identify models
 that have all the free parameters
 specified in \code{pars}.
 
-The functions \code{\link[=models_have_pars_any]{models_have_pars_any()}}
-and \code{\link[=have_pars_any]{have_pars_any()}} identify models
+The function
+\code{\link[=have_pars_any]{have_pars_any()}} identify models
 that have any of the free parameters
 specified in \code{pars}.
 
-The functions \code{\link[=models_have_pars_none]{models_have_pars_none()}}
-and \code{\link[=have_pars_none]{have_pars_none()}} identify models
+The function
+\code{\link[=have_pars_none]{have_pars_none()}} identify models
 that have none of the free parameters
 specified in \code{pars}.
 
@@ -194,15 +209,18 @@ fit1_1_more_1_less <- lapply(
 partables1 <- combine_partables(fit1_1_more_1_less)
 partables1
 
-models_have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
 have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
+have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"),
+              output = "logical")
 
 
-models_have_pars_any(partables1, c("fx ~~ fm", "fm ~ fy"))
 have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"))
+have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"),
+              output = "logical")
 
 
-models_have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
 have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
+have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"),
+               output = "logical")
 
 }

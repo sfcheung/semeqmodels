@@ -40,7 +40,8 @@ fit_1_more_1_less <- combine_partables(fit_1_more_1_less)
 
 out <- have_pars_any(
   fit_1_more_1_less,
-  pars = c("fx~fm", "fx~~fm")
+  pars = c("fx~fm", "fx~~fm"),
+  output = "logical"
 )
 chk <- fit_1_more_1_less[out]
 chk1 <- has_par_i(chk[[1]], parse_pars_to_list("fx ~ fm")[[1]]) ||
@@ -48,9 +49,10 @@ chk1 <- has_par_i(chk[[1]], parse_pars_to_list("fx ~ fm")[[1]]) ||
 chk2 <- has_par_i(chk[[2]], parse_pars_to_list("fx ~ fm")[[1]]) ||
         has_par_i(chk[[2]], parse_pars_to_list("fm ~~ fx")[[1]])
 expect_all_true(c(chk1, chk2))
-out2 <- models_have_pars_any(
+out2 <- have_pars_any(
   fit_1_more_1_less,
-  pars = c("fx~fm", "fx~~fm")
+  pars = c("fx~fm", "fx~~fm"),
+  output = "models"
 )
 expect_setequal(
   unname(get_digest_partables(chk)),
@@ -61,12 +63,14 @@ expect_setequal(
 
 out <- have_pars_all(
   fit_1_more_1_less,
-  pars = c("fx~fm", "fx~~fm")
+  pars = c("fx~fm", "fx~~fm"),
+  output = "logical"
 )
 expect_all_false(out)
-out2 <- models_have_pars_all(
+out2 <- have_pars_all(
   fit_1_more_1_less,
-  pars = c("fx~fm", "fx~~fm")
+  pars = c("fx~fm", "fx~~fm"),
+  output = "models"
 )
 expect_true(length(out2) == 0)
 
@@ -74,7 +78,8 @@ expect_true(length(out2) == 0)
 
 out <- have_pars_none(
   fit_1_more_1_less,
-  pars = c("fx~fm", "fy~~fm")
+  pars = c("fx~fm", "fy~~fm"),
+  output = "logical"
 )
 chk <- fit_1_more_1_less[out]
 chk1 <- has_par_i(chk[[1]], parse_pars_to_list("fx ~ fm")[[1]]) ||
@@ -82,9 +87,10 @@ chk1 <- has_par_i(chk[[1]], parse_pars_to_list("fx ~ fm")[[1]]) ||
 chk2 <- has_par_i(chk[[2]], parse_pars_to_list("fx ~ fm")[[1]]) ||
         has_par_i(chk[[2]], parse_pars_to_list("fm ~~ fy")[[1]])
 expect_all_false(c(chk1, chk2))
-out2 <- models_have_pars_none(
+out2 <- have_pars_none(
   fit_1_more_1_less,
-  pars = c("fm~~fy", "fx~fm")
+  pars = c("fm~~fy", "fx~fm"),
+  output = "models"
 )
 expect_setequal(
   unname(get_digest_partables(chk)),
