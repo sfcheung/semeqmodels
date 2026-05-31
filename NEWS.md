@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9045
+# semeqmodels 0.0.0.9046
 
 - Initialize the package.
   (0.0.0.9000)
@@ -291,3 +291,10 @@
 - Fixed a harmless warning in
   `has_x_to_y_i()`.
   (0.0.0.9045)
+
+- Removed `models_have_*()`.
+  (0.0.0.9046)
+
+- Updated all model selectors to be able
+  to return a logical vector.
+  (0.0.0.9046)
