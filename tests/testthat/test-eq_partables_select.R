@@ -130,6 +130,18 @@ out <- must_not_be_y(
 expect_all_false(sapply(out, \(x) "fm" %in% lavNames(x, "lv.nox")))
 expect_all_false(sapply(out, \(x) "fx" %in% lavNames(x, "lv.nox")))
 
+out2 <- must_not_be_y(
+          fit_1_more_1_less,
+          vars = c("fx", "fm"),
+          output = "logical"
+        )
+expect_true(
+  setequal_eq_partables(
+    out,
+    fit_1_more_1_less[out2]
+  )
+)
+
 # must_be_y
 
 out <- must_be_y(
@@ -163,6 +175,18 @@ out <- must_be_y(
 expect_all_true(sapply(out, \(x) "fm" %in% lavNames(x, "lv.nox")) |
                 sapply(out, \(x) "fx" %in% lavNames(x, "lv.nox")))
 
+out2 <- must_be_y(
+          fit_1_more_1_less,
+          vars = c("fx", "fm"),
+          output = "logical"
+        )
+expect_true(
+  setequal_eq_partables(
+    out,
+    fit_1_more_1_less[out2]
+  )
+)
+
 # must_not_have_paths
 
 out <- must_not_have_paths(
@@ -194,6 +218,18 @@ out <- must_not_have_paths(
           y_on_x = c("fm ~ fx", "fx ~ fy")
         )
 expect_length(out, 2)
+
+out2 <- must_not_have_paths(
+          fit_1_more_1_less,
+          y_on_x = c("fm ~ fx", "fx ~ fy"),
+          output = "logical"
+        )
+expect_true(
+  setequal_eq_partables(
+    out,
+    fit_1_more_1_less[out2]
+  )
+)
 
 
 # must_have_paths
@@ -227,5 +263,17 @@ out <- must_have_paths(
           y_on_x = c("fm ~ fx", "fx ~ fy")
         )
 expect_length(out, 2)
+
+out2 <- must_have_paths(
+          fit_1_more_1_less,
+          y_on_x = c("fm ~ fx", "fx ~ fy"),
+          output = "logical"
+        )
+expect_true(
+  setequal_eq_partables(
+    out,
+    fit_1_more_1_less[out2]
+  )
+)
 
 })
