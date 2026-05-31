@@ -520,11 +520,11 @@ has_x_to_y_i <- function(
     fixed.x = FALSE
   )
   chk1 <- tryCatch(
-            manymome::all_indirect_paths(
+            suppressWarnings(manymome::all_indirect_paths(
               fit = fit0,
               x = x,
               y = y
-            ),
+            )),
             error = function(e) e
           )
   if (inherits(chk1, "error")) {
