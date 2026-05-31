@@ -90,11 +90,11 @@ models_have_pars_all <- function(
 #' specified in `pars`.
 #'
 #' @return
-#' The function [models_have_pars_all()]
+#' The function [models_have_pars_any()]
 #' returns a list of parameter tables
 #' that have any the free parameters
 #' specified in `pars`.
-#' The function [have_pars_all()] returns
+#' The function [have_pars_any()] returns
 #' a logical vector to indicate models
 #' that have any of the free parameters
 #' specified.
@@ -121,7 +121,7 @@ models_have_pars_any <- function(
 #' @details
 #' The functions [models_have_pars_none()]
 #' and [have_pars_none()] identify models
-#' that have all none of the free parameters
+#' that have none of the free parameters
 #' specified in `pars`.
 #'
 #' @return
@@ -513,11 +513,12 @@ has_x_to_y_i <- function(
             )
   x <- y_on_x_pt$rhs
   y <- y_on_x_pt$lhs
-  fit0 <- lavaan::sem(
-            model = partable,
-            do.fit = FALSE,
-            fixed.x = FALSE
-          )
+  fit0 <- auto_ram(
+    FUN = lavaan::sem,
+    model = partable,
+    do.fit = FALSE,
+    fixed.x = FALSE
+  )
   chk1 <- tryCatch(
             manymome::all_indirect_paths(
               fit = fit0,
