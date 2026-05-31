@@ -291,15 +291,20 @@ has_par_i <- function(
 #' or latent) and an error term.
 #'
 #' @return
-#' The function [remove_x_y_ecov()]
-#' return a list of parameter tables,
+#' The function [remove_x_y_ecov()], by default,
+#' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [remove_x_y_ecov()].
 #'
 #' @rdname partable_select
 #' @export
 remove_x_y_ecov <- function(
-  partables
+  partables,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
 
   # Remove models with x_y_ecov
 
@@ -312,6 +317,11 @@ remove_x_y_ecov <- function(
             has_x_y_ecov2
           )
   chk <- chk | chk2
+  if (output == "logical") {
+    out <- !chk
+    names(out) <- names(partables)
+    return(out)
+  }
   if (any(chk)) {
     tmp <- class(partables)
     partables <- partables[!chk]
@@ -338,13 +348,18 @@ remove_x_y_ecov <- function(
 #' The function [must_not_be_y()]
 #' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [must_not_be_y()].
 #'
 #' @rdname partable_select
 #' @export
 must_not_be_y <- function(
   partables,
-  vars = NULL
+  vars = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
 
   chk <- sapply(
             partables,
@@ -352,6 +367,11 @@ must_not_be_y <- function(
             vars = vars
           )
   chk <- !chk
+  if (output == "logical") {
+    out <- chk
+    names(out) <- names(partables)
+    return(out)
+  }
   out <- partables[chk]
   class(out) <- class(partables)
   out
@@ -376,19 +396,29 @@ must_not_be_y <- function(
 #' The function [must_be_y()]
 #' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [must_be_y()].
 #'
 #' @rdname partable_select
 #' @export
 must_be_y <- function(
   partables,
-  vars = NULL
+  vars = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
 
   chk <- sapply(
             partables,
             vars_is_eqsy,
             vars = vars
           )
+  if (output == "logical") {
+    out <- chk
+    names(out) <- names(partables)
+    return(out)
+  }
   out <- partables[chk]
   class(out) <- class(partables)
   out
@@ -422,19 +452,29 @@ vars_is_eqsy <- function(
 #' The function [must_not_have_paths()]
 #' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [must_not_have_paths()].
 #'
 #' @rdname partable_select
 #' @export
 must_not_have_paths <- function(
   partables,
-  y_on_x = NULL
+  y_on_x = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
   chk <- sapply(
             partables,
             has_x_to_y,
             y_on_x = y_on_x
           )
   chk <- !chk
+  if (output == "logical") {
+    out <- chk
+    names(out) <- names(partables)
+    return(out)
+  }
   out <- partables[chk]
   class(out) <- class(partables)
   out
@@ -451,18 +491,28 @@ must_not_have_paths <- function(
 #' The function [must_have_paths()]
 #' returns a list of parameter tables,
 #' of the same class as `partables`.
+#' If `output` is `"logical"`, it returns
+#' a logical vector for selecting models
+#' identical to the output of [must_have_paths()].
 #'
 #' @rdname partable_select
 #' @export
 must_have_paths <- function(
   partables,
-  y_on_x = NULL
+  y_on_x = NULL,
+  output = c("models", "partables", "logical")
 ) {
+  output <- match.arg(output)
   chk <- sapply(
             partables,
             has_x_to_y,
             y_on_x = y_on_x
           )
+  if (output == "logical") {
+    out <- chk
+    names(out) <- names(partables)
+    return(out)
+  }
   out <- partables[chk]
   class(out) <- class(partables)
   out
