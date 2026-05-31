@@ -72,11 +72,11 @@ a logical vector to indicate models
 that have all the free parameters
 specified.
 
-The function \code{\link[=models_have_pars_all]{models_have_pars_all()}}
+The function \code{\link[=models_have_pars_any]{models_have_pars_any()}}
 returns a list of parameter tables
 that have any the free parameters
 specified in \code{pars}.
-The function \code{\link[=have_pars_all]{have_pars_all()}} returns
+The function \code{\link[=have_pars_any]{have_pars_any()}} returns
 a logical vector to indicate models
 that have any of the free parameters
 specified.
