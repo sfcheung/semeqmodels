@@ -42,7 +42,7 @@ NULL
 
 
 #' @return
-#' The function [gen_plots()] returns
+#' The function [partables_plots()] returns
 #' a list of `qgraph` objects generated
 #' from [semPlot::semPaths()].
 #'
@@ -89,7 +89,8 @@ NULL
 #' `color` of nodes is in `...`.
 #'
 #' @rdname plot_partables
-gen_plots <- function(
+#' @export
+partables_plots <- function(
   partables,
   ...,
   original_model = NULL,
@@ -146,7 +147,7 @@ gen_plots <- function(
   # ==== Generate the Plots ====
 
   out <- mapply(
-    FUN = gen_plot_internal,
+    FUN = partables_plots_internal,
     pt = partables,
     pars_diff = pt_pars_diff,
     MoreArgs = c(
@@ -160,12 +161,42 @@ gen_plots <- function(
     SIMPLIFY = FALSE,
     USE.NAMES = TRUE
   )
-
+  class(out) <- c("partables_plots", class(out))
   out
 }
 
+#' @rdname plot_partables
+#' @export
+plot.partables_plots <- function(
+  x,
+  ...,
+  title = c("digest", "name", "none"),
+  ncol = 1,
+  nrow = 1
+) {
+  title <- match.arg(title)
+  parold <- par(mfrow = c(nrow, ncol), no.readonly = TRUE)
+  for (i in seq_along(x)) {
+    xx <- x[[i]]
+    xx_name <- names(x)[i]
+    plot(xx,
+         ...)
+    xx_digest <- attr(xx, "digest")
+    tmp <- switch(
+      title,
+      digest = xx_digest,
+      name = xx_name,
+      none = NULL
+    )
+    if (!is.null(tmp)) {
+      title(main = tmp)
+    }
+  }
+  par(parold)
+}
+
 #' @noRd
-gen_plot_internal <- function(
+partables_plots_internal <- function(
   pt,
   ...,
   fix_cov = FALSE,
