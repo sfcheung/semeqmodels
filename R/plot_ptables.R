@@ -139,6 +139,8 @@ gen_plots <- function(
       FUN = f0,
       original_model = original_model
     )
+  } else {
+    pt_pars_diff <- vector("list", length(partables))
   }
 
   # ==== Generate the Plots ====
@@ -306,6 +308,11 @@ gen_plot_internal <- function(
         error = function(e) p_fit)
     }
   }
+
+  # ==== Additional Info ====
+
+  attr(p_fit, "digest") <- get_digest(pt)
+  attr(p_fit, "gen_models_name") <- attr(pt, "gen_models_name")
 
   p_fit
 }
