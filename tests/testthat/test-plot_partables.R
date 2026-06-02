@@ -4,6 +4,8 @@ suppressMessages(library(semptools))
 
 test_that("plot models", {
 
+pdf(NULL)
+
 names(pt_list_3_obv) <- paste0("Model ", seq_along(pt_list_3_obv))
 
 pt1 <- pt_list_3_obv[1:3]
@@ -36,6 +38,8 @@ p3 <- partables_plots(
   layout = layout_i,
   original_model = fit1
 )
+
+dev.off()
 
 skip("Test in an interactive session.")
 
