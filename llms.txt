@@ -2,7 +2,7 @@
 
 Find equivalent models in structural equation modeling
 
-(Version 0.0.0.9046, updated on 2026-05-31, [release
+(Version 0.0.0.9047, updated on 2026-06-02, [release
 history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 # semeqmodels: Equivalent Models in Structural Equation Models
@@ -98,6 +98,9 @@ a GitHub issue. Thanks.
   [`must_not_have_paths()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`must_have_paths()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   : Select Parameter Tables
+- [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+  [`plot(`*`<partables_plots>`*`)`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+  : Plot Functions for a List of Parameter Tables
 
 # Articles
 

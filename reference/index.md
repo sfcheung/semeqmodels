@@ -66,3 +66,6 @@
   [`must_not_have_paths()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`must_have_paths()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   : Select Parameter Tables
+- [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+  [`plot(`*`<partables_plots>`*`)`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+  : Plot Functions for a List of Parameter Tables

@@ -1,6 +1,6 @@
 # Changelog
 
-## semeqmodels 0.0.0.9046
+## semeqmodels 0.0.0.9047
 
 - Initialize the package. (0.0.0.9000)
 
@@ -265,3 +265,6 @@
 
 - Updated all model selectors to be able to return a logical vector.
   (0.0.0.9046)
+
+- Add some plot functions for drawing models in a list of parameter
+  tables. (0.0.0.9047)

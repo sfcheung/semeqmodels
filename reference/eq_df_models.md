@@ -143,27 +143,11 @@ fit1 <- sem(
           fixed.x = FALSE
         )
 
-out <- eq_df_models(
-  sem_out = fit1
-)
-out
-#> 
-#> Number of models: 9
-#> 
-#> The models:
-#> 
-#>   Model   
-#> 1 f6b32a38
-#> 2 12672c47
-#> 3 45f61ccf
-#> 4 b0a9b170
-#> 5 efdeea17
-#> 6 6f675f0c
-#> 7 81fb9dff
-#> 8 459cd495
-#> 9 c02043f3 
-#> 
-#> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
-#> "long"' to use the long descriptive names, if available, for the
-#> models.
+# # Remove 'parallel = FALSE' or set parallel to TRUE
+# # for faster generation.
+# out <- eq_df_models(
+#   sem_out = fit1,
+#   parallel = FALSE
+# )
+# out
 ```
