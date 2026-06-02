@@ -45,7 +45,14 @@ plot(
 
 plot(
   p3,
-  ncol = 3
+  scale_plots = "always",
+  scale = 4
+)
+
+plot(
+  p3,
+  ncol = 3,
+  title_adj = .5
 )
 plot(
   p3,
@@ -61,6 +68,41 @@ plot(
   nrow = 3,
   title = "name"
 )
+plot(
+  p3,
+  ncol = 3,
+  title = "name",
+  title_adj = .5
+)
+plot(
+  p3,
+  ncol = 2,
+  nrow = 2,
+  title = "name"
+)
+plot(
+  p3,
+  ncol = 3,
+  nrow = 3,
+  scale = 4,
+  title = "name"
+)
+plot(
+  p3,
+  ncol = 3,
+  nrow = 3,
+  scale = 3,
+  title = "name"
+)
+plot(
+  p3,
+  ncol = 3,
+  nrow = 3,
+  scale = 3,
+  title = "name",
+  title_args = list(line = 2)
+)
+
 
 
 })

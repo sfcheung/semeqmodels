@@ -171,14 +171,56 @@ plot.partables_plots <- function(
   x,
   ...,
   title = c("digest", "name", "none"),
+  title_adj = 1.4,
+  title_args = list(),
   ncol = 1,
-  nrow = 1
+  nrow = 1,
+  scale_plots = c("auto", "always"),
+  scale = NULL,
+  elements_to_scale = c(
+    "Nodes:width",
+    "Nodes:height",
+    "Edges:width",
+    "Edges:asize"
+  )
 ) {
+  scale_plots <- match.arg(scale_plots)
   title <- match.arg(title)
   parold <- par(mfrow = c(nrow, ncol), no.readonly = TRUE)
+
+  # ==== auto_scale ====
+  if (scale_plots == "auto") {
+    if (((ncol != 1) || (nrow != 1))) {
+      scale_i <- scale %||% c(x = ncol / 2, y = nrow / 2)
+      if (length(scale_i) == 1) {
+        scale_i <- c(x = scale_i, y = scale_i)
+      }
+    } else {
+      scale_i <- c(x = 1, y = 1)
+    }
+  }
+  if (scale_plots == "always") {
+    scale_i <- scale %||% c(x = 1, y = 1)
+    if (length(scale_i) == 1) {
+      scale_i <- c(x = scale_i, y = scale_i)
+    }
+  }
+  if (any(scale_i != 1)) {
+    x <- lapply(
+      x,
+      FUN = scale_plot,
+      scale_x = scale_i["x"],
+      scale_y = scale_i["y"],
+      elements = elements_to_scale
+    )
+  }
+
   for (i in seq_along(x)) {
     xx <- x[[i]]
     xx_name <- names(x)[i]
+    if (title != "none") {
+      xx$plotOptions$mar[3] <- xx$plotOptions$mar[3] * title_adj
+    }
     plot(xx,
          ...)
     xx_digest <- attr(xx, "digest")
@@ -189,7 +231,11 @@ plot.partables_plots <- function(
       none = NULL
     )
     if (!is.null(tmp)) {
-      title(main = tmp)
+      do.call(
+        match.fun("title"),
+        c(list(main = tmp),
+          title_args)
+      )
     }
   }
   par(parold)
@@ -354,4 +400,34 @@ partables_plots_internal <- function(
   attr(p_fit, "gen_models_name") <- attr(pt, "gen_models_name")
 
   p_fit
+}
+
+#' @noRd
+scale_plot <- function(
+  object,
+  scale_x = 1,
+  scale_y = 1,
+  elements = c(
+#    "Nodes:label.cex",
+    "Nodes:width",
+    "Nodes:height",
+#    "Edges:label.cex",
+    "Edges:width",
+    "Edges:asize"
+  )
+) {
+  out <- object
+  for (xx in elements) {
+    xx1 <- strsplit(xx, ":")[[1]]
+    scale1 <- switch(
+      xx1[2],
+      width = max(scale_x, scale_y),
+      height = max(scale_y, scale_x),
+#      label.cex = min(scale_x, scale_y),
+      max(scale_x, scale_y)
+    )
+    out$graphAttributes[[xx1[1]]][[xx1[2]]] <-
+      out$graphAttributes[[xx1[1]]][[xx1[2]]] * scale1
+  }
+  out
 }
