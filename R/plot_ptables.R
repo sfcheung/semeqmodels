@@ -30,12 +30,47 @@
 #'           model = mod1,
 #'           data = data_test_3_factor_3_item
 #'         )
+#' fit1_1_more <- drop_k(fit1)
+#' fit1_1_more_1_less <- lapply(
+#'   fit1_1_more,
+#'   add_k
+#' )
 #'
+#' partables1 <- combine_partables(fit1_1_more_1_less)
 #' eq_out_1 <- eq_models(
+#'           partables1,
 #'           original_model = fit1,
 #'           parallel = FALSE
 #'         )
-#' # Add examples for plots
+#'
+#' eq_out_1 <- eq_models(
+#'           partables1,
+#'           original_model = fit1,
+#'           parallel = FALSE
+#'         )
+#'
+#' layout_i <- matrix(c(  NA, "fm",  NA,
+#'                      "fx",   NA, "fy"),
+#'                    ncol = 3,
+#'                    nrow = 2,
+#'                    byrow = TRUE)
+#' layout_i
+#' p <- partables_plots(
+#'   eq_out_1,
+#'   original_model = fit1,
+#'   layout = layout_i,
+#'   label.cex = 1.8,
+#'   sizeMan = 11,
+#'   edge.width = 5,
+#'   asize = 5,
+#'   structural = TRUE,
+#'   par_diff_settings = list(
+#'             color = "blue",
+#'             width = 10
+#'           )
+#' )
+#' plot(p)
+#'
 #'
 #' @name plot_partables
 NULL
@@ -190,7 +225,7 @@ partables_plots <- function(
 #' of [partables_plots()] return `x`
 #' invisibly. Called for its side effect.
 #'
-#' @param x` The output of [partables_plot()],
+#' @param x The output of [partables_plots()],
 #' a `partables_plots` object.
 #'
 #' @param ... Optional arguments to be
@@ -276,7 +311,7 @@ plot.partables_plots <- function(
 ) {
   original_model_mode <- match.arg(original_model_mode)
   scale_plots <- match.arg(scale_plots)
-  title <- match.arg(title)
+  title_mode <- match.arg(title_mode)
 
   if (original_model_mode == "side_by_side") {
     nrow <- 1
@@ -348,7 +383,7 @@ plot.partables_plots <- function(
   for (i in seq_along(x)) {
     xx <- x[[i]]
     xx_name <- names(x)[i]
-    if (title != "none") {
+    if (title_mode != "none") {
       xx$plotOptions$mar[3] <- xx$plotOptions$mar[3] * title_adj
     }
     plot(xx,

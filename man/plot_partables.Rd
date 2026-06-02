@@ -13,10 +13,23 @@ partables_plots(
   auto_node_color = TRUE,
   par_diff_settings = list(color = "blue", width = 2),
   fix_pars_fixed_zero = TRUE,
-  par_fixed_zero_settings = list(color = "white", width = 0)
+  par_fixed_zero_settings = list(color = "white", width = 0),
+  exclude_original_model = TRUE
 )
 
-\method{plot}{partables_plots}(x, ...)
+\method{plot}{partables_plots}(
+  x,
+  ...,
+  title_mode = c("digest", "name", "none"),
+  title_adj = 1.4,
+  title_args = list(),
+  ncol = 1,
+  nrow = 1,
+  scale_plots = c("auto", "always"),
+  scale = NULL,
+  elements_to_scale = c("Nodes:width", "Nodes:height", "Edges:width", "Edges:asize"),
+  original_model_mode = c("exclude", "include", "side_by_side")
+)
 }
 \arguments{
 \item{partables}{It should be a list of
@@ -24,8 +37,7 @@ parameter tables, such as the output
 of \code{\link[=eq_models]{eq_models()}} or \code{\link[=eq_df_models]{eq_df_models()}}.}
 
 \item{...}{Optional arguments to be
-passed to \code{\link[semPlot:semPaths]{semPlot::semPaths()}}. They
-will be applied to all plots.}
+passed to \code{\link[semPlot:semPaths]{semPlot::semPaths()}}.}
 
 \item{original_model}{The model to
 which models in \code{partables} will be
@@ -60,11 +72,84 @@ for the color and \code{width} for the
 width of an edge (arrow). Setting the
 width to zer0, the default, effectively
 hide an arrow.}
+
+\item{exclude_original_model}{If \code{TRUE}
+and \code{original_model} is set, the output
+will not include the plot of the original
+model, though this plot will be stored
+in the attribute \code{"original_model"},
+as a one-element list.}
+
+\item{x}{The output of \code{\link[=partables_plots]{partables_plots()}},
+a \code{partables_plots} object.}
+
+\item{title_mode}{What will be used
+as the title. If \code{"digest"}, then
+the digest value of a model will be
+used as its title. If \code{"name"}, then
+its name in \code{x} will be used. If
+\code{"none"}, then no title will be drawn
+with  the plot.}
+
+\item{title_adj}{Adjust the position
+of the title. Increase this value
+if the plot is too close to the title,
+and decrease this value if the space
+between the plot and its title is
+too large.}
+
+\item{title_args}{A named list of
+arguments to be passed to \code{\link[=title]{title()}}
+when printing the title.}
+
+\item{ncol, nrow}{The number of columns
+and rows when drawing the models. Used
+by \code{mfrow} in \code{\link[=par]{par()}}.}
+
+\item{scale_plots}{How the models will
+be scaled. If \code{"auto"}, then the models
+will be scaled based on \code{ncol} and \code{nrow},
+using \code{scale} as a reference. If
+\code{"always"}, then \code{scale} will always
+be used to scale the models, even if
+they are drawn one by one.}
+
+\item{scale}{How the model will
+be furthered scaled when drawn. If this
+value is greater than one, then
+elements in \code{elements_to_scale} will
+be increased by this ratio. If this
+value is less than one, then elements
+in \code{elements_to_scale} will be decreased
+by this ratio.}
+
+\item{elements_to_scale}{Elements
+in the \code{qgraph} object that will be
+scaled based on the values of
+\code{scale_plots} and \code{scale}.}
+
+\item{original_model_mode}{How original
+model, if present will be handled when
+drawing the models. If \code{"exclude"},
+then the original model will not be
+drawn. If \code{"include"}, the original
+model will be drawn as the first model,
+along with other models. If \code{"side_by_side"},
+then number of columns is always two
+and the number of rows is always one.
+In each plot, the original model will
+be drawn on the left and the other
+model will be drawn on the right.}
 }
 \value{
 The function \code{\link[=partables_plots]{partables_plots()}} returns
 a list of \code{qgraph} objects generated
-from \code{\link[semPlot:semPaths]{semPlot::semPaths()}}.
+from \code{\link[semPlot:semPaths]{semPlot::semPaths()}}, of the
+class \code{partables_plots}.
+
+The \code{plot} method of the output
+of \code{\link[=partables_plots]{partables_plots()}} return \code{x}
+invisibly. Called for its side effect.
 }
 \description{
 Various plot functions
@@ -94,12 +179,47 @@ fit1 <- sem(
           model = mod1,
           data = data_test_3_factor_3_item
         )
+fit1_1_more <- drop_k(fit1)
+fit1_1_more_1_less <- lapply(
+  fit1_1_more,
+  add_k
+)
 
+partables1 <- combine_partables(fit1_1_more_1_less)
 eq_out_1 <- eq_models(
+          partables1,
           original_model = fit1,
           parallel = FALSE
         )
-# Add examples for plots
+
+eq_out_1 <- eq_models(
+          partables1,
+          original_model = fit1,
+          parallel = FALSE
+        )
+
+layout_i <- matrix(c(  NA, "fm",  NA,
+                     "fx",   NA, "fy"),
+                   ncol = 3,
+                   nrow = 2,
+                   byrow = TRUE)
+layout_i
+p <- partables_plots(
+  eq_out_1,
+  original_model = fit1,
+  layout = layout_i,
+  label.cex = 1.8,
+  sizeMan = 11,
+  edge.width = 5,
+  asize = 5,
+  structural = TRUE,
+  par_diff_settings = list(
+            color = "blue",
+            width = 10
+          )
+)
+plot(p)
+
 
 }
 \seealso{
