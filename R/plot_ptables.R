@@ -44,7 +44,8 @@ NULL
 #' @return
 #' The function [partables_plots()] returns
 #' a list of `qgraph` objects generated
-#' from [semPlot::semPaths()].
+#' from [semPlot::semPaths()], of the
+#' class `partables_plots`.
 #'
 #' @param partables It should be a list of
 #' parameter tables, such as the output
@@ -82,6 +83,13 @@ NULL
 #' width to zer0, the default, effectively
 #' hide an arrow.
 #'
+#' @param exclude_original_model If `TRUE`
+#' and `original_model` is set, the output
+#' will not include the plot of the original
+#' model, though this plot will be stored
+#' in the attribute `"original_model"`,
+#' as a one-element list.
+#'
 #' @param auto_node_color If `TRUE`,
 #' and the number of nodes is less 12 or
 #' less, they will be automatically
@@ -103,7 +111,8 @@ partables_plots <- function(
   par_fixed_zero_settings = list(
               color = "white",
               width = 0
-            )
+            ),
+  exclude_original_model = TRUE
 ) {
   if (!is_partables(partables)) {
     stop("partables is not of a supported type.")
@@ -155,22 +164,102 @@ partables_plots <- function(
       list(
         auto_node_color = auto_node_color,
         fix_pars_fixed_zero = fix_pars_fixed_zero,
-        par_fixed_zero_settings = par_fixed_zero_settings
+        par_fixed_zero_settings = par_fixed_zero_settings,
+        par_diff_settings = par_diff_settings
       )
     ),
     SIMPLIFY = FALSE,
     USE.NAMES = TRUE
   )
+
+  if (exclude_original_model &&
+      !is.null(original_model)) {
+    tmp <- partables %pt_in% as_eq_partables(original_model)
+    if (any(tmp)) {
+      out_org <- out[tmp]
+      out <- out[!tmp]
+      attr(out, "original_model") <- out_org
+    }
+  }
+
   class(out) <- c("partables_plots", class(out))
   out
 }
 
+#' @return The `plot` method of the output
+#' of [partables_plots()] return `x`
+#' invisibly. Called for its side effect.
+#'
+#' @param x` The output of [partables_plot()],
+#' a `partables_plots` object.
+#'
+#' @param ... Optional arguments to be
+#' passed to [semPlot::semPaths()].
+#'
+#' @param title_mode What will be used
+#' as the title. If `"digest"`, then
+#' the digest value of a model will be
+#' used as its title. If `"name"`, then
+#' its name in `x` will be used. If
+#' `"none"`, then no title will be drawn
+#' with  the plot.
+#'
+#' @param title_adj Adjust the position
+#' of the title. Increase this value
+#' if the plot is too close to the title,
+#' and decrease this value if the space
+#' between the plot and its title is
+#' too large.
+#'
+#' @param title_args A named list of
+#' arguments to be passed to [title()]
+#' when printing the title.
+#'
+#' @param ncol,nrow The number of columns
+#' and rows when drawing the models. Used
+#' by `mfrow` in [par()].
+#'
+#' @param scale_plots How the models will
+#' be scaled. If `"auto"`, then the models
+#' will be scaled based on `ncol` and `nrow`,
+#' using `scale` as a reference. If
+#' `"always"`, then `scale` will always
+#' be used to scale the models, even if
+#' they are drawn one by one.
+#'
+#' @param scale How the model will
+#' be furthered scaled when drawn. If this
+#' value is greater than one, then
+#' elements in `elements_to_scale` will
+#' be increased by this ratio. If this
+#' value is less than one, then elements
+#' in `elements_to_scale` will be decreased
+#' by this ratio.
+#'
+#' @param elements_to_scale Elements
+#' in the `qgraph` object that will be
+#' scaled based on the values of
+#' `scale_plots` and `scale`.
+#'
+#' @param original_model_mode How original
+#' model, if present will be handled when
+#' drawing the models. If `"exclude"`,
+#' then the original model will not be
+#' drawn. If `"include"`, the original
+#' model will be drawn as the first model,
+#' along with other models. If `"side_by_side"`,
+#' then number of columns is always two
+#' and the number of rows is always one.
+#' In each plot, the original model will
+#' be drawn on the left and the other
+#' model will be drawn on the right.
+#'
 #' @rdname plot_partables
 #' @export
 plot.partables_plots <- function(
   x,
   ...,
-  title = c("digest", "name", "none"),
+  title_mode = c("digest", "name", "none"),
   title_adj = 1.4,
   title_args = list(),
   ncol = 1,
@@ -182,11 +271,33 @@ plot.partables_plots <- function(
     "Nodes:height",
     "Edges:width",
     "Edges:asize"
-  )
+  ),
+  original_model_mode = c("exclude", "include", "side_by_side")
 ) {
+  original_model_mode <- match.arg(original_model_mode)
   scale_plots <- match.arg(scale_plots)
   title <- match.arg(title)
+
+  if (original_model_mode == "side_by_side") {
+    nrow <- 1
+    ncol <- 2
+  }
   parold <- par(mfrow = c(nrow, ncol), no.readonly = TRUE)
+
+  original_model_list <- attr(x, "original_model")
+  has_original_model <- !is.null(original_model_list)
+
+  original_title_suffix <- "(Original)"
+  if (has_original_model) {
+    original_digest <- get_digest(original_model_list[[1]])
+  } else {
+    original_digest <- ""
+  }
+
+  if (has_original_model) {
+    x <- c(original_model_list,
+           x)
+  }
 
   # ==== auto_scale ====
   if (scale_plots == "auto") {
@@ -215,6 +326,25 @@ plot.partables_plots <- function(
     )
   }
 
+  if (has_original_model) {
+    if (original_model_mode == "exclude") {
+      x <- x[-1]
+    }
+    if (original_model_mode == "include") {
+      # A placeholder
+    }
+    if (original_model_mode == "side_by_side") {
+      k0 <- seq_along(x)
+      k1 <- sapply(
+              k0[-1],
+              \(x) c(1, x)
+            )
+      x <- x[k1]
+    }
+  }
+
+  # ==== Plot the model ====
+
   for (i in seq_along(x)) {
     xx <- x[[i]]
     xx_name <- names(x)[i]
@@ -225,11 +355,16 @@ plot.partables_plots <- function(
          ...)
     xx_digest <- attr(xx, "digest")
     tmp <- switch(
-      title,
+      title_mode,
       digest = xx_digest,
       name = xx_name,
       none = NULL
     )
+
+    if (xx_digest == original_digest) {
+      tmp <- paste(tmp, original_title_suffix)
+    }
+
     if (!is.null(tmp)) {
       do.call(
         match.fun("title"),
@@ -239,6 +374,7 @@ plot.partables_plots <- function(
     }
   }
   par(parold)
+  invisible(x)
 }
 
 #' @noRd

@@ -40,6 +40,39 @@ p3 <- partables_plots(
 skip("Test in an interactive session.")
 
 plot(
+  p2,
+  ncol = 2,
+  nrow = 2,
+  title_adj = 1
+)
+
+plot(
+  p2,
+  ncol = 2,
+  nrow = 2,
+  title_adj = 1,
+  original_model_mode = "include"
+)
+
+plot(
+  p2,
+  ncol = 2,
+  nrow = 2,
+  title_adj = 1,
+  original_model_mode = "include",
+  title_mode = "name"
+)
+
+plot(
+  p2,
+  ncol = 2,
+  nrow = 2,
+  title_adj = 1,
+  original_model_mode = "side_by_side",
+  title_mode = "name"
+)
+
+plot(
   p3
 )
 
@@ -61,45 +94,45 @@ plot(
 plot(
   p3,
   nrow = 3,
-  title = "none"
+  title_mode = "none"
 )
 plot(
   p3,
   nrow = 3,
-  title = "name"
+  title_mode = "name"
 )
 plot(
   p3,
   ncol = 3,
-  title = "name",
+  title_mode = "name",
   title_adj = .5
 )
 plot(
   p3,
   ncol = 2,
   nrow = 2,
-  title = "name"
+  title_mode = "name"
 )
 plot(
   p3,
   ncol = 3,
   nrow = 3,
   scale = 4,
-  title = "name"
+  title_mode = "name"
 )
 plot(
   p3,
   ncol = 3,
   nrow = 3,
   scale = 3,
-  title = "name"
+  title_mode = "name"
 )
 plot(
   p3,
   ncol = 3,
   nrow = 3,
   scale = 3,
-  title = "name",
+  title_mode = "name",
   title_args = list(line = 2)
 )
 
