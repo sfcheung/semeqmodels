@@ -94,10 +94,13 @@
 #'           fixed.x = FALSE
 #'         )
 #'
-#' out <- eq_df_models(
-#'   sem_out = fit1
-#' )
-#' out
+#' # # Remove 'parallel = FALSE' or set parallel to TRUE
+#' # # for faster generation.
+#' # out <- eq_df_models(
+#' #   sem_out = fit1,
+#' #   parallel = FALSE
+#' # )
+#' # out
 #'
 #' @export
 eq_df_models <- function(
