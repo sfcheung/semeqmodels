@@ -249,8 +249,16 @@ partables_plots_internal <- function(
     # ==== Set the colors for nodes ====
 
     k_nodes <- length(p_fit$graphAttributes$Nodes$color)
+    node_names <- p_fit$graphAttributes$Nodes$names
+
     if (k_nodes <= 12) {
+      # TODO:
+      # - Try paletteer_d("ggsci::default_ucscgb")
       color_nodes <- RColorBrewer::brewer.pal(k_nodes, "Set3")
+      # Ensure the assignment of colors are the same
+      # across models.
+      names(color_nodes) <- sort(node_names)
+      color_nodes <- color_nodes[node_names]
       ddd1 <- utils::modifyList(
         ddd1,
         list(color = color_nodes)
