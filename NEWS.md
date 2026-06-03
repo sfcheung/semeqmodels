@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9048
+# semeqmodels 0.0.0.9049
 
 - Initialize the package.
   (0.0.0.9000)
@@ -306,3 +306,6 @@
 - Use `modelbpp.do_fit = FALSE` for a
   faster search. Requires `modelbpp` 0.3.0.2 or above.
   (0.0.0.9048)
+
+- Fixed a bug in `must_have_paths()`.
+  (0.0.0.9049)
