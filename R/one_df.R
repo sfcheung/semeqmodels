@@ -221,6 +221,14 @@ drop_k <- function(
   }
   # ==== Generate models ====
 
+  optold <- getOption("modelbpp.do_fit")
+  if (is.null(optold)) {
+    optold <- options(modelbpp.do_fit = FALSE)
+  } else {
+    # "modelbpp.do_fit" has been set. Use it. Do not force FALSE
+    optold <- options(modelbpp.do_fit = optold)
+  }
+  on.exit(options(optold))
   out0 <- modelbpp::gen_models(
             sem_out = fit,
             ...,
@@ -528,6 +536,14 @@ add_k <- function(
     args1,
     list(sem_out = fit_i)
   )
+  optold <- getOption("modelbpp.do_fit")
+  if (is.null(optold)) {
+    optold <- options(modelbpp.do_fit = FALSE)
+  } else {
+    # "modelbpp.do_fit" has been set. Use it. Do not force FALSE
+    optold <- options(modelbpp.do_fit = optold)
+  }
+  on.exit(options(optold))
   out0 <- do.call(
     modelbpp::gen_models,
     args1
