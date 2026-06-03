@@ -467,7 +467,8 @@ must_not_have_paths <- function(
   chk <- sapply(
             partables,
             has_x_to_y,
-            y_on_x = y_on_x
+            y_on_x = y_on_x,
+            mode = "any"
           )
   chk <- !chk
   if (output == "logical") {
@@ -506,7 +507,8 @@ must_have_paths <- function(
   chk <- sapply(
             partables,
             has_x_to_y,
-            y_on_x = y_on_x
+            y_on_x = y_on_x,
+            mode = "all"
           )
   if (output == "logical") {
     out <- chk
@@ -521,14 +523,21 @@ must_have_paths <- function(
 #' @noRd
 has_x_to_y <- function(
   partable,
-  y_on_x
+  y_on_x,
+  mode = c("any", "all")
 ) {
+  mode <- match.arg(mode)
   out <- sapply(
     y_on_x,
     has_x_to_y_i,
     partable = partable
   )
-  any(out)
+  out <- switch(
+    mode,
+    any = any(out),
+    all = all(out)
+  )
+  out
 }
 
 #' @noRd
