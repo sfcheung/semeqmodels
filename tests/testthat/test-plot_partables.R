@@ -39,9 +39,65 @@ p3 <- partables_plots(
   original_model = fit1
 )
 
+p1b <- partables_plots(
+  p1,
+  sizeMan = 20,
+  partables = pt_list_3_obv[4:6],
+  par_diff_settings = list(
+              color = "red",
+              width = 4
+            )
+)
+
+p1c <- partables_plots(
+  p1,
+  sizeMan = 20,
+  original_model = pt_list_3_obv[[2]],
+  partables = pt_list_3_obv[4:6],
+  par_diff_settings = list(
+              color = "red",
+              width = 4
+            ),
+  exclude_original_model = FALSE
+)
+
+
+p2b <- partables_plots(
+  p2,
+  original_model = pt1[[2]],
+  sizeMan = 20,
+  par_diff_settings = list(
+              color = "green",
+              width = 4
+            )
+)
+
 dev.off()
 
 skip("Test in an interactive session.")
+
+plot(
+  p1,
+  ncol = 2,
+  nrow = 2,
+  title_adj = 1
+)
+
+plot(
+  p1b,
+  ncol = 2,
+  nrow = 2,
+  title_adj = 1
+)
+
+plot(
+  p1c,
+  ncol = 2,
+  nrow = 2,
+  title_adj = 1,
+  original_model_mode = "include"
+)
+
 
 plot(
   p2,
@@ -49,6 +105,14 @@ plot(
   nrow = 2,
   title_adj = 1
 )
+
+plot(
+  p2b,
+  ncol = 2,
+  nrow = 2,
+  title_adj = 1
+)
+
 
 plot(
   p2,
