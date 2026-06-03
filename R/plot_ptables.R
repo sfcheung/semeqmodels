@@ -82,6 +82,14 @@ NULL
 #' from [semPlot::semPaths()], of the
 #' class `partables_plots`.
 #'
+#' @param object If it is a list of
+#' parameter tables, it will be used
+#' as the value for `partables`. If
+#' it is a `partables_plots` object
+#' (i.e., an output of [partables_plots()],
+#' then it will be updated with any new
+#' values for other arguments.
+#'
 #' @param partables It should be a list of
 #' parameter tables, such as the output
 #' of [eq_models()] or [eq_df_models()].
@@ -134,8 +142,9 @@ NULL
 #' @rdname plot_partables
 #' @export
 partables_plots <- function(
-  partables,
+  object,
   ...,
+  partables = NULL,
   original_model = NULL,
   auto_node_color = TRUE,
   par_diff_settings = list(
@@ -149,6 +158,72 @@ partables_plots <- function(
             ),
   exclude_original_model = TRUE
 ) {
+
+  is_update <- FALSE
+
+  if (inherits(object, "partables_plots")) {
+
+    # ==== Update a previous output ====
+
+    is_update <- TRUE
+    args_names <- names(formals())
+
+    # Retrieve stored argument values
+
+    args0 <- attr(object, "args")
+    call_new <- as.list(match.call())[-1]
+    # object is just a placeholder,
+    # it can be previous output or
+    # a partables for a new set of plots
+    call_new$object <- NULL
+    ddd_old <- args0[!(names(args0) %in% args_names)]
+    eee_old <- args0[names(args0) %in% args_names]
+
+    # Get the new values and evaluate them
+    # TODO:
+    # - How to handle arguments not named?
+    ddd_new <- call_new[!(names(call_new) %in% args_names)]
+    eee_new <- call_new[names(call_new) %in% args_names]
+    ddd_new <- lapply(ddd_new, eval, envir = parent.frame())
+    eee_new <- lapply(eee_new, eval, envir = parent.frame())
+
+    ddd <- utils::modifyList(
+      ddd_old,
+      ddd_new,
+      keep.null = TRUE
+    )
+    eee <- utils::modifyList(
+      eee_old,
+      eee_new,
+      keep.null = TRUE
+    )
+
+    # modifyList does not handle an argument of list as desired
+    eee$partables <- eee_new$partables %||% eee_old$partables
+    eee$original_model <- eee_new$original_model
+
+    # Set the argument values
+    # TODO:
+    # - Is there a better way to do this?
+    partables <- eee$partables
+    original_model <- eee$original_model
+    auto_node_color <- eee$auto_node_color
+    par_diff_settings <- eee$par_diff_settings
+    fix_pars_fixed_zero <- eee$fix_pars_fixed_zero
+    par_fixed_zero_settings <- eee$par_fixed_zero_settings
+    exclude_original_model <- eee$exclude_original_model
+    # eee is not needed after this line
+
+  } else if (is_partables(object)) {
+
+    # ==== A new set of plots ====
+
+    partables <- object
+    object <- NULL
+    ddd <- list(...)
+
+  }
+
   if (!is_partables(partables)) {
     stop("partables is not of a supported type.")
   }
@@ -195,7 +270,7 @@ partables_plots <- function(
     pt = partables,
     pars_diff = pt_pars_diff,
     MoreArgs = c(
-      list(...),
+      ddd,
       list(
         auto_node_color = auto_node_color,
         fix_pars_fixed_zero = fix_pars_fixed_zero,
@@ -209,16 +284,85 @@ partables_plots <- function(
 
   if (exclude_original_model &&
       !is.null(original_model)) {
+
+    # ==== Exclude the original model from the output? ====
+
     tmp <- partables %pt_in% as_eq_partables(original_model)
     if (any(tmp)) {
       out_org <- out[tmp]
       out <- out[!tmp]
-      attr(out, "original_model") <- out_org
+      # attr(out, "original_model") <- out_org
     }
   }
 
+  if (!is.null(original_model)) {
+
+    # ==== Store the plot of the original model ====
+
+    # It's OK to do the following twice. The original model
+    # may not be in partables.
+
+    out_org <- do.call(
+      partables_plots_internal,
+      c(list(
+          pt = original_model,
+          auto_node_color = auto_node_color,
+          fix_pars_fixed_zero = fix_pars_fixed_zero,
+          par_fixed_zero_settings = par_fixed_zero_settings,
+          par_diff_settings = par_diff_settings
+        ),
+        ddd)
+    )
+    attr(out, "original_model") <- list(original_model = out_org)
+
+  }
+
+  # ==== Store Args ====
+
+  if (is_update) {
+
+    # ==== Store the updated argument values ====
+
+    args <- c(ddd, eee)
+    attr(out, "args") <- args
+
+  } else {
+
+    # ==== A new call ====
+
+    call_new <- as.list(match.call())
+    call_new[[1]] <- NULL
+    # object is just a placeholder
+    call_new$object <- NULL
+    call_new <- lapply(
+      call_new,
+      eval,
+      envir = parent.frame()
+    )
+
+    # Update the default values
+    call0 <- formals()
+    # object is just a placeholder
+    call0$object <- NULL
+    call0$... <- NULL
+    call0 <- utils::modifyList(
+      call0,
+      call_new,
+      keep.null = TRUE
+    )
+    # This is necessary because modifyList does not
+    # handle argument values of names list as desired
+    call0$partables <- partables
+    call0$original_model <- original_model
+    attr(out, "args") <- call0
+
+  }
+
+  # ==== Set class ====
+
   class(out) <- c("partables_plots", class(out))
   out
+
 }
 
 #' @return The `plot` method of the output
