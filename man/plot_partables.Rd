@@ -7,8 +7,9 @@
 \title{Plot Functions for a List of Parameter Tables}
 \usage{
 partables_plots(
-  partables,
+  object,
   ...,
+  partables = NULL,
   original_model = NULL,
   auto_node_color = TRUE,
   par_diff_settings = list(color = "blue", width = 2),
@@ -32,12 +33,20 @@ partables_plots(
 )
 }
 \arguments{
-\item{partables}{It should be a list of
-parameter tables, such as the output
-of \code{\link[=eq_models]{eq_models()}} or \code{\link[=eq_df_models]{eq_df_models()}}.}
+\item{object}{If it is a list of
+parameter tables, it will be used
+as the value for \code{partables}. If
+it is a \code{partables_plots} object
+(i.e., an output of \code{\link[=partables_plots]{partables_plots()}},
+then it will be updated with any new
+values for other arguments.}
 
 \item{...}{Optional arguments to be
 passed to \code{\link[semPlot:semPaths]{semPlot::semPaths()}}.}
+
+\item{partables}{It should be a list of
+parameter tables, such as the output
+of \code{\link[=eq_models]{eq_models()}} or \code{\link[=eq_df_models]{eq_df_models()}}.}
 
 \item{original_model}{The model to
 which models in \code{partables} will be

@@ -22,6 +22,12 @@ layout_i <- layout_matrix(
   fy = c(2, 3)
 )
 
+layout_j <- layout_matrix(
+  fx = c(1, 1),
+  fm = c(2, 2),
+  fy = c(1, 3)
+)
+
 p1 <- partables_plots(
   pt1,
   layout = layout_i
@@ -72,6 +78,12 @@ p2b <- partables_plots(
             )
 )
 
+p3b <- partables_plots(
+  p3,
+  layout = layout_j,
+  original_model = pt1[[2]]
+)
+
 dev.off()
 
 skip("Test in an interactive session.")
@@ -87,14 +99,14 @@ plot(
   p1b,
   ncol = 2,
   nrow = 2,
-  title_adj = 1
+  title_adj = 2
 )
 
 plot(
   p1c,
   ncol = 2,
   nrow = 2,
-  title_adj = 1,
+  title_adj = 2,
   original_model_mode = "include"
 )
 
@@ -110,9 +122,8 @@ plot(
   p2b,
   ncol = 2,
   nrow = 2,
-  title_adj = 1
+  title_adj = 2
 )
-
 
 plot(
   p2,
@@ -135,7 +146,7 @@ plot(
   p2,
   ncol = 2,
   nrow = 2,
-  title_adj = 1,
+  title_adj = .7,
   original_model_mode = "side_by_side",
   title_mode = "name"
 )
@@ -200,6 +211,16 @@ plot(
   ncol = 3,
   nrow = 3,
   scale = 3,
+  title_mode = "name",
+  title_args = list(line = 2)
+)
+
+plot(
+  p3b,
+  ncol = 3,
+  nrow = 3,
+  scale = 3,
+  original_model_mode = "include",
   title_mode = "name",
   title_args = list(line = 2)
 )
