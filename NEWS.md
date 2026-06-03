@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9047
+# semeqmodels 0.0.0.9048
 
 - Initialize the package.
   (0.0.0.9000)
@@ -299,6 +299,10 @@
   to return a logical vector.
   (0.0.0.9046)
 
-- Add some plot functions for drawing
+- Added some plot functions for drawing
   models in a list of parameter tables.
   (0.0.0.9047)
+
+- Use `modelbpp.do_fit = FALSE` for a
+  faster search. Requires `modelbpp` 0.3.0.2 or above.
+  (0.0.0.9048)
