@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9050
+# semeqmodels 0.0.0.9051
 
 - Initialize the package.
   (0.0.0.9000)
@@ -318,3 +318,10 @@
 - Updated the model selectors to select
   plots from `partables_plots()`.
   (0.0.0.9050)
+
+- Changed how the original model is
+  handled in `partables_plots()`.
+  (0.0.0.9051)
+
+- Added `print.partables_plots()`.
+  (0.0.0.9051)
