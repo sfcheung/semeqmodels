@@ -4,6 +4,7 @@
 \alias{plot_partables}
 \alias{partables_plots}
 \alias{plot.partables_plots}
+\alias{print.partables_plots}
 \title{Plot Functions for a List of Parameter Tables}
 \usage{
 partables_plots(
@@ -31,6 +32,8 @@ partables_plots(
   elements_to_scale = c("Nodes:width", "Nodes:height", "Edges:width", "Edges:asize"),
   original_model_mode = c("include", "exclude", "side_by_side")
 )
+
+\method{print}{partables_plots}(x, ...)
 }
 \arguments{
 \item{object}{If it is a list of
@@ -41,8 +44,11 @@ it is a \code{partables_plots} object
 then it will be updated with any new
 values for other arguments.}
 
-\item{...}{Optional arguments to be
-passed to \code{\link[semPlot:semPaths]{semPlot::semPaths()}}.}
+\item{...}{For \code{\link[=plot.partables_plots]{plot.partables_plots()}},
+these are optional arguments to be
+passed to \code{\link[semPlot:semPaths]{semPlot::semPaths()}}.
+For \code{\link[=print.partables_plots]{print.partables_plots()}}, they
+are not used.}
 
 \item{partables}{It should be a list of
 parameter tables, such as the output
@@ -157,6 +163,10 @@ from \code{\link[semPlot:semPaths]{semPlot::semPaths()}}, of the
 class \code{partables_plots}.
 
 The \code{plot} method of the output
+of \code{\link[=partables_plots]{partables_plots()}} return \code{x}
+invisibly. Called for its side effect.
+
+The \code{print} method of the output
 of \code{\link[=partables_plots]{partables_plots()}} return \code{x}
 invisibly. Called for its side effect.
 }

@@ -366,15 +366,19 @@ partables_plots <- function(
 
 }
 
-#' @return The `plot` method of the output
+#' @return
+#' The `plot` method of the output
 #' of [partables_plots()] return `x`
 #' invisibly. Called for its side effect.
 #'
 #' @param x The output of [partables_plots()],
 #' a `partables_plots` object.
 #'
-#' @param ... Optional arguments to be
+#' @param ... For [plot.partables_plots()],
+#' these are optional arguments to be
 #' passed to [semPlot::semPaths()].
+#' For [print.partables_plots()], they
+#' are not used.
 #'
 #' @param title_mode What will be used
 #' as the title. If `"digest"`, then
@@ -576,6 +580,34 @@ plot.partables_plots <- function(
     }
   }
   par(parold)
+  invisible(x)
+}
+
+#' @return
+#' The `print` method of the output
+#' of [partables_plots()] return `x`
+#' invisibly. Called for its side effect.
+#'
+#' @rdname plot_partables
+#' @export
+print.partables_plots <- function(
+  x,
+  ...
+) {
+  x1 <- x
+  class_old <- class(x)
+  i <- which(class_old == "partables_plots")
+  if (length(i) > 0)
+  class(x1) <- class_old[-seq(1, i)]
+  k <- length(x1)
+  x_names <- names(x1)
+  cat("The plot(s) of", k, "model(s):\n")
+  if (!is.null(x_names)) {
+    print(x_names)
+  } else {
+    x_names <- sapply(x, \(x) attr(x, "digest"))
+    print(unname(x_names))
+  }
   invisible(x)
 }
 

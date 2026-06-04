@@ -84,6 +84,11 @@ p3b <- partables_plots(
   original_model = pt1[[2]]
 )
 
+expect_no_error(print(p1))
+expect_no_error(print(p2))
+expect_no_error(print(p3))
+
+
 dev.off()
 
 # Check selection
