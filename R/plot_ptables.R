@@ -156,7 +156,7 @@ partables_plots <- function(
               color = "white",
               width = 0
             ),
-  exclude_original_model = TRUE
+  exclude_original_model = FALSE
 ) {
 
   is_update <- FALSE
@@ -282,6 +282,8 @@ partables_plots <- function(
     USE.NAMES = TRUE
   )
 
+  out_org <- NULL
+
   if (exclude_original_model &&
       !is.null(original_model)) {
 
@@ -299,20 +301,19 @@ partables_plots <- function(
 
     # ==== Store the plot of the original model ====
 
-    # It's OK to do the following twice. The original model
-    # may not be in partables.
-
-    out_org <- do.call(
-      partables_plots_internal,
-      c(list(
-          pt = original_model,
-          auto_node_color = auto_node_color,
-          fix_pars_fixed_zero = fix_pars_fixed_zero,
-          par_fixed_zero_settings = par_fixed_zero_settings,
-          par_diff_settings = par_diff_settings
-        ),
-        ddd)
-    )
+    if (is.null(out_org)) {
+      out_org <- do.call(
+        partables_plots_internal,
+        c(list(
+            pt = original_model,
+            auto_node_color = auto_node_color,
+            fix_pars_fixed_zero = fix_pars_fixed_zero,
+            par_fixed_zero_settings = par_fixed_zero_settings,
+            par_diff_settings = par_diff_settings
+          ),
+          ddd)
+      )
+    }
     attr(out, "original_model") <- list(original_model = out_org)
 
   }
@@ -451,11 +452,13 @@ plot.partables_plots <- function(
     "Edges:width",
     "Edges:asize"
   ),
-  original_model_mode = c("exclude", "include", "side_by_side")
+  original_model_mode = c("include", "exclude", "side_by_side")
 ) {
   original_model_mode <- match.arg(original_model_mode)
   scale_plots <- match.arg(scale_plots)
   title_mode <- match.arg(title_mode)
+
+  x_org <- x
 
   if (original_model_mode == "side_by_side") {
     nrow <- 1
@@ -474,11 +477,48 @@ plot.partables_plots <- function(
   }
 
   if (has_original_model) {
-    x <- c(original_model_list,
-           x)
+
+    x_digest <- sapply(x, \(x) attr(x, "digest"))
+
+    if (original_model_mode == "exclude") {
+
+      # ==== Exclude the original model, if present ====
+
+      x <- x[!(x_digest %in% original_digest)]
+
+    }
+    if (original_model_mode == "include") {
+
+      # ==== Include the original model ====
+
+      # x may not have the original model
+      # Always insert or move the original model as the first plot
+      x <- x[!(x_digest %in% original_digest)]
+      x <- c(original_model_list,
+            x)
+
+    }
+    if (original_model_mode == "side_by_side") {
+
+      # ==== Side-By-Side ====
+
+      # Insert or move the original model as the first plot
+      x <- x[!(x_digest %in% original_digest)]
+      x <- c(original_model_list,
+            x)
+
+      k0 <- seq_along(x)
+      k1 <- sapply(
+              k0[-1],
+              \(x) c(1, x)
+            )
+      x <- x[k1]
+
+    }
   }
 
   # ==== auto_scale ====
+
   if (scale_plots == "auto") {
     if (((ncol != 1) || (nrow != 1))) {
       scale_i <- scale %||% c(x = ncol / 2, y = nrow / 2)
@@ -503,23 +543,6 @@ plot.partables_plots <- function(
       scale_y = scale_i["y"],
       elements = elements_to_scale
     )
-  }
-
-  if (has_original_model) {
-    if (original_model_mode == "exclude") {
-      x <- x[-1]
-    }
-    if (original_model_mode == "include") {
-      # A placeholder
-    }
-    if (original_model_mode == "side_by_side") {
-      k0 <- seq_along(x)
-      k1 <- sapply(
-              k0[-1],
-              \(x) c(1, x)
-            )
-      x <- x[k1]
-    }
   }
 
   # ==== Plot the model ====
