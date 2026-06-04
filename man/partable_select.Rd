@@ -55,7 +55,9 @@ must_have_paths(
 \arguments{
 \item{partables}{A list of parameter
 tables, such as a
-\code{partables} or \code{eq_partables} object.}
+\code{partables} or \code{eq_partables} object.
+It can also be the output of
+\code{\link[=partables_plots]{partables_plots()}}.}
 
 \item{pars}{A character vector
 of \code{lavaan} model syntax that
@@ -71,8 +73,10 @@ is necessary.}
 
 \item{output}{The type of output.
 If \code{"models"} or \code{"partables"},
-a list of \code{lavaan} parameter tables
-is returned. If \code{"logical"}, a
+the output is a subset of the \code{partables}, which
+can be a list of parameter tables
+or a list of plots of parameter tables.
+If \code{"logical"}, a
 logical vector of the same length as
 \code{partables} is returned to indicate
 models that match the selection
@@ -90,7 +94,9 @@ checked.}
 The function \code{\link[=have_pars_all]{have_pars_all()}}, by default,
 returns a list of parameter tables
 that have all the free parameters
-specified in \code{pars}.
+specified in \code{pars},
+or a list of plots of the parameter tables
+if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
 If \code{output} set to \code{"logical"},
 it returns
 a logical vector to indicate models
@@ -100,7 +106,9 @@ specified.
 The function \code{\link[=have_pars_any]{have_pars_any()}}, by default,
 returns a list of parameter tables
 that have any of the free parameters
-specified in \code{pars}.
+specified in \code{pars},
+or a list of plots of the parameter tables
+if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
 If \code{output} set to \code{"logical"},
 it returns
 a logical vector to indicate models
@@ -110,7 +118,9 @@ specified.
 The function \code{\link[=have_pars_none]{have_pars_none()}}, by default,
 returns a list of parameter tables
 that have all the free parameters
-specified in \code{pars}.
+specified in \code{pars},
+or a list of plots of the parameter tables
+if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
 If \code{output} set to \code{"logical"},
 it returns
 a logical vector to indicate models
@@ -119,35 +129,45 @@ specified.
 
 The function \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}, by default,
 returns a list of parameter tables,
-of the same class as \code{partables}.
+of the same class as \code{partables},
+or a list of plots of the parameter tables
+if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
 If \code{output} is \code{"logical"}, it returns
 a logical vector for selecting models
 identical to the output of \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}.
 
 The function \code{\link[=must_not_be_y]{must_not_be_y()}}
 returns a list of parameter tables,
-of the same class as \code{partables}.
+of the same class as \code{partables},
+or a list of plots of the parameter tables
+if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
 If \code{output} is \code{"logical"}, it returns
 a logical vector for selecting models
 identical to the output of \code{\link[=must_not_be_y]{must_not_be_y()}}.
 
 The function \code{\link[=must_be_y]{must_be_y()}}
 returns a list of parameter tables,
-of the same class as \code{partables}.
+of the same class as \code{partables},
+or a list of plots of the parameter tables
+if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
 If \code{output} is \code{"logical"}, it returns
 a logical vector for selecting models
 identical to the output of \code{\link[=must_be_y]{must_be_y()}}.
 
 The function \code{\link[=must_not_have_paths]{must_not_have_paths()}}
 returns a list of parameter tables,
-of the same class as \code{partables}.
+of the same class as \code{partables},
+or a list of plots of the parameter tables
+if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
 If \code{output} is \code{"logical"}, it returns
 a logical vector for selecting models
 identical to the output of \code{\link[=must_not_have_paths]{must_not_have_paths()}}.
 
 The function \code{\link[=must_have_paths]{must_have_paths()}}
 returns a list of parameter tables,
-of the same class as \code{partables}.
+of the same class as \code{partables},
+or a list of plots of the parameter tables
+if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
 If \code{output} is \code{"logical"}, it returns
 a logical vector for selecting models
 identical to the output of \code{\link[=must_have_paths]{must_have_paths()}}.
