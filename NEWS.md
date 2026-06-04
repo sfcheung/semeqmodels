@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9049
+# semeqmodels 0.0.0.9050
 
 - Initialize the package.
   (0.0.0.9000)
@@ -309,3 +309,12 @@
 
 - Fixed a bug in `must_have_paths()`.
   (0.0.0.9049)
+
+- Revised `partables_plots()` to be able
+  to update a previous output of
+  `partables_plots()`.
+  (0.0.0.9050)
+
+- Updated the model selectors to select
+  plots from `partables_plots()`.
+  (0.0.0.9050)
