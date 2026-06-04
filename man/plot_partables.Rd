@@ -15,7 +15,7 @@ partables_plots(
   par_diff_settings = list(color = "blue", width = 2),
   fix_pars_fixed_zero = TRUE,
   par_fixed_zero_settings = list(color = "white", width = 0),
-  exclude_original_model = TRUE
+  exclude_original_model = FALSE
 )
 
 \method{plot}{partables_plots}(
@@ -29,7 +29,7 @@ partables_plots(
   scale_plots = c("auto", "always"),
   scale = NULL,
   elements_to_scale = c("Nodes:width", "Nodes:height", "Edges:width", "Edges:asize"),
-  original_model_mode = c("exclude", "include", "side_by_side")
+  original_model_mode = c("include", "exclude", "side_by_side")
 )
 }
 \arguments{

@@ -99,6 +99,7 @@ expect_length(must_have_paths(p1, y_on_x = "fy ~ fm"), 1)
 
 skip("Test in an interactive session.")
 
+# No original model
 plot(
   p1,
   ncol = 2,
@@ -106,6 +107,7 @@ plot(
   title_adj = 1
 )
 
+# No original model
 plot(
   p1b,
   ncol = 2,
@@ -113,14 +115,13 @@ plot(
   title_adj = 2
 )
 
+# Original model added
 plot(
   p1c,
   ncol = 2,
   nrow = 2,
-  title_adj = 2,
-  original_model_mode = "include"
+  title_adj = 2
 )
-
 
 plot(
   p2,
@@ -141,7 +142,7 @@ plot(
   ncol = 2,
   nrow = 2,
   title_adj = 1,
-  original_model_mode = "include"
+  original_model_mode = "exclude"
 )
 
 plot(
@@ -149,7 +150,7 @@ plot(
   ncol = 2,
   nrow = 2,
   title_adj = 1,
-  original_model_mode = "include",
+  original_model_mode = "exclude",
   title_mode = "name"
 )
 
@@ -231,7 +232,7 @@ plot(
   ncol = 3,
   nrow = 3,
   scale = 3,
-  original_model_mode = "include",
+  original_model_mode = "exclude",
   title_mode = "name",
   title_args = list(line = 2)
 )
