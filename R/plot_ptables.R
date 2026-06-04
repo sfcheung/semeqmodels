@@ -713,6 +713,7 @@ partables_plots_internal <- function(
 
   attr(p_fit, "digest") <- get_digest(pt)
   attr(p_fit, "gen_models_name") <- attr(pt, "gen_models_name")
+  attr(p_fit, "partable") <- pt
 
   p_fit
 }
