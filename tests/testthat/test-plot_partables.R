@@ -86,6 +86,17 @@ p3b <- partables_plots(
 
 dev.off()
 
+# Check selection
+
+expect_length(have_pars_all(p1, "fx ~ fm"), 1)
+expect_length(have_pars_any(p1, c("fx ~ fm", "fy ~ fx")), 2)
+expect_length(have_pars_none(p1, c("fm ~~ fy")), 1)
+expect_length(must_not_be_y(p1, var = "fx"), 2)
+expect_length(must_be_y(p1, var = "fx"), 1)
+expect_length(must_not_have_paths(p1, y_on_x = "fy ~ fm"), 2)
+expect_length(must_have_paths(p1, y_on_x = "fy ~ fm"), 1)
+
+
 skip("Test in an interactive session.")
 
 plot(
@@ -224,7 +235,5 @@ plot(
   title_mode = "name",
   title_args = list(line = 2)
 )
-
-
 
 })

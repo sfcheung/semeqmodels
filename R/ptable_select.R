@@ -17,7 +17,9 @@ NULL
 #' The function [have_pars_all()], by default,
 #' returns a list of parameter tables
 #' that have all the free parameters
-#' specified in `pars`.
+#' specified in `pars`,
+#' or a list of plots of the parameter tables
+#' if `partables` is the output of [partables_plots()].
 #' If `output` set to `"logical"`,
 #' it returns
 #' a logical vector to indicate models
@@ -27,6 +29,8 @@ NULL
 #' @param partables A list of parameter
 #' tables, such as a
 #' `partables` or `eq_partables` object.
+#' It can also be the output of
+#' [partables_plots()].
 #'
 #' @param pars A character vector
 #' of `lavaan` model syntax that
@@ -42,8 +46,10 @@ NULL
 #'
 #' @param output The type of output.
 #' If `"models"` or `"partables"`,
-#' a list of `lavaan` parameter tables
-#' is returned. If `"logical"`, a
+#' the output is a subset of the `partables`, which
+#' can be a list of parameter tables
+#' or a list of plots of parameter tables.
+#' If `"logical"`, a
 #' logical vector of the same length as
 #' `partables` is returned to indicate
 #' models that match the selection
@@ -88,12 +94,26 @@ have_pars_all <- function(
   output = c("models", "partables", "logical")
 ) {
   output <- match.arg(output)
-  have_pars(
+  tmp <- fix_select_object(
+    object = partables,
+    output = output
+  )
+  partables <- tmp$partables
+  plots_org <- tmp$plots_org
+  output_tmp <- tmp$output_tmp
+
+  out0 <- have_pars(
     partables = partables,
     pars = pars,
     mode = "all",
+    output = output_tmp
+  )
+  out <- fix_select_output(
+    out_original = out0,
+    plots_org = plots_org,
     output = output
   )
+  out
 }
 
 #' @details
@@ -106,7 +126,9 @@ have_pars_all <- function(
 #' The function [have_pars_any()], by default,
 #' returns a list of parameter tables
 #' that have any of the free parameters
-#' specified in `pars`.
+#' specified in `pars`,
+#' or a list of plots of the parameter tables
+#' if `partables` is the output of [partables_plots()].
 #' If `output` set to `"logical"`,
 #' it returns
 #' a logical vector to indicate models
@@ -127,12 +149,26 @@ have_pars_any <- function(
   output = c("models", "partables", "logical")
 ) {
   output <- match.arg(output)
-  have_pars(
+  tmp <- fix_select_object(
+    object = partables,
+    output = output
+  )
+  partables <- tmp$partables
+  plots_org <- tmp$plots_org
+  output_tmp <- tmp$output_tmp
+
+  out0 <- have_pars(
     partables = partables,
     pars = pars,
     mode = "any",
+    output = output_tmp
+  )
+  out <- fix_select_output(
+    out_original = out0,
+    plots_org = plots_org,
     output = output
   )
+  out
 }
 
 #' @details
@@ -145,7 +181,9 @@ have_pars_any <- function(
 #' The function [have_pars_none()], by default,
 #' returns a list of parameter tables
 #' that have all the free parameters
-#' specified in `pars`.
+#' specified in `pars`,
+#' or a list of plots of the parameter tables
+#' if `partables` is the output of [partables_plots()].
 #' If `output` set to `"logical"`,
 #' it returns
 #' a logical vector to indicate models
@@ -166,12 +204,26 @@ have_pars_none <- function(
   output = c("models", "partables", "logical")
 ) {
   output <- match.arg(output)
-  have_pars(
+  tmp <- fix_select_object(
+    object = partables,
+    output = output
+  )
+  partables <- tmp$partables
+  plots_org <- tmp$plots_org
+  output_tmp <- tmp$output_tmp
+
+  out0 <- have_pars(
     partables = partables,
     pars = pars,
     mode = "none",
+    output = output_tmp
+  )
+  out <- fix_select_output(
+    out_original = out0,
+    plots_org = plots_org,
     output = output
   )
+  out
 }
 
 #' @noRd
@@ -193,6 +245,15 @@ have_pars <- function(
   if (output == "models") {
     output <- "partables"
   }
+
+  tmp <- fix_select_object(
+    object = partables,
+    output = output
+  )
+  partables <- tmp$partables
+  plots_org <- tmp$plots_org
+  output_tmp <- tmp$output_tmp
+
   if (!is.null(pars)) {
     pars_lav_list <- parse_pars_to_list(pars)
     out <- sapply(
@@ -209,11 +270,16 @@ have_pars <- function(
     names(out) <- names(partables)
   }
   out1 <- switch(
-    output,
+    output_tmp,
     logical = out,
     partables = partables[out]
   )
-  out1
+  out <- fix_select_output(
+    out_original = out1,
+    plots_org = plots_org,
+    output = output
+  )
+  out
 }
 
 #' @noRd
@@ -293,7 +359,9 @@ has_par_i <- function(
 #' @return
 #' The function [remove_x_y_ecov()], by default,
 #' returns a list of parameter tables,
-#' of the same class as `partables`.
+#' of the same class as `partables`,
+#' or a list of plots of the parameter tables
+#' if `partables` is the output of [partables_plots()].
 #' If `output` is `"logical"`, it returns
 #' a logical vector for selecting models
 #' identical to the output of [remove_x_y_ecov()].
@@ -305,8 +373,13 @@ remove_x_y_ecov <- function(
   output = c("models", "partables", "logical")
 ) {
   output <- match.arg(output)
-
-  # Remove models with x_y_ecov
+  tmp <- fix_select_object(
+    object = partables,
+    output = output
+  )
+  partables <- tmp$partables
+  plots_org <- tmp$plots_org
+  output_tmp <- tmp$output_tmp
 
   chk <- sapply(
             partables,
@@ -317,17 +390,21 @@ remove_x_y_ecov <- function(
             has_x_y_ecov2
           )
   chk <- chk | chk2
-  if (output == "logical") {
-    out <- !chk
-    names(out) <- names(partables)
-    return(out)
+  if (output_tmp == "logical") {
+    out0 <- !chk
+    names(out0) <- names(partables)
   }
   if (any(chk)) {
     tmp <- class(partables)
-    partables <- partables[!chk]
-    class(partables) <- tmp
+    out0 <- partables[!chk]
+    class(out0) <- tmp
   }
-  partables
+  out <- fix_select_output(
+    out_original = out0,
+    plots_org = plots_org,
+    output = output
+  )
+  out
 }
 
 #' @details
@@ -347,7 +424,10 @@ remove_x_y_ecov <- function(
 #' @return
 #' The function [must_not_be_y()]
 #' returns a list of parameter tables,
-#' of the same class as `partables`.
+#' of the same class as `partables`,
+#' or a list of plots of the parameter tables
+#' if `partables` is the output of [partables_plots()].
+
 #' If `output` is `"logical"`, it returns
 #' a logical vector for selecting models
 #' identical to the output of [must_not_be_y()].
@@ -360,6 +440,13 @@ must_not_be_y <- function(
   output = c("models", "partables", "logical")
 ) {
   output <- match.arg(output)
+  tmp <- fix_select_object(
+    object = partables,
+    output = output
+  )
+  partables <- tmp$partables
+  plots_org <- tmp$plots_org
+  output_tmp <- tmp$output_tmp
 
   chk <- sapply(
             partables,
@@ -367,13 +454,19 @@ must_not_be_y <- function(
             vars = vars
           )
   chk <- !chk
-  if (output == "logical") {
-    out <- chk
-    names(out) <- names(partables)
-    return(out)
+  if (output_tmp == "logical") {
+    out0 <- chk
+    names(out0) <- names(partables)
+  } else {
+    out0 <- partables[chk]
+    class(out0) <- class(partables)
   }
-  out <- partables[chk]
-  class(out) <- class(partables)
+
+  out <- fix_select_output(
+    out_original = out0,
+    plots_org = plots_org,
+    output = output
+  )
   out
 }
 
@@ -395,7 +488,9 @@ must_not_be_y <- function(
 #' @return
 #' The function [must_be_y()]
 #' returns a list of parameter tables,
-#' of the same class as `partables`.
+#' of the same class as `partables`,
+#' or a list of plots of the parameter tables
+#' if `partables` is the output of [partables_plots()].
 #' If `output` is `"logical"`, it returns
 #' a logical vector for selecting models
 #' identical to the output of [must_be_y()].
@@ -408,19 +503,32 @@ must_be_y <- function(
   output = c("models", "partables", "logical")
 ) {
   output <- match.arg(output)
+  tmp <- fix_select_object(
+    object = partables,
+    output = output
+  )
+  partables <- tmp$partables
+  plots_org <- tmp$plots_org
+  output_tmp <- tmp$output_tmp
 
   chk <- sapply(
             partables,
             vars_is_eqsy,
             vars = vars
           )
-  if (output == "logical") {
-    out <- chk
-    names(out) <- names(partables)
-    return(out)
+  if (output_tmp == "logical") {
+    out0 <- chk
+    names(out0) <- names(partables)
+  } else {
+    out0 <- partables[chk]
+    class(out0) <- class(partables)
   }
-  out <- partables[chk]
-  class(out) <- class(partables)
+
+  out <- fix_select_output(
+    out_original = out0,
+    plots_org = plots_org,
+    output = output
+  )
   out
 }
 
@@ -451,7 +559,9 @@ vars_is_eqsy <- function(
 #' @return
 #' The function [must_not_have_paths()]
 #' returns a list of parameter tables,
-#' of the same class as `partables`.
+#' of the same class as `partables`,
+#' or a list of plots of the parameter tables
+#' if `partables` is the output of [partables_plots()].
 #' If `output` is `"logical"`, it returns
 #' a logical vector for selecting models
 #' identical to the output of [must_not_have_paths()].
@@ -464,6 +574,14 @@ must_not_have_paths <- function(
   output = c("models", "partables", "logical")
 ) {
   output <- match.arg(output)
+  tmp <- fix_select_object(
+    object = partables,
+    output = output
+  )
+  partables <- tmp$partables
+  plots_org <- tmp$plots_org
+  output_tmp <- tmp$output_tmp
+
   chk <- sapply(
             partables,
             has_x_to_y,
@@ -471,13 +589,19 @@ must_not_have_paths <- function(
             mode = "any"
           )
   chk <- !chk
-  if (output == "logical") {
-    out <- chk
-    names(out) <- names(partables)
-    return(out)
+  if (output_tmp == "logical") {
+    out0 <- chk
+    names(out0) <- names(partables)
+  } else {
+    out0 <- partables[chk]
+    class(out0) <- class(partables)
   }
-  out <- partables[chk]
-  class(out) <- class(partables)
+
+  out <- fix_select_output(
+    out_original = out0,
+    plots_org = plots_org,
+    output = output
+  )
   out
 }
 
@@ -491,7 +615,9 @@ must_not_have_paths <- function(
 #' @return
 #' The function [must_have_paths()]
 #' returns a list of parameter tables,
-#' of the same class as `partables`.
+#' of the same class as `partables`,
+#' or a list of plots of the parameter tables
+#' if `partables` is the output of [partables_plots()].
 #' If `output` is `"logical"`, it returns
 #' a logical vector for selecting models
 #' identical to the output of [must_have_paths()].
@@ -504,19 +630,33 @@ must_have_paths <- function(
   output = c("models", "partables", "logical")
 ) {
   output <- match.arg(output)
+  tmp <- fix_select_object(
+    object = partables,
+    output = output
+  )
+  partables <- tmp$partables
+  plots_org <- tmp$plots_org
+  output_tmp <- tmp$output_tmp
+
   chk <- sapply(
             partables,
             has_x_to_y,
             y_on_x = y_on_x,
             mode = "all"
           )
-  if (output == "logical") {
-    out <- chk
-    names(out) <- names(partables)
-    return(out)
+  if (output_tmp == "logical") {
+    out0 <- chk
+    names(out0) <- names(partables)
+  } else {
+    out0 <- partables[chk]
+    class(out0) <- class(partables)
   }
-  out <- partables[chk]
-  class(out) <- class(partables)
+
+  out <- fix_select_output(
+    out_original = out0,
+    plots_org = plots_org,
+    output = output
+  )
   out
 }
 
@@ -576,4 +716,82 @@ has_x_to_y_i <- function(
   )
   i2 <- chk2
   any(i1, i2)
+}
+
+#' @noRd
+partabels_from_plots <- function(
+  object
+) {
+  out <- lapply(
+    object,
+    attr,
+    which = "partable",
+    exact = TRUE
+  )
+  out
+}
+
+#' @noRd
+overwrite_attributes <- function(
+  object,
+  source_object,
+  exclude = c("names")
+) {
+  a_names <- names(attributes(source_object))
+  b_names <- setdiff(a_names, exclude)
+  if (length(b_names) == 0) {
+    return(object)
+  }
+  for (x in b_names) {
+    attr(object,
+         x) <- attr(
+                  source_object,
+                  x,
+                  exact = TRUE
+                )
+  }
+  object
+}
+
+#' @noRd
+fix_select_object <- function(
+  object,
+  output
+) {
+  if (inherits(object, "partables_plots")) {
+    plots_org <- object
+    partables <- partabels_from_plots(plots_org)
+    if (output %in% c("models", "partables")) {
+      output_tmp <- "logical"
+    }
+  } else {
+    partables <- object
+    plots_org <- NULL
+    output_tmp <- output
+  }
+  list(partables = partables,
+       plots_org = plots_org,
+       output_tmp = output_tmp)
+}
+
+#' @noRd
+fix_select_output <- function(
+  out_original,
+  plots_org,
+  output
+) {
+  if (!is.null(plots_org)) {
+    if (output %in% c("models", "partables")) {
+      out <- plots_org[out_original]
+      out <- overwrite_attributes(
+                out,
+                plots_org
+              )
+    } else {
+      out <- out_original
+    }
+  } else {
+    out <- out_original
+  }
+  out
 }
