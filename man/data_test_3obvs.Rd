@@ -21,7 +21,7 @@ A dataset for testing.
 }
 \examples{
 library(lavaan)
-data(data_med_3obvs)
+data(data_test_3obvs)
 mod <-
 "
 fm ~ fx

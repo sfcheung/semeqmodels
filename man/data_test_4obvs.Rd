@@ -22,7 +22,7 @@ A dataset for testing.
 }
 \examples{
 library(lavaan)
-data(data_med_4vars)
+data(data_test_4obvs)
 mod <-
 "
 fm1 ~~ fm2
