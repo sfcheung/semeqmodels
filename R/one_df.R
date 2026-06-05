@@ -210,7 +210,7 @@ drop_k <- function(
     tmp0$se <- se
     tmp <- lapply(
               tmp0,
-              \(x, envir0) eval(x),
+              \(x, envir0) eval(x, envir = envir0),
               envir0 = parent.frame()
             )
     tmp <- as.call(tmp)
@@ -441,7 +441,7 @@ add_k <- function(
     tmp0$se <- se
     tmp <- lapply(
               tmp0,
-              \(x, envir0) eval(x),
+              \(x, envir0) eval(x, envir = envir0),
               envir0 = parent.frame()
             )
     tmp <- as.call(tmp)
