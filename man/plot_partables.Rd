@@ -5,6 +5,7 @@
 \alias{partables_plots}
 \alias{plot.partables_plots}
 \alias{print.partables_plots}
+\alias{\%p>\%}
 \title{Plot Functions for a List of Parameter Tables}
 \usage{
 partables_plots(
@@ -34,6 +35,8 @@ partables_plots(
 )
 
 \method{print}{partables_plots}(x, ...)
+
+lhs \%p>\% rhs
 }
 \arguments{
 \item{object}{If it is a list of
@@ -155,6 +158,12 @@ and the number of rows is always one.
 In each plot, the original model will
 be drawn on the left and the other
 model will be drawn on the right.}
+
+\item{lhs}{A \code{partables_plots} object.}
+
+\item{rhs}{A function call to be applied
+to all stored plots. Each plot will
+be inserted as the first argument.}
 }
 \value{
 The function \code{\link[=partables_plots]{partables_plots()}} returns
@@ -169,6 +178,10 @@ invisibly. Called for its side effect.
 The \code{print} method of the output
 of \code{\link[=partables_plots]{partables_plots()}} return \code{x}
 invisibly. Called for its side effect.
+
+The \verb{\%p>\%} operator returns a
+\code{partables_plots} object, processed
+by the right-hand side function.
 }
 \description{
 Various plot functions

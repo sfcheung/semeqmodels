@@ -802,3 +802,61 @@ scale_plot <- function(
   }
   out
 }
+
+#' @return
+#' The `%p>%` operator returns a
+#' `partables_plots` object, processed
+#' by the right-hand side function.
+#'
+#' @param lhs A `partables_plots` object.
+#'
+#' @param rhs A function call to be applied
+#' to all stored plots. Each plot will
+#' be inserted as the first argument.
+#'
+#' @rdname plot_partables
+#' @export
+`%p>%` <- function(
+  lhs,
+  rhs
+) {
+
+  # A pipe operator to process all stored plots
+
+  rhs_call <- as.list(substitute(rhs))
+  fct <- eval(rhs_call[[1]])
+  out <- lapply(
+    lhs,
+    \(x) {do.call(
+      fct,
+      c(list(x),
+        rhs_call[-1])
+    )}
+  )
+
+  # ==== Has an original model? ====
+
+  original_model <- attr(lhs, "original_model")
+  has_original_model <- !is.null(original_model)
+  if (has_original_model) {
+    out0 <-
+        do.call(
+          fct,
+          c(list(original_model[[1]]),
+            rhs_call[-1])
+      )
+    original_model_modified <- original_model
+    original_model_modified[[1]] <- out0
+  }
+
+  # ==== Finalize the output ====
+
+  out <- overwrite_attributes(
+          out,
+          lhs
+        )
+  if (has_original_model) {
+    attr(out, "original_model") <- original_model_modified
+  }
+  out
+}
