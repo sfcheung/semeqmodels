@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9051
+# semeqmodels 0.0.0.9052
 
 - Initialize the package.
   (0.0.0.9000)
@@ -325,3 +325,7 @@
 
 - Added `print.partables_plots()`.
   (0.0.0.9051)
+
+- Added a pipe operator for processing
+  stored plots.
+  (0.0.0.9052)
