@@ -10,6 +10,12 @@
 \alias{[.eq_partables}
 \alias{[<-.eq_partables}
 \alias{[[<-.eq_partables}
+\alias{print.eq_partables}
+\alias{c.eq_partables}
+\alias{eq_partables}
+\alias{as_eq_partables}
+\alias{duplicated.eq_partables}
+\alias{unique.eq_partables}
 \title{Helpers for 'eq_partables' Object}
 \usage{
 eq_lavInspect(object, ..., simplify = FALSE)
@@ -27,15 +33,45 @@ eq_fits(object)
 \method{[}{eq_partables}(x, i) <- value
 
 \method{[[}{eq_partables}(x, i) <- value
+
+\method{print}{eq_partables}(
+  x,
+  max_models = NULL,
+  names_to_use = c("default", "long"),
+  wrap_long_names = TRUE,
+  readable_long_names = TRUE,
+  ...
+)
+
+\method{c}{eq_partables}(..., drop_duplicated = TRUE)
+
+eq_partables(...)
+
+as_eq_partables(sem_out = NULL, model_name = "original")
+
+\method{duplicated}{eq_partables}(x, incomparables = FALSE, ...)
+
+\method{unique}{eq_partables}(x, incomparables = FALSE, ...)
 }
 \arguments{
 \item{object}{An \code{eq_partables} object.}
 
-\item{...}{Optional arguments to be
+\item{...}{For \code{\link[=eq_lavInspect]{eq_lavInspect()}} and
+\code{\link[=eq_fitMeasures]{eq_fitMeasures()}}, these are optional
+arguments to be
 passed to the \code{lavaan} functions
-to be called. For the subsetting and
-assignment methods, they are arguments
-to be passed to those methods.}
+to be called.
+For the
+\code{print}-method of \code{eq_partables}
+objects, these arguments are not
+used.
+For the \code{c}-method of
+\code{eq_partables}
+objects, these are \code{eq_partables}
+objects to be combined.
+For \code{\link[=eq_partables]{eq_partables()}}, it
+should be \code{lavaan} outputs or
+\code{lavaan} parameter tables.}
 
 \item{simplify}{To be passed to
 \code{\link[=sapply]{sapply()}}. Note that the default is
@@ -53,7 +89,7 @@ If \code{output_format} is \code{"list"}, then
 the output will be a list of numeric
 vectors.}
 
-\item{x}{A 'eq_partables'-class object.}
+\item{x}{An \code{eq_partables} object.}
 
 \item{i}{A numeric vector of model position(s),
 a character vector of model name(s),
@@ -61,6 +97,40 @@ or a logical vector of model(s) to be selected.}
 
 \item{value}{The value(s) to be
 assigned to the \code{eq_partables} object.}
+
+\item{max_models}{The maximum number
+of models to print. If \code{NULL}, all
+models will be printed.}
+
+\item{names_to_use}{If \code{"default"},
+the names in \code{x}, which may not be
+descriptive, will be used. If \code{"long"},
+the names from \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}
+will be used if available.
+They can be very long,
+but describes the changes leading to
+a model.}
+
+\item{wrap_long_names}{If \code{TRUE},
+long names will be wrapped when
+printed. Used only when \code{names_to_use}
+is \code{"long"}.}
+
+\item{readable_long_names}{If \code{TRUE},
+the long names will be modified to
+make them more readable.}
+
+\item{drop_duplicated}{Logical. Whether
+duplicated models will be removed.}
+
+\item{sem_out}{A \code{lavaan} object
+or a \code{lavaan} parameter table.
+Can be \code{NULL}.}
+
+\item{model_name}{The name of the
+model in the output.}
+
+\item{incomparables}{Not used.}
 }
 \value{
 The function \code{\link[=eq_lavInspect]{eq_lavInspect()}}
@@ -82,6 +152,36 @@ a model, the value returned is \code{NULL}.
 
 The \code{[}, \verb{[<-}, and \verb{[[<-} methods return
 an \code{eq_partables} object.
+
+The \code{print}-method of \code{eq_partables}
+returns \code{x} invisibly. It is called
+for its side-effect.
+
+The \code{c}-method of \code{eq_partables}
+returns a list of the class
+\code{eq_partables}.
+
+The function \code{\link[=eq_partables]{eq_partables()}}
+returns an \code{eq_partables} object
+created from one or more
+\code{lavaan} outputs or \code{lavaan}
+parameter tables.
+
+The function \code{\link[=as_eq_partables]{as_eq_partables()}}
+returns a one-element
+\code{eq_partables} object if \code{sem_out} is
+a \code{lavaan} output or a \code{lavaan}
+parameter table. It returns
+a zero-length \code{eq_partables} object
+otherwise.
+
+The \code{duplicated}-method of \code{eq_partables}
+returns a logical vector to indicate
+which models, if any, are identical
+to other models earlier in the list.
+
+The \code{unique}-method of \code{eq_partables}
+returns  an \code{eq_partables} object.
 }
 \description{
 Helpers to work
@@ -127,6 +227,44 @@ to assign models to an \code{eq_partables}
 object because there is no guarantee
 that the names still reflect how the
 models are created.
+
+The \code{print}-method of \code{eq_partables}
+object handles a zero-length list.
+If not of zero-length, the \code{print}-method
+for \code{partables} will be used.
+
+The \code{c}-method of \code{eq_partables}
+object combines \code{eq_partables} elements
+to one single \code{eq_partables} elements.
+
+The function \code{\link[=eq_partables]{eq_partables()}}
+creates an \code{eq_partables} object
+from \code{lavaan} parameter tables
+or \code{lavaan} outputs.
+
+The function \code{\link[=as_eq_partables]{as_eq_partables()}} is
+not a usual \code{as} function. It works
+only on a \code{lavaan} output or
+\code{lavaan} parameter table. It converts
+\code{sem_out} to a one-element
+list of the class \code{eq_partables},
+with the parameter table as the
+element and the \code{lavaan} output,
+if \code{sem_out} is a \code{lavaan} output, in
+the attribute \code{"fit"}. If \code{sem_out}
+is not a \code{lavaan} object nor a
+\code{lavaan} parameter table, a zero-length
+\code{eq_partables} object will be returned.
+
+The \code{duplicated}-method of \code{eq_partables}
+checks whether any models are
+identical. If yes, the duplicated
+models, except for the first one,
+will be denoted as duplicated.
+
+The \code{unique}-method of \code{eq_partables}
+returns an \code{eq_partables} object with
+duplicated models, if any, removed.
 }
 \examples{
 
