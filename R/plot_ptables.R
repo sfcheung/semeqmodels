@@ -1,14 +1,16 @@
-#' @title Plot Functions for a List of Parameter Tables
+#' @title Plot Functions for a List of Models
 #'
 #' @description Various plot functions
-#' for the output of [eq_models()] and
+#' for the output of [eq_models()],
+#' [eq_df_models()], and
 #' similar functions.
 #'
 #' @details
 #' The functions provide different ways
 #' to visualize the models. Basic knowledge
 #' of [semPlot::semPaths()] from the
-#' package `semPlot` is required.
+#' package `semPlot` is required to
+#' customize the plots.
 #'
 #' @seealso See [eq_models()] on the
 #' type of output supported.
@@ -59,8 +61,8 @@
 #'   eq_out_1,
 #'   original_model = fit1,
 #'   layout = layout_i,
-#'   label.cex = 1.8,
-#'   sizeMan = 11,
+#'   label.cex = 1.5,
+#'   sizeLat = 15,
 #'   edge.width = 5,
 #'   asize = 5,
 #'   structural = TRUE,
@@ -82,8 +84,9 @@ NULL
 #' from [semPlot::semPaths()], of the
 #' class `partables_plots`.
 #'
-#' @param object If it is a list of
-#' parameter tables, it will be used
+#' @param object If it is a list of models
+#' (parameter tables), such as the output
+#' of [eq_models()], it will be used
 #' as the value for `partables`. If
 #' it is a `partables_plots` object
 #' (i.e., an output of [partables_plots()],
@@ -91,7 +94,8 @@ NULL
 #' values for other arguments.
 #'
 #' @param partables It should be a list of
-#' parameter tables, such as the output
+#' models in the form of parameter tables,
+#' such as the output
 #' of [eq_models()] or [eq_df_models()].
 #'
 #' @param original_model The model to
@@ -99,7 +103,8 @@ NULL
 #' compared to. If `NULL`, then the
 #' plots will be generated without checking
 #' for differences between a model and
-#' `original_model`.
+#' `original_model`. Model comparison is
+#' conducted by [model_diff()].
 #'
 #' @param ... Optional arguments to be
 #' passed to [semPlot::semPaths()]. They
@@ -111,7 +116,7 @@ NULL
 #' to a model in `partables`. For now,
 #' two settings are supported: `color`
 #' for the color and `width` for the
-#' width of an edge (arrow).
+#' width of an edge (arrow/path).
 #'
 #' @param fix_pars_fixed_zero If `TRUE`,
 #' parameters fixed to zero will be
@@ -122,9 +127,9 @@ NULL
 #' fixed to zero. For now,
 #' two settings are supported: `color`
 #' for the color and `width` for the
-#' width of an edge (arrow). Setting the
-#' width to zer0, the default, effectively
-#' hide an arrow.
+#' width of an edge (arrow/path). Setting the
+#' width to zero, the default, effectively
+#' hiding an arrow/path.
 #'
 #' @param exclude_original_model If `TRUE`
 #' and `original_model` is set, the output
@@ -368,7 +373,7 @@ partables_plots <- function(
 
 #' @return
 #' The `plot` method of the output
-#' of [partables_plots()] return `x`
+#' of [partables_plots()] returns `x`
 #' invisibly. Called for its side effect.
 #'
 #' @param x The output of [partables_plots()],
@@ -382,11 +387,13 @@ partables_plots <- function(
 #'
 #' @param title_mode What will be used
 #' as the title. If `"digest"`, then
-#' the digest value of a model will be
+#' the digest value of a model, generated
+#' by [digest_partable()], will be
 #' used as its title. If `"name"`, then
-#' its name in `x` will be used. If
+#' its name in `x` will be used, which may
+#' also be the digest value. If
 #' `"none"`, then no title will be drawn
-#' with  the plot.
+#' with the plot.
 #'
 #' @param title_adj Adjust the position
 #' of the title. Increase this value
@@ -432,7 +439,7 @@ partables_plots <- function(
 #' drawn. If `"include"`, the original
 #' model will be drawn as the first model,
 #' along with other models. If `"side_by_side"`,
-#' then number of columns is always two
+#' then the number of columns is always two
 #' and the number of rows is always one.
 #' In each plot, the original model will
 #' be drawn on the left and the other
@@ -585,7 +592,7 @@ plot.partables_plots <- function(
 
 #' @return
 #' The `print` method of the output
-#' of [partables_plots()] return `x`
+#' of [partables_plots()] returns `x`
 #' invisibly. Called for its side effect.
 #'
 #' @rdname plot_partables

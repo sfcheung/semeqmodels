@@ -33,25 +33,29 @@ is_eq(
 }
 \arguments{
 \item{partables}{A list of the class
-\code{partables}. If \code{NULL}, then
-it will try to generate the models
+\code{partables}. If \code{NULL}, \code{\link[=eq_models]{eq_models()}}
+will try to generate the models
 by calling \code{\link[=eq_df_models]{eq_df_models()}} on the
-argument of \code{original_model}.}
+argument of \code{original_model}.
+For \verb{[is_eq()]}, this argument cannot
+be \code{NULL}.}
 
 \item{original_model}{The original
 model, fitted by \code{\link[lavaan:lavaan]{lavaan::lavaan()}}
 or its wrapper, such as \code{\link[lavaan:sem]{lavaan::sem()}}.
-If it is a \code{lavaan} parameter table,
+If it is a \code{lavaan} parameter table
+(the output of \code{\link[lavaan:parameterTable]{lavaan::parameterTable()}}),
 data will be simulated to fit the model.
 If it is \code{NULL}, then the first model
 in \code{partables} will be used.}
 
 \item{...}{Optional arguments to be
-used when fitting models to the data.
+used when fitting models to the data,
+to be passed to \code{\link[lavaan:sem]{lavaan::sem()}}.
 Usually can be omitted.}
 
 \item{se}{How standard errors are to
-be computed. To be passed to \code{lavaan}.
+be computed. To be passed to \code{\link[lavaan:sem]{lavaan::sem()}}.
 The default, \code{"none"}, is sufficient
 because the standard errors are not
 needed to check whether two models
@@ -76,7 +80,7 @@ To be passed
 to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 
 \item{progress}{Whether the testing
-progresss will be displayed
+progress will be displayed
 on screen.}
 
 \item{tolerance}{The maximum difference
@@ -86,14 +90,15 @@ to be considered empirically equivalent.}
 \item{eq_df_models_args}{If \code{partables}
 is not supplied (\code{NULL}) but
 \code{original_model} is set, \code{\link[=eq_df_models]{eq_df_models()}}
-will be called to generate the models,
-used a \code{partables}. This argument
-is a named list of additional arguments
+will be called to generate the models.
+This argument
+must be a named list of additional arguments
 to be passed to \code{\link[=eq_df_models]{eq_df_models()}}.}
 }
 \value{
 The function \code{\link[=eq_models]{eq_models()}}
-returns a list of the class \code{partables},
+returns a list of the class \code{eq_partables}
+(a subclass of \code{partables})
 of models that are empirically
 equivalent to the original model.
 
@@ -105,14 +110,17 @@ to \code{original_model}.
 }
 \description{
 Identify model(s) in
-a list of parameter tables empirically
+a list of models (parameter tables) empirically
 equivalent to the original model.
 }
 \details{
+\subsection{\code{eq_models()}}{
+
 The function \code{\link[=eq_models]{eq_models()}}
 checks the model degrees of freedom
 and model chi-squares of a list of
-models against an original model,
+models (represented by \code{lavaan}
+parameter tables) against an original model,
 fitted to a sample, to identify models
 that are \emph{empirically} \emph{equivalent}
 to the original model \emph{in this sample}.
@@ -132,16 +140,44 @@ However, even if two models are not
 mathematically equivalent, they may
 still be empirically equivalent for
 a sample.
+}
+
+\subsection{How to Generate the List of Models to Check}{
+
+Usually, the alternative models can be generated
+automatically by leaving \code{partables}
+at its default value (\code{NULL}). The function
+\code{\link[=eq_df_models]{eq_df_models()}} will be called using
+\code{original_model} as the original model.
+The generation can be customized by setting
+the argument \code{eq_df_models_args}.
+
+Alternatively, the function \code{\link[=eq_df_models]{eq_df_models()}}
+can be called directly to generate
+an initial list of models. This list
+can then be filtered by helpers
+in \link{partable_select}, such as
+\code{\link[=must_be_y]{must_be_y()}} or \code{\link[=must_not_have_paths]{must_not_have_paths()}},
+and use the resulting list as \code{partables}.
+}
+
+\subsection{\code{is_eq()}}{
 
 The function \code{\link[=is_eq]{is_eq()}} is similar to
 \code{\link[=eq_models]{eq_models()}}, but returns a logical
-vector to indicate which models are
+vector to indicate which models in
+\code{partables} are
 empirically equivalent to the original
 model.
+}
 }
 \examples{
 
 library(lavaan)
+
+# For illustration, only a few models are generated below,
+# using drop_k() and add_k manually.
+# These two functions are usually not used directly.
 
 # Model 1
 
@@ -200,6 +236,28 @@ eq_out_3 <- eq_models(
           original_model = fit3,
           parallel = FALSE
         )
+
+# The usual way to use eq_models:
+# 'parallel' should be set to TRUE or omitted
+# eq_out_all <- eq_models(
+#           original_model = fit1
+#         )
+# eq_out_all
+
+
+# Using is_eq()
+
+is_eq(
+  partables1,
+  original_model = fit1,
+  parallel = FALSE
+)
+
+is_eq(
+  partables3,
+  original_model = fit3,
+  parallel = FALSE
+)
 
 }
 \references{

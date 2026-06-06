@@ -6,7 +6,7 @@
 \alias{get_digest}
 \alias{add_digest_partables}
 \alias{get_digest_partables}
-\title{Helpers to Compare Parameter Tables}
+\title{Helpers to Compare Models}
 \usage{
 digest_partable(
   partable,
@@ -98,7 +98,7 @@ parameter tables.
 \description{
 Helper functions that
 compute and use hash digests for
-parameter tables to facilitate
+models (parameter tables) to facilitate
 comparisons.
 }
 \details{
@@ -110,7 +110,7 @@ sorting some essential columns
 If two \code{lavaan} parameter tables
 are identical on the values for these
 columns, they should have the same
-hash value will be considered as
+hash value and will be considered as
 identical.
 
 Note that there may be cases in which
@@ -121,7 +121,7 @@ for typical models used in this package.
 
 The function \code{\link[=add_digest]{add_digest()}} computes
 the hash value of a parameter table
-and add it to the attribute \code{"digest"}
+and adds it to the attribute \code{"digest"}
 of the table,
 
 The function \code{\link[=get_digest]{get_digest()}} retrieves
@@ -131,11 +131,11 @@ not available, it will call \code{\link[=digest_partable]{digest_partable()}}
 to compute the hash value.
 
 The function \link{add_digest_partables}
-call \code{\link[=add_digest]{add_digest()}} on a list of
+calls \code{\link[=add_digest]{add_digest()}} on a list of
 parameter tables.
 
 The function \link{get_digest_partables}
-call \code{\link[=get_digest]{get_digest()}} on a list of
+calls \code{\link[=get_digest]{get_digest()}} on a list of
 parameter tables.
 }
 \examples{

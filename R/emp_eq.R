@@ -1,14 +1,18 @@
 #' @title Empirical Equivalent Models
 #'
 #' @description Identify model(s) in
-#' a list of parameter tables empirically
+#' a list of models (parameter tables) empirically
 #' equivalent to the original model.
 #'
 #' @details
+#'
+#' ## `eq_models()`
+#'
 #' The function [eq_models()]
 #' checks the model degrees of freedom
 #' and model chi-squares of a list of
-#' models against an original model,
+#' models (represented by `lavaan`
+#' parameter tables) against an original model,
 #' fitted to a sample, to identify models
 #' that are *empirically* *equivalent*
 #' to the original model *in this sample*.
@@ -29,32 +33,55 @@
 #' still be empirically equivalent for
 #' a sample.
 #'
+#' ## How to Generate the List of Models to Check
+#'
+#' Usually, the alternative models can be generated
+#' automatically by leaving `partables`
+#' at its default value (`NULL`). The function
+#' [eq_df_models()] will be called using
+#' `original_model` as the original model.
+#' The generation can be customized by setting
+#' the argument `eq_df_models_args`.
+#'
+#' Alternatively, the function [eq_df_models()]
+#' can be called directly to generate
+#' an initial list of models. This list
+#' can then be filtered by helpers
+#' in [partable_select], such as
+#' [must_be_y()] or [must_not_have_paths()],
+#' and use the resulting list as `partables`.
+#'
 #' @return
 #' The function [eq_models()]
-#' returns a list of the class `partables`,
+#' returns a list of the class `eq_partables`
+#' (a subclass of `partables`)
 #' of models that are empirically
 #' equivalent to the original model.
 #'
 #' @param partables A list of the class
-#' `partables`. If `NULL`, then
-#' it will try to generate the models
+#' `partables`. If `NULL`, [eq_models()]
+#' will try to generate the models
 #' by calling [eq_df_models()] on the
 #' argument of `original_model`.
+#' For `[is_eq()]`, this argument cannot
+#' be `NULL`.
 #'
 #' @param original_model The original
 #' model, fitted by [lavaan::lavaan()]
 #' or its wrapper, such as [lavaan::sem()].
-#' If it is a `lavaan` parameter table,
+#' If it is a `lavaan` parameter table
+#' (the output of [lavaan::parameterTable()]),
 #' data will be simulated to fit the model.
 #' If it is `NULL`, then the first model
 #' in `partables` will be used.
 #'
 #' @param ... Optional arguments to be
-#' used when fitting models to the data.
+#' used when fitting models to the data,
+#' to be passed to [lavaan::sem()].
 #' Usually can be omitted.
 #'
 #' @param se How standard errors are to
-#' be computed. To be passed to `lavaan`.
+#' be computed. To be passed to [lavaan::sem()].
 #' The default, `"none"`, is sufficient
 #' because the standard errors are not
 #' needed to check whether two models
@@ -79,7 +106,7 @@
 #' to [modelbpp::fit_many()].
 #'
 #' @param progress Whether the testing
-#' progresss will be displayed
+#' progress will be displayed
 #' on screen.
 #'
 #' @param tolerance The maximum difference
@@ -89,9 +116,9 @@
 #' @param eq_df_models_args If `partables`
 #' is not supplied (`NULL`) but
 #' `original_model` is set, [eq_df_models()]
-#' will be called to generate the models,
-#' used a `partables`. This argument
-#' is a named list of additional arguments
+#' will be called to generate the models.
+#' This argument
+#' must be a named list of additional arguments
 #' to be passed to [eq_df_models()].
 #'
 #' @references
@@ -111,6 +138,10 @@
 #' @examples
 #'
 #' library(lavaan)
+#'
+#' # For illustration, only a few models are generated below,
+#' # using drop_k() and add_k manually.
+#' # These two functions are usually not used directly.
 #'
 #' # Model 1
 #'
@@ -170,6 +201,13 @@
 #'           parallel = FALSE
 #'         )
 #'
+#' # The usual way to use eq_models:
+#' # 'parallel' should be set to TRUE or omitted
+#' # eq_out_all <- eq_models(
+#' #           original_model = fit1
+#' #         )
+#' # eq_out_all
+#'
 #' @export
 eq_models <- function(
   partables = NULL,
@@ -206,9 +244,13 @@ eq_models <- function(
 }
 
 #' @details
+#'
+#' ## `is_eq()`
+#'
 #' The function [is_eq()] is similar to
 #' [eq_models()], but returns a logical
-#' vector to indicate which models are
+#' vector to indicate which models in
+#' `partables` are
 #' empirically equivalent to the original
 #' model.
 #'
@@ -218,6 +260,22 @@ eq_models <- function(
 #' of `patables`, with `TRUE` denotes
 #' that a model is empirically equivalent
 #' to `original_model`.
+#'
+#' @examples
+#'
+#' # Using is_eq()
+#'
+#' is_eq(
+#'   partables1,
+#'   original_model = fit1,
+#'   parallel = FALSE
+#' )
+#'
+#' is_eq(
+#'   partables3,
+#'   original_model = fit3,
+#'   parallel = FALSE
+#' )
 #'
 #' @rdname eq_models
 #' @export
@@ -398,7 +456,7 @@ eq_models_internal <- function(
 
     original_model <- fix_call(
                         original_model,
-                        env_for_call = parent.frame()
+                        env_for_call = env_for_update
                       )
     eq_df_models_args0 <- eq_df_models_args
     eq_df_models_args0 <- utils::modifyList(

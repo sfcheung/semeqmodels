@@ -22,7 +22,7 @@ NULL
 #' an output of [modelbpp::gen_models()],
 #' which are simplified versions of the
 #' original model, usually with one or
-#' more paths removed.
+#' more paths removed (fixed to zero).
 #'
 #' @param object The original model. It
 #' can be a `lavaan`-class object (the
@@ -63,18 +63,17 @@ NULL
 #'
 #' @param parallel Whether parallel
 #' processing will be used when fitting
-#' the models. Default is
-#' `TRUE`.
-#' Passed to [modelbpp::fit_many()].
+#' the models.
+#' To be passed to [modelbpp::fit_many()].
 #'
 #' @param ncores The number of CPU cores
 #' to be used if `parallel` is `TRUE`.
-#' Passed to [modelbpp::fit_many()].
+#' To be passed to [modelbpp::fit_many()].
 #'
 #' @param make_cluster_args An optional
 #' named list of arguments to be used
 #' in [parallel::makeCluster()].
-#' Passed to [modelbpp::fit_many()].
+#' To be passed to [modelbpp::fit_many()].
 #'
 #' @param se Whether standard error will
 #' be computed. This argument will be
@@ -301,7 +300,7 @@ drop_k <- function(
 #' output of [modelbpp::gen_models()],
 #' which are more complicated versions of the
 #' original model, usually with one or
-#' more free parameters added.
+#' more paths added (set to free).
 #'
 #' @param ... Optional arguments to be
 #' passed to [modelbpp::gen_models()].
@@ -319,9 +318,13 @@ drop_k <- function(
 #' be added. To be passed to [modelbpp::gen_models()].
 #'
 #' @param exclude_x_y_ecov If `TRUE`,
-#' covariances between an exogenous
-#' variable and an error term will not
-#' be added.
+#' models with a covariance
+#' between a variable (latent or observed)
+#' and the
+#' error term of another variable it
+#' predicts, either directly or indirectly,
+#' will be excluded. The screening is
+#' implemented by [remove_x_y_ecov()].
 #'
 #' @param partable_name The name of the
 #' original model. Used only if it cannot
@@ -330,13 +333,16 @@ drop_k <- function(
 #' @param remove_zeros Whether a parameter
 #' explicitly fixed to `zero` will be
 #' removed before generating modified
-#' models.
+#' models. For internal use. Should not
+#' be changed.
 #'
 #' @param remove_dropped Whether the
 #' previously dropped parameter, if
 #' stored, will be removed from the
 #' original parameter table. This is
 #' necessary for reversing a path.
+#' For internal use. Should not
+#' be changed.
 #'
 #' @param add_name Whether the name of
 #' the original model will be added as
