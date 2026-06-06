@@ -398,6 +398,10 @@ remove_x_y_ecov <- function(
     tmp <- class(partables)
     out0 <- partables[!chk]
     class(out0) <- tmp
+  } else {
+    tmp <- class(partables)
+    out0 <- partables
+    class(out0) <- tmp
   }
   out <- fix_select_output(
     out_original = out0,
