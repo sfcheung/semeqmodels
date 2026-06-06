@@ -6,7 +6,7 @@
 \alias{plot.partables_plots}
 \alias{print.partables_plots}
 \alias{\%p>\%}
-\title{Plot Functions for a List of Parameter Tables}
+\title{Plot Functions for a List of Models}
 \usage{
 partables_plots(
   object,
@@ -39,8 +39,9 @@ partables_plots(
 lhs \%p>\% rhs
 }
 \arguments{
-\item{object}{If it is a list of
-parameter tables, it will be used
+\item{object}{If it is a list of models
+(parameter tables), such as the output
+of \code{\link[=eq_models]{eq_models()}}, it will be used
 as the value for \code{partables}. If
 it is a \code{partables_plots} object
 (i.e., an output of \code{\link[=partables_plots]{partables_plots()}},
@@ -54,7 +55,8 @@ For \code{\link[=print.partables_plots]{print.partables_plots()}}, they
 are not used.}
 
 \item{partables}{It should be a list of
-parameter tables, such as the output
+models in the form of parameter tables,
+such as the output
 of \code{\link[=eq_models]{eq_models()}} or \code{\link[=eq_df_models]{eq_df_models()}}.}
 
 \item{original_model}{The model to
@@ -62,7 +64,8 @@ which models in \code{partables} will be
 compared to. If \code{NULL}, then the
 plots will be generated without checking
 for differences between a model and
-\code{original_model}.}
+\code{original_model}. Model comparison is
+conducted by \code{\link[=model_diff]{model_diff()}}.}
 
 \item{auto_node_color}{If \code{TRUE},
 and the number of nodes is less 12 or
@@ -76,7 +79,7 @@ a parameter from \code{original_model}
 to a model in \code{partables}. For now,
 two settings are supported: \code{color}
 for the color and \code{width} for the
-width of an edge (arrow).}
+width of an edge (arrow/path).}
 
 \item{fix_pars_fixed_zero}{If \code{TRUE},
 parameters fixed to zero will be
@@ -87,9 +90,9 @@ settings to configure edges (arrows)
 fixed to zero. For now,
 two settings are supported: \code{color}
 for the color and \code{width} for the
-width of an edge (arrow). Setting the
-width to zer0, the default, effectively
-hide an arrow.}
+width of an edge (arrow/path). Setting the
+width to zero, the default, effectively
+hiding an arrow/path.}
 
 \item{exclude_original_model}{If \code{TRUE}
 and \code{original_model} is set, the output
@@ -103,11 +106,13 @@ a \code{partables_plots} object.}
 
 \item{title_mode}{What will be used
 as the title. If \code{"digest"}, then
-the digest value of a model will be
+the digest value of a model, generated
+by \code{\link[=digest_partable]{digest_partable()}}, will be
 used as its title. If \code{"name"}, then
-its name in \code{x} will be used. If
+its name in \code{x} will be used, which may
+also be the digest value. If
 \code{"none"}, then no title will be drawn
-with  the plot.}
+with the plot.}
 
 \item{title_adj}{Adjust the position
 of the title. Increase this value
@@ -153,7 +158,7 @@ then the original model will not be
 drawn. If \code{"include"}, the original
 model will be drawn as the first model,
 along with other models. If \code{"side_by_side"},
-then number of columns is always two
+then the number of columns is always two
 and the number of rows is always one.
 In each plot, the original model will
 be drawn on the left and the other
@@ -172,11 +177,11 @@ from \code{\link[semPlot:semPaths]{semPlot::semPaths()}}, of the
 class \code{partables_plots}.
 
 The \code{plot} method of the output
-of \code{\link[=partables_plots]{partables_plots()}} return \code{x}
+of \code{\link[=partables_plots]{partables_plots()}} returns \code{x}
 invisibly. Called for its side effect.
 
 The \code{print} method of the output
-of \code{\link[=partables_plots]{partables_plots()}} return \code{x}
+of \code{\link[=partables_plots]{partables_plots()}} returns \code{x}
 invisibly. Called for its side effect.
 
 The \verb{\%p>\%} operator returns a
@@ -185,14 +190,16 @@ by the right-hand side function.
 }
 \description{
 Various plot functions
-for the output of \code{\link[=eq_models]{eq_models()}} and
+for the output of \code{\link[=eq_models]{eq_models()}},
+\code{\link[=eq_df_models]{eq_df_models()}}, and
 similar functions.
 }
 \details{
 The functions provide different ways
 to visualize the models. Basic knowledge
 of \code{\link[semPlot:semPaths]{semPlot::semPaths()}} from the
-package \code{semPlot} is required.
+package \code{semPlot} is required to
+customize the plots.
 }
 \examples{
 library(lavaan)
@@ -240,8 +247,8 @@ p <- partables_plots(
   eq_out_1,
   original_model = fit1,
   layout = layout_i,
-  label.cex = 1.8,
-  sizeMan = 11,
+  label.cex = 1.5,
+  sizeLat = 15,
   edge.width = 5,
   asize = 5,
   structural = TRUE,
