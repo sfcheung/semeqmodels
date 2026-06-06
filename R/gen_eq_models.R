@@ -40,15 +40,6 @@
 #' or similar wrappers. Models will be
 #' generated from this model.
 #'
-#' @param exclude_x_y_ecov If `TRUE`,
-#' models with a covariance
-#' between a variable (latent or observed)
-#' and the
-#' error term of another variable it
-#' predicts, either directly or indirectly,
-#' will be excluded. The screening is
-#' implemented by [remove_x_y_ecov()].
-#'
 #' @param fit_models Whether the models
 #' will be fitted to the data. To be
 #' passed to [drop_k()] and [add_k()].
