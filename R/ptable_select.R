@@ -723,7 +723,7 @@ has_x_to_y_i <- function(
 }
 
 #' @noRd
-partabels_from_plots <- function(
+partabes_from_plots <- function(
   object
 ) {
   out <- lapply(
@@ -764,7 +764,7 @@ fix_select_object <- function(
 ) {
   if (inherits(object, "partables_plots")) {
     plots_org <- object
-    partables <- partabels_from_plots(plots_org)
+    partables <- partabes_from_plots(plots_org)
     if (output %in% c("models", "partables")) {
       output_tmp <- "logical"
     }
