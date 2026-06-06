@@ -92,7 +92,7 @@ is \code{"long"}.}
 
 \item{readable_long_names}{If \code{TRUE},
 the long names will be modified to
-make them more readable.`}
+make them more readable.}
 
 \item{...}{For the \code{c}-method of
 \code{eq_partables}
@@ -137,8 +137,8 @@ always returns an object of the class
 \code{eq_partables}.
 
 The \code{print}-method of \code{eq_partables}
-return \code{x} invisibly. It is called
-for its side-effet.
+returns \code{x} invisibly. It is called
+for its side-effect.
 
 The \code{c}-method of \code{eq_partables}
 returns a list of the class
@@ -192,7 +192,7 @@ the has values of \code{x} and \code{table.}
 
 The function \code{\link[=eq_partables]{eq_partables()}}
 returns an \code{eq_partables} object
-created from the one or more
+created from one or more
 \code{lavaan} outputs or \code{lavaan}
 parameter tables.
 
@@ -204,19 +204,20 @@ parameter table. It returns
 a zero-length \code{eq_partables} object
 otherwise.
 
-The function \code{\link[=is_partable]{is_partable()}} return
+The function \code{\link[=is_partable]{is_partable()}} returns
 either \code{TRUE} or \code{FALSE}. It is
-\code{TRUE} is the two conditions mentioned
+\code{TRUE} if the two conditions mentioned
 in Details are met.
 
-The function \code{\link[=is_partables]{is_partables()}} return
+The function \code{\link[=is_partables]{is_partables()}} returns
 either \code{TRUE} or \code{FALSE}. It is
 \code{TRUE} only if \code{\link[=is_partable]{is_partable()}} returns
 \code{TRUE} for all its elements.
 }
 \description{
 Helper functions to
-manipulate parameter tables.
+manipulate parameter tables. They are
+exported for advanced users.
 }
 \details{
 The function \code{\link[=combine_partables]{combine_partables()}}
@@ -255,7 +256,7 @@ The function \code{\link[=intersect_eq_partables]{intersect_eq_partables()}}
 find the models common in \code{x} and \code{y}.
 
 The function \code{\link[=setequal_eq_partables]{setequal_eq_partables()}}
-check whether \code{x} and \code{y} has the
+checks whether \code{x} and \code{y} has the
 same set of models. Orders are ignored.
 
 The function \code{\link[=is_element_eq_partables]{is_element_eq_partables()}}
@@ -305,9 +306,9 @@ both conditions are met, then the
 object is considered a parameter
 table.
 
-The function \code{\link[=is_partables]{is_partables()}} check
+The function \code{\link[=is_partables]{is_partables()}} checks
 whether a list is likely a list of parameter
-tables. It simply call \code{\link[=is_partable]{is_partable()}}
+tables. It simply calls \code{\link[=is_partable]{is_partable()}}
 on all the elements.
 }
 \examples{

@@ -1,12 +1,14 @@
 #' @title Parameter Table Helpers
 #'
 #' @description Helper functions to
-#' manipulate parameter tables.
+#' manipulate parameter tables. They are
+#' exported for advanced users.
 #'
 #' @name partable_helpers
 NULL
 
 #' @details
+#'
 #' The function [combine_partables()]
 #' combine a list of `partables` objects
 #' or `eq_partables` objects
@@ -114,12 +116,12 @@ combine_partables <- function(
 #'
 #' @param readable_long_names If `TRUE`,
 #' the long names will be modified to
-#' make them more readable.`
+#' make them more readable.
 #'
 #' @return
 #' The `print`-method of `eq_partables`
-#' return `x` invisibly. It is called
-#' for its side-effet.
+#' returns `x` invisibly. It is called
+#' for its side-effect.
 #'
 #' @rdname partable_helpers
 #' @export
@@ -454,7 +456,7 @@ intersect_eq_partables <- function(
 
 #' @details
 #' The function [setequal_eq_partables()]
-#' check whether `x` and `y` has the
+#' checks whether `x` and `y` has the
 #' same set of models. Orders are ignored.
 #'
 #' @return
@@ -599,7 +601,7 @@ match_eq_partables <- function(
 #' @return
 #' The function [eq_partables()]
 #' returns an `eq_partables` object
-#' created from the one or more
+#' created from one or more
 #' `lavaan` outputs or `lavaan`
 #' parameter tables.
 #'
@@ -722,9 +724,9 @@ as_eq_partables <- function(
 #' checked.
 #'
 #' @return
-#' The function [is_partable()] return
+#' The function [is_partable()] returns
 #' either `TRUE` or `FALSE`. It is
-#' `TRUE` is the two conditions mentioned
+#' `TRUE` if the two conditions mentioned
 #' in Details are met.
 #'
 #' @rdname partable_helpers
@@ -748,13 +750,13 @@ is_partable <- function(
 }
 
 #' @details
-#' The function [is_partables()] check
+#' The function [is_partables()] checks
 #' whether a list is likely a list of parameter
-#' tables. It simply call [is_partable()]
+#' tables. It simply calls [is_partable()]
 #' on all the elements.
 #'
 #' @return
-#' The function [is_partables()] return
+#' The function [is_partables()] returns
 #' either `TRUE` or `FALSE`. It is
 #' `TRUE` only if [is_partable()] returns
 #' `TRUE` for all its elements.
