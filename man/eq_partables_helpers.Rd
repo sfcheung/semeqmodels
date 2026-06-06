@@ -84,13 +84,20 @@ The \code{[}, \verb{[<-}, and \verb{[[<-} methods return
 an \code{eq_partables} object.
 }
 \description{
-Helpers to extract information
-from the elements of an
-`eq_partables`` object.
+Helpers to work
+with an
+\code{eq_partables} object.
 }
 \details{
+Although the functions are designed
+to work with the output of \code{\link[=eq_models]{eq_models()}},
+they also work for a list of models
+(parameter tables), except for the
+methods specifically for an \code{eq_partables}
+object.
+
 The function \code{\link[=eq_lavInspect]{eq_lavInspect()}}
-call \code{\link[lavaan:lavInspect]{lavaan::lavInspect()}} on the
+calls \code{\link[lavaan:lavInspect]{lavaan::lavInspect()}} on the
 elements of an \code{eq_partables} object.
 
 The function \code{\link[=eq_fitMeasures]{eq_fitMeasures()}}
@@ -129,41 +136,38 @@ library(lavaan)
 
 mod1 <-
 "
-fx =~ x1 + x2 + x3
-fm =~ m1 + m2 + m3
-fy =~ y1 + y2 + y3
-fm ~ fx
-fy ~ fm + fx
-"
-fit1 <- sem(
-          model = mod1,
-          data = data_test_3_factor_3_item
-        )
-fit1_1_more <- drop_k(fit1)
-fit1_1_more_1_less <- lapply(
-  fit1_1_more,
-  add_k
-)
-
-# Model 3
-
-mod3 <-
-"
-fx =~ x1 + x2 + x3
-fm =~ m1 + m2 + m3
-fy =~ y1 + y2 + y3
 fm ~ fx
 fy ~ fm
 "
-fit3 <- sem(
-          model = mod3,
-          data = data_test_3_factor_3_item
+fit1 <- sem(
+          model = mod1,
+          data = data_test_3obvs,
+          fixed.x = FALSE
         )
-fit3_1_more <- drop_k(fit3, fit_models = TRUE)
-fit3_1_more_1_less <- lapply(
-  fit3_1_more,
-  add_k,
-  fit_models = TRUE
+
+# Remove 'parallel = FALSE' or set parallel to TRUE
+# for faster generation.
+out <- eq_models(
+  original_model = fit1,
+  parallel = FALSE
 )
+out
+
+eq_lavInspect(out, "implied")
+
+
+eq_fitMeasures(out, c("cfi", "tli"))
+
+
+
+eq_df(out)
+
+
+eq_fits(out)
+
+
+out1 <- out[2:3]
+
+out1
 
 }

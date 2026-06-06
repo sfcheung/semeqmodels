@@ -1,15 +1,23 @@
 #' @title Helpers for 'eq_partables' Object
 #'
-#' @description Helpers to extract information
-#' from the elements of an
-#' `eq_partables`` object.
+#' @description Helpers to work
+#' with an
+#' `eq_partables` object.
 #'
 #' @name eq_partables_helpers
 NULL
 
 #' @details
+#'
+#' Although the functions are designed
+#' to work with the output of [eq_models()],
+#' they also work for a list of models
+#' (parameter tables), except for the
+#' methods specifically for an `eq_partables`
+#' object.
+#'
 #' The function [eq_lavInspect()]
-#' call [lavaan::lavInspect()] on the
+#' calls [lavaan::lavInspect()] on the
 #' elements of an `eq_partables` object.
 #'
 #' @return
@@ -40,42 +48,24 @@ NULL
 #'
 #' mod1 <-
 #' "
-#' fx =~ x1 + x2 + x3
-#' fm =~ m1 + m2 + m3
-#' fy =~ y1 + y2 + y3
-#' fm ~ fx
-#' fy ~ fm + fx
-#' "
-#' fit1 <- sem(
-#'           model = mod1,
-#'           data = data_test_3_factor_3_item
-#'         )
-#' fit1_1_more <- drop_k(fit1)
-#' fit1_1_more_1_less <- lapply(
-#'   fit1_1_more,
-#'   add_k
-#' )
-#'
-#' # Model 3
-#'
-#' mod3 <-
-#' "
-#' fx =~ x1 + x2 + x3
-#' fm =~ m1 + m2 + m3
-#' fy =~ y1 + y2 + y3
 #' fm ~ fx
 #' fy ~ fm
 #' "
-#' fit3 <- sem(
-#'           model = mod3,
-#'           data = data_test_3_factor_3_item
+#' fit1 <- sem(
+#'           model = mod1,
+#'           data = data_test_3obvs,
+#'           fixed.x = FALSE
 #'         )
-#' fit3_1_more <- drop_k(fit3, fit_models = TRUE)
-#' fit3_1_more_1_less <- lapply(
-#'   fit3_1_more,
-#'   add_k,
-#'   fit_models = TRUE
+#'
+#' # Remove 'parallel = FALSE' or set parallel to TRUE
+#' # for faster generation.
+#' out <- eq_models(
+#'   original_model = fit1,
+#'   parallel = FALSE
 #' )
+#' out
+#'
+#' eq_lavInspect(out, "implied")
 #'
 #' @rdname eq_partables_helpers
 #' @export
@@ -136,6 +126,11 @@ eq_lavInspect <- function(
 #' returns the output of
 #' [lavaan::fitMeasures()]. The format
 #' is determined by `output_format`.
+#'
+#' @examples
+#'
+#' eq_fitMeasures(out, c("cfi", "tli"))
+#'
 #'
 #' @rdname eq_partables_helpers
 #' @export
@@ -209,6 +204,10 @@ eq_fitMeasures <- function(
 #' `fit.measures` set to `"df"`. It
 #' always return a numeric vector.
 #'
+#' @examples
+#'
+#' eq_df(out)
+#'
 #' @rdname eq_partables_helpers
 #' @export
 eq_df <- function(
@@ -269,6 +268,10 @@ eq_chisq <- function(
 #' models in `object`. If absent for
 #' a model, the value returned is `NULL`.
 #'
+#' @examples
+#'
+#' eq_fits(out)
+#'
 #' @rdname eq_partables_helpers
 #' @export
 eq_fits <- function(object) {
@@ -300,6 +303,12 @@ eq_fits <- function(object) {
 #' @param i A numeric vector of model position(s),
 #'          a character vector of model name(s),
 #'          or a logical vector of model(s) to be selected.
+#'
+#' @examples
+#'
+#' out1 <- out[2:3]
+#'
+#' out1
 #'
 #' @rdname eq_partables_helpers
 #' @export
