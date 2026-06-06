@@ -234,6 +234,11 @@ is_eq <- function(
   eq_df_models_args = list()
 ) {
 
+  if (is.null(partables) ||
+      is.null(original_model)) {
+    stop("is_eq should be used with both partables and original_model set.")
+  }
+
   args <- as.list(match.call()[-1])
   args <- lapply(
             args,

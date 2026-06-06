@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9052
+# semeqmodels 0.0.0.9053
 
 - Initialize the package.
   (0.0.0.9000)
@@ -329,3 +329,8 @@
 - Added a pipe operator for processing
   stored plots.
   (0.0.0.9052)
+
+- Revised `is_eq()` to require both
+  `partables` and `original_model`
+  specified.
+  (0.0.0.9053)
