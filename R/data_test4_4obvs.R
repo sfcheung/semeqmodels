@@ -1,4 +1,4 @@
-#' @title Test Dataset: 4obvs
+#' @title Test Dataset: 4 Observed Variables
 #'
 #' @description A dataset for testing.
 #'

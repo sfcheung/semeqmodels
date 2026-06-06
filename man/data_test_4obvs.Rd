@@ -3,7 +3,7 @@
 \docType{data}
 \name{data_test_4obvs}
 \alias{data_test_4obvs}
-\title{Test Dataset: 4obvs}
+\title{Test Dataset: 4 Observed Variables}
 \format{
 A data frame with 500 rows
 and 4 variables:
