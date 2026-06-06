@@ -1,8 +1,8 @@
-#' @title Helpers to Compare Parameter Tables
+#' @title Helpers to Compare Models
 #'
 #' @description Helper functions that
 #' compute and use hash digests for
-#' parameter tables to facilitate
+#' models (parameter tables) to facilitate
 #' comparisons.
 #'
 #' @details
@@ -14,7 +14,7 @@
 #' If two `lavaan` parameter tables
 #' are identical on the values for these
 #' columns, they should have the same
-#' hash value will be considered as
+#' hash value and will be considered as
 #' identical.
 #'
 #' Note that there may be cases in which
@@ -163,7 +163,7 @@ digest_partable <- function(
 #' @details
 #' The function [add_digest()] computes
 #' the hash value of a parameter table
-#' and add it to the attribute `"digest"`
+#' and adds it to the attribute `"digest"`
 #' of the table,
 #'
 #' @return
@@ -234,7 +234,7 @@ get_digest <- function(
 
 #' @details
 #' The function [add_digest_partables]
-#' call [add_digest()] on a list of
+#' calls [add_digest()] on a list of
 #' parameter tables.
 #'
 #' @return
@@ -265,7 +265,7 @@ add_digest_partables <- function(
 
 #' @details
 #' The function [get_digest_partables]
-#' call [get_digest()] on a list of
+#' calls [get_digest()] on a list of
 #' parameter tables.
 #'
 #' @return
