@@ -92,18 +92,17 @@ will be fitted to the data.}
 
 \item{parallel}{Whether parallel
 processing will be used when fitting
-the models. Default is
-\code{TRUE}.
-Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
+the models.
+To be passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 
 \item{ncores}{The number of CPU cores
 to be used if \code{parallel} is \code{TRUE}.
-Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
+To be passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 
 \item{make_cluster_args}{An optional
 named list of arguments to be used
 in \code{\link[parallel:makeCluster]{parallel::makeCluster()}}.
-Passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
+To be passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 
 \item{drop_original}{Logical. Whether
 the original model will dropped from
@@ -122,9 +121,13 @@ vector of parameters that must not
 be added. To be passed to \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}.}
 
 \item{exclude_x_y_ecov}{If \code{TRUE},
-covariances between an exogenous
-variable and an error term will not
-be added.}
+models with a covariance
+between a variable (latent or observed)
+and the
+error term of another variable it
+predicts, either directly or indirectly,
+will be excluded. The screening is
+implemented by \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}.}
 
 \item{partable_name}{The name of the
 original model. Used only if it cannot
@@ -134,12 +137,15 @@ be generated from \code{object}.}
 previously dropped parameter, if
 stored, will be removed from the
 original parameter table. This is
-necessary for reversing a path.}
+necessary for reversing a path.
+For internal use. Should not
+be changed.}
 
 \item{remove_zeros}{Whether a parameter
 explicitly fixed to \code{zero} will be
 removed before generating modified
-models.}
+models. For internal use. Should not
+be changed.}
 
 \item{add_name}{Whether the name of
 the original model will be added as
@@ -153,7 +159,7 @@ a subclass of \code{partables}. It is
 an output of \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}},
 which are simplified versions of the
 original model, usually with one or
-more paths removed.
+more paths removed (fixed to zero).
 
 The function \code{\link[=add_k]{add_k()}}
 returns a list of the class \code{eq_partables},
@@ -161,7 +167,7 @@ a subclass of the
 output of \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}},
 which are more complicated versions of the
 original model, usually with one or
-more free parameters added.
+more paths added (set to free).
 }
 \description{
 Generate a list of
