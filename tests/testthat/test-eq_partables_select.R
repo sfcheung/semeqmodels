@@ -260,13 +260,13 @@ expect_length(out, 0)
 
 out <- must_have_paths(
           fit_1_more_1_less,
-          y_on_x = c("fm ~ fx", "fx ~ fy")
+          y_on_x = c("fm ~ fx", "fy ~ fx")
         )
 expect_length(out, 2)
 
 out2 <- must_have_paths(
           fit_1_more_1_less,
-          y_on_x = c("fm ~ fx", "fx ~ fy"),
+          y_on_x = c("fm ~ fx", "fy ~ fx"),
           output = "logical"
         )
 expect_true(

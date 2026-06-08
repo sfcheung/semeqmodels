@@ -24,21 +24,52 @@ navbar:
   structure:
     left:  [intro, articles, reference, tutorials, news]
     right: [search, github]
-#  components:
-#    articles:
-#      text: Articles
-#      menu:
-#      - text: "<Section Title>"
-#      - text: Title
-#        href: articles/doc1.html
-#      - text: Title
-#        href: articles/doc2.html
-#      - text: -------
-#      - text: "<Section Title>"
-#      - text: Title
-#        href: articles/doc3.html
-#      - text: Title
-#        href: articles/doc4.html
+
+articles:
+
+- title: Get Started
+  navbar: Get Started
+  contents:
+  - semeqmodels
+
+# - title: Examples
+#   navbar: Examples
+#   contents:
+#   - three_observed_variables
+
+reference:
+- title: Main Functions
+  desc:  >
+    All-in-one functions for
+    common tasks.
+- contents:
+  - eq_models
+  - eq_df_models
+- title: Helpers for Models
+  desc:  >
+    Helpers for working with parameter tables (models)
+- contents:
+  - model_diff
+  - modified_models
+  - partable_select
+- title: Plotting Models
+  desc:  >
+    Plotting a list of parameter tables (models)
+- contents:
+  - plot_partables
+- title: Other Helpers
+  desc:  >
+    Helpers for advanced tasks
+- contents:
+  - eq_partables_helpers
+  - digest_partable
+  - partable_helpers
+
+- title: Datasets
+  desc:  >
+    Datasets used in examples.
+- contents:
+  - has_keyword("datasets")
 
 # reference:
 # - title: Section Title

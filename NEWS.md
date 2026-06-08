@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9047
+# semeqmodels 0.0.0.9054
 
 - Initialize the package.
   (0.0.0.9000)
@@ -299,6 +299,41 @@
   to return a logical vector.
   (0.0.0.9046)
 
-- Add some plot functions for drawing
+- Added some plot functions for drawing
   models in a list of parameter tables.
   (0.0.0.9047)
+
+- Use `modelbpp.do_fit = FALSE` for a
+  faster search. Requires `modelbpp` 0.3.0.2 or above.
+  (0.0.0.9048)
+
+- Fixed a bug in `must_have_paths()`.
+  (0.0.0.9049)
+
+- Revised `partables_plots()` to be able
+  to update a previous output of
+  `partables_plots()`.
+  (0.0.0.9050)
+
+- Updated the model selectors to select
+  plots from `partables_plots()`.
+  (0.0.0.9050)
+
+- Changed how the original model is
+  handled in `partables_plots()`.
+  (0.0.0.9051)
+
+- Added `print.partables_plots()`.
+  (0.0.0.9051)
+
+- Added a pipe operator for processing
+  stored plots.
+  (0.0.0.9052)
+
+- Revised `is_eq()` to require both
+  `partables` and `original_model`
+  specified.
+  (0.0.0.9053)
+
+- Updated the doc.
+  (0.0.0.9054)

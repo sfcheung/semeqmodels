@@ -8,8 +8,11 @@
 NULL
 
 #' @details
+#'
+#' ## `model_diff()`
+#'
 #' The functions [model_diff()] takes
-#' two parameter tables and identify
+#' two models (parameter tables) and identify
 #' the differences, if any.
 #'
 #' The columns compared is specified
@@ -20,7 +23,7 @@ NULL
 #' identical if they are both free
 #' (have non-zero values on `free`).
 #'
-#' For `ustart` and `start` columns,
+#' For the `ustart` and `start` columns,
 #' the values are used only if a parameter
 #' is fixed. If a parameter is free,
 #' they will be recoded to `NA` when
@@ -32,10 +35,16 @@ NULL
 #' `model_x_only` and `model_y_only`.
 #' Each element is a parameter table
 #' with parameters that are present only
-#' in one of the model.
+#' in one of the model. If there is
+#' no parameter that is present only in
+#' a model, then the element is still
+#' a parameter table, though with zero
+#' row. The list of of the class
+#' `model_diff`, with a `print` method.
 #'
-#' @param model_x,model_y Parameter
-#' tables (from `lavaan`) to be compared.
+#' @param model_x,model_y Models as
+#' parameter
+#' tables (the output [lavaan::parameterTable]) to be compared.
 #' They can also be `lavaan` objects,
 #' the output of functions such as
 #' [lavaan::sem()].
@@ -169,23 +178,28 @@ model_diff <- function(
 }
 
 #' @details
+#'
+#' ## `model_diff_many()`
+#'
 #' The function [model_diff_many()]
-#' compare one model (`target_model`)
-#' against other models (`other_models`)
+#' compares one model (`target_model`)
+#' against several other models (`other_models`)
 #' using [model_diff()].
 #'
 #' @return
 #' The function [model_diff_many()]
-#' return a list of the results
+#' returns a list of the results
 #' of [model_diff()].
+#' The list of of the class
+#' `model_diff_many`, with a `print` method.
 #'
 #' @param target_model A model
 #' (`lavaan` parameter table or
-#' `lavaan` output) to which other
-#' models will be compared.
+#' `lavaan` output) which other
+#' models will be compared with.
 #'
 #' @param other_models A list of models
-#' (`lavaan` parameter tables o
+#' (`lavaan` parameter tables or
 #' `lavaan` outputs) to be compared to
 #' the `target_model` by [model_diff()].
 #'
@@ -245,66 +259,9 @@ model_diff_many <- function(
 }
 
 #' @details
-#' The `print` method of the output
-#' of [model_diff()] prints the differences
-#' between models in a user-friendly
-#' way.
 #'
-#' @return
-#' The `print`-method of the output
-#' of [model_diff()] returns `x`
-#' invisibly.
-#' It is called for its side-effect.
+#' ## The `print` method of the output of `model_diff()`
 #'
-#' @param x The object to be printed.
-#'
-#' @param format The format of the output
-#' when printing model differences.
-#' Either a user-friendly summary
-#' (`"summary"`) or the original parameter
-#' table (`"data.frame"`).
-#'
-#' @rdname model_diff
-#' @export
-model_diff.print <- function(
-  x,
-  format = c("summary", "data.frame"),
-  ...
-) {
-  format <- match.arg(format)
-  # TODO:
-  # - Retrieve model names
-  model_names <- names(x)
-  if (is.null(model_names)) {
-    model_names <- paste0("[[", seq_along(model_names), "]]")
-  }
-  out0 <- lapply(
-    x,
-    partable_to_syntax
-  )
-  for (a in seq_along(x)) {
-    cat("\nModel: ",
-        model_names[a],
-        "\n",
-        sep = "")
-    if (format == "data.frame") {
-      print(x[[a]])
-    }
-    if (format == "summary") {
-      if (length(out0[[a]]) == 0) {
-        cat("No parameter only in this model.\n")
-      } else {
-        cat(out0[[a]],
-            sep = "\n"
-            )
-      }
-    }
-  }
-  invisible((x))
-}
-
-
-#' @details
 #' The `print` method of the output
 #' of [model_diff()] prints the differences
 #' between models in a user-friendly
@@ -365,6 +322,9 @@ print.model_diff <- function(
 
 
 #' @details
+#'
+#' ## The `print` method of the output of `model_diff_many()`
+#'
 #' The `print` method of the output
 #' of [model_diff_many()] prints the
 #' list of model differences in a

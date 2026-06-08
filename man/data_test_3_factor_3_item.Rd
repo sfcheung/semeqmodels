@@ -27,7 +27,7 @@ A dataset for testing.
 }
 \examples{
 library(lavaan)
-data(data_med)
+data(data_test_3_factor_3_item)
 mod <-
 "
 fx =~ x1 + x2 + x3
