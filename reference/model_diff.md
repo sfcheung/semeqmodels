@@ -24,8 +24,6 @@ model_diff_many(
   other_models_names = NULL
 )
 
-model_diff.print(x, format = c("summary", "data.frame"), ...)
-
 # S3 method for class 'model_diff'
 print(x, format = c("summary", "data.frame"), ...)
 
@@ -37,8 +35,10 @@ print(x, format = "summary", ...)
 
 - model_x, model_y:
 
-  Parameter tables (from `lavaan`) to be compared. They can also be
-  `lavaan` objects, the output of functions such as
+  Models as parameter tables (the output
+  [lavaan::parameterTable](https://rdrr.io/pkg/lavaan/man/parTable.html))
+  to be compared. They can also be `lavaan` objects, the output of
+  functions such as
   [`lavaan::sem()`](https://rdrr.io/pkg/lavaan/man/sem.html).
 
 - cols:
@@ -59,12 +59,12 @@ print(x, format = "summary", ...)
 
 - target_model:
 
-  A model (`lavaan` parameter table or `lavaan` output) to which other
-  models will be compared.
+  A model (`lavaan` parameter table or `lavaan` output) which other
+  models will be compared with.
 
 - other_models:
 
-  A list of models (`lavaan` parameter tables o `lavaan` outputs) to be
+  A list of models (`lavaan` parameter tables or `lavaan` outputs) to be
   compared to the `target_model` by `model_diff()`.
 
 - ...:
@@ -91,13 +91,14 @@ print(x, format = "summary", ...)
 
 The function `model_diff()` returns a list with two elements,
 `model_x_only` and `model_y_only`. Each element is a parameter table
-with parameters that are present only in one of the model.
+with parameters that are present only in one of the model. If there is
+no parameter that is present only in a model, then the element is still
+a parameter table, though with zero row. The list of of the class
+`model_diff`, with a `print` method.
 
-The function `model_diff_many()` return a list of the results of
-`model_diff()`.
-
-The `print`-method of the output of `model_diff()` returns `x`
-invisibly. It is called for its side-effect.
+The function `model_diff_many()` returns a list of the results of
+`model_diff()`. The list of of the class `model_diff_many`, with a
+`print` method.
 
 The `print`-method of the output of `model_diff()` returns `x`
 invisibly. It is called for its side-effect.
@@ -107,8 +108,10 @@ invisibly. It is called for its side-effect.
 
 ## Details
 
-The functions `model_diff()` takes two parameter tables and identify the
-differences, if any.
+### `model_diff()`
+
+The functions `model_diff()` takes two models (parameter tables) and
+identify the differences, if any.
 
 The columns compared is specified by the argument `cols`.
 
@@ -116,18 +119,21 @@ For the `free` column, the actual values are ignored. Two parameters are
 considered identical if they are both free (have non-zero values on
 `free`).
 
-For `ustart` and `start` columns, the values are used only if a
+For the `ustart` and `start` columns, the values are used only if a
 parameter is fixed. If a parameter is free, they will be recoded to `NA`
 when being compared.
 
-The function `model_diff_many()` compare one model (`target_model`)
-against other models (`other_models`) using `model_diff()`.
+### `model_diff_many()`
+
+The function `model_diff_many()` compares one model (`target_model`)
+against several other models (`other_models`) using `model_diff()`.
+
+### The `print` method of the output of `model_diff()`
 
 The `print` method of the output of `model_diff()` prints the
 differences between models in a user-friendly way.
 
-The `print` method of the output of `model_diff()` prints the
-differences between models in a user-friendly way.
+### The `print` method of the output of `model_diff_many()`
 
 The `print` method of the output of `model_diff_many()` prints the list
 of model differences in a user-friendly way.

@@ -54,8 +54,7 @@ A data frame with 200 rows and 3 variables:
 library(lavaan)
 #> This is lavaan 0.6-21
 #> lavaan is FREE software! Please report any bugs.
-data(data_med)
-#> Warning: data set ‘data_med’ not found
+data(data_test_3_factor_3_item)
 mod <-
 "
 fx =~ x1 + x2 + x3

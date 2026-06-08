@@ -1,4 +1,4 @@
-# Test Dataset: 3obvs
+# Test Dataset: 3 Observed Variables
 
 A dataset for testing.
 
@@ -28,8 +28,7 @@ A data frame with 200 rows and 3 variables:
 
 ``` r
 library(lavaan)
-data(data_med_3obvs)
-#> Warning: data set ‘data_med_3obvs’ not found
+data(data_test_3obvs)
 mod <-
 "
 fm ~ fx

@@ -64,8 +64,7 @@ A data frame with 500 rows and 4 variables:
 
 ``` r
 library(lavaan)
-data(data_med_4vars)
-#> Warning: data set ‘data_med_4vars’ not found
+data(data_test_4_factor_3_item)
 mod <-
 "
 fx =~ x1 + x2 + x3

@@ -1,7 +1,7 @@
-# Helpers to Compare Parameter Tables
+# Helpers to Compare Models
 
-Helper functions that compute and use hash digests for parameter tables
-to facilitate comparisons.
+Helper functions that compute and use hash digests for models (parameter
+tables) to facilitate comparisons.
 
 ## Usage
 
@@ -99,23 +99,23 @@ The function `digest_partable()` uses
 to compute a hash value for a parameter, after sorting some essential
 columns (see the `cols` argument) If two `lavaan` parameter tables are
 identical on the values for these columns, they should have the same
-hash value will be considered as identical.
+hash value and will be considered as identical.
 
 Note that there may be cases in which two models cannot be correctly
 identified using this approach. Nevertheless, they should be sufficient
 for typical models used in this package.
 
 The function `add_digest()` computes the hash value of a parameter table
-and add it to the attribute `"digest"` of the table,
+and adds it to the attribute `"digest"` of the table,
 
 The function `get_digest()` retrieves the stored hash value from a
 parameter table, if available. If not available, it will call
 `digest_partable()` to compute the hash value.
 
-The function add_digest_partables call `add_digest()` on a list of
+The function add_digest_partables calls `add_digest()` on a list of
 parameter tables.
 
-The function get_digest_partables call `get_digest()` on a list of
+The function get_digest_partables calls `get_digest()` on a list of
 parameter tables.
 
 ## Examples

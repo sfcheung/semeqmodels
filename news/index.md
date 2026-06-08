@@ -1,6 +1,6 @@
 # Changelog
 
-## semeqmodels 0.0.0.9047
+## semeqmodels 0.0.0.9054
 
 - Initialize the package. (0.0.0.9000)
 
@@ -81,7 +81,7 @@
   an internal function that may be exported in the future. (0.0.0.9012)
 
 - Added
-  [`as_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md),
+  [`as_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md),
   an internal function that may be exported in the future. (0.0.0.9012)
 
 - Added `x_y_ecov()`, an internal function that may be exported in the
@@ -125,7 +125,7 @@
   [`setdiff_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md),
   [`remove_x_y_ecov()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md),
   and
-  [`as_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md).
+  [`as_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md).
   (0.0.0.9018)
 
 - Added
@@ -159,7 +159,7 @@
   to compare two parameter tables. (0.0.0.9021)
 
 - Added
-  [`eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
   to create an `eq_partables` object from parameter tables or lavaan
   output. (0.0.0.9022)
 
@@ -197,7 +197,7 @@
   `print`-methods for user-friendly printouts. (0.0.0.9027)
 
 - Improved
-  [`print.eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md).
+  [`print.eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md).
   (0.0.0.9028)
 
 - Updated
@@ -266,5 +266,39 @@
 - Updated all model selectors to be able to return a logical vector.
   (0.0.0.9046)
 
-- Add some plot functions for drawing models in a list of parameter
+- Added some plot functions for drawing models in a list of parameter
   tables. (0.0.0.9047)
+
+- Use `modelbpp.do_fit = FALSE` for a faster search. Requires `modelbpp`
+  0.3.0.2 or above. (0.0.0.9048)
+
+- Fixed a bug in
+  [`must_have_paths()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md).
+  (0.0.0.9049)
+
+- Revised
+  [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+  to be able to update a previous output of
+  [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md).
+  (0.0.0.9050)
+
+- Updated the model selectors to select plots from
+  [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md).
+  (0.0.0.9050)
+
+- Changed how the original model is handled in
+  [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md).
+  (0.0.0.9051)
+
+- Added
+  [`print.partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md).
+  (0.0.0.9051)
+
+- Added a pipe operator for processing stored plots. (0.0.0.9052)
+
+- Revised
+  [`is_eq()`](https://sfcheung.github.io/semeqmodels/reference/eq_models.md)
+  to require both `partables` and `original_model` specified.
+  (0.0.0.9053)
+
+- Updated the doc. (0.0.0.9054)

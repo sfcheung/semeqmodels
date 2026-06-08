@@ -1,6 +1,6 @@
 # Articles
 
-### All vignettes
+### Get Started
 
 - [Finding Equivalent Models in
   SEM](https://sfcheung.github.io/semeqmodels/articles/semeqmodels.md):

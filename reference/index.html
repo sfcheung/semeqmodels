@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9047</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9054</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,6 +16,11 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/semeqmodels.html">Get started</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Get Started</h6></li>
+  </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -32,9 +37,108 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="main-functions">Main Functions<a class="anchor" aria-label="anchor" href="#main-functions"></a></h2>
+
+      <div class="section-desc"><p>All-in-one functions for common tasks.</p></div>
+
+      <dl></dl></div><div class="section level2">
 
 
+
+
+      <dl><dt>
+
+          <code><a href="eq_models.html">eq_models()</a></code> <code><a href="eq_models.html">is_eq()</a></code>
+
+        </dt>
+        <dd>Empirical Equivalent Models</dd>
+
+        <dt>
+
+          <code><a href="eq_df_models.html">eq_df_models()</a></code>
+
+        </dt>
+        <dd>Generate Models with the Same Degrees of Freedom</dd>
+      </dl></div><div class="section level2">
+      <h2 id="helpers-for-models">Helpers for Models<a class="anchor" aria-label="anchor" href="#helpers-for-models"></a></h2>
+
+      <div class="section-desc"><p>Helpers for working with parameter tables (models)</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="model_diff.html">model_diff()</a></code> <code><a href="model_diff.html">model_diff_many()</a></code> <code><a href="model_diff.html">print(<i>&lt;model_diff&gt;</i>)</a></code> <code><a href="model_diff.html">print(<i>&lt;model_diff_many&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Compare Two Models</dd>
+
+        <dt>
+
+          <code><a href="modified_models.html">drop_k()</a></code> <code><a href="modified_models.html">add_k()</a></code>
+
+        </dt>
+        <dd>Modified Models</dd>
+
+        <dt>
+
+          <code><a href="partable_select.html">have_pars_all()</a></code> <code><a href="partable_select.html">have_pars_any()</a></code> <code><a href="partable_select.html">have_pars_none()</a></code> <code><a href="partable_select.html">remove_x_y_ecov()</a></code> <code><a href="partable_select.html">must_not_be_y()</a></code> <code><a href="partable_select.html">must_be_y()</a></code> <code><a href="partable_select.html">must_not_have_paths()</a></code> <code><a href="partable_select.html">must_have_paths()</a></code>
+
+        </dt>
+        <dd>Select Models (Parameter Tables)</dd>
+      </dl></div><div class="section level2">
+      <h2 id="plotting-models">Plotting Models<a class="anchor" aria-label="anchor" href="#plotting-models"></a></h2>
+
+      <div class="section-desc"><p>Plotting a list of parameter tables (models)</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="plot_partables.html">partables_plots()</a></code> <code><a href="plot_partables.html">plot(<i>&lt;partables_plots&gt;</i>)</a></code> <code><a href="plot_partables.html">print(<i>&lt;partables_plots&gt;</i>)</a></code> <code><a href="plot_partables.html">`%p&gt;%`</a></code>
+
+        </dt>
+        <dd>Plot Functions for a List of Models</dd>
+      </dl></div><div class="section level2">
+      <h2 id="other-helpers">Other Helpers<a class="anchor" aria-label="anchor" href="#other-helpers"></a></h2>
+
+      <div class="section-desc"><p>Helpers for advanced tasks</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="eq_partables_helpers.html">eq_lavInspect()</a></code> <code><a href="eq_partables_helpers.html">eq_fitMeasures()</a></code> <code><a href="eq_partables_helpers.html">eq_df()</a></code> <code><a href="eq_partables_helpers.html">eq_chisq()</a></code> <code><a href="eq_partables_helpers.html">eq_fits()</a></code> <code><a href="eq_partables_helpers.html">`[`(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="eq_partables_helpers.html">`[&lt;-`(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="eq_partables_helpers.html">`[[&lt;-`(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="eq_partables_helpers.html">print(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="eq_partables_helpers.html">c(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="eq_partables_helpers.html">eq_partables()</a></code> <code><a href="eq_partables_helpers.html">as_eq_partables()</a></code> <code><a href="eq_partables_helpers.html">duplicated(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="eq_partables_helpers.html">unique(<i>&lt;eq_partables&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Helpers for 'eq_partables' Object</dd>
+
+        <dt>
+
+          <code><a href="digest_partable.html">digest_partable()</a></code> <code><a href="digest_partable.html">add_digest()</a></code> <code><a href="digest_partable.html">get_digest()</a></code> <code><a href="digest_partable.html">add_digest_partables()</a></code> <code><a href="digest_partable.html">get_digest_partables()</a></code>
+
+        </dt>
+        <dd>Helpers to Compare Models</dd>
+
+        <dt>
+
+          <code><a href="partable_helpers.html">combine_partables()</a></code> <code><a href="partable_helpers.html">setdiff_eq_partables()</a></code> <code><a href="partable_helpers.html">setdiff_partables()</a></code> <code><a href="partable_helpers.html">union_eq_partables()</a></code> <code><a href="partable_helpers.html">intersect_eq_partables()</a></code> <code><a href="partable_helpers.html">setequal_eq_partables()</a></code> <code><a href="partable_helpers.html">setequal_partables()</a></code> <code><a href="partable_helpers.html">is_element_eq_partables()</a></code> <code><a href="partable_helpers.html">is_element_partables()</a></code> <code><a href="partable_helpers.html">match_eq_partables()</a></code> <code><a href="partable_helpers.html">match_partables()</a></code> <code><a href="partable_helpers.html">`%pt_in%`</a></code> <code><a href="partable_helpers.html">`%pt_notin%`</a></code> <code><a href="partable_helpers.html">is_partable()</a></code> <code><a href="partable_helpers.html">is_partables()</a></code>
+
+        </dt>
+        <dd>Parameter Table Helpers</dd>
+      </dl></div><div class="section level2">
+      <h2 id="datasets">Datasets<a class="anchor" aria-label="anchor" href="#datasets"></a></h2>
+
+      <div class="section-desc"><p>Datasets used in examples.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -53,7 +157,7 @@
           <code><a href="data_test_3obvs.html">data_test_3obvs</a></code>
 
         </dt>
-        <dd>Test Dataset: 3obvs</dd>
+        <dd>Test Dataset: 3 Observed Variables</dd>
 
         <dt>
 
@@ -67,72 +171,10 @@
           <code><a href="data_test_4obvs.html">data_test_4obvs</a></code>
 
         </dt>
-        <dd>Test Dataset: 4obvs</dd>
-
-        <dt>
-
-          <code><a href="digest_partable.html">digest_partable()</a></code> <code><a href="digest_partable.html">add_digest()</a></code> <code><a href="digest_partable.html">get_digest()</a></code> <code><a href="digest_partable.html">add_digest_partables()</a></code> <code><a href="digest_partable.html">get_digest_partables()</a></code>
-
-        </dt>
-        <dd>Helpers to Compare Parameter Tables</dd>
-
-        <dt>
-
-          <code><a href="eq_df_models.html">eq_df_models()</a></code>
-
-        </dt>
-        <dd>Generate Models with the Same Degrees of Freedom</dd>
-
-        <dt>
-
-          <code><a href="eq_models.html">eq_models()</a></code> <code><a href="eq_models.html">is_eq()</a></code>
-
-        </dt>
-        <dd>Empirical Equivalent Models</dd>
-
-        <dt>
-
-          <code><a href="eq_partables_helpers.html">eq_lavInspect()</a></code> <code><a href="eq_partables_helpers.html">eq_fitMeasures()</a></code> <code><a href="eq_partables_helpers.html">eq_df()</a></code> <code><a href="eq_partables_helpers.html">eq_chisq()</a></code> <code><a href="eq_partables_helpers.html">eq_fits()</a></code> <code><a href="eq_partables_helpers.html">`[`(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="eq_partables_helpers.html">`[&lt;-`(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="eq_partables_helpers.html">`[[&lt;-`(<i>&lt;eq_partables&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Helpers for 'eq_partables' Object</dd>
-
-        <dt>
-
-          <code><a href="model_diff.html">model_diff()</a></code> <code><a href="model_diff.html">model_diff_many()</a></code> <code><a href="model_diff.html">model_diff.print()</a></code> <code><a href="model_diff.html">print(<i>&lt;model_diff&gt;</i>)</a></code> <code><a href="model_diff.html">print(<i>&lt;model_diff_many&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Compare Two Models</dd>
-
-        <dt>
-
-          <code><a href="modified_models.html">drop_k()</a></code> <code><a href="modified_models.html">add_k()</a></code>
-
-        </dt>
-        <dd>Modified Models</dd>
-
-        <dt>
-
-          <code><a href="partable_helpers.html">combine_partables()</a></code> <code><a href="partable_helpers.html">print(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="partable_helpers.html">c(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="partable_helpers.html">duplicated(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="partable_helpers.html">unique(<i>&lt;eq_partables&gt;</i>)</a></code> <code><a href="partable_helpers.html">setdiff_eq_partables()</a></code> <code><a href="partable_helpers.html">union_eq_partables()</a></code> <code><a href="partable_helpers.html">intersect_eq_partables()</a></code> <code><a href="partable_helpers.html">setequal_eq_partables()</a></code> <code><a href="partable_helpers.html">is_element_eq_partables()</a></code> <code><a href="partable_helpers.html">match_eq_partables()</a></code> <code><a href="partable_helpers.html">`%pt_in%`</a></code> <code><a href="partable_helpers.html">`%pt_notin%`</a></code> <code><a href="partable_helpers.html">eq_partables()</a></code> <code><a href="partable_helpers.html">as_eq_partables()</a></code> <code><a href="partable_helpers.html">is_partable()</a></code> <code><a href="partable_helpers.html">is_partables()</a></code>
-
-        </dt>
-        <dd>Parameter Table Helpers</dd>
-
-        <dt>
-
-          <code><a href="partable_select.html">have_pars_all()</a></code> <code><a href="partable_select.html">have_pars_any()</a></code> <code><a href="partable_select.html">have_pars_none()</a></code> <code><a href="partable_select.html">remove_x_y_ecov()</a></code> <code><a href="partable_select.html">must_not_be_y()</a></code> <code><a href="partable_select.html">must_be_y()</a></code> <code><a href="partable_select.html">must_not_have_paths()</a></code> <code><a href="partable_select.html">must_have_paths()</a></code>
-
-        </dt>
-        <dd>Select Parameter Tables</dd>
-
-        <dt>
-
-          <code><a href="plot_partables.html">partables_plots()</a></code> <code><a href="plot_partables.html">plot(<i>&lt;partables_plots&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Plot Functions for a List of Parameter Tables</dd>
+        <dd>Test Dataset: 4 Observed Variables</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

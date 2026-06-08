@@ -11,7 +11,7 @@ and find the differences."><meta name="google-site-verification" content="0VLBmF
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9047</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9054</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,11 @@ and find the differences."><meta name="google-site-verification" content="0VLBmF
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/semeqmodels.html">Get started</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Get Started</h6></li>
+  </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -63,8 +68,6 @@ and find the differences.</p>
 <span>  other_models_names <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">model_diff.print</span><span class="op">(</span><span class="va">x</span>, format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"summary"</span>, <span class="st">"data.frame"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
 <span><span class="co"># S3 method for class 'model_diff'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"summary"</span>, <span class="st">"data.frame"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
@@ -77,8 +80,9 @@ and find the differences.</p>
 
 
 <dl><dt id="arg-model-x-model-y">model_x, model_y<a class="anchor" aria-label="anchor" href="#arg-model-x-model-y"></a></dt>
-<dd><p>Parameter
-tables (from <code>lavaan</code>) to be compared.
+<dd><p>Models as
+parameter
+tables (the output <a href="https://rdrr.io/pkg/lavaan/man/parTable.html" class="external-link">lavaan::parameterTable</a>) to be compared.
 They can also be <code>lavaan</code> objects,
 the output of functions such as
 <code><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">lavaan::sem()</a></code>.</p></dd>
@@ -109,13 +113,13 @@ automatically.</p></dd>
 <dt id="arg-target-model">target_model<a class="anchor" aria-label="anchor" href="#arg-target-model"></a></dt>
 <dd><p>A model
 (<code>lavaan</code> parameter table or
-<code>lavaan</code> output) to which other
-models will be compared.</p></dd>
+<code>lavaan</code> output) which other
+models will be compared with.</p></dd>
 
 
 <dt id="arg-other-models">other_models<a class="anchor" aria-label="anchor" href="#arg-other-models"></a></dt>
 <dd><p>A list of models
-(<code>lavaan</code> parameter tables o
+(<code>lavaan</code> parameter tables or
 <code>lavaan</code> outputs) to be compared to
 the <code>target_model</code> by <code>model_diff()</code>.</p></dd>
 
@@ -152,14 +156,17 @@ returns a list with two elements,
 <code>model_x_only</code> and <code>model_y_only</code>.
 Each element is a parameter table
 with parameters that are present only
-in one of the model.</p>
+in one of the model. If there is
+no parameter that is present only in
+a model, then the element is still
+a parameter table, though with zero
+row. The list of of the class
+<code>model_diff</code>, with a <code>print</code> method.</p>
 <p>The function <code>model_diff_many()</code>
-return a list of the results
-of <code>model_diff()</code>.</p>
-<p>The <code>print</code>-method of the output
-of <code>model_diff()</code> returns <code>x</code>
-invisibly.
-It is called for its side-effect.</p>
+returns a list of the results
+of <code>model_diff()</code>.
+The list of of the class
+<code>model_diff_many</code>, with a <code>print</code> method.</p>
 <p>The <code>print</code>-method of the output
 of <code>model_diff()</code> returns <code>x</code>
 invisibly.
@@ -171,8 +178,13 @@ It is called for its side-effect.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The functions <code>model_diff()</code> takes
-two parameter tables and identify
+
+<div class="section">
+<h3 id="model-diff-"><code>model_diff()</code><a class="anchor" aria-label="anchor" href="#model-diff-"></a></h3>
+
+
+<p>The functions <code>model_diff()</code> takes
+two models (parameter tables) and identify
 the differences, if any.</p>
 <p>The columns compared is specified
 by the argument <code>cols</code>.</p>
@@ -180,28 +192,44 @@ by the argument <code>cols</code>.</p>
 ignored. Two parameters are considered
 identical if they are both free
 (have non-zero values on <code>free</code>).</p>
-<p>For <code>ustart</code> and <code>start</code> columns,
+<p>For the <code>ustart</code> and <code>start</code> columns,
 the values are used only if a parameter
 is fixed. If a parameter is free,
 they will be recoded to <code>NA</code> when
 being compared.</p>
+</div>
+
+<div class="section">
+<h3 id="model-diff-many-"><code>model_diff_many()</code><a class="anchor" aria-label="anchor" href="#model-diff-many-"></a></h3>
+
+
 <p>The function <code>model_diff_many()</code>
-compare one model (<code>target_model</code>)
-against other models (<code>other_models</code>)
+compares one model (<code>target_model</code>)
+against several other models (<code>other_models</code>)
 using <code>model_diff()</code>.</p>
+</div>
+
+<div class="section">
+<h3 id="the-print-method-of-the-output-of-model-diff-">The <code>print</code> method of the output of <code>model_diff()</code><a class="anchor" aria-label="anchor" href="#the-print-method-of-the-output-of-model-diff-"></a></h3>
+
+
 <p>The <code>print</code> method of the output
 of <code>model_diff()</code> prints the differences
 between models in a user-friendly
 way.</p>
-<p>The <code>print</code> method of the output
-of <code>model_diff()</code> prints the differences
-between models in a user-friendly
-way.</p>
+</div>
+
+<div class="section">
+<h3 id="the-print-method-of-the-output-of-model-diff-many-">The <code>print</code> method of the output of <code>model_diff_many()</code><a class="anchor" aria-label="anchor" href="#the-print-method-of-the-output-of-model-diff-many-"></a></h3>
+
+
 <p>The <code>print</code> method of the output
 of <code>model_diff_many()</code> prints the
 list of model differences in a
 user-friendly
 way.</p>
+</div>
+
     </div>
 
     <div class="section level2">

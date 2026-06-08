@@ -2,7 +2,7 @@
 
 Find equivalent models in structural equation modeling
 
-(Version 0.0.0.9047, updated on 2026-06-02, [release
+(Version 0.0.0.9054, updated on 2026-06-08, [release
 history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 # semeqmodels: Equivalent Models in Structural Equation Models
@@ -32,63 +32,28 @@ a GitHub issue. Thanks.
 
 # Package index
 
-## All functions
+## Main Functions
 
-- [`data_test_3_factor_3_item`](https://sfcheung.github.io/semeqmodels/reference/data_test_3_factor_3_item.md)
-  : Test Dataset: 3-Factor-3-Item
-- [`data_test_3obvs`](https://sfcheung.github.io/semeqmodels/reference/data_test_3obvs.md)
-  : Test Dataset: 3obvs
-- [`data_test_4_factor_3_item`](https://sfcheung.github.io/semeqmodels/reference/data_test_4_factor_3_item.md)
-  : Test Dataset: 4-Factor-3-Item
-- [`data_test_4obvs`](https://sfcheung.github.io/semeqmodels/reference/data_test_4obvs.md)
-  : Test Dataset: 4obvs
-- [`digest_partable()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
-  [`add_digest()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
-  [`get_digest()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
-  [`add_digest_partables()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
-  [`get_digest_partables()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
-  : Helpers to Compare Parameter Tables
-- [`eq_df_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_df_models.md)
-  : Generate Models with the Same Degrees of Freedom
+All-in-one functions for common tasks.
+
 - [`eq_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_models.md)
   [`is_eq()`](https://sfcheung.github.io/semeqmodels/reference/eq_models.md)
   : Empirical Equivalent Models
-- [`eq_lavInspect()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
-  [`eq_fitMeasures()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
-  [`eq_df()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
-  [`eq_chisq()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
-  [`eq_fits()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
-  [`` `[`( ``*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
-  [`` `[<-`( ``*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
-  [`` `[[<-`( ``*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
-  : Helpers for 'eq_partables' Object
+- [`eq_df_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_df_models.md)
+  : Generate Models with the Same Degrees of Freedom
+
+## Helpers for Models
+
+Helpers for working with parameter tables (models)
+
 - [`model_diff()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
   [`model_diff_many()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
-  [`model_diff.print()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
   [`print(`*`<model_diff>`*`)`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
   [`print(`*`<model_diff_many>`*`)`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
   : Compare Two Models
 - [`drop_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
   [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
   : Modified Models
-- [`combine_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`print(`*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`c(`*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`duplicated(`*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`unique(`*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`setdiff_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`union_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`intersect_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`setequal_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`is_element_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`match_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`` `%pt_in%` ``](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`` `%pt_notin%` ``](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`as_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`is_partable()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  [`is_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
-  : Parameter Table Helpers
 - [`have_pars_all()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`have_pars_any()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`have_pars_none()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
@@ -97,14 +62,76 @@ a GitHub issue. Thanks.
   [`must_be_y()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`must_not_have_paths()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
   [`must_have_paths()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
-  : Select Parameter Tables
+  : Select Models (Parameter Tables)
+
+## Plotting Models
+
+Plotting a list of parameter tables (models)
+
 - [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
   [`plot(`*`<partables_plots>`*`)`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
-  : Plot Functions for a List of Parameter Tables
+  [`print(`*`<partables_plots>`*`)`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+  [`` `%p>%` ``](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+  : Plot Functions for a List of Models
+
+## Other Helpers
+
+Helpers for advanced tasks
+
+- [`eq_lavInspect()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`eq_fitMeasures()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`eq_df()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`eq_chisq()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`eq_fits()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`` `[`( ``*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`` `[<-`( ``*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`` `[[<-`( ``*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`print(`*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`c(`*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`as_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`duplicated(`*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  [`unique(`*`<eq_partables>`*`)`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+  : Helpers for 'eq_partables' Object
+- [`digest_partable()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
+  [`add_digest()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
+  [`get_digest()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
+  [`add_digest_partables()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
+  [`get_digest_partables()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
+  : Helpers to Compare Models
+- [`combine_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`setdiff_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`setdiff_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`union_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`intersect_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`setequal_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`setequal_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`is_element_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`is_element_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`match_eq_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`match_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`` `%pt_in%` ``](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`` `%pt_notin%` ``](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`is_partable()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  [`is_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
+  : Parameter Table Helpers
+
+## Datasets
+
+Datasets used in examples.
+
+- [`data_test_3_factor_3_item`](https://sfcheung.github.io/semeqmodels/reference/data_test_3_factor_3_item.md)
+  : Test Dataset: 3-Factor-3-Item
+- [`data_test_3obvs`](https://sfcheung.github.io/semeqmodels/reference/data_test_3obvs.md)
+  : Test Dataset: 3 Observed Variables
+- [`data_test_4_factor_3_item`](https://sfcheung.github.io/semeqmodels/reference/data_test_4_factor_3_item.md)
+  : Test Dataset: 4-Factor-3-Item
+- [`data_test_4obvs`](https://sfcheung.github.io/semeqmodels/reference/data_test_4obvs.md)
+  : Test Dataset: 4 Observed Variables
 
 # Articles
 
-### All vignettes
+### Get Started
 
 - [Finding Equivalent Models in
   SEM](https://sfcheung.github.io/semeqmodels/articles/semeqmodels.md):

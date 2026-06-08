@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9047</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9054</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,6 +16,11 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/semeqmodels.html">Get started</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Get Started</h6></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -33,7 +38,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.0.9047" id="semeqmodels-0009047">semeqmodels 0.0.0.9047<a class="anchor" aria-label="anchor" href="#semeqmodels-0009047"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.0.0.9054" id="semeqmodels-0009054">semeqmodels 0.0.0.9054<a class="anchor" aria-label="anchor" href="#semeqmodels-0009054"></a></h2>
 <ul><li><p>Initialize the package. (0.0.0.9000)</p></li>
 <li><p>Added a temp test helper to see whether it works. (0.0.0.9001)</p></li>
 <li><p>Added a test dataset. (0.0.0.9002)</p></li>
@@ -55,7 +60,7 @@
 <li><p>Renamed <code>empirical_eq()</code> to <code><a href="../reference/eq_models.html">eq_models()</a></code>, to be consistent in naming with other <code>eq_</code> functions. (0.0.0.9012)</p></li>
 <li><p>Added <code><a href="../reference/eq_models.html">is_eq()</a></code>, a version of <code><a href="../reference/eq_models.html">eq_models()</a></code> that returns a logical vector. (0.0.0.9012)</p></li>
 <li><p>Added <code><a href="../reference/partable_helpers.html">setdiff_eq_partables()</a></code>, an internal function that may be exported in the future. (0.0.0.9012)</p></li>
-<li><p>Added <code><a href="../reference/partable_helpers.html">as_eq_partables()</a></code>, an internal function that may be exported in the future. (0.0.0.9012)</p></li>
+<li><p>Added <code><a href="../reference/eq_partables_helpers.html">as_eq_partables()</a></code>, an internal function that may be exported in the future. (0.0.0.9012)</p></li>
 <li><p>Added <code>x_y_ecov()</code>, an internal function that may be exported in the future. (0.0.0.9012)</p></li>
 <li><p>Added <code>has_x_y_ecov()</code>, an internal function that may be exported in the future. (0.0.0.9012)</p></li>
 <li><p>Added <code><a href="../reference/eq_df_models.html">eq_df_models()</a></code>, for generating models with the same model <em>df</em> as a fitted model. (0.0.0.9012)</p></li>
@@ -66,12 +71,12 @@
 <li><p>Added a <code>print</code>-method for <code>eq_partables</code> objects to handle zero-length lists. (0.0.0.9015)</p></li>
 <li><p>Exported <code>digest_ptable()</code> and friends. (0.0.0.9016)</p></li>
 <li><p>Renamed all instances of <code>ptable</code> and <code>ptables</code> to <code>partable</code> and <code>partables</code>, respectively. Using both versions is confusing. Use only <code>partable</code> and <code>partables</code> from now on. (0.0.0.9017)</p></li>
-<li><p>Exported <code><a href="../reference/partable_helpers.html">setdiff_eq_partables()</a></code>, <code><a href="../reference/partable_select.html">remove_x_y_ecov()</a></code>, and <code><a href="../reference/partable_helpers.html">as_eq_partables()</a></code>. (0.0.0.9018)</p></li>
+<li><p>Exported <code><a href="../reference/partable_helpers.html">setdiff_eq_partables()</a></code>, <code><a href="../reference/partable_select.html">remove_x_y_ecov()</a></code>, and <code><a href="../reference/eq_partables_helpers.html">as_eq_partables()</a></code>. (0.0.0.9018)</p></li>
 <li><p>Added <code><a href="../reference/partable_helpers.html">union_eq_partables()</a></code>, <code><a href="../reference/partable_helpers.html">intersect_eq_partables()</a></code>, <code><a href="../reference/partable_helpers.html">is_element_eq_partables()</a></code>, <code><a href="../reference/partable_helpers.html">match_eq_partables()</a></code>, <code>%pt_in%</code>, <code>%pt_notin%</code>, <code><a href="../reference/partable_helpers.html">is_partable()</a></code>, and <code><a href="../reference/partable_helpers.html">is_partables()</a></code>. (0.0.0.9018)</p></li>
 <li><p>Updated <code><a href="../reference/eq_models.html">eq_models()</a></code> to accept more types of inputs without <code>partables</code>: a parameter table, a lavaan model syntax, or a <code>lavaan</code> output. It will call <code><a href="../reference/eq_df_models.html">eq_df_models()</a></code> to generate the list of models automatically. (0.0.0.9019)</p></li>
 <li><p>Added <code><a href="../reference/partable_select.html">must_have_paths()</a></code>, <code><a href="../reference/partable_select.html">must_not_have_paths()</a></code>, <code><a href="../reference/partable_select.html">must_not_be_y()</a></code>, and <code><a href="../reference/partable_select.html">must_be_y()</a></code>. (0.0.0.9020)</p></li>
 <li><p>Added <code><a href="../reference/model_diff.html">model_diff()</a></code> to compare two parameter tables. (0.0.0.9021)</p></li>
-<li><p>Added <code><a href="../reference/partable_helpers.html">eq_partables()</a></code> to create an <code>eq_partables</code> object from parameter tables or lavaan output. (0.0.0.9022)</p></li>
+<li><p>Added <code><a href="../reference/eq_partables_helpers.html">eq_partables()</a></code> to create an <code>eq_partables</code> object from parameter tables or lavaan output. (0.0.0.9022)</p></li>
 <li><p>Added <code>model_difF_many()</code> for comparing several models with one model. (0.0.0.9023)</p></li>
 <li><p>Improved parallel processing in <code><a href="../reference/eq_models.html">eq_models()</a></code>. (0.0.0.9024)</p></li>
 <li><p>Added a get-started vignette. (0.0.0.9025)</p></li>
@@ -79,7 +84,7 @@
 <li><p>Added more arguments of <code><a href="../reference/modified_models.html">drop_k()</a></code> and <code><a href="../reference/modified_models.html">add_k()</a></code> to <code><a href="../reference/eq_df_models.html">eq_df_models()</a></code>. (0.0.0.9026)</p></li>
 <li><p>Revised <code><a href="../reference/eq_df_models.html">eq_df_models()</a></code> to use digests as the names of model. Can resort to <code><a href="https://sfcheung.github.io/modelbpp/reference/model_set.html" class="external-link">modelbpp::gen_models()</a></code> names by setting <code>short_names</code> to <code>FALSE</code>. (0.0.0.9026)</p></li>
 <li><p>The outputs of <code><a href="../reference/model_diff.html">model_diff()</a></code> and <code><a href="../reference/model_diff.html">model_diff_many()</a></code> are of the classes <code>model_diff</code> and <code>model_diff_many</code>, with <code>print</code>-methods for user-friendly printouts. (0.0.0.9027)</p></li>
-<li><p>Improved <code><a href="../reference/partable_helpers.html">print.eq_partables()</a></code>. (0.0.0.9028)</p></li>
+<li><p>Improved <code><a href="../reference/eq_partables_helpers.html">print.eq_partables()</a></code>. (0.0.0.9028)</p></li>
 <li><p>Updated <code><a href="../reference/modified_models.html">add_k()</a></code> and <code><a href="../reference/modified_models.html">drop_k()</a></code> to work on observed-variable-only models. (0.0.0.9029)</p></li>
 <li><p>Updated `digest_partable() to ignore order of variables in covariances. (0.0.0.9030)</p></li>
 <li><p>Fixed <code><a href="../reference/partable_helpers.html">setdiff_eq_partables()</a></code> when one list is a proper subset of the other list. (0.0.0.9031)</p></li>
@@ -99,7 +104,16 @@
 <li><p>Fixed a harmless warning in <code>has_x_to_y_i()</code>. (0.0.0.9045)</p></li>
 <li><p>Removed <code>models_have_*()</code>. (0.0.0.9046)</p></li>
 <li><p>Updated all model selectors to be able to return a logical vector. (0.0.0.9046)</p></li>
-<li><p>Add some plot functions for drawing models in a list of parameter tables. (0.0.0.9047)</p></li>
+<li><p>Added some plot functions for drawing models in a list of parameter tables. (0.0.0.9047)</p></li>
+<li><p>Use <code>modelbpp.do_fit = FALSE</code> for a faster search. Requires <code>modelbpp</code> 0.3.0.2 or above. (0.0.0.9048)</p></li>
+<li><p>Fixed a bug in <code><a href="../reference/partable_select.html">must_have_paths()</a></code>. (0.0.0.9049)</p></li>
+<li><p>Revised <code><a href="../reference/plot_partables.html">partables_plots()</a></code> to be able to update a previous output of <code><a href="../reference/plot_partables.html">partables_plots()</a></code>. (0.0.0.9050)</p></li>
+<li><p>Updated the model selectors to select plots from <code><a href="../reference/plot_partables.html">partables_plots()</a></code>. (0.0.0.9050)</p></li>
+<li><p>Changed how the original model is handled in <code><a href="../reference/plot_partables.html">partables_plots()</a></code>. (0.0.0.9051)</p></li>
+<li><p>Added <code><a href="../reference/plot_partables.html">print.partables_plots()</a></code>. (0.0.0.9051)</p></li>
+<li><p>Added a pipe operator for processing stored plots. (0.0.0.9052)</p></li>
+<li><p>Revised <code><a href="../reference/eq_models.html">is_eq()</a></code> to require both <code>partables</code> and <code>original_model</code> specified. (0.0.0.9053)</p></li>
+<li><p>Updated the doc. (0.0.0.9054)</p></li>
 </ul></div>
   </main></div>
 
