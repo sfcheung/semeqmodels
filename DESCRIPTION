@@ -1,6 +1,6 @@
 Package: semeqmodels
 Title: Equivalent Models in Structural Equation Models
-Version: 0.0.0.9053
+Version: 0.0.0.9054
 Authors@R:
     c(person(given = "Shu Fai",
              family = "Cheung",

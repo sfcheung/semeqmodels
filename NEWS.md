@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9053
+# semeqmodels 0.0.0.9054
 
 - Initialize the package.
   (0.0.0.9000)
@@ -334,3 +334,6 @@
   `partables` and `original_model`
   specified.
   (0.0.0.9053)
+
+- Updated the doc.
+  (0.0.0.9054)
