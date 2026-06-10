@@ -164,7 +164,15 @@ digest_partable <- function(
 #' The function [add_digest()] computes
 #' the hash value of a parameter table
 #' and adds it to the attribute `"digest"`
-#' of the table,
+#' of the table, If the attribute is
+#' already set, it will not overwrite
+#' it unless `overwrite` is set to `TRUE`.
+#'
+#' @param overwrite Logical. If `TRUE`,
+#' the stored hash value, if exists,
+#' will be overwritten. If `FALSE`,
+#' the stored has value, if exists,
+#' not be overwritten.
 #'
 #' @return
 #' The function [add_digest()] returns
@@ -176,7 +184,8 @@ digest_partable <- function(
 #' @export
 add_digest <- function(
   partable,
-  ...
+  ...,
+  overwrite = FALSE
 ) {
 
   # Add a digest to a parameter table
@@ -193,6 +202,9 @@ add_digest <- function(
   #           c(list(partable = out0),
   #             args_digest_partable)
   #         )
+  if (!is.null(attr(partable, "digest"))) {
+    return(partable)
+  }
   out1 <- digest_partable(
             partable = partable,
             ...
