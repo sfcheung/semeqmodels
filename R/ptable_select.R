@@ -392,10 +392,10 @@ remove_x_y_ecov <- function(
               has_x_y_ecov2
             )
   }
-  chk <- sapply(
-            partables,
-            has_x_y_ecov2
-          )
+  # chk <- sapply(
+  #           partables,
+  #           has_x_y_ecov2
+  #         )
   # chk <- chk | chk2
   if (output_tmp == "logical") {
     out0 <- !chk
