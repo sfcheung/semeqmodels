@@ -216,12 +216,15 @@ x_y_pairs <- function(
     fixed.x = FALSE
   )
   out0$indirect <- FALSE
-  ind_paths <- manymome::all_indirect_paths(
-    fit = fit,
-    x = unique(out0$x),
-    y = unique(out0$y)
-  )
-  if (length(ind_paths) > 0) {
+  ind_paths <- tryCatch(
+                suppressWarnings(manymome::all_indirect_paths(
+                fit = fit,
+                x = unique(out0$x),
+                y = unique(out0$y)
+              )),
+              error = function(e) e)
+  if ((length(ind_paths) > 0) &&
+      isFALSE(inherits(ind_paths, "error"))) {
     for (ii in ind_paths) {
       jj <- (out0$x == ii$x) &
             (out0$y == ii$y)

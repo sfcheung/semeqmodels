@@ -209,6 +209,7 @@ eq_df_models <- function(
     }
     out_add_tried <- c(out_i, out_add_tried)
     if (parallel) {
+      chunk_size <- getOption("semeqmodels.chunk_size", NULL)
       out_drop_i <- parallel::parLapplyLB(
         cl = cl,
         out_i,
@@ -220,7 +221,7 @@ eq_df_models <- function(
         se = se,
         parallel = FALSE,
         progress = gen_models_progress,
-        chunk.size = 1
+        chunk.size = chunk_size
       )
     } else {
       out_drop_i <- lapply(
@@ -290,6 +291,7 @@ eq_df_models <- function(
     # finalizing the outputs.
     # They need to included during the search.
     if (parallel) {
+      chunk_size <- getOption("semeqmodels.chunk_size", NULL)
       out_add_i <- parallel::parLapplyLB(
         cl = cl,
         out_drop_i,
@@ -301,7 +303,7 @@ eq_df_models <- function(
         se = se,
         parallel = FALSE,
         progress = gen_models_progress,
-        chunk.size = 1
+        chunk.size = chunk_size
       )
     } else {
       out_add_i <- lapply(
