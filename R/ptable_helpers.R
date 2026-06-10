@@ -85,6 +85,7 @@ combine_partables <- function(
     out0 <- unique(out0)
   }
   tmp <- class(out0)
+  tmp <- add_digest_partables(tmp)
   tmp <- tmp[!(tmp %in% c("eq_partables", "partables"))]
   tmp <- c("eq_partables", "partables", tmp)
   class(out0) <- tmp

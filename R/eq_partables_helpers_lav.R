@@ -592,6 +592,7 @@ c.eq_partables <- function(
   drop_duplicated = TRUE
 ) {
   out0 <- to_eq_partables_list(...)
+  out0 <- add_digest_partables(out0)
   class0 <- class(out0)
   if (drop_duplicated) {
     i <- sapply(
