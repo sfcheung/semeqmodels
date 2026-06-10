@@ -19,7 +19,8 @@ drop_k(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  drop_original = TRUE
+  drop_original = TRUE,
+  add_digest = TRUE
 )
 
 add_k(
@@ -38,7 +39,8 @@ add_k(
   make_cluster_args = list(),
   remove_dropped = TRUE,
   remove_zeros = FALSE,
-  add_name = FALSE
+  add_name = FALSE,
+  add_digest = TRUE
 )
 }
 \arguments{
@@ -107,6 +109,10 @@ To be passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 \item{drop_original}{Logical. Whether
 the original model will dropped from
 the output. Default is \code{TRUE}.}
+
+\item{add_digest}{Logical. If \code{TRUE},
+\code{\link[=add_digest]{add_digest()}} will be called to
+add hash values to the parameter table.}
 
 \item{df_change_add}{The change in
 the degrees of freedom when adding
