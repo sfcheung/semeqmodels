@@ -136,7 +136,7 @@ dummy_data <- function(
 }
 
 #' @noRd
-x_y_pairs <- function(
+x_y_pairs_old <- function(
   object
 ) {
 
@@ -242,6 +242,126 @@ x_y_pairs <- function(
 }
 
 #' @noRd
+x_y_pairs <- function(
+  object
+) {
+  # Output
+  # - Always a data frame, though may have
+  #   0 row.
+
+  # # Whether a variable is in "ov.nox" depends
+  # # on fixed.x. Should use eqs.x and eqs.y.
+  # all_x1 <- lavaan::lavNames(
+  #   object,
+  #   "ov.x"
+  # )
+  # all_x2 <- lavaan::lavNames(
+  #   object,
+  #   "lv.x"
+  # )
+
+  if (is_partable(object)) {
+    object <- auto_ram(
+      FUN = lavaan::sem,
+      model = object,
+      do.fit = FALSE,
+      fixed.x = FALSE
+    )
+  }
+
+  mm <- lavaan::lavInspect(
+    object,
+    "partable",
+    drop.list.single.group = TRUE
+  )
+
+  fit_opts <- lavaan::lavInspect(
+    object,
+    "options"
+  )
+
+  pt <- lavaan::parameterTable(object)
+
+  if (fit_opts$representation == "LISREL") {
+    if (is.null(mm$beta)) {
+      # No regression paths
+      return(data.frame(
+                x = character(0),
+                y = character(0)
+      ))
+    }
+    beta <- unclass(mm$beta)
+    for (i in pt$id) {
+      i_fixed <- pt[pt$id == i, "free"] == 0
+      i_start_0 <- pt[pt$id == i, "start"] == 0
+      if (i_fixed && i_start_0) {
+        beta[beta == i] <- 0
+      }
+    }
+  }
+
+  if (fit_opts$representation == "RAM") {
+    mmA <- unclass(mm$A)
+    for (i in pt$id) {
+      i_fixed <- pt[pt$id == i, "free"] == 0
+      i_start_0 <- pt[pt$id == i, "start"] == 0
+      if (i_fixed && i_start_0) {
+        mmA[mmA == i] <- 0
+      }
+    }
+    beta <- mmA
+  }
+  adj <- beta
+  adj[adj > 0] <- 1
+  tmp <- apply(adj, MARGIN = 2,
+                FUN = function(x) {identical(range(x), c(0, 0))})
+  x_only <- colnames(adj)[tmp]
+  x_all <- union(rownames(adj), colnames(adj))
+  y_all <- x_all[!(x_all %in% x_only)]
+
+  xy_pairs <- expand.grid(
+                y = y_all,
+                x = x_all,
+                stringsAsFactors = FALSE
+              )
+  graph_adj <- igraph::graph_from_adjacency_matrix(adj,
+                          mode = "directed")
+  out <- mapply(igraph::all_simple_paths,
+                from = xy_pairs$x,
+                to = xy_pairs$y,
+                MoreArgs = list(graph = graph_adj),
+                SIMPLIFY = FALSE)
+  out <- out[sapply(out, length) > 0]
+  if (length(out) == 0) {
+    # No x-y pairs
+    return(FALSE)
+  }
+  out <- unlist(out, recursive = FALSE)
+
+  to_x_y <- function(x) {
+      if (length(x) >= 2) {
+          p <- length(x)
+          tmp <- names(x)
+          out <- c(x = tmp[p],
+                   y = tmp[1])
+          return(out)
+        }
+      NA
+    }
+  out1 <- lapply(
+            out,
+            to_x_y
+          )
+  out1 <- do.call(
+    rbind,
+    out1
+  )
+  out1 <- as.data.frame(out1)
+  rownames(out1) <- NULL
+  out1[!duplicated(out1), ]
+}
+
+#' @noRd
 x_y_ecov <- function(
   object
 ) {
@@ -302,7 +422,7 @@ has_x_y_ecov <- function(
 }
 
 #' @noRd
-has_x_y_ecov2 <- function(
+has_x_y_ecov2_old <- function(
   object
 ) {
   # Check whether a model has
@@ -412,6 +532,116 @@ has_x_y_ecov2 <- function(
   return(FALSE)
 }
 
+#' @noRd
+has_x_y_ecov2 <- function(
+  object
+) {
+  # Check whether a model has
+  # a covariance between an exogenous
+  # variable and an error term
+
+  if (is_partable(object)) {
+    object <- auto_ram(
+      FUN = lavaan::sem,
+      object,
+      do.fit = FALSE,
+      fixed.x = FALSE
+    )
+  }
+
+  mm <- lavaan::lavInspect(
+    object,
+    "partable",
+    drop.list.single.group = TRUE
+  )
+
+  pt <- lavaan::parameterTable(object)
+
+  x_y <- x_y_pairs(object)
+
+  if (nrow(x_y) == 0) {
+    # ==== No x-y pairs ====
+    return(FALSE)
+  }
+
+  # ==== Create the adjacent matrix ====
+
+  fit_opts <- lavaan::lavInspect(
+    object,
+    "options"
+  )
+
+  if (fit_opts$representation == "LISREL") {
+    beta <- unclass(mm$beta)
+    psi <- unclass(mm$psi)
+    for (i in pt$id) {
+      i_fixed <- pt[pt$id == i, "free"] == 0
+      i_start_0 <- pt[pt$id == i, "start"] == 0
+      if (i_fixed && i_start_0) {
+        beta[beta == i] <- 0
+        psi[psi == i] <- 0
+      }
+    }
+    m_check <- beta + psi
+  }
+
+  if (fit_opts$representation == "RAM") {
+    mmA <- unclass(mm$A)
+    mmS <- unclass(mm$S)
+    for (i in pt$id) {
+      i_fixed <- pt[pt$id == i, "free"] == 0
+      i_start_0 <- pt[pt$id == i, "start"] == 0
+      if (i_fixed && i_start_0) {
+        mmA[mmA == i] <- 0
+        mmS[mmS == i] <- 0
+      }
+    }
+    m_check <- mmA + mmS
+  }
+
+  # Form the matrix of relations
+
+  m_check[m_check > 0] <- 1
+  m_check_a <- m_check
+  m_check_a[upper.tri(m_check_a, diag = TRUE)] <- 0
+  m_check_b <- t(m_check)
+  m_check_b[upper.tri(m_check_b, diag = TRUE)] <- 0
+
+  # ==== Any direct or indirect x-y covariation? ====
+
+  m_igraph <- igraph::graph_from_adjacency_matrix(
+                t(m_check),
+                mode = "directed"
+              )
+
+  m_names <- colnames(m_check)
+  for (i in seq_len(nrow(x_y))) {
+    x_i <- x_y$x[i]
+    y_i <- x_y$y[i]
+    if (!(x_i %in% m_names) ||
+        !(y_i %in% m_names)) {
+      next
+    }
+    x_to_y_i <- igraph::all_simple_paths(
+      m_igraph,
+      from = x_i,
+      to = y_i,
+      mode = "out"
+    )
+    y_to_x_i <- igraph::all_simple_paths(
+      m_igraph,
+      from = y_i,
+      to = x_i,
+      mode = "out"
+    )
+    if ((length(x_to_y_i) > 0) &&
+        (length(y_to_x_i) > 0)) {
+      return(TRUE)
+    }
+  }
+  # Default to No (FALSE)
+  return(FALSE)
+}
 
 #' @noRd
 rename_to_digest <- function(
