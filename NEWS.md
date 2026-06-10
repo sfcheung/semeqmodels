@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9054
+# semeqmodels 0.0.0.9055
 
 - Initialize the package.
   (0.0.0.9000)
@@ -337,3 +337,7 @@
 
 - Updated the doc.
   (0.0.0.9054)
+
+- Add error-handling to calls of
+  `all_indirect_paths()`.
+  (0.0.0.9055)
