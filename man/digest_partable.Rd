@@ -24,7 +24,7 @@ add_digest(partable, ..., overwrite = FALSE)
 
 get_digest(partable, ...)
 
-add_digest_partables(partables, ...)
+add_digest_partables(partables, ..., overwrite = FALSE)
 
 get_digest_partables(partables, ...)
 }

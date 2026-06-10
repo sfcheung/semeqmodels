@@ -261,14 +261,16 @@ get_digest <- function(
 #' @export
 add_digest_partables <- function(
   partables,
-  ...
+  ...,
+  overwrite = FALSE
 ) {
   # TOOD:
   # - Add some sanity checks.
   out0 <- lapply(
     partables,
     add_digest,
-    ...
+    ...,
+    overwrite = overwrite
   )
   class(out0) <- class(partables)
   out0
