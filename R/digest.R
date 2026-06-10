@@ -314,7 +314,7 @@ sort_partable <- function(
 }
 
 #' @noRd
-sort_cov_pairs <- function(
+sort_cov_pairs_old <- function(
   partable
 ) {
   # Sort x~~y pairs to ensure a consistent order
@@ -324,5 +324,29 @@ sort_cov_pairs <- function(
       partable[i, c("lhs", "rhs")] <- tmp
     }
   }
+  partable
+}
+
+#' @noRd
+sort_cov_pairs <- function(
+  partable
+) {
+  # Sort x~~y pairs to ensure a consistent order
+  i <- (partable$op == "~~") &
+       (partable$lhs != partable$rhs)
+  if (isFALSE(any(i))) {
+    return(partable)
+  }
+  f <- function(j) {
+    sort(c(partable[j, "lhs"], partable[j, "rhs"]))
+  }
+  out0 <- lapply(
+      which(i),
+      f
+    )
+  lhs0 <- sapply(out0, \(x) x[1])
+  rhs0 <- sapply(out0, \(x) x[2])
+  partable[i, "lhs"] <- lhs0
+  partable[i, "rhs"] <- rhs0
   partable
 }
