@@ -372,15 +372,15 @@ remove_x_y_ecov <- function(
   plots_org <- tmp$plots_org
   output_tmp <- tmp$output_tmp
 
+  # chk <- sapply(
+  #           partables,
+  #           has_x_y_ecov
+  #         )
   chk <- sapply(
-            partables,
-            has_x_y_ecov
-          )
-  chk2 <- sapply(
             partables,
             has_x_y_ecov2
           )
-  chk <- chk | chk2
+  # chk <- chk | chk2
   if (output_tmp == "logical") {
     out0 <- !chk
     names(out0) <- names(partables)
