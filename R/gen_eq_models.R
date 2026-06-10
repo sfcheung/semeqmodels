@@ -361,7 +361,8 @@ eq_df_models <- function(
   if (exclude_x_y_ecov) {
     tmp <- length(out)
     out <- remove_x_y_ecov(
-        out
+        out,
+        cl = cl
       )
     if (tmp > length(out)) {
       cat("\n")
