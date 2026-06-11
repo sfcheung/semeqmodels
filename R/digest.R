@@ -147,6 +147,7 @@ digest_partable <- function(
   row.names(out0) <- NULL
   i_free <- which(out0$free > 0)
   out0$free[i_free] <- seq_along(i_free)
+  out0$free <- as.integer(out0$free)
   out0$start <- round(out0$start, digits = digits)
   out0$ustart <- round(out0$ustart, digits = digits)
   out0$start[i_free] <- NA

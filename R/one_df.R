@@ -232,6 +232,14 @@ drop_k <- function(
   }
   # ==== Generate models ====
 
+  optold2 <- getOption("modelbpp.use_pt_add_only")
+  if (is.null(optold2)) {
+    optold2 <- options(modelbpp.use_pt_add_only = TRUE)
+  } else {
+    # "modelbpp.use_pt_add_only" has been set. Use it. Do not force TRUE
+    optold2 <- options(modelbpp.use_pt_add_only = optold2)
+  }
+  on.exit(options(optold2))
   optold <- getOption("modelbpp.do_fit")
   if (is.null(optold)) {
     optold <- options(modelbpp.do_fit = FALSE)
@@ -566,6 +574,14 @@ add_k <- function(
     args1,
     list(sem_out = fit_i)
   )
+  optold2 <- getOption("modelbpp.use_pt_add_only")
+  if (is.null(optold2)) {
+    optold2 <- options(modelbpp.use_pt_add_only = TRUE)
+  } else {
+    # "modelbpp.use_pt_add_only" has been set. Use it. Do not force TRUE
+    optold2 <- options(modelbpp.use_pt_add_only = optold2)
+  }
+  on.exit(options(optold2))
   optold <- getOption("modelbpp.do_fit")
   if (is.null(optold)) {
     optold <- options(modelbpp.do_fit = FALSE)
