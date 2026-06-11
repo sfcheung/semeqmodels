@@ -81,6 +81,9 @@
 #' including these parameters to
 #' `must_not_add`.
 #'
+#' @param save_history Logical. If `TRUE`,
+#' the search history will be saved.
+#'
 #' @examples
 #'
 #' library(lavaan)
@@ -120,7 +123,8 @@ eq_df_models <- function(
   progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
-  must_not_add_nil_parameters = TRUE
+  must_not_add_nil_parameters = TRUE,
+  save_history = FALSE
 ) {
   # TODO:
   # - Add other arguments, e.g., for add_k() and drop_k().
@@ -239,16 +243,19 @@ eq_df_models <- function(
 
     # ==== Store drop_k() history ====
 
-    out_i_digest <- unname(get_digest_partables(out_i))
-    same_to_more_i <- lapply(
-        out_drop_i,
-        \(x) unname(get_digest_partables(x))
+    if (save_history) {
+      out_i_digest <- unname(get_digest_partables(out_i))
+      same_to_more_i <- lapply(
+          out_drop_i,
+          \(x) unname(get_digest_partables(x))
+        )
+      names(same_to_more_i) <- out_i_digest
+      pts_same_to_more_history <- append(
+        pts_same_to_more_history,
+        list(same_to_more_i)
       )
-    names(same_to_more_i) <- out_i_digest
-    pts_same_to_more_history <- append(
-      pts_same_to_more_history,
-      list(same_to_more_i)
-    )
+    }
+
     out_drop_i <- combine_partables(
               out_drop_i
             )
@@ -321,16 +328,18 @@ eq_df_models <- function(
 
     # ==== Store add_k() history ====
 
-    out_drop_i_digest <- unname(get_digest_partables(out_drop_i))
-    more_to_same_i <- lapply(
-        out_add_i,
-        \(x) unname(get_digest_partables(x))
+    if (save_history) {
+      out_drop_i_digest <- unname(get_digest_partables(out_drop_i))
+      more_to_same_i <- lapply(
+          out_add_i,
+          \(x) unname(get_digest_partables(x))
+        )
+      names(more_to_same_i) <- out_drop_i_digest
+      pts_more_to_same_history <- append(
+        pts_more_to_same_history,
+        list(more_to_same_i)
       )
-    names(more_to_same_i) <- out_drop_i_digest
-    pts_more_to_same_history <- append(
-      pts_more_to_same_history,
-      list(more_to_same_i)
-    )
+    }
 
     out_add_i <- combine_partables(
               out_add_i
@@ -361,7 +370,8 @@ eq_df_models <- function(
   if (exclude_x_y_ecov) {
     tmp <- length(out)
     out <- remove_x_y_ecov(
-        out
+        out,
+        cl = cl
       )
     if (tmp > length(out)) {
       cat("\n")

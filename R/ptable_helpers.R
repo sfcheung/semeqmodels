@@ -84,6 +84,7 @@ combine_partables <- function(
     # out0 <- out0[!duplicated(i)]
     out0 <- unique(out0)
   }
+  out0 <- add_digest_partables(out0)
   tmp <- class(out0)
   tmp <- tmp[!(tmp %in% c("eq_partables", "partables"))]
   tmp <- c("eq_partables", "partables", tmp)
@@ -154,6 +155,8 @@ setdiff_eq_partables <- function(
   x,
   y
 ) {
+  x <- add_digest_partables(x)
+  y <- add_digest_partables(y)
   x_digest <- sapply(
     x,
     get_digest
@@ -165,6 +168,7 @@ setdiff_eq_partables <- function(
   i <- !(x_digest %in% y_digest)
   if (any(i)) {
     out <- x[i]
+    out <- add_digest_partables(out)
   } else {
     out <- list()
   }

@@ -88,6 +88,10 @@ NULL
 #' the original model will dropped from
 #' the output. Default is `TRUE`.
 #'
+#' @param add_digest Logical. If `TRUE`,
+#' [add_digest()] will be called to
+#' add hash values to the parameter table.
+#'
 #' @references
 #' Pesigan, I. J. A., Cheung, S. F.,
 #' Wu, H., Chang, F., & Leung, S. O. (2026).
@@ -145,7 +149,8 @@ drop_k <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  drop_original = TRUE
+  drop_original = TRUE,
+  add_digest = TRUE
 ) {
 
   # - A function to generate a list of 1-more-df models.
@@ -250,8 +255,9 @@ drop_k <- function(
   # ==== Store additional info  ====
 
   if (length(out0) > 0) {
+    tmp <- get_digest(partable)
     for (i in seq_along(out0)) {
-      attr(out0[[i]], "from_partable") <- get_digest(partable)
+      attr(out0[[i]], "from_partable") <- tmp
     }
   }
 
@@ -279,6 +285,13 @@ drop_k <- function(
               out0,
               fit0
             )
+  }
+
+  # ==== Add hash values ====
+
+  if (add_digest &&
+      length(out0) > 0) {
+    out0 <- add_digest_partables(out0)
   }
 
   out0
@@ -381,7 +394,8 @@ add_k <- function(
   make_cluster_args = list(),
   remove_dropped = TRUE,
   remove_zeros = FALSE,
-  add_name = FALSE
+  add_name = FALSE,
+  add_digest = TRUE
 ) {
 
   # - A function to generate a list of 1-less-df models.
@@ -574,8 +588,9 @@ add_k <- function(
   # ==== Store additional info  ====
 
   if (length(out0) > 0) {
+    tmp <- get_digest(partable)
     for (i in seq_along(out0)) {
-      attr(out0[[i]], "from_partable") <- get_digest(partable)
+      attr(out0[[i]], "from_partable") <- tmp
     }
   }
   class(out0) <- c("eq_partables", class_out0)
@@ -602,6 +617,13 @@ add_k <- function(
               out0,
               fit0
             )
+  }
+
+  # ==== Add hash values ====
+
+  if (add_digest &&
+      length(out0) > 0) {
+    out0 <- add_digest_partables(out0)
   }
 
   out0
