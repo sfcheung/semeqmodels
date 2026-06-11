@@ -145,6 +145,18 @@ eq_df_models <- function(
     )
   }
 
+  # ==== fix_call ====
+
+  sem_out <- fix_call(
+                sem_out,
+                env_for_call = parent.frame()
+              )
+  dat <- lavaan::lavInspect(
+    sem_out,
+    "data",
+    list.by.group = FALSE
+  )
+
   # ==== Parallel processing ====
 
   cl <- NULL
@@ -164,18 +176,12 @@ eq_df_models <- function(
                   })
     parallel::clusterExport(cl,
                             c("sem_out",
+                              "dat",
                               "fit_models",
                               "gen_models_progress"),
                             envir = environment()
                           )
   }
-
-  # ==== fix_call ====
-
-  sem_out <- fix_call(
-                sem_out,
-                env_for_call = parent.frame()
-              )
 
   # ==== Start the loop ====
 
@@ -225,6 +231,7 @@ eq_df_models <- function(
         se = se,
         parallel = FALSE,
         progress = gen_models_progress,
+        dat = dat,
         chunk.size = chunk_size
       )
     } else {
@@ -237,7 +244,8 @@ eq_df_models <- function(
         must_not_drop = must_not_drop,
         se = se,
         parallel = FALSE,
-        progress = gen_models_progress
+        progress = gen_models_progress,
+        dat = dat
       )
     }
 
@@ -310,6 +318,7 @@ eq_df_models <- function(
         se = se,
         parallel = FALSE,
         progress = gen_models_progress,
+        dat = dat,
         chunk.size = chunk_size
       )
     } else {
@@ -322,7 +331,8 @@ eq_df_models <- function(
         exclude_x_y_ecov = FALSE,
         se = se,
         parallel = FALSE,
-        progress = gen_models_progress
+        progress = gen_models_progress,
+        dat = dat
       )
     }
 

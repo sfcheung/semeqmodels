@@ -92,6 +92,10 @@ NULL
 #' [add_digest()] will be called to
 #' add hash values to the parameter table.
 #'
+#' @param dat The dataset to be used
+#' when `sem_out` is `NULL` and `object`
+#' is not a `lavaan` output with data.
+#'
 #' @references
 #' Pesigan, I. J. A., Cheung, S. F.,
 #' Wu, H., Chang, F., & Leung, S. O. (2026).
@@ -150,7 +154,8 @@ drop_k <- function(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   drop_original = TRUE,
-  add_digest = TRUE
+  add_digest = TRUE,
+  dat = NULL
 ) {
 
   # - A function to generate a list of 1-more-df models.
@@ -195,7 +200,9 @@ drop_k <- function(
     if (fixed.x) {
       stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
-    dat <- dummy_data(partable)
+    if (is.null(dat)) {
+      dat <- dummy_data(partable)
+    }
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fit <- do.call(
@@ -225,6 +232,14 @@ drop_k <- function(
   }
   # ==== Generate models ====
 
+  optold2 <- getOption("modelbpp.use_pt_add_only")
+  if (is.null(optold2)) {
+    optold2 <- options(modelbpp.use_pt_add_only = TRUE)
+  } else {
+    # "modelbpp.use_pt_add_only" has been set. Use it. Do not force TRUE
+    optold2 <- options(modelbpp.use_pt_add_only = optold2)
+  }
+  on.exit(options(optold2))
   optold <- getOption("modelbpp.do_fit")
   if (is.null(optold)) {
     optold <- options(modelbpp.do_fit = FALSE)
@@ -395,7 +410,8 @@ add_k <- function(
   remove_dropped = TRUE,
   remove_zeros = FALSE,
   add_name = FALSE,
-  add_digest = TRUE
+  add_digest = TRUE,
+  dat = NULL
 ) {
 
   # - A function to generate a list of 1-less-df models.
@@ -438,7 +454,9 @@ add_k <- function(
   # ==== Update the fit ====
 
   if (is.null(sem_out)) {
-    dat <- dummy_data(partable)
+    if (is.null(dat)) {
+      dat <- dummy_data(partable)
+    }
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fixed.x <- partable_fixedx(partable)
@@ -556,6 +574,14 @@ add_k <- function(
     args1,
     list(sem_out = fit_i)
   )
+  optold2 <- getOption("modelbpp.use_pt_add_only")
+  if (is.null(optold2)) {
+    optold2 <- options(modelbpp.use_pt_add_only = TRUE)
+  } else {
+    # "modelbpp.use_pt_add_only" has been set. Use it. Do not force TRUE
+    optold2 <- options(modelbpp.use_pt_add_only = optold2)
+  }
+  on.exit(options(optold2))
   optold <- getOption("modelbpp.do_fit")
   if (is.null(optold)) {
     optold <- options(modelbpp.do_fit = FALSE)
