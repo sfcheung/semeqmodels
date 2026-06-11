@@ -20,7 +20,8 @@ drop_k(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   drop_original = TRUE,
-  add_digest = TRUE
+  add_digest = TRUE,
+  dat = NULL
 )
 
 add_k(
@@ -40,7 +41,8 @@ add_k(
   remove_dropped = TRUE,
   remove_zeros = FALSE,
   add_name = FALSE,
-  add_digest = TRUE
+  add_digest = TRUE,
+  dat = NULL
 )
 }
 \arguments{
@@ -113,6 +115,10 @@ the output. Default is \code{TRUE}.}
 \item{add_digest}{Logical. If \code{TRUE},
 \code{\link[=add_digest]{add_digest()}} will be called to
 add hash values to the parameter table.}
+
+\item{dat}{The dataset to be used
+when \code{sem_out} is \code{NULL} and \code{object}
+is not a \code{lavaan} output with data.}
 
 \item{df_change_add}{The change in
 the degrees of freedom when adding
