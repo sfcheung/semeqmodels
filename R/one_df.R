@@ -175,7 +175,7 @@ drop_k <- function(
     # Ignore sem_out if object is a fit object
     sem_out <- object
     if (lavaan::lavInspect(sem_out, "fixed.x")) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("drop_k: sem_out: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     partable <- lavaan::parameterTable(sem_out)
   } else {
@@ -198,7 +198,7 @@ drop_k <- function(
   if (is.null(sem_out)) {
     fixed.x <- partable_fixedx(partable = partable)
     if (fixed.x) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("drop_k: partable: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     if (is.null(dat)) {
       dat <- dummy_data(partable)
@@ -433,7 +433,7 @@ add_k <- function(
     # Ignore sem_out if object is a fit object
     sem_out <- object
     if (lavaan::lavInspect(sem_out, "fixed.x")) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("add_k: sem_out: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     partable <- lavaan::parameterTable(sem_out)
   } else {
@@ -461,7 +461,7 @@ add_k <- function(
     # Need this for lavaan::update()
     fixed.x <- partable_fixedx(partable)
     if (fixed.x) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("add_k: partable: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     fit <- do.call(
               auto_ram,
