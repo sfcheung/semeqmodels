@@ -703,7 +703,7 @@ partable_fixedx <- function(
     tmp <- switch(
       fit0@Options$representation,
       LISREL = tmp0$psi,
-      RAM = tmp0$A
+      RAM = tmp0$S
     )
     fixed.x <- any(diag(tmp)[xnames] == 0)
   } else {
