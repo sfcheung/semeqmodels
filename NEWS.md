@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9055
+# semeqmodels 0.0.0.9056
 
 - Initialize the package.
   (0.0.0.9000)
@@ -341,3 +341,19 @@
 - Add error-handling to calls of
   `all_indirect_paths()`.
   (0.0.0.9055)
+
+- Improved the speed of `sort_cov_pairs()`.
+  (0.0.0.9056)
+
+- Improved the speed of `remove_x_y_ecov()`.
+  Also added the argument `cl` for
+  parallel processing.
+  (0.0.0.9056)
+
+- Several functions now add hash values
+  to the output.
+  (0.0.0.9056)
+
+- `eq_df_models()` now does not save
+  history unless requested.
+  (0.0.0.9056)
