@@ -17,7 +17,8 @@ eq_df_models(
   progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
-  must_not_add_nil_parameters = TRUE
+  must_not_add_nil_parameters = TRUE,
+  save_history = FALSE
 )
 }
 \arguments{
@@ -99,6 +100,9 @@ covariances fixed to zero) will not
 be added in the search, implemented by
 including these parameters to
 \code{must_not_add}.}
+
+\item{save_history}{Logical. If \code{TRUE},
+the search history will be saved.}
 }
 \value{
 The function \code{\link[=eq_df_models]{eq_df_models()}}

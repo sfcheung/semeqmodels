@@ -88,6 +88,14 @@ NULL
 #' the original model will dropped from
 #' the output. Default is `TRUE`.
 #'
+#' @param add_digest Logical. If `TRUE`,
+#' [add_digest()] will be called to
+#' add hash values to the parameter table.
+#'
+#' @param dat The dataset to be used
+#' when `sem_out` is `NULL` and `object`
+#' is not a `lavaan` output with data.
+#'
 #' @references
 #' Pesigan, I. J. A., Cheung, S. F.,
 #' Wu, H., Chang, F., & Leung, S. O. (2026).
@@ -145,7 +153,9 @@ drop_k <- function(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  drop_original = TRUE
+  drop_original = TRUE,
+  add_digest = TRUE,
+  dat = NULL
 ) {
 
   # - A function to generate a list of 1-more-df models.
@@ -165,7 +175,7 @@ drop_k <- function(
     # Ignore sem_out if object is a fit object
     sem_out <- object
     if (lavaan::lavInspect(sem_out, "fixed.x")) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("drop_k: sem_out: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     partable <- lavaan::parameterTable(sem_out)
   } else {
@@ -188,9 +198,11 @@ drop_k <- function(
   if (is.null(sem_out)) {
     fixed.x <- partable_fixedx(partable = partable)
     if (fixed.x) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("drop_k: partable: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
-    dat <- dummy_data(partable)
+    if (is.null(dat)) {
+      dat <- dummy_data(partable)
+    }
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fit <- do.call(
@@ -220,6 +232,14 @@ drop_k <- function(
   }
   # ==== Generate models ====
 
+  optold2 <- getOption("modelbpp.use_pt_add_only")
+  if (is.null(optold2)) {
+    optold2 <- options(modelbpp.use_pt_add_only = TRUE)
+  } else {
+    # "modelbpp.use_pt_add_only" has been set. Use it. Do not force TRUE
+    optold2 <- options(modelbpp.use_pt_add_only = optold2)
+  }
+  on.exit(options(optold2))
   optold <- getOption("modelbpp.do_fit")
   if (is.null(optold)) {
     optold <- options(modelbpp.do_fit = FALSE)
@@ -227,7 +247,7 @@ drop_k <- function(
     # "modelbpp.do_fit" has been set. Use it. Do not force FALSE
     optold <- options(modelbpp.do_fit = optold)
   }
-  on.exit(options(optold))
+  on.exit(options(optold), add = TRUE)
   out0 <- modelbpp::gen_models(
             sem_out = fit,
             ...,
@@ -250,8 +270,9 @@ drop_k <- function(
   # ==== Store additional info  ====
 
   if (length(out0) > 0) {
+    tmp <- get_digest(partable)
     for (i in seq_along(out0)) {
-      attr(out0[[i]], "from_partable") <- get_digest(partable)
+      attr(out0[[i]], "from_partable") <- tmp
     }
   }
 
@@ -279,6 +300,13 @@ drop_k <- function(
               out0,
               fit0
             )
+  }
+
+  # ==== Add hash values ====
+
+  if (add_digest &&
+      length(out0) > 0) {
+    out0 <- add_digest_partables(out0)
   }
 
   out0
@@ -381,7 +409,9 @@ add_k <- function(
   make_cluster_args = list(),
   remove_dropped = TRUE,
   remove_zeros = FALSE,
-  add_name = FALSE
+  add_name = FALSE,
+  add_digest = TRUE,
+  dat = NULL
 ) {
 
   # - A function to generate a list of 1-less-df models.
@@ -403,7 +433,7 @@ add_k <- function(
     # Ignore sem_out if object is a fit object
     sem_out <- object
     if (lavaan::lavInspect(sem_out, "fixed.x")) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("add_k: sem_out: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     partable <- lavaan::parameterTable(sem_out)
   } else {
@@ -424,12 +454,14 @@ add_k <- function(
   # ==== Update the fit ====
 
   if (is.null(sem_out)) {
-    dat <- dummy_data(partable)
+    if (is.null(dat)) {
+      dat <- dummy_data(partable)
+    }
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fixed.x <- partable_fixedx(partable)
     if (fixed.x) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("add_k: partable: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     fit <- do.call(
               auto_ram,
@@ -542,6 +574,14 @@ add_k <- function(
     args1,
     list(sem_out = fit_i)
   )
+  optold2 <- getOption("modelbpp.use_pt_add_only")
+  if (is.null(optold2)) {
+    optold2 <- options(modelbpp.use_pt_add_only = TRUE)
+  } else {
+    # "modelbpp.use_pt_add_only" has been set. Use it. Do not force TRUE
+    optold2 <- options(modelbpp.use_pt_add_only = optold2)
+  }
+  on.exit(options(optold2))
   optold <- getOption("modelbpp.do_fit")
   if (is.null(optold)) {
     optold <- options(modelbpp.do_fit = FALSE)
@@ -549,7 +589,7 @@ add_k <- function(
     # "modelbpp.do_fit" has been set. Use it. Do not force FALSE
     optold <- options(modelbpp.do_fit = optold)
   }
-  on.exit(options(optold))
+  on.exit(options(optold), add = TRUE)
   out0 <- do.call(
     modelbpp::gen_models,
     args1
@@ -574,8 +614,9 @@ add_k <- function(
   # ==== Store additional info  ====
 
   if (length(out0) > 0) {
+    tmp <- get_digest(partable)
     for (i in seq_along(out0)) {
-      attr(out0[[i]], "from_partable") <- get_digest(partable)
+      attr(out0[[i]], "from_partable") <- tmp
     }
   }
   class(out0) <- c("eq_partables", class_out0)
@@ -602,6 +643,13 @@ add_k <- function(
               out0,
               fit0
             )
+  }
+
+  # ==== Add hash values ====
+
+  if (add_digest &&
+      length(out0) > 0) {
+    out0 <- add_digest_partables(out0)
   }
 
   out0

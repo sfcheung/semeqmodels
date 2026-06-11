@@ -356,12 +356,16 @@ has_par_i <- function(
 #' term of another variable it predicts,
 #' either directly or indirectly.
 #'
+#' @param cl A cluster created by
+#' [parallel::makeCluster()]. Used
+#' internally. Do not set this argument.
 #'
 #' @rdname partable_select
 #' @export
 remove_x_y_ecov <- function(
   partables,
-  output = c("models", "partables", "logical")
+  output = c("models", "partables", "logical"),
+  cl = NULL
 ) {
   output <- match.arg(output)
   tmp <- fix_select_object(
@@ -372,15 +376,27 @@ remove_x_y_ecov <- function(
   plots_org <- tmp$plots_org
   output_tmp <- tmp$output_tmp
 
-  chk <- sapply(
-            partables,
-            has_x_y_ecov
-          )
-  chk2 <- sapply(
-            partables,
-            has_x_y_ecov2
-          )
-  chk <- chk | chk2
+  # chk <- sapply(
+  #           partables,
+  #           has_x_y_ecov
+  #         )
+  if (!is.null(cl)) {
+    chk <- parallel::parSapplyLB(
+      cl = cl,
+      partables,
+      has_x_y_ecov2
+    )
+  } else {
+    chk <- sapply(
+              partables,
+              has_x_y_ecov2
+            )
+  }
+  # chk <- sapply(
+  #           partables,
+  #           has_x_y_ecov2
+  #         )
+  # chk <- chk | chk2
   if (output_tmp == "logical") {
     out0 <- !chk
     names(out0) <- names(partables)

@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9054
+# semeqmodels 0.0.0.9059
 
 - Initialize the package.
   (0.0.0.9000)
@@ -337,3 +337,31 @@
 
 - Updated the doc.
   (0.0.0.9054)
+
+- Add error-handling to calls of
+  `all_indirect_paths()`.
+  (0.0.0.9055)
+
+- Improved the speed of `sort_cov_pairs()`.
+  (0.0.0.9056)
+
+- Improved the speed of `remove_x_y_ecov()`.
+  Also added the argument `cl` for
+  parallel processing.
+  (0.0.0.9056)
+
+- Several functions now add hash values
+  to the output.
+  (0.0.0.9056)
+
+- `eq_df_models()` now does not save
+  history unless requested.
+  (0.0.0.9056)
+
+- Use `modelbpp.use_pt_add_only` by default.
+  Has effect only for `modelbpp` 0.3.0.4
+  or later.
+  (0.0.0.9057, 0.0.0.9059)
+
+- Reduced unnecessary calls to `dummy_data()`.
+  (0.0.0.9057)

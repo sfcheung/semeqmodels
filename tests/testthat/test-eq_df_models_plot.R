@@ -32,7 +32,8 @@ set.seed(1)
 out <- eq_df_models(
   sem_out = fit,
   parallel = FALSE,
-  progress = !is_testing()
+  progress = !is_testing(),
+  save_history = TRUE
 )
 out
 
@@ -40,7 +41,8 @@ out1 <- eq_models(
           out,
           original_model = fit,
           parallel = FALSE,
-          progress = !is_testing()
+          progress = !is_testing(),
+          eq_df_models_args = list(save_history = TRUE)
         )
 out1
 

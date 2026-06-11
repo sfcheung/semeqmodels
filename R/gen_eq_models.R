@@ -81,6 +81,9 @@
 #' including these parameters to
 #' `must_not_add`.
 #'
+#' @param save_history Logical. If `TRUE`,
+#' the search history will be saved.
+#'
 #' @examples
 #'
 #' library(lavaan)
@@ -120,7 +123,8 @@ eq_df_models <- function(
   progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
-  must_not_add_nil_parameters = TRUE
+  must_not_add_nil_parameters = TRUE,
+  save_history = FALSE
 ) {
   # TODO:
   # - Add other arguments, e.g., for add_k() and drop_k().
@@ -141,6 +145,18 @@ eq_df_models <- function(
     )
   }
 
+  # ==== fix_call ====
+
+  sem_out <- fix_call(
+                sem_out,
+                env_for_call = parent.frame()
+              )
+  dat <- lavaan::lavInspect(
+    sem_out,
+    "data",
+    list.by.group = FALSE
+  )
+
   # ==== Parallel processing ====
 
   cl <- NULL
@@ -160,18 +176,12 @@ eq_df_models <- function(
                   })
     parallel::clusterExport(cl,
                             c("sem_out",
+                              "dat",
                               "fit_models",
                               "gen_models_progress"),
                             envir = environment()
                           )
   }
-
-  # ==== fix_call ====
-
-  sem_out <- fix_call(
-                sem_out,
-                env_for_call = parent.frame()
-              )
 
   # ==== Start the loop ====
 
@@ -209,6 +219,7 @@ eq_df_models <- function(
     }
     out_add_tried <- c(out_i, out_add_tried)
     if (parallel) {
+      chunk_size <- getOption("semeqmodels.chunk_size", NULL)
       out_drop_i <- parallel::parLapplyLB(
         cl = cl,
         out_i,
@@ -220,7 +231,8 @@ eq_df_models <- function(
         se = se,
         parallel = FALSE,
         progress = gen_models_progress,
-        chunk.size = 1
+        dat = dat,
+        chunk.size = chunk_size
       )
     } else {
       out_drop_i <- lapply(
@@ -232,22 +244,26 @@ eq_df_models <- function(
         must_not_drop = must_not_drop,
         se = se,
         parallel = FALSE,
-        progress = gen_models_progress
+        progress = gen_models_progress,
+        dat = dat
       )
     }
 
     # ==== Store drop_k() history ====
 
-    out_i_digest <- unname(get_digest_partables(out_i))
-    same_to_more_i <- lapply(
-        out_drop_i,
-        \(x) unname(get_digest_partables(x))
+    if (save_history) {
+      out_i_digest <- unname(get_digest_partables(out_i))
+      same_to_more_i <- lapply(
+          out_drop_i,
+          \(x) unname(get_digest_partables(x))
+        )
+      names(same_to_more_i) <- out_i_digest
+      pts_same_to_more_history <- append(
+        pts_same_to_more_history,
+        list(same_to_more_i)
       )
-    names(same_to_more_i) <- out_i_digest
-    pts_same_to_more_history <- append(
-      pts_same_to_more_history,
-      list(same_to_more_i)
-    )
+    }
+
     out_drop_i <- combine_partables(
               out_drop_i
             )
@@ -290,6 +306,7 @@ eq_df_models <- function(
     # finalizing the outputs.
     # They need to included during the search.
     if (parallel) {
+      chunk_size <- getOption("semeqmodels.chunk_size", NULL)
       out_add_i <- parallel::parLapplyLB(
         cl = cl,
         out_drop_i,
@@ -301,7 +318,8 @@ eq_df_models <- function(
         se = se,
         parallel = FALSE,
         progress = gen_models_progress,
-        chunk.size = 1
+        dat = dat,
+        chunk.size = chunk_size
       )
     } else {
       out_add_i <- lapply(
@@ -313,22 +331,25 @@ eq_df_models <- function(
         exclude_x_y_ecov = FALSE,
         se = se,
         parallel = FALSE,
-        progress = gen_models_progress
+        progress = gen_models_progress,
+        dat = dat
       )
     }
 
     # ==== Store add_k() history ====
 
-    out_drop_i_digest <- unname(get_digest_partables(out_drop_i))
-    more_to_same_i <- lapply(
-        out_add_i,
-        \(x) unname(get_digest_partables(x))
+    if (save_history) {
+      out_drop_i_digest <- unname(get_digest_partables(out_drop_i))
+      more_to_same_i <- lapply(
+          out_add_i,
+          \(x) unname(get_digest_partables(x))
+        )
+      names(more_to_same_i) <- out_drop_i_digest
+      pts_more_to_same_history <- append(
+        pts_more_to_same_history,
+        list(more_to_same_i)
       )
-    names(more_to_same_i) <- out_drop_i_digest
-    pts_more_to_same_history <- append(
-      pts_more_to_same_history,
-      list(more_to_same_i)
-    )
+    }
 
     out_add_i <- combine_partables(
               out_add_i
@@ -359,7 +380,8 @@ eq_df_models <- function(
   if (exclude_x_y_ecov) {
     tmp <- length(out)
     out <- remove_x_y_ecov(
-        out
+        out,
+        cl = cl
       )
     if (tmp > length(out)) {
       cat("\n")
