@@ -79,7 +79,7 @@ dummy_data <- function(
         )
   fixed.x <- partable_fixedx(partable = partable)
   if (fixed.x) {
-    stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+    stop("dummy_data: fixed.x cannot be TRUE for now. Set it to FALSE.")
   }
   p <- length(ovnames)
   if (is.null(n)) {
