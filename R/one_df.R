@@ -247,7 +247,7 @@ drop_k <- function(
     # "modelbpp.do_fit" has been set. Use it. Do not force FALSE
     optold <- options(modelbpp.do_fit = optold)
   }
-  on.exit(options(optold))
+  on.exit(options(optold), add = TRUE)
   out0 <- modelbpp::gen_models(
             sem_out = fit,
             ...,
@@ -589,7 +589,7 @@ add_k <- function(
     # "modelbpp.do_fit" has been set. Use it. Do not force FALSE
     optold <- options(modelbpp.do_fit = optold)
   }
-  on.exit(options(optold))
+  on.exit(options(optold), add = TRUE)
   out0 <- do.call(
     modelbpp::gen_models,
     args1
