@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9058
+# semeqmodels 0.0.0.9059
 
 - Initialize the package.
   (0.0.0.9000)
@@ -361,7 +361,7 @@
 - Use `modelbpp.use_pt_add_only` by default.
   Has effect only for `modelbpp` 0.3.0.4
   or later.
-  (0.0.0.9057)
+  (0.0.0.9057, 0.0.0.9059)
 
 - Reduced unnecessary calls to `dummy_data()`.
   (0.0.0.9057)
