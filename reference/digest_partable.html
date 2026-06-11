@@ -13,7 +13,7 @@ comparisons."><meta name="google-site-verification" content="0VLBmFnW_UJFI-7gXnO
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9054</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9059</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,11 +65,11 @@ comparisons.</p>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">add_digest</span><span class="op">(</span><span class="va">partable</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">add_digest</span><span class="op">(</span><span class="va">partable</span>, <span class="va">...</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">get_digest</span><span class="op">(</span><span class="va">partable</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">add_digest_partables</span><span class="op">(</span><span class="va">partables</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">add_digest_partables</span><span class="op">(</span><span class="va">partables</span>, <span class="va">...</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">get_digest_partables</span><span class="op">(</span><span class="va">partables</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -133,6 +133,14 @@ these are arguments to be passed to
 <code>digest_partable()</code>.</p></dd>
 
 
+<dt id="arg-overwrite">overwrite<a class="anchor" aria-label="anchor" href="#arg-overwrite"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>,
+the stored hash value, if exists,
+will be overwritten. If <code>FALSE</code>,
+the stored has value, if exists,
+not be overwritten.</p></dd>
+
+
 <dt id="arg-partables">partables<a class="anchor" aria-label="anchor" href="#arg-partables"></a></dt>
 <dd><p>A list of <code>lavaan</code>
 parameter tables.</p></dd>
@@ -177,7 +185,9 @@ for typical models used in this package.</p>
 <p>The function <code>add_digest()</code> computes
 the hash value of a parameter table
 and adds it to the attribute <code>"digest"</code>
-of the table,</p>
+of the table, If the attribute is
+already set, it will not overwrite
+it unless <code>overwrite</code> is set to <code>TRUE</code>.</p>
 <p>The function <code>get_digest()</code> retrieves
 the stored hash value from a
 parameter table, if available. If

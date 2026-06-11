@@ -18,11 +18,11 @@ digest_partable(
   ...
 )
 
-add_digest(partable, ...)
+add_digest(partable, ..., overwrite = FALSE)
 
 get_digest(partable, ...)
 
-add_digest_partables(partables, ...)
+add_digest_partables(partables, ..., overwrite = FALSE)
 
 get_digest_partables(partables, ...)
 ```
@@ -71,6 +71,12 @@ get_digest_partables(partables, ...)
   `get_digest_partables()`, these are arguments to be passed to
   `digest_partable()`.
 
+- overwrite:
+
+  Logical. If `TRUE`, the stored hash value, if exists, will be
+  overwritten. If `FALSE`, the stored has value, if exists, not be
+  overwritten.
+
 - partables:
 
   A list of `lavaan` parameter tables.
@@ -106,7 +112,9 @@ identified using this approach. Nevertheless, they should be sufficient
 for typical models used in this package.
 
 The function `add_digest()` computes the hash value of a parameter table
-and adds it to the attribute `"digest"` of the table,
+and adds it to the attribute `"digest"` of the table, If the attribute
+is already set, it will not overwrite it unless `overwrite` is set to
+`TRUE`.
 
 The function `get_digest()` retrieves the stored hash value from a
 parameter table, if available. If not available, it will call

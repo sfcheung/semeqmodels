@@ -19,7 +19,9 @@ drop_k(
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  drop_original = TRUE
+  drop_original = TRUE,
+  add_digest = TRUE,
+  dat = NULL
 )
 
 add_k(
@@ -38,7 +40,9 @@ add_k(
   make_cluster_args = list(),
   remove_dropped = TRUE,
   remove_zeros = FALSE,
-  add_name = FALSE
+  add_name = FALSE,
+  add_digest = TRUE,
+  dat = NULL
 )
 ```
 
@@ -120,6 +124,17 @@ add_k(
 
   Logical. Whether the original model will dropped from the output.
   Default is `TRUE`.
+
+- add_digest:
+
+  Logical. If `TRUE`,
+  [`add_digest()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md)
+  will be called to add hash values to the parameter table.
+
+- dat:
+
+  The dataset to be used when `sem_out` is `NULL` and `object` is not a
+  `lavaan` output with data.
 
 - df_change_add:
 

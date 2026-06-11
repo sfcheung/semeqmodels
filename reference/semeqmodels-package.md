@@ -25,7 +25,8 @@ Authors:
 
 Other contributors:
 
-- Wenting Xu \[contributor\]
+- Wenting Xu ([ORCID](https://orcid.org/0000-0002-6671-3308))
+  \[contributor\]
 
 - Wendie Yang ([ORCID](https://orcid.org/0009-0000-8388-6481))
   \[contributor\]

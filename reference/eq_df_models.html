@@ -9,7 +9,7 @@ with df equal to a fitted model."><meta name="google-site-verification" content=
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9054</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9059</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,8 @@ with <em>df</em> equal to a fitted model.</p>
 <span>  progress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  gen_models_progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  short_names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  must_not_add_nil_parameters <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  must_not_add_nil_parameters <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  save_history <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -171,6 +172,11 @@ covariances fixed to zero) will not
 be added in the search, implemented by
 including these parameters to
 <code>must_not_add</code>.</p></dd>
+
+
+<dt id="arg-save-history">save_history<a class="anchor" aria-label="anchor" href="#arg-save-history"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>,
+the search history will be saved.</p></dd>
 
 </dl></div>
     <div class="section level2">

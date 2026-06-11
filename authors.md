@@ -15,13 +15,13 @@
 ## Citation
 
 Cheung S, Yang B (2026). *semeqmodels: Equivalent Models in Structural
-Equation Models*. R package version 0.0.0.9054,
+Equation Models*. R package version 0.0.0.9059,
 <https://sfcheung.github.io/semeqmodels/>.
 
     @Manual{,
       title = {semeqmodels: Equivalent Models in Structural Equation Models},
       author = {Shu Fai Cheung and Borui Yang},
       year = {2026},
-      note = {R package version 0.0.0.9054},
+      note = {R package version 0.0.0.9059},
       url = {https://sfcheung.github.io/semeqmodels/},
     }

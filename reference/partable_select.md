@@ -24,7 +24,11 @@ have_pars_none(
   output = c("models", "partables", "logical")
 )
 
-remove_x_y_ecov(partables, output = c("models", "partables", "logical"))
+remove_x_y_ecov(
+  partables,
+  output = c("models", "partables", "logical"),
+  cl = NULL
+)
 
 must_not_be_y(
   partables,
@@ -71,6 +75,12 @@ must_have_paths(
   a list of plots of parameter tables. If `"logical"`, a logical vector
   of the same length as `partables` is returned to indicate models that
   match the selection criteria.
+
+- cl:
+
+  A cluster created by
+  [`parallel::makeCluster()`](https://rdrr.io/r/parallel/makeCluster.html).
+  Used internally. Do not set this argument.
 
 - vars:
 

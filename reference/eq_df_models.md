@@ -18,7 +18,8 @@ eq_df_models(
   progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
-  must_not_add_nil_parameters = TRUE
+  must_not_add_nil_parameters = TRUE,
+  save_history = FALSE
 )
 ```
 
@@ -108,6 +109,10 @@ eq_df_models(
   If `TRUE`, nil parameters (paths or covariances fixed to zero) will
   not be added in the search, implemented by including these parameters
   to `must_not_add`.
+
+- save_history:
+
+  Logical. If `TRUE`, the search history will be saved.
 
 ## Value
 

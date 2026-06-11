@@ -11,7 +11,7 @@ various criteria."><meta name="google-site-verification" content="0VLBmFnW_UJFI-
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9054</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9059</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,11 @@ various criteria.</p>
 <span>  output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"models"</span>, <span class="st">"partables"</span>, <span class="st">"logical"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">remove_x_y_ecov</span><span class="op">(</span><span class="va">partables</span>, output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"models"</span>, <span class="st">"partables"</span>, <span class="st">"logical"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">remove_x_y_ecov</span><span class="op">(</span></span>
+<span>  <span class="va">partables</span>,</span>
+<span>  output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"models"</span>, <span class="st">"partables"</span>, <span class="st">"logical"</span><span class="op">)</span>,</span>
+<span>  cl <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">must_not_be_y</span><span class="op">(</span></span>
 <span>  <span class="va">partables</span>,</span>
@@ -128,6 +132,12 @@ logical vector of the same length as
 <code>partables</code> is returned to indicate
 models that match the selection
 criteria.</p></dd>
+
+
+<dt id="arg-cl">cl<a class="anchor" aria-label="anchor" href="#arg-cl"></a></dt>
+<dd><p>A cluster created by
+<code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makeCluster()</a></code>. Used
+internally. Do not set this argument.</p></dd>
 
 
 <dt id="arg-vars">vars<a class="anchor" aria-label="anchor" href="#arg-vars"></a></dt>

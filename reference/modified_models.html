@@ -11,7 +11,7 @@ different from an original model."><meta name="google-site-verification" content
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9054</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9059</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,9 @@ different from an original model.</p>
 <span>  parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ncores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span>logical <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  make_cluster_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  drop_original <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  drop_original <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  add_digest <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dat <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">add_k</span><span class="op">(</span></span>
@@ -82,7 +84,9 @@ different from an original model.</p>
 <span>  make_cluster_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  remove_dropped <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  remove_zeros <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  add_name <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  add_name <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  add_digest <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dat <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -180,6 +184,18 @@ To be passed to <code><a href="https://sfcheung.github.io/modelbpp/reference/fit
 <dd><p>Logical. Whether
 the original model will dropped from
 the output. Default is <code>TRUE</code>.</p></dd>
+
+
+<dt id="arg-add-digest">add_digest<a class="anchor" aria-label="anchor" href="#arg-add-digest"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>,
+<code><a href="digest_partable.html">add_digest()</a></code> will be called to
+add hash values to the parameter table.</p></dd>
+
+
+<dt id="arg-dat">dat<a class="anchor" aria-label="anchor" href="#arg-dat"></a></dt>
+<dd><p>The dataset to be used
+when <code>sem_out</code> is <code>NULL</code> and <code>object</code>
+is not a <code>lavaan</code> output with data.</p></dd>
 
 
 <dt id="arg-df-change-add">df_change_add<a class="anchor" aria-label="anchor" href="#arg-df-change-add"></a></dt>
