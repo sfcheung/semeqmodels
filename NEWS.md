@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9056
+# semeqmodels 0.0.0.9057
 
 - Initialize the package.
   (0.0.0.9000)
@@ -357,3 +357,11 @@
 - `eq_df_models()` now does not save
   history unless requested.
   (0.0.0.9056)
+
+- Use `modelbpp.use_pt_add_only` by default.
+  Has effect only for `modelbpp` 0.3.0.4
+  or later.
+  (0.0.0.9057)
+
+- Reduced unnecessary calls to `dummy_data()`.
+  (0.0.0.9057)
