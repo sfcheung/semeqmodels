@@ -22,7 +22,7 @@ NULL
 #' an output of [modelbpp::gen_models()],
 #' which are simplified versions of the
 #' original model, usually with one or
-#' more paths removed.
+#' more paths removed (fixed to zero).
 #'
 #' @param object The original model. It
 #' can be a `lavaan`-class object (the
@@ -63,18 +63,17 @@ NULL
 #'
 #' @param parallel Whether parallel
 #' processing will be used when fitting
-#' the models. Default is
-#' `TRUE`.
-#' Passed to [modelbpp::fit_many()].
+#' the models.
+#' To be passed to [modelbpp::fit_many()].
 #'
 #' @param ncores The number of CPU cores
 #' to be used if `parallel` is `TRUE`.
-#' Passed to [modelbpp::fit_many()].
+#' To be passed to [modelbpp::fit_many()].
 #'
 #' @param make_cluster_args An optional
 #' named list of arguments to be used
 #' in [parallel::makeCluster()].
-#' Passed to [modelbpp::fit_many()].
+#' To be passed to [modelbpp::fit_many()].
 #'
 #' @param se Whether standard error will
 #' be computed. This argument will be
@@ -88,6 +87,14 @@ NULL
 #' @param drop_original Logical. Whether
 #' the original model will dropped from
 #' the output. Default is `TRUE`.
+#'
+#' @param add_digest Logical. If `TRUE`,
+#' [add_digest()] will be called to
+#' add hash values to the parameter table.
+#'
+#' @param dat The dataset to be used
+#' when `sem_out` is `NULL` and `object`
+#' is not a `lavaan` output with data.
 #'
 #' @references
 #' Pesigan, I. J. A., Cheung, S. F.,
@@ -141,12 +148,14 @@ drop_k <- function(
   df_change_drop = 1,
   must_not_drop = NULL,
   se = "none",
-  progress = FALSE,
+  progress = interactive(),
   fit_models = FALSE,
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
-  drop_original = TRUE
+  drop_original = TRUE,
+  add_digest = TRUE,
+  dat = NULL
 ) {
 
   # - A function to generate a list of 1-more-df models.
@@ -166,7 +175,7 @@ drop_k <- function(
     # Ignore sem_out if object is a fit object
     sem_out <- object
     if (lavaan::lavInspect(sem_out, "fixed.x")) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("drop_k: sem_out: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     partable <- lavaan::parameterTable(sem_out)
   } else {
@@ -189,49 +198,30 @@ drop_k <- function(
   if (is.null(sem_out)) {
     fixed.x <- partable_fixedx(partable = partable)
     if (fixed.x) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("drop_k: partable: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
-    dat <- dummy_data(partable)
+    if (is.null(dat)) {
+      dat <- dummy_data(partable)
+    }
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
-    fit <- suppressWarnings(
-              tryCatch(do.call(
-                lavaan::sem,
-                list(
-                  model = partable,
-                  data = dat,
-                  se = se,
-                  fixed.x = fixed.x
-                )
+    fit <- do.call(
+              auto_ram,
+              list(
+                FUN = lavaan::sem,
+                model = partable,
+                data = dat,
+                se = se,
+                fixed.x = fixed.x
               )
-            , error = function(e) e))
-    if (inherits(fit, "error")) {
-      if (isTRUE(grepl("not defined in the LISREL representation",
-                      fit$message))) {
-        fit <- suppressWarnings(
-                  tryCatch(do.call(
-                    lavaan::sem,
-                    list(
-                      model = partable,
-                      data = dat,
-                      se = se,
-                      fixed.x = fixed.x,
-                      representation = "RAM"
-                    )
-                  )
-                , error = function(e) e))
-        if (inherits(fit)) {
-          stop(fit)
-        }
-      }
-    }
+            )
   } else {
     # Need this for lavaan::update()
     tmp0 <- stats::getCall(sem_out)
     tmp0$se <- se
     tmp <- lapply(
               tmp0,
-              \(x, envir0) eval(x),
+              \(x, envir0) eval(x, envir = envir0),
               envir0 = parent.frame()
             )
     tmp <- as.call(tmp)
@@ -242,6 +232,22 @@ drop_k <- function(
   }
   # ==== Generate models ====
 
+  optold2 <- getOption("modelbpp.use_pt_add_only")
+  if (is.null(optold2)) {
+    optold2 <- options(modelbpp.use_pt_add_only = TRUE)
+  } else {
+    # "modelbpp.use_pt_add_only" has been set. Use it. Do not force TRUE
+    optold2 <- options(modelbpp.use_pt_add_only = optold2)
+  }
+  on.exit(options(optold2))
+  optold <- getOption("modelbpp.do_fit")
+  if (is.null(optold)) {
+    optold <- options(modelbpp.do_fit = FALSE)
+  } else {
+    # "modelbpp.do_fit" has been set. Use it. Do not force FALSE
+    optold <- options(modelbpp.do_fit = optold)
+  }
+  on.exit(options(optold), add = TRUE)
   out0 <- modelbpp::gen_models(
             sem_out = fit,
             ...,
@@ -264,8 +270,9 @@ drop_k <- function(
   # ==== Store additional info  ====
 
   if (length(out0) > 0) {
+    tmp <- get_digest(partable)
     for (i in seq_along(out0)) {
-      attr(out0[[i]], "from_partable") <- get_digest(partable)
+      attr(out0[[i]], "from_partable") <- tmp
     }
   }
 
@@ -295,6 +302,13 @@ drop_k <- function(
             )
   }
 
+  # ==== Add hash values ====
+
+  if (add_digest &&
+      length(out0) > 0) {
+    out0 <- add_digest_partables(out0)
+  }
+
   out0
 
 }
@@ -314,7 +328,7 @@ drop_k <- function(
 #' output of [modelbpp::gen_models()],
 #' which are more complicated versions of the
 #' original model, usually with one or
-#' more free parameters added.
+#' more paths added (set to free).
 #'
 #' @param ... Optional arguments to be
 #' passed to [modelbpp::gen_models()].
@@ -332,9 +346,13 @@ drop_k <- function(
 #' be added. To be passed to [modelbpp::gen_models()].
 #'
 #' @param exclude_x_y_ecov If `TRUE`,
-#' covariances between an exogenous
-#' variable and an error term will not
-#' be added.
+#' models with a covariance
+#' between a variable (latent or observed)
+#' and the
+#' error term of another variable it
+#' predicts, either directly or indirectly,
+#' will be excluded. The screening is
+#' implemented by [remove_x_y_ecov()].
 #'
 #' @param partable_name The name of the
 #' original model. Used only if it cannot
@@ -343,13 +361,16 @@ drop_k <- function(
 #' @param remove_zeros Whether a parameter
 #' explicitly fixed to `zero` will be
 #' removed before generating modified
-#' models.
+#' models. For internal use. Should not
+#' be changed.
 #'
 #' @param remove_dropped Whether the
 #' previously dropped parameter, if
 #' stored, will be removed from the
 #' original parameter table. This is
 #' necessary for reversing a path.
+#' For internal use. Should not
+#' be changed.
 #'
 #' @param add_name Whether the name of
 #' the original model will be added as
@@ -381,14 +402,16 @@ add_k <- function(
   exclude_x_y_ecov = TRUE,
   partable_name = NULL,
   se = "none",
-  progress = FALSE,
+  progress = interactive(),
   fit_models = FALSE,
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   remove_dropped = TRUE,
   remove_zeros = FALSE,
-  add_name = FALSE
+  add_name = FALSE,
+  add_digest = TRUE,
+  dat = NULL
 ) {
 
   # - A function to generate a list of 1-less-df models.
@@ -410,7 +433,7 @@ add_k <- function(
     # Ignore sem_out if object is a fit object
     sem_out <- object
     if (lavaan::lavInspect(sem_out, "fixed.x")) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("add_k: sem_out: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
     partable <- lavaan::parameterTable(sem_out)
   } else {
@@ -431,51 +454,32 @@ add_k <- function(
   # ==== Update the fit ====
 
   if (is.null(sem_out)) {
-    dat <- dummy_data(partable)
+    if (is.null(dat)) {
+      dat <- dummy_data(partable)
+    }
     # fit will be used if fit_models is TRUE
     # Need this for lavaan::update()
     fixed.x <- partable_fixedx(partable)
     if (fixed.x) {
-      stop("fixed.x cannot be TRUE for now. Set it to FALSE.")
+      stop("add_k: partable: fixed.x cannot be TRUE for now. Set it to FALSE.")
     }
-    fit <- suppressWarnings(
-              tryCatch(do.call(
-                lavaan::sem,
-                list(
-                  model = partable,
-                  data = dat,
-                  se = se,
-                  fixed.x = fixed.x
-                )
-              ),
-              error = function(e) e))
-    if (inherits(fit, "error")) {
-      if (isTRUE(grepl("not defined in the LISREL representation",
-                       fit$message))) {
-        fit <- suppressWarnings(
-                  tryCatch(do.call(
-                    lavaan::sem,
-                    list(
-                      model = partable,
-                      data = dat,
-                      se = se,
-                      fixed.x = fixed.x,
-                      representation = "RAM"
-                    )
-                  ),
-                  error = function(e) e))
-        if (inherits(fit)) {
-          stop(fit)
-        }
-      }
-    }
+    fit <- do.call(
+              auto_ram,
+              list(
+                FUN = lavaan::sem,
+                model = partable,
+                data = dat,
+                se = se,
+                fixed.x = fixed.x
+              )
+            )
   } else {
     # Need this for lavaan::update()
     tmp0 <- stats::getCall(sem_out)
     tmp0$se <- se
     tmp <- lapply(
               tmp0,
-              \(x, envir0) eval(x),
+              \(x, envir0) eval(x, envir = envir0),
               envir0 = parent.frame()
             )
     tmp <- as.call(tmp)
@@ -536,33 +540,16 @@ add_k <- function(
 
   # TODO:
   # - Remove the need to use update
-  fit_i <- suppressWarnings(
-            tryCatch(lavaan::update(
+  fit_i <- do.call(
+            auto_ram,
+            list(
+              FUN = lavaan::update,
               object = fit,
               model = partable1,
               warn = FALSE,
               fixed.x = FALSE
-            ),
-            error = function(e) e)
+            )
           )
-  if (inherits(fit_i, "error")) {
-    if (isTRUE(grepl("not defined in the LISREL representation",
-                     fit_i$message))) {
-      fit_i <- suppressWarnings(
-                tryCatch(lavaan::update(
-                  object = fit,
-                  model = partable1,
-                  warn = FALSE,
-                  fixed.x = FALSE,
-                  representation = "RAM"
-                ),
-                error = function(e) e)
-              )
-      if (inherits(fit_i, "error")) {
-        stop(fit_i)
-      }
-    }
-  }
 
   # ==== Generate models ====
 
@@ -587,6 +574,22 @@ add_k <- function(
     args1,
     list(sem_out = fit_i)
   )
+  optold2 <- getOption("modelbpp.use_pt_add_only")
+  if (is.null(optold2)) {
+    optold2 <- options(modelbpp.use_pt_add_only = TRUE)
+  } else {
+    # "modelbpp.use_pt_add_only" has been set. Use it. Do not force TRUE
+    optold2 <- options(modelbpp.use_pt_add_only = optold2)
+  }
+  on.exit(options(optold2))
+  optold <- getOption("modelbpp.do_fit")
+  if (is.null(optold)) {
+    optold <- options(modelbpp.do_fit = FALSE)
+  } else {
+    # "modelbpp.do_fit" has been set. Use it. Do not force FALSE
+    optold <- options(modelbpp.do_fit = optold)
+  }
+  on.exit(options(optold), add = TRUE)
   out0 <- do.call(
     modelbpp::gen_models,
     args1
@@ -611,8 +614,9 @@ add_k <- function(
   # ==== Store additional info  ====
 
   if (length(out0) > 0) {
+    tmp <- get_digest(partable)
     for (i in seq_along(out0)) {
-      attr(out0[[i]], "from_partable") <- get_digest(partable)
+      attr(out0[[i]], "from_partable") <- tmp
     }
   }
   class(out0) <- c("eq_partables", class_out0)
@@ -639,6 +643,13 @@ add_k <- function(
               out0,
               fit0
             )
+  }
+
+  # ==== Add hash values ====
+
+  if (add_digest &&
+      length(out0) > 0) {
+    out0 <- add_digest_partables(out0)
   }
 
   out0

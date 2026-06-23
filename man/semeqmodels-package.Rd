@@ -26,7 +26,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Wenting Xu [contributor]
+  \item Wenting Xu (\href{https://orcid.org/0000-0002-6671-3308}{ORCID}) [contributor]
   \item Wendie Yang (\href{https://orcid.org/0009-0000-8388-6481}{ORCID}) [contributor]
 }
 

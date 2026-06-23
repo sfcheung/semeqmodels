@@ -3,7 +3,6 @@
 \name{model_diff}
 \alias{model_diff}
 \alias{model_diff_many}
-\alias{model_diff.print}
 \alias{print.model_diff}
 \alias{print.model_diff_many}
 \title{Compare Two Models}
@@ -26,15 +25,14 @@ model_diff_many(
   other_models_names = NULL
 )
 
-model_diff.print(x, format = c("summary", "data.frame"), ...)
-
 \method{print}{model_diff}(x, format = c("summary", "data.frame"), ...)
 
 \method{print}{model_diff_many}(x, format = "summary", ...)
 }
 \arguments{
-\item{model_x, model_y}{Parameter
-tables (from \code{lavaan}) to be compared.
+\item{model_x, model_y}{Models as
+parameter
+tables (the output \link[lavaan:parameterTable]{lavaan::parameterTable}) to be compared.
 They can also be \code{lavaan} objects,
 the output of functions such as
 \code{\link[lavaan:sem]{lavaan::sem()}}.}
@@ -57,11 +55,11 @@ automatically.}
 
 \item{target_model}{A model
 (\code{lavaan} parameter table or
-\code{lavaan} output) to which other
-models will be compared.}
+\code{lavaan} output) which other
+models will be compared with.}
 
 \item{other_models}{A list of models
-(\code{lavaan} parameter tables o
+(\code{lavaan} parameter tables or
 \code{lavaan} outputs) to be compared to
 the \code{target_model} by \code{\link[=model_diff]{model_diff()}}.}
 
@@ -88,16 +86,18 @@ returns a list with two elements,
 \code{model_x_only} and \code{model_y_only}.
 Each element is a parameter table
 with parameters that are present only
-in one of the model.
+in one of the model. If there is
+no parameter that is present only in
+a model, then the element is still
+a parameter table, though with zero
+row. The list of of the class
+\code{model_diff}, with a \code{print} method.
 
 The function \code{\link[=model_diff_many]{model_diff_many()}}
-return a list of the results
+returns a list of the results
 of \code{\link[=model_diff]{model_diff()}}.
-
-The \code{print}-method of the output
-of \code{\link[=model_diff]{model_diff()}} returns \code{x}
-invisibly.
-It is called for its side-effect.
+The list of of the class
+\code{model_diff_many}, with a \code{print} method.
 
 The \code{print}-method of the output
 of \code{\link[=model_diff]{model_diff()}} returns \code{x}
@@ -115,8 +115,10 @@ compare two models (parameter tables)
 and find the differences.
 }
 \details{
+\subsection{\code{model_diff()}}{
+
 The functions \code{\link[=model_diff]{model_diff()}} takes
-two parameter tables and identify
+two models (parameter tables) and identify
 the differences, if any.
 
 The columns compared is specified
@@ -127,32 +129,37 @@ ignored. Two parameters are considered
 identical if they are both free
 (have non-zero values on \code{free}).
 
-For \code{ustart} and \code{start} columns,
+For the \code{ustart} and \code{start} columns,
 the values are used only if a parameter
 is fixed. If a parameter is free,
 they will be recoded to \code{NA} when
 being compared.
+}
+
+\subsection{\code{model_diff_many()}}{
 
 The function \code{\link[=model_diff_many]{model_diff_many()}}
-compare one model (\code{target_model})
-against other models (\code{other_models})
+compares one model (\code{target_model})
+against several other models (\code{other_models})
 using \code{\link[=model_diff]{model_diff()}}.
+}
+
+\subsection{The \code{print} method of the output of \code{model_diff()}}{
 
 The \code{print} method of the output
 of \code{\link[=model_diff]{model_diff()}} prints the differences
 between models in a user-friendly
 way.
+}
 
-The \code{print} method of the output
-of \code{\link[=model_diff]{model_diff()}} prints the differences
-between models in a user-friendly
-way.
+\subsection{The \code{print} method of the output of \code{model_diff_many()}}{
 
 The \code{print} method of the output
 of \code{\link[=model_diff_many]{model_diff_many()}} prints the
 list of model differences in a
 user-friendly
 way.
+}
 }
 \examples{
 

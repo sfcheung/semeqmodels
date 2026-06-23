@@ -1,4 +1,4 @@
-#' @title Test Dataset: 3obvs
+#' @title Test Dataset: 3 Observed Variables
 #'
 #' @description A dataset for testing.
 #'
@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' library(lavaan)
-#' data(data_med_3obvs)
+#' data(data_test_3obvs)
 #' mod <-
 #' "
 #' fm ~ fx

@@ -1,6 +1,6 @@
 Package: semeqmodels
 Title: Equivalent Models in Structural Equation Models
-Version: 0.0.0.9040
+Version: 0.0.0.9059
 Authors@R:
     c(person(given = "Shu Fai",
              family = "Cheung",
@@ -13,7 +13,8 @@ Authors@R:
              comment = c(ORCID = "0009-0006-7532-8950")),
       person(given = "Wenting",
              family = "Xu",
-             role = c("ctb")),
+             role = c("ctb"),
+             comment = c(ORCID = "0000-0002-6671-3308")),
       person(given = "Wendie",
              family = "Yang",
              role = c("ctb"),
@@ -30,9 +31,6 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    semPlot,
-    semptools,
-    RColorBrewer
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Imports:
@@ -40,7 +38,10 @@ Imports:
     modelbpp (>= 0.2.0.5),
     digest,
     manymome,
-    igraph
+    igraph,
+    semPlot,
+    semptools,
+    RColorBrewer
 Depends:
     R (>= 4.1.0)
 URL: https://sfcheung.github.io/semeqmodels/

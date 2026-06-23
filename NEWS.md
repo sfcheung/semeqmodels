@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9040
+# semeqmodels 0.0.0.9059
 
 - Initialize the package.
   (0.0.0.9000)
@@ -269,3 +269,99 @@
 - Added test datasets and tests for
   more models.
   (0.0.0.9040)
+
+- Changed the default of `progress` to
+  `interactive()`.
+  (0.0.0.9041)
+
+- Simplified the example of `eq_df_model()`.
+  Still longer than 5 seconds occasionally,
+  but is much faster now.
+  (0.0.0.9042)
+
+- Added an internal helper `auto_ram()`
+  for switching to RAM automatically if
+  LISREL fails.
+  (0.0.0.9043)
+
+- Replaced calls to `lavaan::sem()` with
+  `auto_ram()` if appropriate.
+  (0.0.0.9044)
+
+- Fixed a harmless warning in
+  `has_x_to_y_i()`.
+  (0.0.0.9045)
+
+- Removed `models_have_*()`.
+  (0.0.0.9046)
+
+- Updated all model selectors to be able
+  to return a logical vector.
+  (0.0.0.9046)
+
+- Added some plot functions for drawing
+  models in a list of parameter tables.
+  (0.0.0.9047)
+
+- Use `modelbpp.do_fit = FALSE` for a
+  faster search. Requires `modelbpp` 0.3.0.2 or above.
+  (0.0.0.9048)
+
+- Fixed a bug in `must_have_paths()`.
+  (0.0.0.9049)
+
+- Revised `partables_plots()` to be able
+  to update a previous output of
+  `partables_plots()`.
+  (0.0.0.9050)
+
+- Updated the model selectors to select
+  plots from `partables_plots()`.
+  (0.0.0.9050)
+
+- Changed how the original model is
+  handled in `partables_plots()`.
+  (0.0.0.9051)
+
+- Added `print.partables_plots()`.
+  (0.0.0.9051)
+
+- Added a pipe operator for processing
+  stored plots.
+  (0.0.0.9052)
+
+- Revised `is_eq()` to require both
+  `partables` and `original_model`
+  specified.
+  (0.0.0.9053)
+
+- Updated the doc.
+  (0.0.0.9054)
+
+- Add error-handling to calls of
+  `all_indirect_paths()`.
+  (0.0.0.9055)
+
+- Improved the speed of `sort_cov_pairs()`.
+  (0.0.0.9056)
+
+- Improved the speed of `remove_x_y_ecov()`.
+  Also added the argument `cl` for
+  parallel processing.
+  (0.0.0.9056)
+
+- Several functions now add hash values
+  to the output.
+  (0.0.0.9056)
+
+- `eq_df_models()` now does not save
+  history unless requested.
+  (0.0.0.9056)
+
+- Use `modelbpp.use_pt_add_only` by default.
+  Has effect only for `modelbpp` 0.3.0.4
+  or later.
+  (0.0.0.9057, 0.0.0.9059)
+
+- Reduced unnecessary calls to `dummy_data()`.
+  (0.0.0.9057)

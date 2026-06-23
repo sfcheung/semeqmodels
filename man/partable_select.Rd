@@ -2,9 +2,6 @@
 % Please edit documentation in R/ptable_select.R
 \name{partable_select}
 \alias{partable_select}
-\alias{models_have_pars_all}
-\alias{models_have_pars_any}
-\alias{models_have_pars_none}
 \alias{have_pars_all}
 \alias{have_pars_any}
 \alias{have_pars_none}
@@ -13,34 +10,58 @@
 \alias{must_be_y}
 \alias{must_not_have_paths}
 \alias{must_have_paths}
-\title{Select Parameter Tables}
+\title{Select Models (Parameter Tables)}
 \usage{
-models_have_pars_all(partables, pars = NULL)
+have_pars_all(
+  partables,
+  pars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-models_have_pars_any(partables, pars = NULL)
+have_pars_any(
+  partables,
+  pars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-models_have_pars_none(partables, pars = NULL)
+have_pars_none(
+  partables,
+  pars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-have_pars_all(partables, pars = NULL)
+remove_x_y_ecov(
+  partables,
+  output = c("models", "partables", "logical"),
+  cl = NULL
+)
 
-have_pars_any(partables, pars = NULL)
+must_not_be_y(
+  partables,
+  vars = NULL,
+  output = c("models", "partables", "logical")
+)
 
-have_pars_none(partables, pars = NULL)
+must_be_y(partables, vars = NULL, output = c("models", "partables", "logical"))
 
-remove_x_y_ecov(partables)
+must_not_have_paths(
+  partables,
+  y_on_x = NULL,
+  output = c("models", "partables", "logical")
+)
 
-must_not_be_y(partables, vars = NULL)
-
-must_be_y(partables, vars = NULL)
-
-must_not_have_paths(partables, y_on_x = NULL)
-
-must_have_paths(partables, y_on_x = NULL)
+must_have_paths(
+  partables,
+  y_on_x = NULL,
+  output = c("models", "partables", "logical")
+)
 }
 \arguments{
 \item{partables}{A list of parameter
 tables, such as a
-\code{partables} or \code{eq_partables} object.}
+\code{partables} or \code{eq_partables} object.
+It can also be the output of
+\code{\link[=partables_plots]{partables_plots()}}.}
 
 \item{pars}{A character vector
 of \code{lavaan} model syntax that
@@ -54,6 +75,21 @@ can process it. Covariances such as
 as the same and so only one of them
 is necessary.}
 
+\item{output}{The type of output.
+If \code{"models"} or \code{"partables"},
+the output is a subset of the \code{partables}, which
+can be a list of parameter tables
+or a list of plots of parameter tables.
+If \code{"logical"}, a
+logical vector of the same length as
+\code{partables} is returned to indicate
+models that match the selection
+criteria.}
+
+\item{cl}{A cluster created by
+\code{\link[parallel:makeCluster]{parallel::makeCluster()}}. Used
+internally. Do not set this argument.}
+
 \item{vars}{A character vector of
 variables to be checked.}
 
@@ -63,108 +99,96 @@ pairs of variables, specified as
 checked.}
 }
 \value{
-The function \code{\link[=models_have_pars_all]{models_have_pars_all()}}
-returns a list of parameter tables
-that have all the free parameters
-specified in \code{pars}.
-The function \code{\link[=have_pars_all]{have_pars_all()}} returns
-a logical vector to indicate models
-that have all the free parameters
-specified.
-
-The function \code{\link[=models_have_pars_all]{models_have_pars_all()}}
-returns a list of parameter tables
-that have any the free parameters
-specified in \code{pars}.
-The function \code{\link[=have_pars_all]{have_pars_all()}} returns
-a logical vector to indicate models
-that have any of the free parameters
-specified.
-
-The function \code{\link[=models_have_pars_none]{models_have_pars_none()}}
-returns a list of parameter tables
-that have none of the free parameters
-specified in \code{pars}.
-The function \code{\link[=have_pars_none]{have_pars_none()}} returns
-a logical vector to indicate models
-that have none of the free parameters
-specified.
-
-The function \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}
-return a list of parameter tables,
-of the same class as \code{partables}.
-
-The function \code{\link[=must_not_be_y]{must_not_be_y()}}
-returns a list of parameter tables,
-of the same class as \code{partables}.
-
-The function \code{\link[=must_be_y]{must_be_y()}}
-returns a list of parameter tables,
-of the same class as \code{partables}.
-
-The function \code{\link[=must_not_have_paths]{must_not_have_paths()}}
-returns a list of parameter tables,
-of the same class as \code{partables}.
-
-The function \code{\link[=must_have_paths]{must_have_paths()}}
-returns a list of parameter tables,
-of the same class as \code{partables}.
+Each of the select functions, by default,
+returns a list of parameter tables (models)
+that meet the criterion of that function,
+or a list of plots of the parameter tables
+if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
+If \code{output} set to \code{"logical"},
+each of these function returns
+a logical vector to indicate models or plots
+that meet the criterion. The vector
+can then be used to extract objects meeting
+the criterion.
 }
 \description{
 Helper functions to
-select parameter tables based on
-parameters.
+select models (parameter tables) based on
+various criteria.
 }
 \details{
-The functions \code{\link[=models_have_pars_all]{models_have_pars_all()}}
-and \code{\link[=have_pars_all]{have_pars_all()}} identify models
+The select functions can be used both
+for a list of models in the form
+of parameter tables (the output
+of \code{\link[lavaan:parameterTable]{lavaan::parameterTable()}}) or
+a list of plots based on these models,
+generated by \code{\link[=partables_plots]{partables_plots()}}.
+They return an object of the same type.
+Therefore, they can be used to filter
+both models and plots of models.
+\subsection{Select by free parameters}{
+
+The function
+\code{\link[=have_pars_all]{have_pars_all()}} selects models
 that have all the free parameters
 specified in \code{pars}.
+}
 
-The functions \code{\link[=models_have_pars_any]{models_have_pars_any()}}
-and \code{\link[=have_pars_any]{have_pars_any()}} identify models
+The function
+\code{\link[=have_pars_any]{have_pars_any()}} identify models
 that have any of the free parameters
 specified in \code{pars}.
 
-The functions \code{\link[=models_have_pars_none]{models_have_pars_none()}}
-and \code{\link[=have_pars_none]{have_pars_none()}} identify models
-that have all none of the free parameters
+The function
+\code{\link[=have_pars_none]{have_pars_none()}} identify models
+that have none of the free parameters
 specified in \code{pars}.
 
+\subsection{Select by covariances with an error term}{
+
 The function \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}
-remove models from \code{partables} that
-have one or more covariances between
-an exogenous variable (observed
-or latent) and an error term.
+removes models from \code{partables} that
+have a covariance between
+an observed or latent variable
+(or its error term) and the error
+term of another variable it predicts,
+either directly or indirectly.
+}
+
+\subsection{Select by the role of a variable}{
 
 The function \code{\link[=must_not_be_y]{must_not_be_y()}}
-keep only models with variables
-(observed or latent) does not
-appear as the outcome in a
+keep only models with selected variables
+(observed or latent) not
+appearing as the outcome in a
 regression equation (indicators
 not counted). They are
 defined as variables not
 in \code{"eqs.y"}
 as returned by \code{\link[lavaan:lavNames]{lavaan::lavNames()}}.
+}
 
 The function \code{\link[=must_be_y]{must_be_y()}}
-keep only models with variables
+keep only models with selected variables
 (observed or latent)
-appear as the outcome in at least one
+appearing as the outcome in at least one
 regression equation (indicators
 not counted). They are
 defined as variables
 in \code{"eqs.y"}
 as returned by \code{\link[lavaan:lavNames]{lavaan::lavNames()}}.
 
+\subsection{Select by paths}{
+
 The function \code{\link[=must_not_have_paths]{must_not_have_paths()}}
-keep only models that do not
+keeps only models that do not
 have any paths, direct or indirect,
 between selected pairs of variables.
+}
 
 The function \code{\link[=must_have_paths]{must_have_paths()}}
 keep only models
-at least one path, direct or indirect,
+with at least one path, direct or indirect,
 between selected pairs of variables.
 }
 \examples{
@@ -194,15 +218,53 @@ fit1_1_more_1_less <- lapply(
 partables1 <- combine_partables(fit1_1_more_1_less)
 partables1
 
-models_have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
+# === have_pars_all ====
+
 have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"))
+have_pars_all(partables1, c("fx ~~ fm", "fy ~ fx"),
+              output = "logical")
 
 
-models_have_pars_any(partables1, c("fx ~~ fm", "fm ~ fy"))
+# === have_pars_any ====
+
 have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"))
+have_pars_any(partables1, c("fx ~~ fm", "fm ~ fx"),
+              output = "logical")
 
 
-models_have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
+# === have_pars_none ====
+
 have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"))
+have_pars_none(partables1, c("fx ~~ fm", "fm ~ fx"),
+               output = "logical")
+
+
+# === must_not_be_y ====
+
+must_not_be_y(partables1, c("fx"))
+must_not_be_y(partables1, c("fx"),
+              output = "logical")
+
+
+
+# === must_be_y ====
+
+must_be_y(partables1, c("fm"))
+must_be_y(partables1, c("fm"),
+          output = "logical")
+
+
+# === must_not_have_paths ====
+
+must_not_have_paths(partables1, y_on_x = c("fx ~ fm"))
+must_not_have_paths(partables1, y_on_x = c("fx ~ fm"),
+                    output = "logical")
+
+
+# === must_not_have_paths ====
+
+must_have_paths(partables1, y_on_x = c("fm ~ fx"))
+must_have_paths(partables1, y_on_x = c("fm ~ fx"),
+                output = "logical")
 
 }

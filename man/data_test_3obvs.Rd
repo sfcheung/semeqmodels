@@ -3,7 +3,7 @@
 \docType{data}
 \name{data_test_3obvs}
 \alias{data_test_3obvs}
-\title{Test Dataset: 3obvs}
+\title{Test Dataset: 3 Observed Variables}
 \format{
 A data frame with 200 rows
 and 3 variables:
@@ -21,7 +21,7 @@ A dataset for testing.
 }
 \examples{
 library(lavaan)
-data(data_med_3obvs)
+data(data_test_3obvs)
 mod <-
 "
 fm ~ fx

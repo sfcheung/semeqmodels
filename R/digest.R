@@ -1,8 +1,8 @@
-#' @title Helpers to Compare Parameter Tables
+#' @title Helpers to Compare Models
 #'
 #' @description Helper functions that
 #' compute and use hash digests for
-#' parameter tables to facilitate
+#' models (parameter tables) to facilitate
 #' comparisons.
 #'
 #' @details
@@ -14,7 +14,7 @@
 #' If two `lavaan` parameter tables
 #' are identical on the values for these
 #' columns, they should have the same
-#' hash value will be considered as
+#' hash value and will be considered as
 #' identical.
 #'
 #' Note that there may be cases in which
@@ -147,6 +147,7 @@ digest_partable <- function(
   row.names(out0) <- NULL
   i_free <- which(out0$free > 0)
   out0$free[i_free] <- seq_along(i_free)
+  out0$free <- as.integer(out0$free)
   out0$start <- round(out0$start, digits = digits)
   out0$ustart <- round(out0$ustart, digits = digits)
   out0$start[i_free] <- NA
@@ -163,8 +164,16 @@ digest_partable <- function(
 #' @details
 #' The function [add_digest()] computes
 #' the hash value of a parameter table
-#' and add it to the attribute `"digest"`
-#' of the table,
+#' and adds it to the attribute `"digest"`
+#' of the table, If the attribute is
+#' already set, it will not overwrite
+#' it unless `overwrite` is set to `TRUE`.
+#'
+#' @param overwrite Logical. If `TRUE`,
+#' the stored hash value, if exists,
+#' will be overwritten. If `FALSE`,
+#' the stored has value, if exists,
+#' not be overwritten.
 #'
 #' @return
 #' The function [add_digest()] returns
@@ -176,7 +185,8 @@ digest_partable <- function(
 #' @export
 add_digest <- function(
   partable,
-  ...
+  ...,
+  overwrite = FALSE
 ) {
 
   # Add a digest to a parameter table
@@ -193,6 +203,9 @@ add_digest <- function(
   #           c(list(partable = out0),
   #             args_digest_partable)
   #         )
+  if (!is.null(attr(partable, "digest"))) {
+    return(partable)
+  }
   out1 <- digest_partable(
             partable = partable,
             ...
@@ -234,7 +247,7 @@ get_digest <- function(
 
 #' @details
 #' The function [add_digest_partables]
-#' call [add_digest()] on a list of
+#' calls [add_digest()] on a list of
 #' parameter tables.
 #'
 #' @return
@@ -249,14 +262,16 @@ get_digest <- function(
 #' @export
 add_digest_partables <- function(
   partables,
-  ...
+  ...,
+  overwrite = FALSE
 ) {
   # TOOD:
   # - Add some sanity checks.
   out0 <- lapply(
     partables,
     add_digest,
-    ...
+    ...,
+    overwrite = overwrite
   )
   class(out0) <- class(partables)
   out0
@@ -265,7 +280,7 @@ add_digest_partables <- function(
 
 #' @details
 #' The function [get_digest_partables]
-#' call [get_digest()] on a list of
+#' calls [get_digest()] on a list of
 #' parameter tables.
 #'
 #' @return
@@ -314,7 +329,7 @@ sort_partable <- function(
 }
 
 #' @noRd
-sort_cov_pairs <- function(
+sort_cov_pairs_old <- function(
   partable
 ) {
   # Sort x~~y pairs to ensure a consistent order
@@ -324,5 +339,29 @@ sort_cov_pairs <- function(
       partable[i, c("lhs", "rhs")] <- tmp
     }
   }
+  partable
+}
+
+#' @noRd
+sort_cov_pairs <- function(
+  partable
+) {
+  # Sort x~~y pairs to ensure a consistent order
+  i <- (partable$op == "~~") &
+       (partable$lhs != partable$rhs)
+  if (isFALSE(any(i))) {
+    return(partable)
+  }
+  f <- function(j) {
+    sort(c(partable[j, "lhs"], partable[j, "rhs"]))
+  }
+  out0 <- lapply(
+      which(i),
+      f
+    )
+  lhs0 <- sapply(out0, \(x) x[1])
+  rhs0 <- sapply(out0, \(x) x[2])
+  partable[i, "lhs"] <- lhs0
+  partable[i, "rhs"] <- rhs0
   partable
 }
