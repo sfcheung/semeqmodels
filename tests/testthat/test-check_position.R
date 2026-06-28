@@ -6,11 +6,11 @@ test_that("check_position returns correct direction for single vectors", {
 })
 
 test_that("check_position detects collinear cases", {
-  # 同方向
+  # same direction
   expect_equal(check_position(c(1, 1), c(2, 2)), "collinear")
-  # 反方向（仍在同一直线上）
+  # opposite direction (still on the same line)
   expect_equal(check_position(c(1, 1), c(-1, -1)), "collinear")
-  # 经过原点的水平/垂直线
+  # horizontal/vertical line through the origin
   expect_equal(check_position(c(1, 0), c(2, 0)), "collinear")
   expect_equal(check_position(c(0, 1), c(0, 2)), "collinear")
 })
