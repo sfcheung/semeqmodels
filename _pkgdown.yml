@@ -64,6 +64,7 @@ reference:
   - eq_partables_helpers
   - digest_partable
   - partable_helpers
+  - auto_curve_covariance
 
 - title: Datasets
   desc:  >
