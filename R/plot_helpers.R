@@ -175,3 +175,44 @@ bidirectional_edges <- function(
     )
   split(bi_id, factor(from_to))
 }
+
+#' @noRd
+auto_curve_covariance_i <- function(
+  edge_ids,
+  qgraph_obj,
+  base_curve = 1,
+  output = c("curve", "qgraph")
+) {
+  output <- match.arg(output)
+  # edge_ids is always a length-2 numeric vector
+  # Only the first one is used
+  edge_first <- edge_ids[1]
+  edge_from <- unname(qgraph_obj$Edgelist$from[edge_first])
+  edge_to <- unname(qgraph_obj$Edgelist$to[edge_first])
+  layout_obj <- qgraph_obj$layout
+  edge_position <- check_position(layout_obj[edge_from, ], layout_obj[edge_to, ])
+  out <- switch(
+    edge_position,
+    left = -1 * base_curve,
+    right = base_curve,
+    collinear = base_curve
+  )
+  if (output == "curve") {
+    node <- qgraph_obj$graphAttribute$Node
+    node_names <- names(node$labels)
+    if (is.null(node_names)) {
+      node_names <- unlist(as.character(node$labels))
+    }
+    node_from <- node_names[edge_from]
+    node_to <- node_names[edge_to]
+    names(out) <- paste0(node_from, "~~", node_to)
+    return(out)
+  }
+  if (output == "qgraph") {
+    out_graph <- qgraph_obj
+    out_graph$graphAttribute$Edge$curve[edge_ids] <- c(out, -out)
+    return(out_graph)
+  }
+  # Should never reach here
+  out
+}

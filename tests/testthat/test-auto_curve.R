@@ -38,6 +38,39 @@ expect_length(bidirectional_edges(p1[[2]]), 1)
 expect_length(bidirectional_edges(p1[[3]]), 1)
 expect_length(bidirectional_edges(p1[[4]]), 0)
 
+pdf(NULL)
+
+pt1_a <- set_curve(
+  p1[[1]],
+  auto_curve_covariance_i(bidirectional_edges(p1[[1]])[[1]], p1[[1]])
+)
+if (!is_testing()) plot(pt1_a)
+expect_equal(
+  pt1_a$graphAttributes$Edge$curve[c(1, 4)],
+  c(1, 1)
+)
+pt1_a <- set_curve(
+  p1[[1]],
+  auto_curve_covariance_i(bidirectional_edges(p1[[1]])[[2]], p1[[1]])
+)
+if (!is_testing()) plot(pt1_a)
+expect_equal(
+  pt1_a$graphAttributes$Edge$curve[c(3, 6)],
+  c(-1, -1)
+)
+pt1_a <- set_curve(
+  p1[[1]],
+  auto_curve_covariance_i(bidirectional_edges(p1[[1]])[[3]], p1[[1]])
+)
+if (!is_testing()) plot(pt1_a)
+expect_equal(
+  pt1_a$graphAttributes$Edge$curve[c(2, 5)],
+  c(1, 1)
+)
+
+dev.off()
+
+
 })
 
 test_that("auto_curve_covariance: 4var", {
@@ -75,5 +108,46 @@ expect_length(bidirectional_edges(p1[[1]]), 6)
 expect_length(bidirectional_edges(p1[[2]]), 2)
 expect_length(bidirectional_edges(p1[[3]]), 1)
 expect_length(bidirectional_edges(p1[[4]]), 0)
+
+pdf(NULL)
+
+pt1_a <- set_curve(
+  p1[[1]],
+  auto_curve_covariance_i(bidirectional_edges(p1[[1]])[[1]], p1[[1]])
+)
+if (!is_testing()) plot(pt1_a)
+expect_equal(
+  pt1_a$graphAttributes$Edge$curve[c(1, 7)],
+  c(1, 1)
+)
+pt1_a <- set_curve(
+  p1[[1]],
+  auto_curve_covariance_i(bidirectional_edges(p1[[1]])[[2]], p1[[1]])
+)
+if (!is_testing()) plot(pt1_a)
+expect_equal(
+  pt1_a$graphAttributes$Edge$curve[c(4, 10)],
+  c(-1, -1)
+)
+pt1_a <- set_curve(
+  p1[[1]],
+  auto_curve_covariance_i(bidirectional_edges(p1[[1]])[[3]], p1[[1]])
+)
+if (!is_testing()) plot(pt1_a)
+expect_equal(
+  pt1_a$graphAttributes$Edge$curve[c(6, 12)],
+  c(1, 1)
+)
+pt1_a <- set_curve(
+  p1[[1]],
+  auto_curve_covariance_i(bidirectional_edges(p1[[1]])[[4]], p1[[1]])
+)
+if (!is_testing()) plot(pt1_a)
+expect_equal(
+  pt1_a$graphAttributes$Edge$curve[c(5, 11)],
+  c(1, 1)
+)
+
+dev.off()
 
 })
