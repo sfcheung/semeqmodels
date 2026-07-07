@@ -83,6 +83,8 @@ Helpers for advanced tasks
   [`is_partable()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
   [`is_partables()`](https://sfcheung.github.io/semeqmodels/reference/partable_helpers.md)
   : Parameter Table Helpers
+- [`auto_curve_covariance()`](https://sfcheung.github.io/semeqmodels/reference/auto_curve_covariance.md)
+  : Make a Covariance a Curve
 
 ## Datasets
 

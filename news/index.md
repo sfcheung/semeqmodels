@@ -1,6 +1,6 @@
 # Changelog
 
-## semeqmodels 0.0.0.9059
+## semeqmodels 0.0.0.9060
 
 - Initialize the package. (0.0.0.9000)
 
@@ -320,3 +320,7 @@
   `modelbpp` 0.3.0.4 or later. (0.0.0.9057, 0.0.0.9059)
 
 - Reduced unnecessary calls to `dummy_data()`. (0.0.0.9057)
+
+- Added
+  [`auto_curve_covariance()`](https://sfcheung.github.io/semeqmodels/reference/auto_curve_covariance.md)
+  to converting covariances to curves. (0.0.0.9060)

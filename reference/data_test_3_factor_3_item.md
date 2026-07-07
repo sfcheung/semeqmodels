@@ -52,8 +52,6 @@ A data frame with 200 rows and 3 variables:
 
 ``` r
 library(lavaan)
-#> This is lavaan 0.6-21
-#> lavaan is FREE software! Please report any bugs.
 data(data_test_3_factor_3_item)
 mod <-
 "

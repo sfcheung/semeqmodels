@@ -2,7 +2,7 @@
 
 Find equivalent models in structural equation modeling
 
-(Version 0.0.0.9059, updated on 2026-06-11, [release
+(Version 0.0.0.9060, updated on 2026-07-07, [release
 history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 # semeqmodels: Equivalent Models in Structural Equation Models
