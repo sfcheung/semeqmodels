@@ -56,31 +56,42 @@ check_position <- function(from, to) {
   }
   # Cross product: Bx * Ay - By * Ax
   cross <- from[, 1] * to[, 2] - from[, 2] * to[, 1]
-  out <- if (cross > 0) {
-  "left"
-} else if (cross < 0) {
-  "right"
-} else if (cross == 0) {
-  "collinear"
-} else {
-  stop("Invalid value of cross: ", cross)
-}
+  # SF: Vectorization
+  out <- ifelse(
+    cross > 0,
+    yes = "left",
+    no = ifelse(
+          cross < 0,
+          yes = "right",
+          no = "collinear")
+  )
+  # SF: No need to throw an error. Just set to NA.
+  out[!is.finite(cross)] <- NA
+  # out <- if (cross > 0) {
+  #   "left"
+  # } else if (cross < 0) {
+  #   "right"
+  # } else if (cross == 0) {
+  #   "collinear"
+  # } else {
+  #   stop("Invalid value of cross: ", cross)
+  # }
   out
 }
 
 #' @title Determine the curve value for a given qgraph object.
-#' 
-#' @description This function determines the curve 
+#'
+#' @description This function determines the curve
 #' value for a given qgraph object. It returns both
 #'  curve value and edge IDs which are double-headed arrows.
-#' 
+#'
 #' @param qgraph_obj A qgraph object.
-#' 
-#' @return A table contains node names of the bidirectional 
+#'
+#' @return A table contains node names of the bidirectional
 #' edges, directions of the origins and the number of such edges.
 #' As currently I'm not very sure what kind of data structure we want to retuen.
-#' 
-#' 
+#'
+#'
 #' @export
 auto_curve_covariance <- function(qgraph_obj) {
   # Check if the qgraph object is provided
@@ -90,7 +101,7 @@ auto_curve_covariance <- function(qgraph_obj) {
 
   # Extract the bidirectional edges from the qgraph object
   number_of_bidirectional_edges <- which(qgraph_obj$Edgelist$bidirectional)
-  
+
   # If there are no bidirectional edges, return an empty data frame
   if (length(number_of_bidirectional_edges) == 0) {
       warning("No bidirectional edges found in this qgraph object. ",
@@ -131,9 +142,9 @@ auto_curve_covariance <- function(qgraph_obj) {
   row.names = NULL,
   edge_ids = number_of_bidirectional_edges
 )
-  
+
 result_df$from_coords <- asplit(bi_from_coords, 1)  # split into list by row
 result_df$to_coords   <- asplit(bi_to_coords,   1)
-  
+
 result_df
 }
