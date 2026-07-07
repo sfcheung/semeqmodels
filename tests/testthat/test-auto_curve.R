@@ -46,7 +46,7 @@ pt1_a <- set_curve(
 )
 if (!is_testing()) plot(pt1_a)
 expect_equal(
-  pt1_a$graphAttributes$Edge$curve[c(1, 4)],
+  pt1_a$graphAttributes$Edges$curve[c(1, 4)],
   c(1, 1)
 )
 pt1_b <- auto_curve_covariance_i(
@@ -56,8 +56,8 @@ pt1_b <- auto_curve_covariance_i(
         )
 if (!is_testing()) plot(pt1_b)
 expect_equal(
-  pt1_b$graphAttributes$Edge$curve,
-  pt1_a$graphAttributes$Edge$curve
+  pt1_b$graphAttributes$Edges$curve,
+  pt1_a$graphAttributes$Edges$curve
 )
 
 pt1_a <- set_curve(
@@ -66,7 +66,7 @@ pt1_a <- set_curve(
 )
 if (!is_testing()) plot(pt1_a)
 expect_equal(
-  pt1_a$graphAttributes$Edge$curve[c(3, 6)],
+  pt1_a$graphAttributes$Edges$curve[c(3, 6)],
   c(-1, -1)
 )
 pt1_a <- set_curve(
@@ -75,7 +75,7 @@ pt1_a <- set_curve(
 )
 if (!is_testing()) plot(pt1_a)
 expect_equal(
-  pt1_a$graphAttributes$Edge$curve[c(2, 5)],
+  pt1_a$graphAttributes$Edges$curve[c(2, 5)],
   c(1, 1)
 )
 
@@ -128,7 +128,7 @@ pt1_a <- set_curve(
 )
 if (!is_testing()) plot(pt1_a)
 expect_equal(
-  pt1_a$graphAttributes$Edge$curve[c(1, 7)],
+  pt1_a$graphAttributes$Edges$curve[c(1, 7)],
   c(1, 1)
 )
 pt1_a <- set_curve(
@@ -137,7 +137,7 @@ pt1_a <- set_curve(
 )
 if (!is_testing()) plot(pt1_a)
 expect_equal(
-  pt1_a$graphAttributes$Edge$curve[c(4, 10)],
+  pt1_a$graphAttributes$Edges$curve[c(4, 10)],
   c(-1, -1)
 )
 pt1_a <- set_curve(
@@ -146,7 +146,7 @@ pt1_a <- set_curve(
 )
 if (!is_testing()) plot(pt1_a)
 expect_equal(
-  pt1_a$graphAttributes$Edge$curve[c(6, 12)],
+  pt1_a$graphAttributes$Edges$curve[c(6, 12)],
   c(1, 1)
 )
 pt1_a <- set_curve(
@@ -155,7 +155,7 @@ pt1_a <- set_curve(
 )
 if (!is_testing()) plot(pt1_a)
 expect_equal(
-  pt1_a$graphAttributes$Edge$curve[c(5, 11)],
+  pt1_a$graphAttributes$Edges$curve[c(5, 11)],
   c(1, 1)
 )
 
