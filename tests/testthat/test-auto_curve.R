@@ -49,6 +49,17 @@ expect_equal(
   pt1_a$graphAttributes$Edge$curve[c(1, 4)],
   c(1, 1)
 )
+pt1_b <- auto_curve_covariance_i(
+          bidirectional_edges(p1[[1]])[[1]],
+          p1[[1]],
+          output = "qgraph"
+        )
+if (!is_testing()) plot(pt1_b)
+expect_equal(
+  pt1_b$graphAttributes$Edge$curve,
+  pt1_a$graphAttributes$Edge$curve
+)
+
 pt1_a <- set_curve(
   p1[[1]],
   auto_curve_covariance_i(bidirectional_edges(p1[[1]])[[2]], p1[[1]])

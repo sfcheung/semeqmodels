@@ -256,7 +256,7 @@ auto_curve_covariance_i <- function(
     collinear = base_curve
   )
   if (output == "curve") {
-    node <- qgraph_obj$graphAttribute$Node
+    node <- qgraph_obj$graphAttributes$Nodes
     node_names <- names(node$labels)
     if (is.null(node_names)) {
       node_names <- unlist(as.character(node$labels))
@@ -268,7 +268,7 @@ auto_curve_covariance_i <- function(
   }
   if (output == "qgraph") {
     out_graph <- qgraph_obj
-    out_graph$graphAttribute$Edge$curve[edge_ids] <- c(out, -out)
+    out_graph$graphAttributes$Edges$curve[edge_ids] <- c(out, out)
     return(out_graph)
   }
   # Should never reach here
