@@ -148,3 +148,30 @@ result_df$to_coords   <- asplit(bi_to_coords,   1)
 
 result_df
 }
+
+#' @noRd
+bidirectional_edges <- function(
+  qgraph_obj
+) {
+  # Extract the bidirectional edges from the qgraph object
+  bi_id <- which(qgraph_obj$Edgelist$bidirectional)
+  if (length(bi_id) == 0) {
+    # No bidirectional edges
+    return(list())
+  }
+  from <- qgraph_obj$Edgelist$from[bi_id]
+  to <- qgraph_obj$Edgelist$to[bi_id]
+  from_to <- mapply(
+      function(x, y) {
+        paste0(
+          sort(c(x, y)),
+          collapse = "_"
+        )
+      },
+      x = from,
+      y = to,
+      SIMPLIFY = TRUE,
+      USE.NAMES = FALSE
+    )
+  split(bi_id, factor(from_to))
+}
