@@ -93,60 +93,33 @@ check_position <- function(from, to) {
 #'
 #'
 #' @export
-auto_curve_covariance <- function(qgraph_obj) {
+auto_curve_covariance <- function(
+  qgraph_obj,
+  base_curve = 3
+) {
   # Check if the qgraph object is provided
-  if (missing(qgraph_obj) || is.null(qgraph_obj)) {
-    stop("`qgraph_obj` is missing or NULL. Please provide a valid qgraph object.")
+  # if (missing(qgraph_obj) || is.null(qgraph_obj)) {
+  #   stop("`qgraph_obj` is missing or NULL. Please provide a valid qgraph object.")
+  # }
+  if (!inherits(qgraph_obj, "qgraph")) {
+    stop("`qgraph_obj` is not a qgraph object.")
   }
-
   # Extract the bidirectional edges from the qgraph object
-  number_of_bidirectional_edges <- which(qgraph_obj$Edgelist$bidirectional)
-
-  # If there are no bidirectional edges, return an empty data frame
-  if (length(number_of_bidirectional_edges) == 0) {
-      warning("No bidirectional edges found in this qgraph object. ",
-              "Returning an empty data frame.")
-      return(data.frame(
-        from             = character(0),
-        to               = character(0),
-        origin_direction = character(0),
-        edge_ids         = integer(0),
-        from_coords      = I(list()),
-        to_coords        = I(list()),
-        stringsAsFactors = FALSE
-      ))
-    }
-
-  # Extract the bidirectional edges from the qgraph object
-  bi_from <- qgraph_obj$Edgelist$from[number_of_bidirectional_edges]
-  bi_to   <- qgraph_obj$Edgelist$to[number_of_bidirectional_edges]
-
-  # Determin the corresponding nodes' coordinates for the bidirectional edges
-  bi_from_coords <- qgraph_obj$layout[bi_from, , drop = FALSE]
-  bi_to_coords   <- qgraph_obj$layout[bi_to,   , drop = FALSE]
-
-  # Determine the direction of the origin relative to each bidirectional edge
-  origin_directions <- check_position(bi_from_coords, bi_to_coords)
-
-  # get the node names for the bidirectional edges
-  bi_from_names <- qgraph_obj$Arguments$labels[bi_from]
-  bi_to_names   <- qgraph_obj$Arguments$labels[bi_to]
-
-  # Create a data frame to store the results
-  # as currently I'm not very sure what kind of data structure we want to retuen.
-  result_df <- data.frame(
-  from = bi_from_names,
-  to   = bi_to_names,
-  origin_direction = origin_directions,
-  stringsAsFactors = FALSE,
-  row.names = NULL,
-  edge_ids = number_of_bidirectional_edges
-)
-
-result_df$from_coords <- asplit(bi_from_coords, 1)  # split into list by row
-result_df$to_coords   <- asplit(bi_to_coords,   1)
-
-result_df
+  edges_bi <- bidirectional_edges(qgraph_obj)
+  if (length(edges_bi) == 0) {
+    # No bidirectional edges
+    return(qgraph_obj)
+  }
+  qgraph_out <- qgraph_obj
+  for (edges_bi_i in edges_bi) {
+    qgraph_out <- auto_curve_covariance_i(
+      edges_bi_i,
+      qgraph_out,
+      base_curve = base_curve,
+      output = "qgraph"
+    )
+  }
+  qgraph_out
 }
 
 #' @noRd
