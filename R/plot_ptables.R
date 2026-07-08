@@ -144,6 +144,16 @@ NULL
 #' set to different colors. Ignored if
 #' `color` of nodes is in `...`.
 #'
+#' @param curve_cov If `TRUE`, lines
+#' denoting covariances will be automatically
+#' curve. Implemented by calling
+#' [auto_curve_covariance()].
+#'
+#' @param curve_cov_settings A named list
+#' of arguments to be passed to
+#' [auto_curve_covariance()]. Used only
+#' if `curve_cov` is `TRUE`.
+#'
 #' @rdname plot_partables
 #' @export
 partables_plots <- function(
@@ -161,7 +171,9 @@ partables_plots <- function(
               color = "white",
               width = 0
             ),
-  exclude_original_model = FALSE
+  exclude_original_model = FALSE,
+  curve_cov = TRUE,
+  curve_cov_settings = list(base_curve = 1.5)
 ) {
 
   is_update <- FALSE
@@ -280,7 +292,9 @@ partables_plots <- function(
         auto_node_color = auto_node_color,
         fix_pars_fixed_zero = fix_pars_fixed_zero,
         par_fixed_zero_settings = par_fixed_zero_settings,
-        par_diff_settings = par_diff_settings
+        par_diff_settings = par_diff_settings,
+        curve_cov = curve_cov,
+        curve_cov_settings = curve_cov_settings
       )
     ),
     SIMPLIFY = FALSE,
@@ -314,7 +328,9 @@ partables_plots <- function(
             auto_node_color = auto_node_color,
             fix_pars_fixed_zero = fix_pars_fixed_zero,
             par_fixed_zero_settings = par_fixed_zero_settings,
-            par_diff_settings = par_diff_settings
+            par_diff_settings = par_diff_settings,
+            curve_cov = curve_cov,
+            curve_cov_settings = curve_cov_settings
           ),
           ddd)
       )
@@ -636,7 +652,9 @@ partables_plots_internal <- function(
   par_fixed_zero_settings = list(
               color = "white",
               width = 0
-            )
+            ),
+  curve_cov = TRUE,
+  curve_cov_settings = list(base_curve = 1.5)
 ) {
   # Internal function (for now)
   # Generate the plot for a model
@@ -710,6 +728,21 @@ partables_plots_internal <- function(
                   color_list = cov_colors
                 )
     }
+  }
+
+  if (curve_cov) {
+
+    # ==== Curve covariance edges ====
+
+    auto_curve_covariance_args <-
+      utils::modifyList(
+        curve_cov_settings,
+        list(qgraph_obj = p_fit)
+      )
+    p_fit <- do.call(
+        auto_curve_covariance,
+        auto_curve_covariance_args
+      )
   }
 
   if (fix_pars_fixed_zero) {

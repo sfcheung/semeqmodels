@@ -17,7 +17,9 @@ partables_plots(
   par_diff_settings = list(color = "blue", width = 2),
   fix_pars_fixed_zero = TRUE,
   par_fixed_zero_settings = list(color = "white", width = 0),
-  exclude_original_model = FALSE
+  exclude_original_model = FALSE,
+  curve_cov = TRUE,
+  curve_cov_settings = list(base_curve = 1.5)
 )
 
 \method{plot}{partables_plots}(
@@ -100,6 +102,16 @@ will not include the plot of the original
 model, though this plot will be stored
 in the attribute \code{"original_model"},
 as a one-element list.}
+
+\item{curve_cov}{If \code{TRUE}, lines
+denoting covariances will be automatically
+curve. Implemented by calling
+\code{\link[=auto_curve_covariance]{auto_curve_covariance()}}.}
+
+\item{curve_cov_settings}{A named list
+of arguments to be passed to
+\code{\link[=auto_curve_covariance]{auto_curve_covariance()}}. Used only
+if \code{curve_cov} is \code{TRUE}.}
 
 \item{x}{The output of \code{\link[=partables_plots]{partables_plots()}},
 a \code{partables_plots} object.}
