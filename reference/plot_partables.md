@@ -17,7 +17,9 @@ partables_plots(
   par_diff_settings = list(color = "blue", width = 2),
   fix_pars_fixed_zero = TRUE,
   par_fixed_zero_settings = list(color = "white", width = 0),
-  exclude_original_model = FALSE
+  exclude_original_model = FALSE,
+  curve_cov = TRUE,
+  curve_cov_settings = list(base_curve = 1.5)
 )
 
 # S3 method for class 'partables_plots'
@@ -104,6 +106,18 @@ lhs %p>% rhs
   If `TRUE` and `original_model` is set, the output will not include the
   plot of the original model, though this plot will be stored in the
   attribute `"original_model"`, as a one-element list.
+
+- curve_cov:
+
+  If `TRUE`, lines denoting covariances will be automatically curve.
+  Implemented by calling
+  [`auto_curve_covariance()`](https://sfcheung.github.io/semeqmodels/reference/auto_curve_covariance.md).
+
+- curve_cov_settings:
+
+  A named list of arguments to be passed to
+  [`auto_curve_covariance()`](https://sfcheung.github.io/semeqmodels/reference/auto_curve_covariance.md).
+  Used only if `curve_cov` is `TRUE`.
 
 - x:
 
