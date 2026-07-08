@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9060
+# semeqmodels 0.0.0.9062
 
 - Initialize the package.
   (0.0.0.9000)
@@ -368,4 +368,10 @@
 
 - Added `auto_curve_covariance()` to
   converting covariances to curves.
-  (0.0.0.9060)
+  (0.0.0.9060, 0.0.0.9061)
+
+- Updated `tolerance` in `eq_models()`
+  and `is_eq()` to support using more
+  than one fit measure to determine
+  empirical equivalence.
+  (0.0.0.9062)

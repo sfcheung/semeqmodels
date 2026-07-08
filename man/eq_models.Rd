@@ -14,7 +14,7 @@ eq_models(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   progress = interactive(),
-  tolerance = 1e-05,
+  tolerance = c(chisq = 1e-05),
   eq_df_models_args = list()
 )
 
@@ -27,7 +27,7 @@ is_eq(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   progress = interactive(),
-  tolerance = 1e-05,
+  tolerance = c(chisq = 1e-05),
   eq_df_models_args = list()
 )
 }
@@ -83,9 +83,21 @@ to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 progress will be displayed
 on screen.}
 
-\item{tolerance}{The maximum difference
-in model chi-squares for two models
-to be considered empirically equivalent.}
+\item{tolerance}{The maximum absolute
+difference
+in a fit measure for two models
+to be considered empirically equivalent.
+It should be a named numeric vector,
+with the names being an acceptable
+value of the name of fit measures
+in \code{\link[lavaan:fitMeasures]{lavaan::fitMeasures()}}. For example,
+the default fit measure is \code{"chisq"},
+model chi-square. If set to
+\code{c(chisq = 1e-5, cfi = .01)}, then
+two models are considered empirical
+equivalent if their differences on
+model chi-square and CFI are at most
+1e-5 and .01, respectively.}
 
 \item{eq_df_models_args}{If \code{partables}
 is not supplied (\code{NULL}) but

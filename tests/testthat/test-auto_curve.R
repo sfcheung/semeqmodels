@@ -1,5 +1,3 @@
-skip("WIP")
-
 library(testthat)
 suppressMessages(library(lavaan))
 suppressMessages(library(semptools))
@@ -79,18 +77,20 @@ expect_equal(
   c(1, 1)
 )
 
+x <- formals(auto_curve_covariance)$base_curve
+
 pt1_a <- auto_curve_covariance(p1[[1]])
 if (!is_testing()) plot(pt1_a)
 expect_equal(
   pt1_a$graphAttributes$Edges$curve,
-  c(1, 1, -1, 1, 1, -1)
+  c(x, x, -x, x, x, -x)
 )
 
 pt1_all <- p1 %p>% auto_curve_covariance()
 if (!is_testing()) plot(pt1_all, ncol = 2, nrow = 2)
 expect_equal(
   pt1_all[[1]]$graphAttributes$Edges$curve,
-  c(1, 1, -1, 1, 1, -1)
+  c(x, x, -x, x, x, -x)
 )
 
 dev.off()
@@ -172,19 +172,20 @@ expect_equal(
   c(1, 1)
 )
 
+x <- formals(auto_curve_covariance)$base_curve
 
 pt1_a <- auto_curve_covariance(p1[[1]])
 if (!is_testing()) plot(pt1_a)
 expect_equal(
   pt1_a$graphAttributes$Edges$curve,
-  c(1, 1, -1, 1, 1, -1)
+  c(x, x, -x, -x, x, x, x, x, -x, -x, x, x)
 )
 
 pt1_all <- p1 %p>% auto_curve_covariance()
 if (!is_testing()) plot(pt1_all, ncol = 2, nrow = 2)
 expect_equal(
   pt1_all[[1]]$graphAttributes$Edges$curve,
-  c(3, 3, -3, -3, 3, 3, 3, 3, -3, -3, 3, 3)
+  c(x, x, -x, -x, x, x, x, x, -x, -x, x, x)
 )
 
 dev.off()
