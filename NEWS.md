@@ -1,4 +1,4 @@
-# semeqmodels 0.0.0.9060
+# semeqmodels 0.0.0.9061
 
 - Initialize the package.
   (0.0.0.9000)
@@ -368,4 +368,4 @@
 
 - Added `auto_curve_covariance()` to
   converting covariances to curves.
-  (0.0.0.9060)
+  (0.0.0.9060, 0.0.0.9061)
