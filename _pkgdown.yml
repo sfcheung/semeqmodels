@@ -32,10 +32,10 @@ articles:
   contents:
   - semeqmodels
 
-# - title: Examples
-#   navbar: Examples
-#   contents:
-#   - three_observed_variables
+- title: Demonstrations
+  navbar: Demonstrations
+  contents:
+  - articles/demo_lav_3
 
 reference:
 - title: Main Functions

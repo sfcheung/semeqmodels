@@ -1,0 +1,7 @@
+
+# Final Remarks
+
+There are many other ways to customize
+the search and the plots. Please refer
+to the corresponding halp pages for
+details.

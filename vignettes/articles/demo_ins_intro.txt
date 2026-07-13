@@ -1,0 +1,12 @@
+
+# Introduction
+
+This article is part of a series of
+articles to demonstrate how to
+use [semeqmodels](https://sfcheung.github.io/semeqmodels/)
+to identify models empirically equivalent
+to a target model, called the *original* *model*.
+
+NOTE: To make articles in this series
+self-contained, some sections are repeated
+across articles.
