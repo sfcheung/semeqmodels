@@ -1,6 +1,6 @@
 ---
 title: "Workflow Demo: 3 Latent Variables"
-date: "2026-07-13"
+date: "2026-07-14"
 output:
   html_document:
     fig.align: "center"
@@ -17,8 +17,9 @@ csl: apa.csl
 
 # Introduction
 
-This article is part of a series of
-articles to demonstrate how to
+This article is part of
+a [series of articles](./index.html#demonstrations)
+to demonstrate how to
 use [semeqmodels](https://sfcheung.github.io/semeqmodels/)
 to identify models empirically equivalent
 to a target model, called the *original* *model*.
@@ -38,7 +39,7 @@ illustrate how to use `semeqmodels`.
 
 Suppose this the original model we fitted
 to dataset `data_test_3_factor_3_item`
-(come with the package):
+(installed with the package):
 
 <div class="figure" style="text-align: center">
 <img src="demo_lav_3_model-1.png" alt="Simple Mediation Model"  />
@@ -92,7 +93,8 @@ Suppose we are would like to find *some*
 models that are *empirically*
 *equivalent* to this model:
 
-Two models are empirically equivalent
+In this package,
+two models are defined to be empirically equivalent
 if the following conditions are met:
 
 - They have the same model degrees of freedom.
@@ -101,9 +103,14 @@ if the following conditions are met:
   fit measures are equal to or smaller than
   a user-defined tolerance.
 
+See [this section](#equivalence-in-principle-and-empirical-equivalence)
+on a discussion of equivalence
+
 We will start the demonstration using
 model $\chi^2$, with a tolerance of
 0.00001.
+
+
 
 # Generating Empirically Equivalent Models
 
@@ -160,13 +167,15 @@ numbers. They are useful IDs because they
 are short. However, it is much easier
 to examine the models by drawing them.
 
+
 # Drawing the Models
 
 To draw the models, the function
 `partables_plots()` can be used. It used
-the package `semPlot` to draw the model.
-Therefore, basic knowledge of this package
-is required.
+the function `semPlot::semPaths()`
+from the `semPlot` package to draw the model.
+Therefore, basic knowledge of
+`semPlot::semPaths()` is required.
 
 To draw the model, we need a common layout,
 in the form of a matrix of names:
@@ -202,10 +211,13 @@ p <- partables_plots(
 )
 ```
 
+
+
 We can then call `plot()` to plot
 the models. By default, they will be drawn
 one by one. To draw them in a grid,
 use the arguments `ncol` and `nrow`:
+
 
 
 ``` r
@@ -222,6 +234,8 @@ plot(
 <p class="caption">Empirically Equivalent Models</p>
 </div>
 
+
+
 The model labelled `Original` is the
 original model. The other models are
 empirically equivalent to this model
@@ -237,6 +251,8 @@ By default:
 There are other ways to customize how
 the models are drawn. Please refer to
 the help page of `plot.partables_plots()`.
+
+
 
 # Filter the Models
 
@@ -334,7 +350,7 @@ plot(
 <p class="caption">No Paths from fy to fx</p>
 </div>
 
-## Chaining the Selection
+## Chaining the Selections
 
 The selectors can be chained together
 using `|>`.
@@ -365,10 +381,60 @@ plot(
 
 # Final Remarks
 
+## Customize the Search
+
 There are many other ways to customize
 the search and the plots. Please refer
 to the corresponding halp pages for
 details.
+
+Demonstrations of other models and
+cases can be found in
+the [other demonstration articles](./index.html#demonstrations)
+
+## Equivalence-In-Principle and Empirical Equivalence
+
+The concept of mathematically
+equivalence models, or two models
+being equivalent in principle [@lee_simple_1990],
+has
+a long history in the literature on
+structural equation modeling
+[@maccallum_problem_1993, @williams_equivalent_2012].
+Two models are considered to be
+mathematically equivalent
+if they necessarily imply the same
+covariance matrix regardless of the data.
+There are methods to generate them and
+tools to generate them automatically
+[e.g., @lee_simple_1990].
+
+Our definition of empirical equivalence
+is similar to *empirical occurrence of equivalence*
+[EOE, @lee_simple_1990]. However, we include
+the requirement of equal degrees of freedom:
+two models must also be equal in parsimony.
+We also allow for the possibility of using
+any fit measures deem appropriate (e.g., CFI,
+RMSEA), and also the use of tolerance values
+that are appropriate for a situation.
+
+Although our focus is on empirical equivalence,
+two models that are mathematically equivalent in the
+conventional sense are necessarily
+empirically equivalent.
+Note that the reverse is
+not true: two models that are empirically
+equivalent are not necessarily mathematically
+equivalent.
+
+Nevertheless, when the tolerance is set to
+be very small, the models identified,
+though not necessarily, are likely to be
+mathematically equivalent. Therefore,
+the package can also be used to identify
+models that are likely mathematically
+equivalent.
 
 
 # Reference(s)

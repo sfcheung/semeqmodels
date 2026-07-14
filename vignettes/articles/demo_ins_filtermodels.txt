@@ -1,0 +1,9 @@
+
+# Filter the Models
+
+The package `semeqmodels`
+has functions for selecting
+models, listed [here](../reference/partable_select.html).
+They can also be used to filter the
+output of `partables_plot()`. Some of them
+are demonstrated below.

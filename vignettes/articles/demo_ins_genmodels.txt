@@ -1,0 +1,30 @@
+
+# Generating Empirically Equivalent Models
+
+To generate models that are empirically
+equivalent to a fitted model, we can simply
+call `eq_models()` and set `original_model`
+to the output of `lavaan`:
+
+```{r results="hide", message=FALSE}
+library(semeqmodels)
+out <- eq_models(
+  original_model = fit
+)
+```
+
+The search can be customized if necessary.
+Please refer to the help page of `eq_models()`
+for available options.
+
+This is the text output:
+
+```{r}
+out
+```
+
+The default names are generated to uniquely
+identify the models. Treat them as identification
+numbers. They are useful IDs because they
+are short. However, it is much easier
+to examine the models by drawing them.

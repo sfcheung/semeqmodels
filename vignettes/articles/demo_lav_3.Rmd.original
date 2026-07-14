@@ -36,7 +36,7 @@ illustrate how to use `semeqmodels`.
 
 Suppose this the original model we fitted
 to dataset `data_test_3_factor_3_item`
-(come with the package):
+(installed with the package):
 
 ```{r demo_lav_3_model, echo = FALSE, fig.cap = "Simple Mediation Model"}
 library(semeqmodels)
@@ -97,46 +97,11 @@ fit
 ```{r load_empeq, child=c("demo_ins_empeq.txt")}
 ```
 
-# Generating Empirically Equivalent Models
-
-To generate models that are empirically
-equivalent to a fitted model, we can simply
-call `eq_models()` and set `original_model`
-to the output of `lavaan`:
-
-```{r results="hide", message=FALSE}
-library(semeqmodels)
-out <- eq_models(
-  original_model = fit
-)
+```{r load_genmodels, child=c("demo_ins_genmodels.txt")}
 ```
 
-The search can be customized if necessary.
-Please refer to the help page of `eq_models()`
-for available options.
-
-This is the text output:
-
-```{r}
-out
+```{r load_drawmodels, child=c("demo_ins_drawmodels.txt")}
 ```
-
-The default names are generated to uniquely
-identify the models. Treat them as identification
-numbers. They are useful IDs because they
-are short. However, it is much easier
-to examine the models by drawing them.
-
-# Drawing the Models
-
-To draw the models, the function
-`partables_plots()` can be used. It used
-the package `semPlot` to draw the model.
-Therefore, basic knowledge of this package
-is required.
-
-To draw the model, we need a common layout,
-in the form of a matrix of names:
 
 ```{r}
 # Set the layout of the plots
@@ -164,10 +129,9 @@ p <- partables_plots(
 )
 ```
 
-We can then call `plot()` to plot
-the models. By default, they will be drawn
-one by one. To draw them in a grid,
-use the arguments `ncol` and `nrow`:
+```{r load_plotmodels, child=c("demo_ins_plotmodels.txt")}
+```
+
 
 ```{r demo_lav_3_eqmodels, fig.width = 10, fig.height = 6, echo = TRUE, fig.cap = "Empirically Equivalent Models"}
 plot(
@@ -178,30 +142,11 @@ plot(
 )
 ```
 
-The model labelled `Original` is the
-original model. The other models are
-empirically equivalent to this model
-in this dataset.
+```{r load_plotmodels_args, child=c("demo_ins_plotmodels_args.txt")}
+```
 
-By default:
-
-- Paths or covariances different form
-  the original model are colored.
-
-- Covariances are displayed using curves.
-
-There are other ways to customize how
-the models are drawn. Please refer to
-the help page of `plot.partables_plots()`.
-
-# Filter the Models
-
-The package `semeqmodels`
-has functions for selecting
-models, listed [here](../reference/partable_select.html).
-They can also be used to filter the
-output of `partables_plot()`. Some of them
-are demonstrated below.
+```{r load_filtermodels, child=c("demo_ins_filtermodels.txt")}
+```
 
 ## `fx` Must Not Be a DV (`y`-variables)
 
@@ -272,7 +217,7 @@ plot(
 )
 ```
 
-## Chaining the Selection
+## Chaining the Selections
 
 The selectors can be chained together
 using `|>`.
@@ -293,8 +238,7 @@ plot(
 )
 ```
 
-```{r load_final_, child=c("demo_ins_final.txt")}
+```{r load_final, child=c("demo_ins_final.txt")}
 ```
-
 
 # Reference(s)
