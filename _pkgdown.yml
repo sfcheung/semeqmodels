@@ -36,6 +36,7 @@ articles:
   navbar: Demonstrations
   contents:
   - articles/demo_lav_3
+  - articles/demo_lav_4
 
 reference:
 - title: Main Functions
