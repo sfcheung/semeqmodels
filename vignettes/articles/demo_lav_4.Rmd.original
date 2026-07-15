@@ -37,7 +37,7 @@ Suppose this the original model we fitted
 to dataset `data_test_4_factor_3_item`
 (installed with the package):
 
-```{r demo_lav_4_model, echo = FALSE, fig.cap = "Simple Mediation Model"}
+```{r demo_lav_4_model, echo = FALSE, fig.cap = "Parallel Mediation Model"}
 library(semeqmodels)
 library(semPlot)
 library(semptools)
