@@ -339,45 +339,47 @@ as the outcome of at least one other
 variable. Therefore, a mediator is also
 a DV.
 
-## `fy` Must Be a DV (`y`-variables)
+## Must Have Some Direct Paths
 
-Suppose that we have reasons to argue that
-`fy` must be an outcome of at least one other
-variable.
+Suppose that we have theoretical reasons to argue that
+`fm1` and `fm2` must be affected directly
+by `fx`, and so would like to keep models
+with these two paths.
 
-We can use `must_be_y()` to specify
-variables that must be a "DV."
+We can use `have_pars_all()` to specify
+paths that must be present in a model
 
 
 ``` r
 p2 <- p |>
-  must_be_y(
-    vars = "fy"
+  have_pars_all(
+    pars = c("fm1 ~ fx",
+             "fm2 ~ fx")
   )
 plot(
   p2,
   ncol = 4,
-  nrow = 3,
+  nrow = 1,
   title_adj = 2
 )
 ```
 
 <div class="figure" style="text-align: center">
-<img src="demo_lav_4_be_y-1.png" alt="fy Must Be a y-Variable"  />
-<p class="caption">fy Must Be a y-Variable</p>
+<img src="demo_lav_4_have_pars_all-1.png" alt="Some Paths Must Be Present"  />
+<p class="caption">Some Paths Must Be Present</p>
 </div>
 
-## Must Not Have Any Paths from `fy` to `fx`
+## Must Not Have Any Paths from `fm1` to `fm2`
 
-Suppose that, theoretically, `fy` cannot
-have any effect on `fx`, directly or indirectly.
+Suppose that, theoretically, `fm1` cannot
+have any effect on `fm2`, directly or indirectly.
 We can use `must_not_have_paths()`.
 
 
 ``` r
 p3 <- p |>
   must_not_have_paths(
-    y_on_x = "fx ~ fy"
+    y_on_x = "fm2 ~ fm1"
   )
 plot(
   p3,
@@ -388,8 +390,8 @@ plot(
 ```
 
 <div class="figure" style="text-align: center">
-<img src="demo_lav_4_no_paths-1.png" alt="No Paths from fy to fx"  />
-<p class="caption">No Paths from fy to fx</p>
+<img src="demo_lav_4_no_paths-1.png" alt="No Paths from fm1 to fm2"  />
+<p class="caption">No Paths from fm1 to fm2</p>
 </div>
 
 ## Chaining the Selections
@@ -400,16 +402,20 @@ using `|>`.
 
 ``` r
 p5 <- p |>
-  must_have_paths(
-    y_on_x = "fy ~ fx"
-  ) |>
   must_not_be_y(
     vars = "fx"
+  ) |>
+  have_pars_all(
+    pars = c("fm1 ~ fx",
+             "fm2 ~ fx")
+  ) |>
+  must_not_have_paths(
+    y_on_x = "fm2 ~ fm1"
   )
 plot(
   p5,
   ncol = 4,
-  nrow = 2,
+  nrow = 1,
   title_adj = 2
 )
 ```
