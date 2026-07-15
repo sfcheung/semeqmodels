@@ -1,6 +1,6 @@
 ---
 title: "Workflow Demo: 3 Latent Variables"
-date: "2026-07-14"
+date: "2026-07-15"
 output:
   html_document:
     fig.align: "center"
@@ -40,6 +40,19 @@ illustrate how to use `semeqmodels`.
 Suppose this the original model we fitted
 to dataset `data_test_3_factor_3_item`
 (installed with the package):
+
+
+``` r
+library(semeqmodels)
+round(head(data_test_3_factor_3_item), 2)
+#>      x1    x2    x3    m1    m2    m3    y1    y2    y3
+#> 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44
+#> 2 -1.77 -0.91 -0.23 -0.02  0.12 -0.33  0.85 -0.71 -0.72
+#> 3 -0.54  0.69 -0.10 -0.33 -0.34  2.31 -1.35 -0.02  0.76
+#> 4 -1.72 -1.04  0.07  0.11 -0.13 -0.28 -0.49  1.77  0.64
+#> 5 -0.44 -0.41 -0.12 -0.34 -0.27  0.57  2.43 -0.11 -0.20
+#> 6  1.42  1.24  0.78  0.47 -0.38  1.72  0.68  1.22 -1.16
+```
 
 <div class="figure" style="text-align: center">
 <img src="demo_lav_3_model-1.png" alt="Simple Mediation Model"  />
@@ -166,6 +179,40 @@ identify the models. Treat them as identification
 numbers. They are useful IDs because they
 are short. However, it is much easier
 to examine the models by drawing them.
+
+The function `eq_chisq()` can be used
+to extract the model $\chi^2$s, to verify
+that they have model $\chi^2$s close to
+the that of the original model:
+
+
+``` r
+eq_chisq(out)
+#> 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f 
+#> 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 
+#> fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 
+#> 24.97025 24.97025 24.97025 24.97025 24.97025
+```
+
+
+``` r
+fitMeasures(fit, "chisq")
+#> chisq 
+#> 24.97
+```
+
+These models also have mode degrees of
+freedom equal to that of the original
+model:
+
+
+``` r
+eq_df(out)
+#> 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f 
+#>       24       24       24       24       24       24       24       24 
+#> fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 
+#>       24       24       24       24       24
+```
 
 
 # Drawing the Models

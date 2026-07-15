@@ -38,6 +38,11 @@ Suppose this the original model we fitted
 to dataset `data_test_3_factor_3_item`
 (installed with the package):
 
+```{r}
+library(semeqmodels)
+round(head(data_test_3_factor_3_item), 2)
+```
+
 ```{r demo_lav_3_model, echo = FALSE, fig.cap = "Simple Mediation Model"}
 library(semeqmodels)
 library(semPlot)

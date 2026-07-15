@@ -28,3 +28,24 @@ identify the models. Treat them as identification
 numbers. They are useful IDs because they
 are short. However, it is much easier
 to examine the models by drawing them.
+
+The function `eq_chisq()` can be used
+to extract the model $\chi^2$s, to verify
+that they have model $\chi^2$s close to
+the that of the original model:
+
+```{r}
+eq_chisq(out)
+```
+
+```{r}
+fitMeasures(fit, "chisq")
+```
+
+These models also have mode degrees of
+freedom equal to that of the original
+model:
+
+```{r}
+eq_df(out)
+```
