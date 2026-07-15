@@ -30,7 +30,11 @@ have_pars_none(
   output = c("models", "partables", "logical")
 )
 
-remove_x_y_ecov(partables, output = c("models", "partables", "logical"))
+remove_x_y_ecov(
+  partables,
+  output = c("models", "partables", "logical"),
+  cl = NULL
+)
 
 must_not_be_y(
   partables,
@@ -81,6 +85,10 @@ logical vector of the same length as
 \code{partables} is returned to indicate
 models that match the selection
 criteria.}
+
+\item{cl}{A cluster created by
+\code{\link[parallel:makeCluster]{parallel::makeCluster()}}. Used
+internally. Do not set this argument.}
 
 \item{vars}{A character vector of
 variables to be checked.}

@@ -9,7 +9,7 @@ Find equivalent models in structural equation modeling
 [![R-CMD-check](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-(Version 0.0.0.9054, updated on 2026-06-08, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
+(Version 0.0.0.9062, updated on 2026-07-08, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 # semeqmodels:  Equivalent Models in Structural Equation Models
 

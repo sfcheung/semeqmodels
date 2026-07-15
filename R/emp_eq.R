@@ -109,9 +109,21 @@
 #' progress will be displayed
 #' on screen.
 #'
-#' @param tolerance The maximum difference
-#' in model chi-squares for two models
+#' @param tolerance The maximum absolute
+#' difference
+#' in a fit measure for two models
 #' to be considered empirically equivalent.
+#' It should be a named numeric vector,
+#' with the names being an acceptable
+#' value of the name of fit measures
+#' in [lavaan::fitMeasures()]. For example,
+#' the default fit measure is `"chisq"`,
+#' model chi-square. If set to
+#' `c(chisq = 1e-5, cfi = .01)`, then
+#' two models are considered empirical
+#' equivalent if their differences on
+#' model chi-square and CFI are at most
+#' 1e-5 and .01, respectively.
 #'
 #' @param eq_df_models_args If `partables`
 #' is not supplied (`NULL`) but
@@ -218,7 +230,7 @@ eq_models <- function(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   progress = interactive(),
-  tolerance = 1e-5,
+  tolerance = c(chisq = 1e-5),
   eq_df_models_args = list()
 ) {
 
@@ -288,7 +300,7 @@ is_eq <- function(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   progress = interactive(),
-  tolerance = 1e-5,
+  tolerance = c(chisq = 1e-5),
   eq_df_models_args = list()
 ) {
 
@@ -328,7 +340,7 @@ eq_models_internal <- function(
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   make_cluster_args = list(),
   progress = interactive(),
-  tolerance = 1e-5,
+  tolerance = c(chisq = 1e-5),
   env_for_update = parent.frame(),
   eq_df_models_args = list(),
   output = c("logical", "models")
@@ -493,7 +505,8 @@ eq_models_internal <- function(
   sem_out_df <- unname(lavaan::fitMeasures(sem_out1, "df"))
   # TODO:
   # - Use robust chisq if available
-  sem_out_chisq <- unname(lavaan::fitMeasures(sem_out1, "chisq"))
+  # sem_out_chisq <- unname(lavaan::fitMeasures(sem_out1, "chisq"))
+  sem_out_fms <- lavaan::fitMeasures(sem_out1, names(tolerance))
 
   do_fit_many <- TRUE
 
@@ -515,7 +528,13 @@ eq_models_internal <- function(
         fits_same_data) {
       do_fit_many <- FALSE
       dfs <- eq_df(partables)
-      chisqs <- eq_chisq(partables)
+      # chisqs <- eq_chisq(partables)
+      fms <- eq_fitMeasures(
+               partables,
+               fit.measures = names(tolerance),
+               output_format = "data.frame"
+              )
+      fms <- as.matrix(fms)
     }
   }
 
@@ -537,10 +556,19 @@ eq_models_internal <- function(
       fits$fit,
       function(x) lavaan::fitMeasures(x, "df")
     )
-    chisqs <- sapply(
+    fms_to_check <- names(tolerance)
+    fms <- sapply(
       fits$fit,
-      function(x) lavaan::fitMeasures(x, "chisq")
+      function(x) lavaan::fitMeasures(x, fms_to_check)
     )
+    if (is.null(dim(fms))) {
+      fms <- rbind(fms)
+      rownames(fms) <- fms_to_check
+    }
+    # chisqs <- sapply(
+    #   fits$fit,
+    #   function(x) lavaan::fitMeasures(x, "chisq")
+    # )
     partables <- add_fit_many(
                   partables,
                   fit_many_out = fits
@@ -550,12 +578,19 @@ eq_models_internal <- function(
   # TODO:
   # - Handle nonconvergence cases
   #   Models failed post.check can be kept
-
   df_eq <- dfs == sem_out_df
-  chisq_eq <- abs(chisqs - sem_out_chisq) <= tolerance
-
-  i <- df_eq & chisq_eq
-
+  # chisq_eq <- abs(chisqs - sem_out_chisq) <= tolerance
+  # i <- df_eq & chisq_eq
+  fms_eq <- fms - matrix(rep(sem_out_fms, ncol(fms)),
+                         nrow = length(tolerance))
+  fms_eq <- abs(fms_eq) <= matrix(rep(tolerance, ncol(fms)),
+                                  nrow = length(tolerance))
+  fms_eq <- apply(
+              fms_eq,
+              MARGIN = 2,
+              all
+            )
+  i <- df_eq & fms_eq
   if (output == "logical") {
 
     # ==== output: logical ====
