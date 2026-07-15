@@ -41,8 +41,8 @@ to dataset `data_test_4_factor_3_item`
 (installed with the package):
 
 <div class="figure" style="text-align: center">
-<img src="demo_lav_4_model-1.png" alt="Simple Mediation Model"  />
-<p class="caption">Simple Mediation Model</p>
+<img src="demo_lav_4_model-1.png" alt="Parallel Mediation Model"  />
+<p class="caption">Parallel Mediation Model</p>
 </div>
 
 This is a model:
@@ -166,6 +166,40 @@ identify the models. Treat them as identification
 numbers. They are useful IDs because they
 are short. However, it is much easier
 to examine the models by drawing them.
+
+The function `eq_chisq()` can be used
+to extract the model $\chi^2$s, to verify
+that they have model $\chi^2$s close to
+the that of the original model:
+
+
+``` r
+eq_chisq(out)
+#> 79a7f22e 4501984e ba91ae6c b773b38f ad00823e 742796c3 94031f00 6d3f7956 
+#> 39.48751 39.48751 39.48751 39.48751 39.48751 39.48751 39.48751 39.48751 
+#> 288c4134 cdfe9b29 90d21e68 fb1b69d4 
+#> 39.48751 39.48751 39.48751 39.48751
+```
+
+
+``` r
+fitMeasures(fit, "chisq")
+#>  chisq 
+#> 39.488
+```
+
+These models also have mode degrees of
+freedom equal to that of the original
+model:
+
+
+``` r
+eq_df(out)
+#> 79a7f22e 4501984e ba91ae6c b773b38f ad00823e 742796c3 94031f00 6d3f7956 
+#>       49       49       49       49       49       49       49       49 
+#> 288c4134 cdfe9b29 90d21e68 fb1b69d4 
+#>       49       49       49       49
+```
 
 
 # Drawing the Models
