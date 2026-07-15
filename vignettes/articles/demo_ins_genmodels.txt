@@ -42,7 +42,7 @@ eq_chisq(out)
 fitMeasures(fit, "chisq")
 ```
 
-These models also have mode degrees of
+These models also have model degrees of
 freedom equal to that of the original
 model:
 

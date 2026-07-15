@@ -188,7 +188,7 @@ fitMeasures(fit, "chisq")
 #> 39.488
 ```
 
-These models also have mode degrees of
+These models also have model degrees of
 freedom equal to that of the original
 model:
 
