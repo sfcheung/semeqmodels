@@ -1,4 +1,4 @@
-# Workflow Demo: 4 Latent Variables
+# Workflow Demo: 4 Observed Variables
 
 ## Introduction
 
