@@ -88,16 +88,11 @@ fit <- sem(
 fit
 ```
 
-NOTE: For now, `semeqmodels` only support
-models fitted with `fixed.x = FALSE`,
-such that all observed variables can be
-freely changed.
+```{r load_fixed_x, child=c("demo_ins_fixed_x.txt")}
+```
 
-This model is a saturated model, with
-model *df* equals to zero. Therefore,
-all empirically equivalent models will also
-be saturated because they will also have
-zero *df*.
+```{r load_saturated, child=c("demo_ins_saturated.txt")}
+```
 
 ```{r load_empeq, child=c("demo_ins_empeq.txt")}
 ```

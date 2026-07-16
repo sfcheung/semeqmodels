@@ -95,10 +95,14 @@ fit
 #>   Degrees of freedom                                 0
 ```
 
+
+
 NOTE: For now, `semeqmodels` only support
 models fitted with `fixed.x = FALSE`,
 such that all observed variables can be
 freely changed.
+
+
 
 This model is a saturated model, with
 model *df* equals to zero. Therefore,
