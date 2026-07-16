@@ -1,14 +1,11 @@
-# Finding Equivalent Models in SEM
-
-(This is a work-in-progress draft, just for testing different
-workflows.)
+# Finding Empirical Equivalent Models in SEM
 
 ## Introduction
 
 This article is a brief illustration of how to use
 [`semeqmodels()`](https://sfcheung.github.io/semeqmodels/reference/semeqmodels-package.md)
 from the package [semeqmodels](https://sfcheung.github.io/semeqmodels/)
-to find (empirically) equivalent models of a model fitted by structural
+to find empirically equivalent models of a model fitted by structural
 equation modeling using `lavaan`.
 
 ## Data
@@ -19,7 +16,7 @@ A test dataset of `semeqmodels` will be used for illustration:
 
 library(semeqmodels)
 packageVersion("semeqmodels")
-#> [1] '0.0.0.9040'
+#> [1] '0.0.0.9062'
 head(round(data_test_3_factor_3_item, 2))
 #>      x1    x2    x3    m1    m2    m3    y1    y2    y3
 #> 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44
@@ -34,6 +31,10 @@ head(round(data_test_3_factor_3_item, 2))
 
 Suppose we are going to fit a model with three latent variables:
 
+![Model: Structural Only](semeqmodels_model-1.png)
+
+Model: Structural Only
+
 ``` r
 
 mod <-
@@ -42,52 +43,58 @@ fx =~ x1 + x2 + x3
 fm =~ m1 + m2 + m3
 fy =~ y1 + y2 + y3
 fm ~ fx
-fy ~ fm + fx
+fy ~ fm
 "
 ```
 
 ``` r
 
 library(lavaan)
-#> This is lavaan 0.6-21
-#> lavaan is FREE software! Please report any bugs.
 fit <- sem(
   model = mod,
   data = data_test_3_factor_3_item
 )
 fit
-#> lavaan 0.6-21 ended normally after 41 iterations
-#> 
+#> lavaan 0.7-1.3032 ended normally after 40 iterations
+#>
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
-#>   Number of model parameters                        21
-#> 
+#>   Number of model parameters                        20
+#>
 #>   Number of observations                           200
-#> 
+#>
 #> Model Test User Model:
-#>                                                       
-#>   Test statistic                                24.970
-#>   Degrees of freedom                                24
-#>   P-value (Chi-square)                           0.407
+#>
+#>   Test statistic                                25.503
+#>   Degrees of freedom                                25
+#>   P-value (Chi-square)                           0.434
 ```
 
-## Empirically Equivalent Models
+## Empirical Equivalence
 
-Let’s defined *empirically* *equivalence* this way: Two models are
-empirically equivalent with respect to a dataset if the following
-conditions are met:
+Suppose we are would like to find *some* models that are *empirically*
+*equivalent* to this model:
+
+In this package, two models are defined to be empirically equivalent if
+the following conditions are met:
 
 - They have the same model degrees of freedom.
 
-- They involves the same observed and latent variables.
+- Their absolute differences on selected fit measures are equal to or
+  smaller than a user-defined tolerance.
 
-- If fitted to this dataset, they have *nearly* the same model
-  $`\chi^2`$, “nearly” defined by a tolerance.
+See [this section](#equivalence-in-principle-and-empirical-equivalence)
+on a discussion of equivalence
 
-## Illustration
+We will start the demonstration using model $`\chi^2`$, with a tolerance
+of 0.00001.
+
+## Example 1: Model Chi-Squares
+
+### Calling `eq_models()`
 
 To find a list of models that are empirically equivalent to the model
-fitted above, we can use
+fitted above based on model $`\chi^2`$, the default, we can use
 [`eq_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_models.md):
 
 ``` r
@@ -95,35 +102,31 @@ fitted above, we can use
 mod_eq <- eq_models(
   original_model = fit
 )
-#> 19 processes started to run model fitting.
-#> The expected CPU time is about 0.02 second(s).
 ```
+
+For large models, this process can take some time to run (can be over
+ten minutes for complicated models) because the number of possible
+models can be several hundreds or even several thousands.
+
+### Examine the Models
 
 The output is a list of models, defined by `lavaan` parameter tables:
 
 ``` r
 
 mod_eq
-#> 
-#> Number of models: 13
-#> 
+#>
+#> Number of models: 5
+#>
 #> The models:
-#> 
-#>    Model   
-#> 1  74f316e6
-#> 2  aaa762b0
-#> 3  f3a45a7d
-#> 4  bc0d3b3c
-#> 5  b4893a92
-#> 6  1296cb7b
-#> 7  013c70fe
-#> 8  9eefbf8f
-#> 9  fa6f9416
-#> 10 31ffe311
-#> 11 834bb36f
-#> 12 311a900b
-#> 13 1a96de27 
-#> 
+#>
+#>   Model
+#> 1 c8181b7d
+#> 2 34be955a
+#> 3 3ded8a97
+#> 4 d882121d
+#> 5 fada78e4
+#>
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the
 #> models.
@@ -137,59 +140,29 @@ For more readable printout, call
 
 print(mod_eq,
       names_to_use = "long")
-#> 
-#> Number of models: 13
-#> 
+#>
+#> Number of models: 5
+#>
 #> The models:
-#> 
+#>
 #> Model
-#> 1 74f316e6 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
-#>     drop:fy~fx, add:fx~~fy, drop:fx~~fy, add:fx~fy, drop:fx~~fm,
-#>     add:fx~fm
-#> 2 aaa762b0 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
-#>     drop:fy~fx, add:fx~~fy, drop:fx~~fy, add:fx~fy, drop:fm~~fy,
-#>     add:fm~fy
-#> 3 f3a45a7d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
-#>     drop:fy~fx, add:fx~~fy, drop:fx~~fy, add:fx~fy, drop:fx~fy,
-#>     add:fx~~fy
-#> 4 bc0d3b3c := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~~fy,
-#>     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fm~fy, drop:fx~~fy,
-#>     add:fx~fy
-#> 5 b4893a92 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
+#> 1 c8181b7d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
+#>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fm~fy, drop:fm~fy,
+#>     add:fm~~fy
+#> 2 34be955a := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
+#>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fm~fy
+#> 3 3ded8a97 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
 #>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fy~fm
-#> 6 1296cb7b := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
-#>     drop:fm~~fy, add:fm~fy, drop:fx~~fm, add:fm~fx
-#> 7 013c70fe := original, drop:fm~fx, add:fx~~fm, drop:fy~fx, add:fx~~fy,
-#>     drop:fx~~fm, add:fm~fx, drop:fx~~fy, add:fy~fx
-#> 8 9eefbf8f := original, drop:fm~fx, add:fx~~fm, drop:fy~fx, add:fx~~fy,
-#>     drop:fx~~fy, add:fx~fy, drop:fx~~fm, add:fx~fm
-#> 9 fa6f9416 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~~fy,
-#>     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fy~fm
-#> 10 31ffe311 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,
-#>     drop:fy~fm, add:fm~fy, drop:fx~fm, add:fm~fx
-#> 11 834bb36f := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~~fy,
-#>     drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx
-#> 12 311a900b := original, drop:fm~fx, add:fx~~fm, drop:fy~fm,
-#>     add:fm~~fy, drop:fx~~fm, add:fm~fx
-#> 13 1a96de27 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm,
-#>     add:fm~~fy, drop:fm~~fy, add:fy~fm
+#> 4 d882121d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
+#>     drop:fm~~fy, add:fy~fm
+#> 5 fada78e4 := original, drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx
 ```
 
-By default, the original model, if included in this list, will not be
-removed.
+The long names show the modifications from the original model to the
+final models.
 
-The function
-[`eq_chisq()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
-can be used to retrieve the model $`\chi^2`$s of the models:
-
-``` r
-
-eq_chisq(mod_eq)
-#> 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f 
-#> 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 
-#> fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 
-#> 24.97025 24.97025 24.97025 24.97025 24.97025
-```
+By default, the original model is not removed, although it may still be
+shown with steps of modifications.
 
 The function
 [`eq_df()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
@@ -198,11 +171,28 @@ can be used to retrieve the model *df*s:
 ``` r
 
 eq_df(mod_eq)
-#> 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f 
-#>       24       24       24       24       24       24       24       24 
-#> fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 
-#>       24       24       24       24       24
+#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4
+#>       25       25       25       25       25
 ```
+
+As expected, all models have the same model *df*s.
+
+The function
+[`eq_chisq()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+can be used to retrieve the model $`\chi^2`$s of the models:
+
+``` r
+
+eq_chisq(mod_eq)
+#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4
+#> 25.50339 25.50339 25.50339 25.50339 25.50339
+```
+
+It can be confirmed that all models have nearly the same model
+$`\chi^2`$.
+
+Actually, in this case, the models in this case are not just empirically
+equivalent. They are also mathematically equivalent.
 
 The function
 [`model_diff_many()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md)
@@ -215,164 +205,347 @@ model_diff_many(
   target_model = fit,
   other_models = mod_eq
 )
-#> 
+#>
 #> -------------
-#> 
-#> Models: fit vs. 74f316e6
-#> 
+#>
+#> Models: fit vs. c8181b7d
+#>
 #> Model: fit
 #> fm~fx (free)
 #> fy~fm (free)
-#> fy~fx (free)
-#> 
-#> Model: 74f316e6
+#>
+#> Model: c8181b7d
+#> fx~fm (free)
 #> fm~~fy (free)
-#> fx~fy (free)
-#> fx~fm (free)
-#> 
+#>
 #> -------------
-#> 
-#> Models: fit vs. aaa762b0
-#> 
+#>
+#> Models: fit vs. 34be955a
+#>
 #> Model: fit
 #> fm~fx (free)
 #> fy~fm (free)
-#> fy~fx (free)
-#> 
-#> Model: aaa762b0
+#>
+#> Model: 34be955a
+#> fx~fm (free)
+#> fm~fy (free)
+#>
+#> -------------
+#>
+#> Models: fit vs. 3ded8a97
+#>
+#> Model: fit
+#> fm~fx (free)
+#>
+#> Model: 3ded8a97
+#> fx~fm (free)
+#>
+#> -------------
+#>
+#> Models: fit vs. d882121d
+#>
+#> Model: fit
+#> fm~fx (free)
+#>
+#> Model: d882121d
 #> fm~~fx (free)
-#> fx~fy (free)
-#> fm~fy (free)
-#> 
+#>
 #> -------------
-#> 
-#> Models: fit vs. f3a45a7d
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> fy~fm (free)
-#> fy~fx (free)
-#> 
-#> Model: f3a45a7d
-#> fm~~fx (free)
-#> fm~~fy (free)
-#> fx~~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. bc0d3b3c
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> fy~fm (free)
-#> fy~fx (free)
-#> 
-#> Model: bc0d3b3c
-#> fx~fm (free)
-#> fm~fy (free)
-#> fx~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. b4893a92
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> 
-#> Model: b4893a92
-#> fx~fm (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 1296cb7b
-#> 
-#> Model: fit
-#> fy~fm (free)
-#> 
-#> Model: 1296cb7b
-#> fm~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 013c70fe
-#> 
+#>
+#> Models: fit vs. fada78e4
+#>
 #> Model: fit
 #> No parameter only in this model.
-#> 
-#> Model: 013c70fe
+#>
+#> Model: fada78e4
 #> No parameter only in this model.
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 9eefbf8f
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> fy~fx (free)
-#> 
-#> Model: 9eefbf8f
-#> fx~fy (free)
-#> fx~fm (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. fa6f9416
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> fy~fx (free)
-#> 
-#> Model: fa6f9416
-#> fx~fm (free)
-#> fx~~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 31ffe311
-#> 
-#> Model: fit
-#> fy~fm (free)
-#> fy~fx (free)
-#> 
-#> Model: 31ffe311
-#> fx~fy (free)
-#> fm~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 834bb36f
-#> 
-#> Model: fit
-#> fy~fm (free)
-#> fy~fx (free)
-#> 
-#> Model: 834bb36f
-#> fm~fy (free)
-#> fx~~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 311a900b
-#> 
-#> Model: fit
-#> fy~fm (free)
-#> 
-#> Model: 311a900b
-#> fm~~fy (free)
-#> 
-#> -------------
-#> 
-#> Models: fit vs. 1a96de27
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> 
-#> Model: 1a96de27
-#> fm~~fx (free)
 ```
 
-## Limitations
+A better way to see the differences is to draw the models, described
+next.
 
-(Add some limitations in the current version.)
+### Visualize the Models
+
+The function
+[`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+can be used to visualize the models, using `semPaths()` from the
+`semPlot` package. Basic knowledge of
+[`semPlot::semPaths()`](https://rdrr.io/pkg/semPlot/man/semPaths.html)
+is required.
+
+``` r
+
+layout_i <- matrix(c(  NA, "fm",  NA,
+                     "fx",   NA, "fy"),
+                   ncol = 3,
+                   nrow = 2,
+                   byrow = TRUE)
+p <- partables_plots(
+  mod_eq,
+  original_model = fit,
+  layout = layout_i,
+  label.cex = 1.5,
+  sizeLat = 15,
+  edge.width = 5,
+  asize = 5,
+  structural = TRUE
+)
+```
+
+The [`plot()`](https://rdrr.io/r/graphics/plot.default.html) method can
+be used to plot the models:
+
+``` r
+
+plot(
+  p,
+  ncol = 3,
+  nrow = 2
+)
+```
+
+![Empirical Equivalent Models](semeqmodels_eq_models-1.png)
+
+Empirical Equivalent Models
+
+By default, paths different from the those in the original model will be
+displayed in blue. Covariances (both covariances and error covariances)
+will be represented by curves.
+
+## Example 2: CFI
+
+### Calling `eq_models()` with `tolerance`
+
+Suppose we would like to define empirical equivalence using another fit
+measure, such as CFI. This can be done using the argument `tolerance`.
+
+``` r
+
+mod_eq_cfi <- eq_models(
+  original_model = fit,
+  tolerance = c(cfi = .01)
+)
+```
+
+The argument `tolerance` accepts a *named* numeric vector. For each
+element:
+
+- The *name* is the name of a fit measure as appeared in
+  [`lavaan::fitMeasures()`](https://rdrr.io/pkg/lavaan/man/fitMeasures.html).
+
+- The value is the maximum absolute difference on this fit measure for
+  two models to be considered empirical equivalent.
+
+If the vector has more than one value, empirical equivalence is checked
+using *all* fit measures specified in `tolerance`.
+
+In this example, `c(cfi = .01)` indicates that two models are considered
+empirically equivalent if their absolute difference in CFI is at most
+.01.
+
+### Examine the Models
+
+The output is a list of models, defined by `lavaan` parameter tables:
+
+``` r
+
+mod_eq_cfi
+#>
+#> Number of models: 9
+#>
+#> The models:
+#>
+#>   Model
+#> 1 bf4767ac
+#> 2 c8181b7d
+#> 3 34be955a
+#> 4 3ded8a97
+#> 5 4588fdf2
+#> 6 0e0eca72
+#> 7 c15465c0
+#> 8 d882121d
+#> 9 fada78e4
+#>
+#> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
+#> "long"' to use the long descriptive names, if available, for the
+#> models.
+```
+
+Because a more liberal criterion is used, the number of models is larger
+than using model $`\chi^2`$.
+
+``` r
+
+eq_df(mod_eq_cfi)
+#> bf4767ac c8181b7d 34be955a 3ded8a97 4588fdf2 0e0eca72 c15465c0 d882121d
+#>       25       25       25       25       25       25       25       25
+#> fada78e4
+#>       25
+```
+
+Even with this liberal criterion, all models still have the same model
+*df*s.
+
+The function
+[`eq_fitMeasures()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
+can be used to retrieve selected fit measure(s) of all models:
+
+``` r
+
+eq_fitMeasures(
+  mod_eq_cfi,
+  "cfi"
+)
+#>     bf4767ac  c8181b7d  34be955a  3ded8a97 4588fdf2 0e0eca72 c15465c0  d882121d
+#> cfi        1 0.9980126 0.9980126 0.9980126        1        1        1 0.9980126
+#>      fada78e4
+#> cfi 0.9980126
+```
+
+In this case, the models are no longer necessarily mathematically
+equivalent to the original model.
+
+The function
+[`model_diff_many()`](https://sfcheung.github.io/semeqmodels/reference/model_diff.md),
+introduced before, can be used to list the differences between the
+fitted models and each of the empirically equivalent models.
+
+### Visualize the Models
+
+The function
+[`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+can be used to visualize the models, using `semPaths()` from the
+`semPlot` package. Basic knowledge of
+[`semPlot::semPaths()`](https://rdrr.io/pkg/semPlot/man/semPaths.html)
+is required.
+
+``` r
+
+layout_i <- matrix(c(  NA, "fm",  NA,
+                     "fx",   NA, "fy"),
+                   ncol = 3,
+                   nrow = 2,
+                   byrow = TRUE)
+p_cfi <- partables_plots(
+  mod_eq_cfi,
+  original_model = fit,
+  layout = layout_i,
+  label.cex = 1.5,
+  sizeLat = 15,
+  edge.width = 5,
+  asize = 5,
+  structural = TRUE
+)
+```
+
+Let’s plot all the models:
+
+``` r
+
+plot(
+  p_cfi,
+  ncol = 3,
+  nrow = 3
+)
+```
+
+![Empirical Equivalent Models (CFI)](semeqmodels_eq_models_cfi-1.png)
+
+Empirical Equivalent Models (CFI)
+
+### Selecting Models
+
+Based on knowledge about the variables, the research design, or
+theoretical reasons, some models may need to be removed.
+
+For example, the factor `fy` may be measured a certain period before
+`fm` and `fy`, while `fm` and `fy` are measured in the same wave.
+Therefore, `fx` cannot be be an “y”-variable (“dependent variable”) that
+are affected by other variables.
+
+There is a set of model selector functions (see
+[`?partable_select`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md))
+that can be used to select models. The function
+[`must_not_be_y()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
+will be demonstrated in this vignette.
+
+``` r
+
+p_cfi_fx_not_y <- must_not_be_y(
+  p_cfi,
+  vars = "fx"
+)
+```
+
+``` r
+
+plot(
+  p_cfi_fx_not_y,
+  ncol = 3,
+  nrow = 2
+)
+```
+
+![Empirical Equivalent Models
+(Filtered)](semeqmodels_eq_models_selected-1.png)
+
+Empirical Equivalent Models (Filtered)
+
+See
+[`?partable_select`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
+for other ways to select models.
+
+## Final Remarks
+
+### Customize the Search
+
+There are many other ways to customize the search and the plots. Please
+refer to the corresponding halp pages for details.
+
+Demonstrations of other models and cases can be found in the [other
+demonstration
+articles](https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations)
+
+### Equivalence-In-Principle and Empirical Equivalence
+
+The concept of mathematically equivalence models, or two models being
+equivalent in principle (Lee & Hershberger, 1990), has a long history in
+the literature on structural equation modeling Williams (2012). Two
+models are considered to be mathematically equivalent if they
+necessarily imply the same covariance matrix regardless of the data.
+There are methods to generate them and tools to generate them
+automatically (e.g., Lee & Hershberger, 1990).
+
+Our definition of empirical equivalence is similar to *empirical
+occurrence of equivalence* (EOE, Lee & Hershberger, 1990). However, we
+include the requirement of equal degrees of freedom: two models must
+also be equal in parsimony. We also allow for the possibility of using
+any fit measures deem appropriate (e.g., CFI, RMSEA), and also the use
+of tolerance values that are appropriate for a situation.
+
+Although our focus is on empirical equivalence, two models that are
+mathematically equivalent in the conventional sense are necessarily
+empirically equivalent. Note that the reverse is not true: two models
+that are empirically equivalent are not necessarily mathematically
+equivalent.
+
+Nevertheless, when the tolerance is set to be very small, the models
+identified, though not necessarily, are likely to be mathematically
+equivalent. Therefore, the package can also be used to identify models
+that are likely mathematically equivalent.
 
 ## References
+
+Lee, S., & Hershberger, S. (1990). A simple rule for generating
+equivalent models in covariance structure modeling. *Multivariate
+Behavioral Research*, *25*(3), 313–334.
+<https://doi.org/10.1207/s15327906mbr2503_4>
+
+MacCallum, R. C., Wegener, D. T., Uchino, B. N., & Fabrigar, L. R.
+(1993). The problem of equivalent models in applications of covariance
+structure analysis. *Psychological Bulletin*, *114*(1), 185–199.
+<https://doi.org/10.1037/0033-2909.114.1.185>
+
+Williams, L. J. (2012). Equivalent models: Concepts, problems,
+alternatives. In R. H. Hoyle (Ed.), *Handbook of Structural Equation
+Modeling*. The Guilford Press.

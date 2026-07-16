@@ -2,27 +2,41 @@
 
 Find equivalent models in structural equation modeling
 
-(Version 0.0.0.9062, updated on 2026-07-08, [release
+(Version 0.0.1, updated on 2026-07-16, [release
 history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
-# semeqmodels: Equivalent Models in Structural Equation Models
+# semeqmodels: Empirical Equivalent Models in Structural Equation Models
 
-This package is for identifying the sets of probably equivalent models
-for structural equation models. It currently supports models fitted by
-the `lavaan` package.
+This package is for identifying the sets of empirically equivalent
+models for structural equation models. It currently supports models
+fitted by the `lavaan` package.
 
 For more information on this package, please visit its GitHub page:
 
 <https://sfcheung.github.io/semeqmodels/>
 
+This is the Get-Started guide:
+
+<https://sfcheung.github.io/semeqmodels/articles/semeqmodels.html>
+
+Some quick demonstrations can be found here:
+
+<https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations>
+
+NOTE: This package is released to the public for testing by peers. It is
+still a work-in-progress and so the interface may change in the final
+stable version.
+
 # Installation
 
 The latest developmental version of this package can be installed by
-[`remotes::install_github`](https://remotes.r-lib.org/reference/install_github.html):
+[`install_github()`](https://remotes.r-lib.org/reference/install_github.html)
+from the package `remotes`:
 
 ``` r
 
-remotes::install_github("sfcheung/semeqmodels")
+library(remotes)
+install_github("sfcheung/semeqmodels")
 ```
 
 # Issues

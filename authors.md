@@ -7,21 +7,21 @@
 
 - **Borui Yang**. Author. [](https://orcid.org/0009-0006-7532-8950)
 
-- **Wenting Xu**. Contributor. [](https://orcid.org/0000-0002-6671-3308)
+- **Wenting Xu**. Author. [](https://orcid.org/0000-0002-6671-3308)
 
 - **Wendie Yang**. Contributor.
   [](https://orcid.org/0009-0000-8388-6481)
 
 ## Citation
 
-Cheung S, Yang B (2026). *semeqmodels: Equivalent Models in Structural
-Equation Models*. R package version 0.0.0.9062,
+Cheung S, Yang B, Xu W (2026). *semeqmodels: Equivalent Models in
+Structural Equation Models*. R package version 0.0.1,
 <https://sfcheung.github.io/semeqmodels/>.
 
     @Manual{,
       title = {semeqmodels: Equivalent Models in Structural Equation Models},
-      author = {Shu Fai Cheung and Borui Yang},
+      author = {Shu Fai Cheung and Borui Yang and Wenting Xu},
       year = {2026},
-      note = {R package version 0.0.0.9062},
+      note = {R package version 0.0.1},
       url = {https://sfcheung.github.io/semeqmodels/},
     }

@@ -2,8 +2,12 @@ pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
+  articles/demo_lav_3: demo_lav_3.html
+  articles/demo_lav_4: demo_lav_4.html
+  articles/demo_obs_3: demo_obs_3.html
+  articles/demo_obs_4: demo_obs_4.html
   semeqmodels: semeqmodels.html
-last_built: 2026-07-08T15:22Z
+last_built: 2026-07-16T13:35Z
 urls:
   reference: https://sfcheung.github.io/semeqmodels/reference
   article: https://sfcheung.github.io/semeqmodels/articles

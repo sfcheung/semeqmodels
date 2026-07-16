@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Finding Equivalent Models in SEM • semeqmodels</title>
+<title>Finding Empirical Equivalent Models in SEM • semeqmodels</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Nunito_Sans-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Cousine-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Finding Equivalent Models in SEM">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Finding Empirical Equivalent Models in SEM">
 <meta name="google-site-verification" content="0VLBmFnW_UJFI-7gXnORPBsWxqZwmzuGpK-TeVRLBjQ">
 </head>
 <body>
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9062</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,12 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Get Started</h6></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Demonstrations</h6></li>
+    <li><a class="dropdown-item" href="../articles/demo_lav_3.html">Workflow Demo: 3 Latent Variables</a></li>
+    <li><a class="dropdown-item" href="../articles/demo_lav_4.html">Workflow Demo: 4 Latent Variables</a></li>
+    <li><a class="dropdown-item" href="../articles/demo_obs_3.html">Workflow Demo: 3 Observed Variables</a></li>
+    <li><a class="dropdown-item" href="../articles/demo_obs_4.html">Workflow Demo: 4 Latent Variables</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
@@ -60,9 +66,9 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Finding Equivalent Models in SEM</h1>
+      <h1>Finding Empirical Equivalent Models in SEM</h1>
             
-            <h4 data-toc-skip class="date">2026-05-26</h4>
+            <h4 data-toc-skip class="date">2026-07-16</h4>
       
 
       <div class="d-none name"><code>semeqmodels.Rmd</code></div>
@@ -70,14 +76,12 @@
 
     
     
-<p>(This is a work-in-progress draft, just for testing different
-workflows.)</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>This article is a brief illustration of how to use
 <code><a href="../reference/semeqmodels-package.html">semeqmodels()</a></code> from the package <a href="https://sfcheung.github.io/semeqmodels/">semeqmodels</a> to find
-(empirically) equivalent models of a model fitted by structural equation
+empirically equivalent models of a model fitted by structural equation
 modeling using <code>lavaan</code>.</p>
 </div>
 <div class="section level2">
@@ -88,7 +92,7 @@ illustration:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sfcheung.github.io/semeqmodels/">semeqmodels</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"semeqmodels"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.0.0.9040'</span></span>
+<span><span class="co">#&gt; [1] '0.0.0.9062'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">data_test_3_factor_3_item</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      x1    x2    x3    m1    m2    m3    y1    y2    y3</span></span>
 <span><span class="co">#&gt; 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44</span></span>
@@ -102,6 +106,9 @@ illustration:</p>
 <h2 id="model">Model<a class="anchor" aria-label="anchor" href="#model"></a>
 </h2>
 <p>Suppose we are going to fit a model with three latent variables:</p>
+<div class="float">
+<img src="semeqmodels_model-1.png" alt="Model: Structural Only"><div class="figcaption">Model: Structural Only</div>
+</div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span></span>
 <span><span class="st">"</span></span>
@@ -109,81 +116,84 @@ illustration:</p>
 <span><span class="st">fm =~ m1 + m2 + m3</span></span>
 <span><span class="st">fy =~ y1 + y2 + y3</span></span>
 <span><span class="st">fm ~ fx</span></span>
-<span><span class="st">fy ~ fm + fx</span></span>
+<span><span class="st">fy ~ fm</span></span>
 <span><span class="st">"</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lavaan.ugent.be" class="external-link">lavaan</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; This is lavaan 0.6-21</span></span>
-<span><span class="co">#&gt; lavaan is FREE software! Please report any bugs.</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">sem</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">mod</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">data_test_3_factor_3_item</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">fit</span></span>
-<span><span class="co">#&gt; lavaan 0.6-21 ended normally after 41 iterations</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; lavaan 0.7-1.3032 ended normally after 40 iterations</span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt;   Estimator                                         ML</span></span>
 <span><span class="co">#&gt;   Optimization method                           NLMINB</span></span>
-<span><span class="co">#&gt;   Number of model parameters                        21</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Number of model parameters                        20</span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt;   Number of observations                           200</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; Model Test User Model:</span></span>
-<span><span class="co">#&gt;                                                       </span></span>
-<span><span class="co">#&gt;   Test statistic                                24.970</span></span>
-<span><span class="co">#&gt;   Degrees of freedom                                24</span></span>
-<span><span class="co">#&gt;   P-value (Chi-square)                           0.407</span></span></code></pre></div>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt;   Test statistic                                25.503</span></span>
+<span><span class="co">#&gt;   Degrees of freedom                                25</span></span>
+<span><span class="co">#&gt;   P-value (Chi-square)                           0.434</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="empirically-equivalent-models">Empirically Equivalent Models<a class="anchor" aria-label="anchor" href="#empirically-equivalent-models"></a>
+<h2 id="empirical-equivalence">Empirical Equivalence<a class="anchor" aria-label="anchor" href="#empirical-equivalence"></a>
 </h2>
-<p>Let’s defined <em>empirically</em> <em>equivalence</em> this way: Two
-models are empirically equivalent with respect to a dataset if the
-following conditions are met:</p>
+<p>Suppose we are would like to find <em>some</em> models that are
+<em>empirically</em> <em>equivalent</em> to this model:</p>
+<p>In this package, two models are defined to be empirically equivalent
+if the following conditions are met:</p>
 <ul>
 <li><p>They have the same model degrees of freedom.</p></li>
-<li><p>They involves the same observed and latent variables.</p></li>
-<li><p>If fitted to this dataset, they have <em>nearly</em> the same
-model
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>,
-“nearly” defined by a tolerance.</p></li>
+<li><p>Their absolute differences on selected fit measures are equal to
+or smaller than a user-defined tolerance.</p></li>
 </ul>
+<p>See <a href="#equivalence-in-principle-and-empirical-equivalence">this
+section</a> on a discussion of equivalence</p>
+<p>We will start the demonstration using model
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>,
+with a tolerance of 0.00001.</p>
 </div>
 <div class="section level2">
-<h2 id="illustration">Illustration<a class="anchor" aria-label="anchor" href="#illustration"></a>
+<h2 id="example-1-model-chi-squares">Example 1: Model Chi-Squares<a class="anchor" aria-label="anchor" href="#example-1-model-chi-squares"></a>
 </h2>
+<div class="section level3">
+<h3 id="calling-eq_models">Calling <code>eq_models()</code><a class="anchor" aria-label="anchor" href="#calling-eq_models"></a>
+</h3>
 <p>To find a list of models that are empirically equivalent to the model
-fitted above, we can use <code><a href="../reference/eq_models.html">eq_models()</a></code>:</p>
+fitted above based on model
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>,
+the default, we can use <code><a href="../reference/eq_models.html">eq_models()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_eq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eq_models.html">eq_models</a></span><span class="op">(</span></span>
 <span>  original_model <span class="op">=</span> <span class="va">fit</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; 19 processes started to run model fitting.</span></span>
-<span><span class="co">#&gt; The expected CPU time is about 0.02 second(s).</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
+<p>For large models, this process can take some time to run (can be over
+ten minutes for complicated models) because the number of possible
+models can be several hundreds or even several thousands.</p>
+</div>
+<div class="section level3">
+<h3 id="examine-the-models">Examine the Models<a class="anchor" aria-label="anchor" href="#examine-the-models"></a>
+</h3>
 <p>The output is a list of models, defined by <code>lavaan</code>
 parameter tables:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_eq</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of models: 13</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Number of models: 5</span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; The models:</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;    Model   </span></span>
-<span><span class="co">#&gt; 1  74f316e6</span></span>
-<span><span class="co">#&gt; 2  aaa762b0</span></span>
-<span><span class="co">#&gt; 3  f3a45a7d</span></span>
-<span><span class="co">#&gt; 4  bc0d3b3c</span></span>
-<span><span class="co">#&gt; 5  b4893a92</span></span>
-<span><span class="co">#&gt; 6  1296cb7b</span></span>
-<span><span class="co">#&gt; 7  013c70fe</span></span>
-<span><span class="co">#&gt; 8  9eefbf8f</span></span>
-<span><span class="co">#&gt; 9  fa6f9416</span></span>
-<span><span class="co">#&gt; 10 31ffe311</span></span>
-<span><span class="co">#&gt; 11 834bb36f</span></span>
-<span><span class="co">#&gt; 12 311a900b</span></span>
-<span><span class="co">#&gt; 13 1a96de27 </span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt;   Model</span></span>
+<span><span class="co">#&gt; 1 c8181b7d</span></span>
+<span><span class="co">#&gt; 2 34be955a</span></span>
+<span><span class="co">#&gt; 3 3ded8a97</span></span>
+<span><span class="co">#&gt; 4 d882121d</span></span>
+<span><span class="co">#&gt; 5 fada78e4</span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span></span>
 <span><span class="co">#&gt; "long"' to use the long descriptive names, if available, for the</span></span>
 <span><span class="co">#&gt; models.</span></span></code></pre></div>
@@ -192,62 +202,45 @@ parameter tables:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_eq</span>,</span>
 <span>      names_to_use <span class="op">=</span> <span class="st">"long"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of models: 13</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Number of models: 5</span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; The models:</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; Model</span></span>
-<span><span class="co">#&gt; 1 74f316e6 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
-<span><span class="co">#&gt;     drop:fy~fx, add:fx~~fy, drop:fx~~fy, add:fx~fy, drop:fx~~fm,</span></span>
-<span><span class="co">#&gt;     add:fx~fm</span></span>
-<span><span class="co">#&gt; 2 aaa762b0 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
-<span><span class="co">#&gt;     drop:fy~fx, add:fx~~fy, drop:fx~~fy, add:fx~fy, drop:fm~~fy,</span></span>
-<span><span class="co">#&gt;     add:fm~fy</span></span>
-<span><span class="co">#&gt; 3 f3a45a7d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
-<span><span class="co">#&gt;     drop:fy~fx, add:fx~~fy, drop:fx~~fy, add:fx~fy, drop:fx~fy,</span></span>
-<span><span class="co">#&gt;     add:fx~~fy</span></span>
-<span><span class="co">#&gt; 4 bc0d3b3c := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~~fy,</span></span>
-<span><span class="co">#&gt;     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fm~fy, drop:fx~~fy,</span></span>
-<span><span class="co">#&gt;     add:fx~fy</span></span>
-<span><span class="co">#&gt; 5 b4893a92 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
+<span><span class="co">#&gt; 1 c8181b7d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
+<span><span class="co">#&gt;     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fm~fy, drop:fm~fy,</span></span>
+<span><span class="co">#&gt;     add:fm~~fy</span></span>
+<span><span class="co">#&gt; 2 34be955a := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
+<span><span class="co">#&gt;     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fm~fy</span></span>
+<span><span class="co">#&gt; 3 3ded8a97 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
 <span><span class="co">#&gt;     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fy~fm</span></span>
-<span><span class="co">#&gt; 6 1296cb7b := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
-<span><span class="co">#&gt;     drop:fm~~fy, add:fm~fy, drop:fx~~fm, add:fm~fx</span></span>
-<span><span class="co">#&gt; 7 013c70fe := original, drop:fm~fx, add:fx~~fm, drop:fy~fx, add:fx~~fy,</span></span>
-<span><span class="co">#&gt;     drop:fx~~fm, add:fm~fx, drop:fx~~fy, add:fy~fx</span></span>
-<span><span class="co">#&gt; 8 9eefbf8f := original, drop:fm~fx, add:fx~~fm, drop:fy~fx, add:fx~~fy,</span></span>
-<span><span class="co">#&gt;     drop:fx~~fy, add:fx~fy, drop:fx~~fm, add:fx~fm</span></span>
-<span><span class="co">#&gt; 9 fa6f9416 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~~fy,</span></span>
-<span><span class="co">#&gt;     drop:fy~fm, add:fm~~fy, drop:fm~~fy, add:fy~fm</span></span>
-<span><span class="co">#&gt; 10 31ffe311 := original, drop:fm~fx, add:fx~fm, drop:fy~fx, add:fx~fy,</span></span>
-<span><span class="co">#&gt;     drop:fy~fm, add:fm~fy, drop:fx~fm, add:fm~fx</span></span>
-<span><span class="co">#&gt; 11 834bb36f := original, drop:fy~fm, add:fm~fy, drop:fy~fx, add:fx~~fy,</span></span>
-<span><span class="co">#&gt;     drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx</span></span>
-<span><span class="co">#&gt; 12 311a900b := original, drop:fm~fx, add:fx~~fm, drop:fy~fm,</span></span>
-<span><span class="co">#&gt;     add:fm~~fy, drop:fx~~fm, add:fm~fx</span></span>
-<span><span class="co">#&gt; 13 1a96de27 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm,</span></span>
-<span><span class="co">#&gt;     add:fm~~fy, drop:fm~~fy, add:fy~fm</span></span></code></pre></div>
-<p>By default, the original model, if included in this list, will not be
-removed.</p>
+<span><span class="co">#&gt; 4 d882121d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
+<span><span class="co">#&gt;     drop:fm~~fy, add:fy~fm</span></span>
+<span><span class="co">#&gt; 5 fada78e4 := original, drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx</span></span></code></pre></div>
+<p>The long names show the modifications from the original model to the
+final models.</p>
+<p>By default, the original model is not removed, although it may still
+be shown with steps of modifications.</p>
+<p>The function <code><a href="../reference/eq_partables_helpers.html">eq_df()</a></code> can be used to retrieve the model
+<em>df</em>s:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_df</a></span><span class="op">(</span><span class="va">mod_eq</span><span class="op">)</span></span>
+<span><span class="co">#&gt; c8181b7d 34be955a 3ded8a97 d882121d fada78e4</span></span>
+<span><span class="co">#&gt;       25       25       25       25       25</span></span></code></pre></div>
+<p>As expected, all models have the same model <em>df</em>s.</p>
 <p>The function <code><a href="../reference/eq_partables_helpers.html">eq_chisq()</a></code> can be used to retrieve the
 model
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>s
 of the models:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_chisq</a></span><span class="op">(</span><span class="va">mod_eq</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f </span></span>
-<span><span class="co">#&gt; 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 </span></span>
-<span><span class="co">#&gt; fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 </span></span>
-<span><span class="co">#&gt; 24.97025 24.97025 24.97025 24.97025 24.97025</span></span></code></pre></div>
-<p>The function <code><a href="../reference/eq_partables_helpers.html">eq_df()</a></code> can be used to retrieve the model
-<em>df</em>s:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_df</a></span><span class="op">(</span><span class="va">mod_eq</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f </span></span>
-<span><span class="co">#&gt;       24       24       24       24       24       24       24       24 </span></span>
-<span><span class="co">#&gt; fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 </span></span>
-<span><span class="co">#&gt;       24       24       24       24       24</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_chisq</a></span><span class="op">(</span><span class="va">mod_eq</span><span class="op">)</span></span>
+<span><span class="co">#&gt; c8181b7d 34be955a 3ded8a97 d882121d fada78e4</span></span>
+<span><span class="co">#&gt; 25.50339 25.50339 25.50339 25.50339 25.50339</span></span></code></pre></div>
+<p>It can be confirmed that all models have nearly the same model
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>.</p>
+<p>Actually, in this case, the models in this case are not just
+empirically equivalent. They are also mathematically equivalent.</p>
 <p>The function <code><a href="../reference/model_diff.html">model_diff_many()</a></code> can be used to list the
 differences between the fitted models and each of the empirically
 equivalent models:</p>
@@ -256,169 +249,312 @@ equivalent models:</p>
 <span>  target_model <span class="op">=</span> <span class="va">fit</span>,</span>
 <span>  other_models <span class="op">=</span> <span class="va">mod_eq</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. 74f316e6</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Models: fit vs. c8181b7d</span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; Model: fit</span></span>
 <span><span class="co">#&gt; fm~fx (free)</span></span>
 <span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt; fy~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: 74f316e6</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Model: c8181b7d</span></span>
+<span><span class="co">#&gt; fx~fm (free)</span></span>
 <span><span class="co">#&gt; fm~~fy (free)</span></span>
-<span><span class="co">#&gt; fx~fy (free)</span></span>
-<span><span class="co">#&gt; fx~fm (free)</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. aaa762b0</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Models: fit vs. 34be955a</span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; Model: fit</span></span>
 <span><span class="co">#&gt; fm~fx (free)</span></span>
 <span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt; fy~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: aaa762b0</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Model: 34be955a</span></span>
+<span><span class="co">#&gt; fx~fm (free)</span></span>
+<span><span class="co">#&gt; fm~fy (free)</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; -------------</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Models: fit vs. 3ded8a97</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Model: 3ded8a97</span></span>
+<span><span class="co">#&gt; fx~fm (free)</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; -------------</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Models: fit vs. d882121d</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Model: fit</span></span>
+<span><span class="co">#&gt; fm~fx (free)</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Model: d882121d</span></span>
 <span><span class="co">#&gt; fm~~fx (free)</span></span>
-<span><span class="co">#&gt; fx~fy (free)</span></span>
-<span><span class="co">#&gt; fm~fy (free)</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. f3a45a7d</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fm~fx (free)</span></span>
-<span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt; fy~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: f3a45a7d</span></span>
-<span><span class="co">#&gt; fm~~fx (free)</span></span>
-<span><span class="co">#&gt; fm~~fy (free)</span></span>
-<span><span class="co">#&gt; fx~~fy (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. bc0d3b3c</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fm~fx (free)</span></span>
-<span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt; fy~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: bc0d3b3c</span></span>
-<span><span class="co">#&gt; fx~fm (free)</span></span>
-<span><span class="co">#&gt; fm~fy (free)</span></span>
-<span><span class="co">#&gt; fx~fy (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. b4893a92</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fm~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: b4893a92</span></span>
-<span><span class="co">#&gt; fx~fm (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. 1296cb7b</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: 1296cb7b</span></span>
-<span><span class="co">#&gt; fm~fy (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. 013c70fe</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Models: fit vs. fada78e4</span></span>
+<span><span class="co">#&gt;</span></span>
 <span><span class="co">#&gt; Model: fit</span></span>
 <span><span class="co">#&gt; No parameter only in this model.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: 013c70fe</span></span>
-<span><span class="co">#&gt; No parameter only in this model.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. 9eefbf8f</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fm~fx (free)</span></span>
-<span><span class="co">#&gt; fy~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: 9eefbf8f</span></span>
-<span><span class="co">#&gt; fx~fy (free)</span></span>
-<span><span class="co">#&gt; fx~fm (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. fa6f9416</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fm~fx (free)</span></span>
-<span><span class="co">#&gt; fy~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fa6f9416</span></span>
-<span><span class="co">#&gt; fx~fm (free)</span></span>
-<span><span class="co">#&gt; fx~~fy (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. 31ffe311</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt; fy~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: 31ffe311</span></span>
-<span><span class="co">#&gt; fx~fy (free)</span></span>
-<span><span class="co">#&gt; fm~fy (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. 834bb36f</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt; fy~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: 834bb36f</span></span>
-<span><span class="co">#&gt; fm~fy (free)</span></span>
-<span><span class="co">#&gt; fx~~fy (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. 311a900b</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: 311a900b</span></span>
-<span><span class="co">#&gt; fm~~fy (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Models: fit vs. 1a96de27</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: fit</span></span>
-<span><span class="co">#&gt; fm~fx (free)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: 1a96de27</span></span>
-<span><span class="co">#&gt; fm~~fx (free)</span></span></code></pre></div>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Model: fada78e4</span></span>
+<span><span class="co">#&gt; No parameter only in this model.</span></span></code></pre></div>
+<p>A better way to see the differences is to draw the models, described
+next.</p>
+</div>
+<div class="section level3">
+<h3 id="visualize-the-models">Visualize the Models<a class="anchor" aria-label="anchor" href="#visualize-the-models"></a>
+</h3>
+<p>The function <code><a href="../reference/plot_partables.html">partables_plots()</a></code> can be used to visualize
+the models, using <code>semPaths()</code> from the <code>semPlot</code>
+package. Basic knowledge of <code><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html" class="external-link">semPlot::semPaths()</a></code> is
+required.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">layout_i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>  <span class="cn">NA</span>, <span class="st">"fm"</span>,  <span class="cn">NA</span>,</span>
+<span>                     <span class="st">"fx"</span>,   <span class="cn">NA</span>, <span class="st">"fy"</span><span class="op">)</span>,</span>
+<span>                   ncol <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>                   nrow <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                   byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_partables.html">partables_plots</a></span><span class="op">(</span></span>
+<span>  <span class="va">mod_eq</span>,</span>
+<span>  original_model <span class="op">=</span> <span class="va">fit</span>,</span>
+<span>  layout <span class="op">=</span> <span class="va">layout_i</span>,</span>
+<span>  label.cex <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>  sizeLat <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  edge.width <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  asize <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  structural <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method can be used to plot the models:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">p</span>,</span>
+<span>  ncol <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="semeqmodels_eq_models-1.png" alt="Empirical Equivalent Models"><div class="figcaption">Empirical Equivalent Models</div>
+</div>
+<p>By default, paths different from the those in the original model will
+be displayed in blue. Covariances (both covariances and error
+covariances) will be represented by curves.</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
+<h2 id="example-2-cfi">Example 2: CFI<a class="anchor" aria-label="anchor" href="#example-2-cfi"></a>
 </h2>
-<p>(Add some limitations in the current version.)</p>
+<div class="section level3">
+<h3 id="calling-eq_models-with-tolerance">Calling <code>eq_models()</code> with <code>tolerance</code><a class="anchor" aria-label="anchor" href="#calling-eq_models-with-tolerance"></a>
+</h3>
+<p>Suppose we would like to define empirical equivalence using another
+fit measure, such as CFI. This can be done using the argument
+<code>tolerance</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mod_eq_cfi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eq_models.html">eq_models</a></span><span class="op">(</span></span>
+<span>  original_model <span class="op">=</span> <span class="va">fit</span>,</span>
+<span>  tolerance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cfi <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The argument <code>tolerance</code> accepts a <em>named</em> numeric
+vector. For each element:</p>
+<ul>
+<li><p>The <em>name</em> is the name of a fit measure as appeared in
+<code><a href="https://rdrr.io/pkg/lavaan/man/fitMeasures.html" class="external-link">lavaan::fitMeasures()</a></code>.</p></li>
+<li><p>The value is the maximum absolute difference on this fit measure
+for two models to be considered empirical equivalent.</p></li>
+</ul>
+<p>If the vector has more than one value, empirical equivalence is
+checked using <em>all</em> fit measures specified in
+<code>tolerance</code>.</p>
+<p>In this example, <code>c(cfi = .01)</code> indicates that two models
+are considered empirically equivalent if their absolute difference in
+CFI is at most .01.</p>
+</div>
+<div class="section level3">
+<h3 id="examine-the-models-1">Examine the Models<a class="anchor" aria-label="anchor" href="#examine-the-models-1"></a>
+</h3>
+<p>The output is a list of models, defined by <code>lavaan</code>
+parameter tables:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mod_eq_cfi</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Number of models: 9</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; The models:</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt;   Model</span></span>
+<span><span class="co">#&gt; 1 bf4767ac</span></span>
+<span><span class="co">#&gt; 2 c8181b7d</span></span>
+<span><span class="co">#&gt; 3 34be955a</span></span>
+<span><span class="co">#&gt; 4 3ded8a97</span></span>
+<span><span class="co">#&gt; 5 4588fdf2</span></span>
+<span><span class="co">#&gt; 6 0e0eca72</span></span>
+<span><span class="co">#&gt; 7 c15465c0</span></span>
+<span><span class="co">#&gt; 8 d882121d</span></span>
+<span><span class="co">#&gt; 9 fada78e4</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span></span>
+<span><span class="co">#&gt; "long"' to use the long descriptive names, if available, for the</span></span>
+<span><span class="co">#&gt; models.</span></span></code></pre></div>
+<p>Because a more liberal criterion is used, the number of models is
+larger than using model
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_df</a></span><span class="op">(</span><span class="va">mod_eq_cfi</span><span class="op">)</span></span>
+<span><span class="co">#&gt; bf4767ac c8181b7d 34be955a 3ded8a97 4588fdf2 0e0eca72 c15465c0 d882121d</span></span>
+<span><span class="co">#&gt;       25       25       25       25       25       25       25       25</span></span>
+<span><span class="co">#&gt; fada78e4</span></span>
+<span><span class="co">#&gt;       25</span></span></code></pre></div>
+<p>Even with this liberal criterion, all models still have the same
+model <em>df</em>s.</p>
+<p>The function <code><a href="../reference/eq_partables_helpers.html">eq_fitMeasures()</a></code> can be used to retrieve
+selected fit measure(s) of all models:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_fitMeasures</a></span><span class="op">(</span></span>
+<span>  <span class="va">mod_eq_cfi</span>,</span>
+<span>  <span class="st">"cfi"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt;     bf4767ac  c8181b7d  34be955a  3ded8a97 4588fdf2 0e0eca72 c15465c0  d882121d</span></span>
+<span><span class="co">#&gt; cfi        1 0.9980126 0.9980126 0.9980126        1        1        1 0.9980126</span></span>
+<span><span class="co">#&gt;      fada78e4</span></span>
+<span><span class="co">#&gt; cfi 0.9980126</span></span></code></pre></div>
+<p>In this case, the models are no longer necessarily mathematically
+equivalent to the original model.</p>
+<p>The function <code><a href="../reference/model_diff.html">model_diff_many()</a></code>, introduced before, can
+be used to list the differences between the fitted models and each of
+the empirically equivalent models.</p>
+</div>
+<div class="section level3">
+<h3 id="visualize-the-models-1">Visualize the Models<a class="anchor" aria-label="anchor" href="#visualize-the-models-1"></a>
+</h3>
+<p>The function <code><a href="../reference/plot_partables.html">partables_plots()</a></code> can be used to visualize
+the models, using <code>semPaths()</code> from the <code>semPlot</code>
+package. Basic knowledge of <code><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html" class="external-link">semPlot::semPaths()</a></code> is
+required.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">layout_i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>  <span class="cn">NA</span>, <span class="st">"fm"</span>,  <span class="cn">NA</span>,</span>
+<span>                     <span class="st">"fx"</span>,   <span class="cn">NA</span>, <span class="st">"fy"</span><span class="op">)</span>,</span>
+<span>                   ncol <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>                   nrow <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                   byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">p_cfi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_partables.html">partables_plots</a></span><span class="op">(</span></span>
+<span>  <span class="va">mod_eq_cfi</span>,</span>
+<span>  original_model <span class="op">=</span> <span class="va">fit</span>,</span>
+<span>  layout <span class="op">=</span> <span class="va">layout_i</span>,</span>
+<span>  label.cex <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>  sizeLat <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  edge.width <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  asize <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  structural <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Let’s plot all the models:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">p_cfi</span>,</span>
+<span>  ncol <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="fl">3</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="semeqmodels_eq_models_cfi-1.png" alt="Empirical Equivalent Models (CFI)"><div class="figcaption">Empirical Equivalent Models (CFI)</div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="selecting-models">Selecting Models<a class="anchor" aria-label="anchor" href="#selecting-models"></a>
+</h3>
+<p>Based on knowledge about the variables, the research design, or
+theoretical reasons, some models may need to be removed.</p>
+<p>For example, the factor <code>fy</code> may be measured a certain
+period before <code>fm</code> and <code>fy</code>, while <code>fm</code>
+and <code>fy</code> are measured in the same wave. Therefore,
+<code>fx</code> cannot be be an “y”-variable (“dependent variable”) that
+are affected by other variables.</p>
+<p>There is a set of model selector functions (see
+<code><a href="../reference/partable_select.html">?partable_select</a></code>) that can be used to select models. The
+function <code><a href="../reference/partable_select.html">must_not_be_y()</a></code> will be demonstrated in this
+vignette.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p_cfi_fx_not_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partable_select.html">must_not_be_y</a></span><span class="op">(</span></span>
+<span>  <span class="va">p_cfi</span>,</span>
+<span>  vars <span class="op">=</span> <span class="st">"fx"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">p_cfi_fx_not_y</span>,</span>
+<span>  ncol <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="semeqmodels_eq_models_selected-1.png" alt="Empirical Equivalent Models (Filtered)"><div class="figcaption">Empirical Equivalent Models (Filtered)</div>
+</div>
+<p>See <code><a href="../reference/partable_select.html">?partable_select</a></code> for other ways to select
+models.</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 id="final-remarks">Final Remarks<a class="anchor" aria-label="anchor" href="#final-remarks"></a>
 </h2>
+<div class="section level3">
+<h3 id="customize-the-search">Customize the Search<a class="anchor" aria-label="anchor" href="#customize-the-search"></a>
+</h3>
+<p>There are many other ways to customize the search and the plots.
+Please refer to the corresponding halp pages for details.</p>
+<p>Demonstrations of other models and cases can be found in the <a href="./index.html#demonstrations">other demonstration articles</a></p>
+</div>
+<div class="section level3">
+<h3 id="equivalence-in-principle-and-empirical-equivalence">Equivalence-In-Principle and Empirical Equivalence<a class="anchor" aria-label="anchor" href="#equivalence-in-principle-and-empirical-equivalence"></a>
+</h3>
+<p>The concept of mathematically equivalence models, or two models being
+equivalent in principle <span class="citation">(Lee &amp; Hershberger,
+1990)</span>, has a long history in the literature on structural
+equation modeling <span class="citation">Williams (2012)</span>. Two
+models are considered to be mathematically equivalent if they
+necessarily imply the same covariance matrix regardless of the data.
+There are methods to generate them and tools to generate them
+automatically <span class="citation">(e.g., Lee &amp; Hershberger,
+1990)</span>.</p>
+<p>Our definition of empirical equivalence is similar to <em>empirical
+occurrence of equivalence</em> <span class="citation">(EOE, Lee &amp;
+Hershberger, 1990)</span>. However, we include the requirement of equal
+degrees of freedom: two models must also be equal in parsimony. We also
+allow for the possibility of using any fit measures deem appropriate
+(e.g., CFI, RMSEA), and also the use of tolerance values that are
+appropriate for a situation.</p>
+<p>Although our focus is on empirical equivalence, two models that are
+mathematically equivalent in the conventional sense are necessarily
+empirically equivalent. Note that the reverse is not true: two models
+that are empirically equivalent are not necessarily mathematically
+equivalent.</p>
+<p>Nevertheless, when the tolerance is set to be very small, the models
+identified, though not necessarily, are likely to be mathematically
+equivalent. Therefore, the package can also be used to identify models
+that are likely mathematically equivalent.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
+<div id="ref-lee_simple_1990" class="csl-entry">
+Lee, S., &amp; Hershberger, S. (1990). A simple rule for generating
+equivalent models in covariance structure modeling. <em>Multivariate
+Behavioral Research</em>, <em>25</em>(3), 313–334. <a href="https://doi.org/10.1207/s15327906mbr2503_4" class="external-link">https://doi.org/10.1207/s15327906mbr2503_4</a>
+</div>
+<div id="ref-maccallum_problem_1993" class="csl-entry">
+MacCallum, R. C., Wegener, D. T., Uchino, B. N., &amp; Fabrigar, L. R.
+(1993). The problem of equivalent models in applications of covariance
+structure analysis. <em>Psychological Bulletin</em>, <em>114</em>(1),
+185–199. <a href="https://doi.org/10.1037/0033-2909.114.1.185" class="external-link">https://doi.org/10.1037/0033-2909.114.1.185</a>
+</div>
+<div id="ref-williams_equivalent_2012" class="csl-entry">
+Williams, L. J. (2012). Equivalent models: Concepts, problems,
+alternatives. In R. H. Hoyle (Ed.), <em>Handbook of
+<span>Structural</span> <span>Equation</span>
+<span>Modeling</span></em>. The Guilford Press.
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -427,7 +563,7 @@ equivalent models:</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Shu Fai Cheung, Borui Yang.</p>
+  <p>Developed by Shu Fai Cheung, Borui Yang, Wenting Xu.</p>
 </div>
 
 <div class="pkgdown-footer-right">
