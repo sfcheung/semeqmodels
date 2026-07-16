@@ -1,0 +1,5 @@
+
+We can then call `plot()` to plot
+the models. By default, they will be drawn
+one by one. To draw them in a grid,
+use the arguments `ncol` and `nrow`:

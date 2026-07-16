@@ -1,5 +1,5 @@
 ---
-title: "Finding Equivalent Models in SEM"
+title: "Finding Empirical Equivalent Models in SEM"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
@@ -8,7 +8,7 @@ output:
         depth: 2
       number_sections: true
 vignette: >
-  %\VignetteIndexEntry{Finding Equivalent Models in SEM}
+  %\VignetteIndexEntry{Finding Empirical Equivalent Models in SEM}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
@@ -19,12 +19,11 @@ csl: apa.csl
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = ""
+  fig.path = "",
+  dev = "png",
+  dev.args = list(type = "cairo")
 )
 ```
-
-(This is a work-in-progress draft, just
-for testing different workflows.)
 
 # Introduction
 
@@ -32,7 +31,7 @@ This article is a brief illustration of how
 to use `semeqmodels()`
 from the package
 [semeqmodels](https://sfcheung.github.io/semeqmodels/)
-to find (empirically) equivalent models
+to find empirically equivalent models
 of a model fitted by structural
 equation modeling using `lavaan`.
 
@@ -52,6 +51,32 @@ head(round(data_test_3_factor_3_item, 2))
 Suppose we are going to fit a model
 with three latent variables:
 
+```{r semeqmodels_model, fig.width=6, fig.height=6, echo = FALSE, fig.cap="Model: Structural Only"}
+library(semPlot)
+suppressMessages(library(lavaan))
+mod <-
+"
+fx =~ x1 + x2 + x3
+fm =~ m1 + m2 + m3
+fy =~ y1 + y2 + y3
+fm ~ fx
+fy ~ fm
+"
+fit0 <- sem(mod, data_test_3_factor_3_item)
+layout_m <- matrix(c(NA, NA, "fm", NA, NA,
+                     "fx", NA, NA, NA, "fy"), 2, 5, byrow = TRUE)
+p <- semPaths(fit0,
+              layout = layout_m,
+              nCharNodes = 0,
+              exoCov = FALSE,
+              residuals = FALSE,
+              sizeLat = 10,
+              asize = 10,
+              structural = TRUE,
+              DoNotPlot = TRUE)
+plot(p)
+```
+
 ```{r}
 mod <-
 "
@@ -59,7 +84,7 @@ fx =~ x1 + x2 + x3
 fm =~ m1 + m2 + m3
 fy =~ y1 + y2 + y3
 fm ~ fx
-fy ~ fm + fx
+fy ~ fm
 "
 ```
 
@@ -72,34 +97,31 @@ fit <- sem(
 fit
 ```
 
-# Empirically Equivalent Models
+```{r load_empeq, child=c("./articles/demo_ins_empeq.txt")}
+```
 
-Let's defined *empirically* *equivalence*
-this way: Two models are empirically equivalent
-with respect to a dataset
-if the following conditions are met:
+# Example 1: Model Chi-Squares
 
-- They have the same model degrees of
-  freedom.
-
-- They involves the same observed and
-  latent variables.
-
-- If fitted to this dataset, they have
-  *nearly* the same model $\chi^2$,
-  "nearly" defined by a tolerance.
-
-# Illustration
+## Calling `eq_models()`
 
 To find a list of models that are empirically
-equivalent to the model fitted above,
+equivalent to the model fitted above based
+on model $\chi^2$, the default,
 we can use `eq_models()`:
 
-```{r results="hide"}
+```{r results="hide", message=FALSE}
 mod_eq <- eq_models(
   original_model = fit
 )
 ```
+
+For large models, this process can take
+some time to run (can be over ten minutes for
+complicated models) because the number of
+possible models can be several hundreds
+or even several thousands.
+
+## Examine the Models
 
 The output is a list of models, defined
 by `lavaan` parameter tables:
@@ -116,9 +138,23 @@ print(mod_eq,
       names_to_use = "long")
 ```
 
-By default, the original model, if
-included in this list, will not be
-removed.
+The long names show the modifications
+from the original model to the final
+models.
+
+By default, the original model is not
+removed, although it may still be shown
+with steps of modifications.
+
+The function `eq_df()` can be used to
+retrieve the model *df*s:
+
+```{r}
+eq_df(mod_eq)
+```
+
+As expected, all models have the same model
+*df*s.
 
 The function `eq_chisq()` can be used
 to retrieve the model $\chi^2$s of
@@ -128,12 +164,12 @@ the models:
 eq_chisq(mod_eq)
 ```
 
-The function `eq_df()` can be used to
-retrieve the model *df*s:
+It can be confirmed that all models have
+nearly the same model $\chi^2$.
 
-```{r}
-eq_df(mod_eq)
-```
+Actually, in this case, the models in this
+case are not just empirically equivalent.
+They are also mathematically equivalent.
 
 The function `model_diff_many()` can
 be used to list the differences between
@@ -147,8 +183,204 @@ model_diff_many(
 )
 ```
 
-# Limitations
+A better way to see the differences is
+to draw the models, described next.
 
-(Add some limitations in the current version.)
+## Visualize the Models
+
+The function `partables_plots()` can
+be used to visualize the models,
+using `semPaths()` from the `semPlot`
+package. Basic knowledge of `semPlot::semPaths()`
+is required.
+
+```{r}
+layout_i <- matrix(c(  NA, "fm",  NA,
+                     "fx",   NA, "fy"),
+                   ncol = 3,
+                   nrow = 2,
+                   byrow = TRUE)
+p <- partables_plots(
+  mod_eq,
+  original_model = fit,
+  layout = layout_i,
+  label.cex = 1.5,
+  sizeLat = 15,
+  edge.width = 5,
+  asize = 5,
+  structural = TRUE
+)
+```
+
+The `plot()` method can be used to plot
+the models:
+
+```{r semeqmodels_eq_models, fig.width=8, fig.height=6.5, fig.cap="Empirical Equivalent Models"}
+plot(
+  p,
+  ncol = 3,
+  nrow = 2
+)
+```
+
+By default, paths different from the
+those in the original model will be
+displayed in blue. Covariances (both
+covariances and error covariances) will
+be represented by curves.
+
+# Example 2: CFI
+
+## Calling `eq_models()` with `tolerance`
+
+Suppose we would like to define empirical
+equivalence using another fit measure,
+such as CFI. This can be done using the
+argument `tolerance`.
+
+```{r results="hide", message=FALSE}
+mod_eq_cfi <- eq_models(
+  original_model = fit,
+  tolerance = c(cfi = .01)
+)
+```
+
+The argument `tolerance` accepts a
+*named* numeric vector. For each element:
+
+- The *name* is the name of a fit measure
+as appeared in `lavaan::fitMeasures()`.
+
+- The value is the maximum absolute difference
+  on this fit measure for two models to be
+  considered empirical equivalent.
+
+If the vector has more than one value,
+empirical equivalence is checked using
+*all* fit measures specified in `tolerance`.
+
+In this example, `c(cfi = .01)` indicates
+that two models are considered empirically
+equivalent if their absolute difference in
+CFI is at most .01.
+
+## Examine the Models
+
+The output is a list of models, defined
+by `lavaan` parameter tables:
+
+```{r}
+mod_eq_cfi
+```
+
+Because a more liberal criterion is used,
+the number of models is larger than using
+model $\chi^2$.
+
+```{r}
+eq_df(mod_eq_cfi)
+```
+
+Even with this liberal criterion, all
+models still have the same model
+*df*s.
+
+The function `eq_fitMeasures()` can be used
+to retrieve selected fit measure(s) of all
+models:
+
+```{r}
+eq_fitMeasures(
+  mod_eq_cfi,
+  "cfi"
+)
+```
+
+In this case, the models are no longer
+necessarily mathematically equivalent
+to the original model.
+
+The function `model_diff_many()`,
+introduced before, can
+be used to list the differences between
+the fitted models and each of the
+empirically equivalent models.
+
+## Visualize the Models
+
+The function `partables_plots()` can
+be used to visualize the models,
+using `semPaths()` from the `semPlot`
+package. Basic knowledge of `semPlot::semPaths()`
+is required.
+
+```{r}
+layout_i <- matrix(c(  NA, "fm",  NA,
+                     "fx",   NA, "fy"),
+                   ncol = 3,
+                   nrow = 2,
+                   byrow = TRUE)
+p_cfi <- partables_plots(
+  mod_eq_cfi,
+  original_model = fit,
+  layout = layout_i,
+  label.cex = 1.5,
+  sizeLat = 15,
+  edge.width = 5,
+  asize = 5,
+  structural = TRUE
+)
+```
+
+Let's plot all the models:
+
+```{r semeqmodels_eq_models_cfi, fig.width=8, fig.height=9.75, fig.cap="Empirical Equivalent Models (CFI)"}
+plot(
+  p_cfi,
+  ncol = 3,
+  nrow = 3
+)
+```
+
+## Selecting Models
+
+Based on knowledge about the variables,
+the research design, or theoretical
+reasons, some models may need to be
+removed.
+
+For example, the factor `fy` may be measured
+a certain period before `fm` and `fy`,
+while `fm` and `fy` are measured in the
+same wave. Therefore, `fx` cannot be
+be an "y"-variable ("dependent variable")
+that are affected by other variables.
+
+There is a set of model selector
+functions (see `?partable_select`) that
+can be used to select models. The function
+`must_not_be_y()` will be demonstrated in
+this vignette.
+
+```{r}
+p_cfi_fx_not_y <- must_not_be_y(
+  p_cfi,
+  vars = "fx"
+)
+```
+
+```{r semeqmodels_eq_models_selected, fig.width=8, fig.height=6.5, fig.cap="Empirical Equivalent Models (Filtered)"}
+plot(
+  p_cfi_fx_not_y,
+  ncol = 3,
+  nrow = 2
+)
+```
+
+See `?partable_select` for other ways to
+select models.
+
+```{r load_final, child=c("./articles/demo_ins_final.txt")}
+```
 
 # References

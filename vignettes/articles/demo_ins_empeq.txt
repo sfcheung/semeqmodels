@@ -1,0 +1,23 @@
+
+# Empirical Equivalence
+
+Suppose we are would like to find *some*
+models that are *empirically*
+*equivalent* to this model:
+
+In this package,
+two models are defined to be empirically equivalent
+if the following conditions are met:
+
+- They have the same model degrees of freedom.
+
+- Their absolute differences on selected
+  fit measures are equal to or smaller than
+  a user-defined tolerance.
+
+See [this section](#equivalence-in-principle-and-empirical-equivalence)
+on a discussion of equivalence
+
+We will start the demonstration using
+model $\chi^2$, with a tolerance of
+0.00001.
