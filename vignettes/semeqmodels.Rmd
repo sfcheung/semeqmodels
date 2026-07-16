@@ -1,6 +1,6 @@
 ---
 title: "Finding Empirical Equivalent Models in SEM"
-date: "2026-07-09"
+date: "2026-07-16"
 output:
   rmarkdown::html_vignette:
     options:
@@ -17,16 +17,13 @@ csl: apa.csl
 
 
 
-(This is a work-in-progress draft, just
-for testing different workflows.)
-
 # Introduction
 
 This article is a brief illustration of how
 to use `semeqmodels()`
 from the package
 [semeqmodels](https://sfcheung.github.io/semeqmodels/)
-to find (empirically) equivalent models
+to find empirically equivalent models
 of a model fitted by structural
 equation modeling using `lavaan`.
 
@@ -77,45 +74,53 @@ fit <- sem(
   data = data_test_3_factor_3_item
 )
 fit
-#> lavaan 0.7-1.3022 ended normally after 40 iterations
-#> 
+#> lavaan 0.7-1.3032 ended normally after 40 iterations
+#>
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
 #>   Number of model parameters                        20
-#> 
+#>
 #>   Number of observations                           200
-#> 
+#>
 #> Model Test User Model:
-#>                                                       
+#>
 #>   Test statistic                                25.503
 #>   Degrees of freedom                                25
 #>   P-value (Chi-square)                           0.434
 ```
 
-# Empirically Equivalent Models
 
-Let's defined *empirically* *equivalence*
-this way: Two models are empirically equivalent
-with respect to a dataset
+
+# Empirical Equivalence
+
+Suppose we are would like to find *some*
+models that are *empirically*
+*equivalent* to this model:
+
+In this package,
+two models are defined to be empirically equivalent
 if the following conditions are met:
 
-- They have the same model degrees of
-  freedom.
+- They have the same model degrees of freedom.
 
-- They involves the same observed and
-  latent variables.
+- Their absolute differences on selected
+  fit measures are equal to or smaller than
+  a user-defined tolerance.
 
-- If fitted to this dataset, they have
-  *nearly* the same fit measures,
-  "nearly" defined by a tolerance.
-  By default, model $\chi^2$ is used.
+See [this section](#equivalence-in-principle-and-empirical-equivalence)
+on a discussion of equivalence
+
+We will start the demonstration using
+model $\chi^2$, with a tolerance of
+0.00001.
 
 # Example 1: Model Chi-Squares
 
 ## Calling `eq_models()`
 
 To find a list of models that are empirically
-equivalent to the model fitted above,
+equivalent to the model fitted above based
+on model $\chi^2$, the default,
 we can use `eq_models()`:
 
 
@@ -126,7 +131,8 @@ mod_eq <- eq_models(
 ```
 
 For large models, this process can take
-some time to run because the number of
+some time to run (can be over ten minutes for
+complicated models) because the number of
 possible models can be several hundreds
 or even several thousands.
 
@@ -138,18 +144,18 @@ by `lavaan` parameter tables:
 
 ``` r
 mod_eq
-#> 
+#>
 #> Number of models: 5
-#> 
+#>
 #> The models:
-#> 
-#>   Model   
+#>
+#>   Model
 #> 1 c8181b7d
 #> 2 34be955a
 #> 3 3ded8a97
 #> 4 d882121d
-#> 5 fada78e4 
-#> 
+#> 5 fada78e4
+#>
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the
 #> models.
@@ -162,11 +168,11 @@ and add `names_to_use = "long"`:
 ``` r
 print(mod_eq,
       names_to_use = "long")
-#> 
+#>
 #> Number of models: 5
-#> 
+#>
 #> The models:
-#> 
+#>
 #> Model
 #> 1 c8181b7d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
 #>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fm~fy, drop:fm~fy,
@@ -194,7 +200,7 @@ retrieve the model *df*s:
 
 ``` r
 eq_df(mod_eq)
-#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4 
+#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4
 #>       25       25       25       25       25
 ```
 
@@ -208,7 +214,7 @@ the models:
 
 ``` r
 eq_chisq(mod_eq)
-#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4 
+#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4
 #> 25.50339 25.50339 25.50339 25.50339 25.50339
 ```
 
@@ -230,58 +236,58 @@ model_diff_many(
   target_model = fit,
   other_models = mod_eq
 )
-#> 
+#>
 #> -------------
-#> 
+#>
 #> Models: fit vs. c8181b7d
-#> 
+#>
 #> Model: fit
 #> fm~fx (free)
 #> fy~fm (free)
-#> 
+#>
 #> Model: c8181b7d
 #> fx~fm (free)
 #> fm~~fy (free)
-#> 
+#>
 #> -------------
-#> 
+#>
 #> Models: fit vs. 34be955a
-#> 
+#>
 #> Model: fit
 #> fm~fx (free)
 #> fy~fm (free)
-#> 
+#>
 #> Model: 34be955a
 #> fx~fm (free)
 #> fm~fy (free)
-#> 
+#>
 #> -------------
-#> 
+#>
 #> Models: fit vs. 3ded8a97
-#> 
+#>
 #> Model: fit
 #> fm~fx (free)
-#> 
+#>
 #> Model: 3ded8a97
 #> fx~fm (free)
-#> 
+#>
 #> -------------
-#> 
+#>
 #> Models: fit vs. d882121d
-#> 
+#>
 #> Model: fit
 #> fm~fx (free)
-#> 
+#>
 #> Model: d882121d
 #> fm~~fx (free)
-#> 
+#>
 #> -------------
-#> 
+#>
 #> Models: fit vs. fada78e4
-#> 
+#>
 #> Model: fit
 #> No parameter only in this model.
-#> 
+#>
 #> Model: fada78e4
 #> No parameter only in this model.
 ```
@@ -294,7 +300,7 @@ to draw the models, described next.
 The function `partables_plots()` can
 be used to visualize the models,
 using `semPaths()` from the `semPlot`
-package. Basic knowledge of `semPaths()`
+package. Basic knowledge of `semPlot::semPaths()`
 is required.
 
 
@@ -380,12 +386,12 @@ by `lavaan` parameter tables:
 
 ``` r
 mod_eq_cfi
-#> 
+#>
 #> Number of models: 9
-#> 
+#>
 #> The models:
-#> 
-#>   Model   
+#>
+#>   Model
 #> 1 bf4767ac
 #> 2 c8181b7d
 #> 3 34be955a
@@ -394,8 +400,8 @@ mod_eq_cfi
 #> 6 0e0eca72
 #> 7 c15465c0
 #> 8 d882121d
-#> 9 fada78e4 
-#> 
+#> 9 fada78e4
+#>
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the
 #> models.
@@ -408,9 +414,9 @@ model $\chi^2$.
 
 ``` r
 eq_df(mod_eq_cfi)
-#> bf4767ac c8181b7d 34be955a 3ded8a97 4588fdf2 0e0eca72 c15465c0 d882121d 
-#>       25       25       25       25       25       25       25       25 
-#> fada78e4 
+#> bf4767ac c8181b7d 34be955a 3ded8a97 4588fdf2 0e0eca72 c15465c0 d882121d
+#>       25       25       25       25       25       25       25       25
+#> fada78e4
 #>       25
 ```
 
@@ -438,17 +444,18 @@ In this case, the models are no longer
 necessarily mathematically equivalent
 to the original model.
 
-The function `model_diff_many()` can
+The function `model_diff_many()`,
+introduced before, can
 be used to list the differences between
 the fitted models and each of the
-empirically equivalent models:
+empirically equivalent models.
 
 ## Visualize the Models
 
 The function `partables_plots()` can
 be used to visualize the models,
 using `semPaths()` from the `semPlot`
-package. Basic knowledge of `semPaths()`
+package. Basic knowledge of `semPlot::semPaths()`
 is required.
 
 
@@ -525,11 +532,63 @@ plot(
 See `?partable_select` for other ways to
 select models.
 
+
+
 # Final Remarks
 
+## Customize the Search
+
 There are many other ways to customize
-the search for models empirically equivalent
-to an original models, and to customize
-the plots. Please refer to the help pages
-of the functions introduced above for
-other arguments.
+the search and the plots. Please refer
+to the corresponding halp pages for
+details.
+
+Demonstrations of other models and
+cases can be found in
+the [other demonstration articles](./index.html#demonstrations)
+
+## Equivalence-In-Principle and Empirical Equivalence
+
+The concept of mathematically
+equivalence models, or two models
+being equivalent in principle [@lee_simple_1990],
+has
+a long history in the literature on
+structural equation modeling
+[@maccallum_problem_1993, @williams_equivalent_2012].
+Two models are considered to be
+mathematically equivalent
+if they necessarily imply the same
+covariance matrix regardless of the data.
+There are methods to generate them and
+tools to generate them automatically
+[e.g., @lee_simple_1990].
+
+Our definition of empirical equivalence
+is similar to *empirical occurrence of equivalence*
+[EOE, @lee_simple_1990]. However, we include
+the requirement of equal degrees of freedom:
+two models must also be equal in parsimony.
+We also allow for the possibility of using
+any fit measures deem appropriate (e.g., CFI,
+RMSEA), and also the use of tolerance values
+that are appropriate for a situation.
+
+Although our focus is on empirical equivalence,
+two models that are mathematically equivalent in the
+conventional sense are necessarily
+empirically equivalent.
+Note that the reverse is
+not true: two models that are empirically
+equivalent are not necessarily mathematically
+equivalent.
+
+Nevertheless, when the tolerance is set to
+be very small, the models identified,
+though not necessarily, are likely to be
+mathematically equivalent. Therefore,
+the package can also be used to identify
+models that are likely mathematically
+equivalent.
+
+# References

@@ -19,12 +19,11 @@ csl: apa.csl
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = ""
+  fig.path = "",
+  dev = "png",
+  dev.args = list(type = "cairo")
 )
 ```
-
-(This is a work-in-progress draft, just
-for testing different workflows.)
 
 # Introduction
 
@@ -32,7 +31,7 @@ This article is a brief illustration of how
 to use `semeqmodels()`
 from the package
 [semeqmodels](https://sfcheung.github.io/semeqmodels/)
-to find (empirically) equivalent models
+to find empirically equivalent models
 of a model fitted by structural
 equation modeling using `lavaan`.
 
@@ -98,30 +97,16 @@ fit <- sem(
 fit
 ```
 
-# Empirically Equivalent Models
-
-Let's defined *empirically* *equivalence*
-this way: Two models are empirically equivalent
-with respect to a dataset
-if the following conditions are met:
-
-- They have the same model degrees of
-  freedom.
-
-- They involves the same observed and
-  latent variables.
-
-- If fitted to this dataset, they have
-  *nearly* the same fit measures,
-  "nearly" defined by a tolerance.
-  By default, model $\chi^2$ is used.
+```{r load_empeq, child=c("./articles/demo_ins_empeq.txt")}
+```
 
 # Example 1: Model Chi-Squares
 
 ## Calling `eq_models()`
 
 To find a list of models that are empirically
-equivalent to the model fitted above,
+equivalent to the model fitted above based
+on model $\chi^2$, the default,
 we can use `eq_models()`:
 
 ```{r results="hide", message=FALSE}
@@ -131,7 +116,8 @@ mod_eq <- eq_models(
 ```
 
 For large models, this process can take
-some time to run because the number of
+some time to run (can be over ten minutes for
+complicated models) because the number of
 possible models can be several hundreds
 or even several thousands.
 
@@ -205,7 +191,7 @@ to draw the models, described next.
 The function `partables_plots()` can
 be used to visualize the models,
 using `semPaths()` from the `semPlot`
-package. Basic knowledge of `semPaths()`
+package. Basic knowledge of `semPlot::semPaths()`
 is required.
 
 ```{r}
@@ -314,17 +300,18 @@ In this case, the models are no longer
 necessarily mathematically equivalent
 to the original model.
 
-The function `model_diff_many()` can
+The function `model_diff_many()`,
+introduced before, can
 be used to list the differences between
 the fitted models and each of the
-empirically equivalent models:
+empirically equivalent models.
 
 ## Visualize the Models
 
 The function `partables_plots()` can
 be used to visualize the models,
 using `semPaths()` from the `semPlot`
-package. Basic knowledge of `semPaths()`
+package. Basic knowledge of `semPlot::semPaths()`
 is required.
 
 ```{r}
@@ -393,11 +380,7 @@ plot(
 See `?partable_select` for other ways to
 select models.
 
-# Final Remarks
+```{r load_final, child=c("./articles/demo_ins_final.txt")}
+```
 
-There are many other ways to customize
-the search for models empirically equivalent
-to an original models, and to customize
-the plots. Please refer to the help pages
-of the functions introduced above for
-other arguments.
+# References
