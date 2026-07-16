@@ -1,0 +1,249 @@
+---
+title: "Workflow Demo: 3 Latent Variables"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig.align: "center"
+    toc: true
+    toc_depth: 2
+    number_sections: false
+bibliography: references.bib
+csl: apa.csl
+---
+
+```{r knitr_setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "",
+  fig.align = "center",
+  dev = "png",
+  dev.args = list(type = "cairo")
+)
+```
+
+```{r load_intro, child=c("demo_ins_intro.txt")}
+```
+
+# Scope
+
+A simple mediation model
+will be used as an example. This model
+is trivial, but is simple enough to
+illustrate how to use `semeqmodels`.
+
+# Original Model
+
+Suppose this the original model we fitted
+to dataset `data_test_3_factor_3_item`
+(installed with the package):
+
+```{r}
+library(semeqmodels)
+round(head(data_test_3_factor_3_item), 2)
+```
+
+```{r demo_lav_3_model, echo = FALSE, fig.cap = "Simple Mediation Model"}
+library(semeqmodels)
+library(semPlot)
+suppressMessages(library(lavaan))
+mod <-
+"
+fm ~ fx
+fy ~ fm + fx
+fx =~ x1 + x2 + x3
+fm =~ m1 + m2 + m3
+fy =~ y1 + y2 + y3
+"
+fit0 <- sem(mod, data_test_3_factor_3_item, do.fit = FALSE)
+layout_m <- matrix(c(NA, "fm", NA,
+                     "fx", NA, "fy"), 2, 3, byrow = TRUE)
+p <- semPaths(fit0,
+              layout = layout_m,
+              nCharNodes = 0,
+              exoCov = FALSE,
+              residuals = FALSE,
+              sizeLat = 10,
+              asize = 5,
+              structural = TRUE,
+              DoNotPlot = TRUE)
+plot(p)
+text(
+  x = 0,
+  y = -1.25,
+  "(Only latent variables are shown.)"
+)
+```
+
+This is a model:
+
+```{r}
+mod <-
+"
+fx =~ x1 + x2 + x3
+fm =~ m1 + m2 + m3
+fy =~ y1 + y2 + y3
+fm ~ fx
+fy ~ fm + fx
+"
+```
+
+This is the lavaan results for the model:
+
+```{r}
+library(lavaan)
+fit <- sem(
+  model = mod,
+  data = data_test_3_factor_3_item
+)
+fit
+```
+
+```{r load_empeq, child=c("demo_ins_empeq.txt")}
+```
+
+```{r load_genmodels, child=c("demo_ins_genmodels.txt")}
+```
+
+```{r load_drawmodels, child=c("demo_ins_drawmodels.txt")}
+```
+
+```{r}
+# Set the layout of the plots
+m <- matrix(
+  c(  NA, "fm",   NA,
+    "fx",   NA, "fy"),
+  nrow = 2,
+  ncol = 3,
+  byrow = TRUE)
+m
+```
+
+We can then generate the plots:
+
+```{r}
+p <- partables_plots(
+  out,
+  original_model = fit,
+  structural = TRUE,
+  layout = m,
+  label.cex = 1.8,
+  sizeLat = 11,
+  edge.width = 5,
+  asize = 5
+)
+```
+
+```{r load_plotmodels, child=c("demo_ins_plotmodels.txt")}
+```
+
+
+```{r demo_lav_3_eqmodels, fig.width = 10, fig.height = 6, echo = TRUE, fig.cap = "Empirically Equivalent Models"}
+plot(
+  p,
+  ncol = 5,
+  nrow = 3,
+  title_adj = 2
+)
+```
+
+```{r load_plotmodels_args, child=c("demo_ins_plotmodels_args.txt")}
+```
+
+```{r load_filtermodels, child=c("demo_ins_filtermodels.txt")}
+```
+
+## `fx` Must Not Be a DV (`y`-variables)
+
+Suppose that we have reasons to argue that
+`fx` cannot be an outcome of any other
+variables in the model. For example, `fx` is measured
+one month before the other variables.
+
+We can use `must_not_be_y()` to specify
+variables that cannot be a "DV."
+
+```{r demo_lav_3_not_y, fig.width = 10, fig.height = 4, echo = TRUE, fig.cap = "fx Must Not Be a y-Variable"}
+p1 <- p |>
+  must_not_be_y(
+    vars = "fx"
+  )
+plot(
+  p1,
+  ncol = 5,
+  nrow = 2,
+  title_adj = 2
+)
+```
+
+Note: A variable is a "DV" if it appears
+as the outcome of at least one other
+variable. Therefore, a mediator is also
+a DV.
+
+## `fy` Must Be a DV (`y`-variables)
+
+Suppose that we have reasons to argue that
+`fy` must be an outcome of at least one other
+variable.
+
+We can use `must_be_y()` to specify
+variables that must be a "DV."
+
+```{r demo_lav_3_be_y, fig.width = 10, fig.height = 4, echo = TRUE, fig.cap = "fy Must Be a y-Variable"}
+p2 <- p |>
+  must_be_y(
+    vars = "fy"
+  )
+plot(
+  p2,
+  ncol = 5,
+  nrow = 2,
+  title_adj = 2
+)
+```
+
+## Must Not Have Any Paths from `fy` to `fx`
+
+Suppose that, theoretically, `fy` cannot
+have any effect on `fx`, directly or indirectly.
+We can use `must_not_have_paths()`.
+
+```{r demo_lav_3_no_paths, fig.width = 10, fig.height = 4, echo = TRUE, fig.cap = "No Paths from fy to fx"}
+p3 <- p |>
+  must_not_have_paths(
+    y_on_x = "fx ~ fy"
+  )
+plot(
+  p3,
+  ncol = 5,
+  nrow = 2,
+  title_adj = 2
+)
+```
+
+## Chaining the Selections
+
+The selectors can be chained together
+using `|>`.
+
+```{r demo_lav_3_chained, fig.width = 10, fig.height = 2, echo = TRUE, fig.cap = "Chained Filter"}
+p5 <- p |>
+  must_have_paths(
+    y_on_x = "fy ~ fx"
+  ) |>
+  must_not_be_y(
+    vars = "fx"
+  )
+plot(
+  p5,
+  ncol = 5,
+  nrow = 1,
+  title_adj = 2
+)
+```
+
+```{r load_final, child=c("demo_ins_final.txt")}
+```
+
+# Reference(s)
