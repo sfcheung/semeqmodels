@@ -2,6 +2,12 @@
 
 Find equivalent models in structural equation modeling
 
+NOTE: This is an **experimental work-in-progress** package, *not* ready
+to be used in research yet. Suggestions, comments, and bug reports are
+welcome:
+
+<https://github.com/sfcheung/semeqmodels/issues>
+
 (Version 0.0.1, updated on 2026-07-16, [release
 history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
