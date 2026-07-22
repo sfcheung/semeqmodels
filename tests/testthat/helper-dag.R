@@ -1,7 +1,4 @@
-skip_if_not_installed("dagitty")
-
-library(dagitty)
-
+if (requireNamespace("dagitty")) {
 dag_to_lavaan <- function(
   object
 ) {
@@ -17,4 +14,5 @@ dag_to_lavaan <- function(
     collapse = "\n"
   )
   out1
+}
 }
