@@ -6,7 +6,7 @@
 \alias{semeqmodels-package}
 \title{semeqmodels: Equivalent Models in Structural Equation Models}
 \description{
-For identifying the sets of probably equivalent models for structural equation models fitted by the 'lavaan' package developed by Rosseel (2012) \doi{10.18637/jss.v048.i02}.
+For identifying the sets of empirically equivalent models for structural equation models fitted by the 'lavaan' package developed by Rosseel (2012) \doi{10.18637/jss.v048.i02}.
 }
 \seealso{
 Useful links:
@@ -22,12 +22,8 @@ Authors:
 \itemize{
   \item Shu Fai Cheung \email{shufai.cheung@gmail.com} (\href{https://orcid.org/0000-0002-9871-9448}{ORCID})
   \item Borui Yang (\href{https://orcid.org/0009-0006-7532-8950}{ORCID})
-}
-
-Other contributors:
-\itemize{
-  \item Wenting Xu (\href{https://orcid.org/0000-0002-6671-3308}{ORCID}) [contributor]
-  \item Wendie Yang (\href{https://orcid.org/0009-0000-8388-6481}{ORCID}) [contributor]
+  \item Wenting Xu (\href{https://orcid.org/0000-0002-6671-3308}{ORCID})
+  \item Wendie Yang (\href{https://orcid.org/0009-0000-8388-6481}{ORCID})
 }
 
 }
