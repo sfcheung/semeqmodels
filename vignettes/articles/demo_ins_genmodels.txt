@@ -1,0 +1,51 @@
+
+# Generating Empirically Equivalent Models
+
+To generate models that are empirically
+equivalent to a fitted model, we can simply
+call `eq_models()` and set `original_model`
+to the output of `lavaan`:
+
+```{r results="hide", message=FALSE}
+library(semeqmodels)
+out <- eq_models(
+  original_model = fit
+)
+```
+
+The search can be customized if necessary.
+Please refer to the help page of `eq_models()`
+for available options.
+
+This is the text output:
+
+```{r}
+out
+```
+
+The default names are generated to uniquely
+identify the models. Treat them as identification
+numbers. They are useful IDs because they
+are short. However, it is much easier
+to examine the models by drawing them.
+
+The function `eq_chisq()` can be used
+to extract the model $\chi^2$s, to verify
+that they have model $\chi^2$s close to
+the that of the original model:
+
+```{r}
+eq_chisq(out)
+```
+
+```{r}
+fitMeasures(fit, "chisq")
+```
+
+These models also have model degrees of
+freedom equal to that of the original
+model:
+
+```{r}
+eq_df(out)
+```

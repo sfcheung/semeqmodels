@@ -1,4 +1,5 @@
 # semeqmodels
+
 Find equivalent models in structural equation modeling
 
 <!-- badges: start -->
@@ -9,11 +10,17 @@ Find equivalent models in structural equation modeling
 [![R-CMD-check](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-(Version 0.0.0.9062, updated on 2026-07-08, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
+NOTE: This is an **experimental work-in-progress** package, *not*
+ready to be used in research yet. Suggestions, comments,
+and bug reports are welcome:
 
-# semeqmodels:  Equivalent Models in Structural Equation Models
+https://github.com/sfcheung/semeqmodels/issues
 
-This package is for identifying the sets of probably equivalent
+(Version 0.0.1, updated on 2026-07-16, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
+
+# semeqmodels: Empirical Equivalent Models in Structural Equation Models
+
+This package is for identifying the sets of empirically equivalent
 models for structural equation models. It currently supports
 models fitted by the `lavaan` package.
 
@@ -21,12 +28,28 @@ For more information on this package, please visit its GitHub page:
 
 https://sfcheung.github.io/semeqmodels/
 
+This is the Get-Started guide:
+
+https://sfcheung.github.io/semeqmodels/articles/semeqmodels.html
+
+Some quick demonstrations can be found here:
+
+https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations
+
+NOTE: This package is released to the public
+for testing
+by peers. It is still a work-in-progress and
+so the interface may change in the final
+stable version.
+
 # Installation
 
-The latest developmental version of this package can be installed by `remotes::install_github`:
+The latest developmental version of this package can be installed by `install_github()`
+from the package `remotes`:
 
 ```r
-remotes::install_github("sfcheung/semeqmodels")
+library(remotes)
+install_github("sfcheung/semeqmodels")
 ```
 
 # Issues
