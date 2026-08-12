@@ -320,7 +320,7 @@ eq_df(out)
 
 eq_fits(out)
 #> $`12672c47`
-#> lavaan 0.6-21 ended normally after 11 iterations
+#> lavaan 0.7-2 ended normally after 11 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -335,7 +335,7 @@ eq_fits(out)
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $`45f61ccf`
-#> lavaan 0.6-21 ended normally after 9 iterations
+#> lavaan 0.7-2 ended normally after 9 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -350,7 +350,7 @@ eq_fits(out)
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $b0a9b170
-#> lavaan 0.6-21 ended normally after 7 iterations
+#> lavaan 0.7-2 ended normally after 7 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -365,7 +365,7 @@ eq_fits(out)
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $`459cd495`
-#> lavaan 0.6-21 ended normally after 8 iterations
+#> lavaan 0.7-2 ended normally after 8 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -380,7 +380,7 @@ eq_fits(out)
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $c02043f3
-#> lavaan 0.6-21 ended normally after 8 iterations
+#> lavaan 0.7-2 ended normally after 8 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
