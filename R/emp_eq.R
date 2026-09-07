@@ -502,6 +502,17 @@ eq_models_internal <- function(
 
   # sem_out1 is used instead of original_model
 
+  # ==== Mark the original model ====
+
+  tmp <- match_eq_partables(
+          as_eq_partables(sem_out1),
+          partables
+        )
+  if (!is.na(tmp)) {
+    attr(partables[[tmp]], "is_original") <- TRUE
+    attr(partables[[tmp]], "gen_models_name") <- "original"
+  }
+
   sem_out_df <- unname(lavaan::fitMeasures(sem_out1, "df"))
   # TODO:
   # - Use robust chisq if available
