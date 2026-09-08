@@ -349,7 +349,7 @@ the research design, or theoretical
 reasons, some models may need to be
 removed.
 
-For example, the factor `fy` may be measured
+For example, the factor `fx` may be measured
 a certain period before `fm` and `fy`,
 while `fm` and `fy` are measured in the
 same wave. Therefore, `fx` cannot be
