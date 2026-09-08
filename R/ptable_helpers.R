@@ -498,3 +498,20 @@ is_partables <- function(
   )
   all(chk)
 }
+
+#' @noRd
+which_original_model <- function(
+  partables
+) {
+  tmp <- sapply(
+    partables,
+    \(x) {
+      isTRUE(attr(x, "is_original", exact = TRUE))
+    }
+  )
+  if (any(tmp)) {
+    return(which(tmp))
+  } else {
+    return(NA)
+  }
+}
