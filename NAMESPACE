@@ -56,9 +56,11 @@ export(setdiff_partables)
 export(setequal_eq_partables)
 export(setequal_partables)
 export(union_eq_partables)
-importFrom(graphics,arrows)
-importFrom(graphics,par)
-importFrom(graphics,plot.new)
-importFrom(graphics,segments)
-importFrom(graphics,text)
-importFrom(graphics,title)
+importFrom(graphics,
+  arrows,
+  par,
+  plot.new,
+  segments,
+  text,
+  title
+)
