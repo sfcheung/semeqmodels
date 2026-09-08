@@ -1,8 +1,13 @@
 # Changelog
 
-## semeqmodels 0.0.1.1
+## semeqmodels 0.0.1.2
 
-- Add tests using `dagitty`. (0.0.1.1)
+- Added tests using `dagitty`. (0.0.1.1)
+
+- Updated `eq_models_internal()` to automatically mark the original
+  models, and updated
+  [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
+  to retrieve the original model if marked. (0.0.1.2)
 
 ## semeqmodels 0.0.1
 

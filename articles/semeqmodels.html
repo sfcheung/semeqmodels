@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@
 
       <h1>Finding Empirical Equivalent Models in SEM</h1>
             
-            <h4 data-toc-skip class="date">2026-07-16</h4>
+            <h4 data-toc-skip class="date">2026-09-08</h4>
       
 
       <div class="d-none name"><code>semeqmodels.Rmd</code></div>
@@ -92,7 +92,7 @@ illustration:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sfcheung.github.io/semeqmodels/">semeqmodels</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"semeqmodels"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.0.0.9062'</span></span>
+<span><span class="co">#&gt; [1] '0.0.1.2'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">data_test_3_factor_3_item</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      x1    x2    x3    m1    m2    m3    y1    y2    y3</span></span>
 <span><span class="co">#&gt; 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44</span></span>
@@ -125,19 +125,24 @@ illustration:</p>
 <span>  data <span class="op">=</span> <span class="va">data_test_3_factor_3_item</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">fit</span></span>
-<span><span class="co">#&gt; lavaan 0.7-1.3032 ended normally after 40 iterations</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; lavaan 0.7-2.3166 ended normally after 40 iterations</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Estimator                                         ML</span></span>
 <span><span class="co">#&gt;   Optimization method                           NLMINB</span></span>
 <span><span class="co">#&gt;   Number of model parameters                        20</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Number of observations                           200</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model Test User Model:</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt;                                                       </span></span>
 <span><span class="co">#&gt;   Test statistic                                25.503</span></span>
 <span><span class="co">#&gt;   Degrees of freedom                                25</span></span>
-<span><span class="co">#&gt;   P-value (Chi-square)                           0.434</span></span></code></pre></div>
+<span><span class="co">#&gt;   P-value (Chi-square)                           0.434</span></span>
+<span><span class="co">#&gt;                                                       </span></span>
+<span><span class="co">#&gt;   Browne's residual (NT model-based) test             </span></span>
+<span><span class="co">#&gt;   Test statistic                                24.070</span></span>
+<span><span class="co">#&gt;   Degrees of freedom                                25</span></span>
+<span><span class="co">#&gt;   P-value (Chi-square)                           0.515</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="empirical-equivalence">Empirical Equivalence<a class="anchor" aria-label="anchor" href="#empirical-equivalence"></a>
@@ -182,18 +187,18 @@ models can be several hundreds or even several thousands.</p>
 parameter tables:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_eq</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Number of models: 5</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; The models:</span></span>
-<span><span class="co">#&gt;</span></span>
-<span><span class="co">#&gt;   Model</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Model   </span></span>
 <span><span class="co">#&gt; 1 c8181b7d</span></span>
 <span><span class="co">#&gt; 2 34be955a</span></span>
 <span><span class="co">#&gt; 3 3ded8a97</span></span>
 <span><span class="co">#&gt; 4 d882121d</span></span>
-<span><span class="co">#&gt; 5 fada78e4</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; 5 fada78e4 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span></span>
 <span><span class="co">#&gt; "long"' to use the long descriptive names, if available, for the</span></span>
 <span><span class="co">#&gt; models.</span></span></code></pre></div>
@@ -202,11 +207,11 @@ parameter tables:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_eq</span>,</span>
 <span>      names_to_use <span class="op">=</span> <span class="st">"long"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Number of models: 5</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; The models:</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model</span></span>
 <span><span class="co">#&gt; 1 c8181b7d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
 <span><span class="co">#&gt;     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fm~fy, drop:fm~fy,</span></span>
@@ -217,7 +222,7 @@ parameter tables:</p>
 <span><span class="co">#&gt;     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fy~fm</span></span>
 <span><span class="co">#&gt; 4 d882121d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,</span></span>
 <span><span class="co">#&gt;     drop:fm~~fy, add:fy~fm</span></span>
-<span><span class="co">#&gt; 5 fada78e4 := original, drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx</span></span></code></pre></div>
+<span><span class="co">#&gt; 5 fada78e4 := original</span></span></code></pre></div>
 <p>The long names show the modifications from the original model to the
 final models.</p>
 <p>By default, the original model is not removed, although it may still
@@ -226,7 +231,7 @@ be shown with steps of modifications.</p>
 <em>df</em>s:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_df</a></span><span class="op">(</span><span class="va">mod_eq</span><span class="op">)</span></span>
-<span><span class="co">#&gt; c8181b7d 34be955a 3ded8a97 d882121d fada78e4</span></span>
+<span><span class="co">#&gt; c8181b7d 34be955a 3ded8a97 d882121d fada78e4 </span></span>
 <span><span class="co">#&gt;       25       25       25       25       25</span></span></code></pre></div>
 <p>As expected, all models have the same model <em>df</em>s.</p>
 <p>The function <code><a href="../reference/eq_partables_helpers.html">eq_chisq()</a></code> can be used to retrieve the
@@ -235,7 +240,7 @@ model
 of the models:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_chisq</a></span><span class="op">(</span><span class="va">mod_eq</span><span class="op">)</span></span>
-<span><span class="co">#&gt; c8181b7d 34be955a 3ded8a97 d882121d fada78e4</span></span>
+<span><span class="co">#&gt; c8181b7d 34be955a 3ded8a97 d882121d fada78e4 </span></span>
 <span><span class="co">#&gt; 25.50339 25.50339 25.50339 25.50339 25.50339</span></span></code></pre></div>
 <p>It can be confirmed that all models have nearly the same model
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>.</p>
@@ -249,58 +254,58 @@ equivalent models:</p>
 <span>  target_model <span class="op">=</span> <span class="va">fit</span>,</span>
 <span>  other_models <span class="op">=</span> <span class="va">mod_eq</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Models: fit vs. c8181b7d</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: fit</span></span>
 <span><span class="co">#&gt; fm~fx (free)</span></span>
 <span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: c8181b7d</span></span>
 <span><span class="co">#&gt; fx~fm (free)</span></span>
 <span><span class="co">#&gt; fm~~fy (free)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Models: fit vs. 34be955a</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: fit</span></span>
 <span><span class="co">#&gt; fm~fx (free)</span></span>
 <span><span class="co">#&gt; fy~fm (free)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: 34be955a</span></span>
 <span><span class="co">#&gt; fx~fm (free)</span></span>
 <span><span class="co">#&gt; fm~fy (free)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Models: fit vs. 3ded8a97</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: fit</span></span>
 <span><span class="co">#&gt; fm~fx (free)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: 3ded8a97</span></span>
 <span><span class="co">#&gt; fx~fm (free)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Models: fit vs. d882121d</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: fit</span></span>
 <span><span class="co">#&gt; fm~fx (free)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: d882121d</span></span>
 <span><span class="co">#&gt; fm~~fx (free)</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -------------</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Models: fit vs. fada78e4</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: fit</span></span>
 <span><span class="co">#&gt; No parameter only in this model.</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model: fada78e4</span></span>
 <span><span class="co">#&gt; No parameter only in this model.</span></span></code></pre></div>
 <p>A better way to see the differences is to draw the models, described
@@ -380,12 +385,12 @@ CFI is at most .01.</p>
 parameter tables:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_eq_cfi</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Number of models: 9</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; The models:</span></span>
-<span><span class="co">#&gt;</span></span>
-<span><span class="co">#&gt;   Model</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Model   </span></span>
 <span><span class="co">#&gt; 1 bf4767ac</span></span>
 <span><span class="co">#&gt; 2 c8181b7d</span></span>
 <span><span class="co">#&gt; 3 34be955a</span></span>
@@ -394,8 +399,8 @@ parameter tables:</p>
 <span><span class="co">#&gt; 6 0e0eca72</span></span>
 <span><span class="co">#&gt; 7 c15465c0</span></span>
 <span><span class="co">#&gt; 8 d882121d</span></span>
-<span><span class="co">#&gt; 9 fada78e4</span></span>
-<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; 9 fada78e4 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span></span>
 <span><span class="co">#&gt; "long"' to use the long descriptive names, if available, for the</span></span>
 <span><span class="co">#&gt; models.</span></span></code></pre></div>
@@ -404,9 +409,9 @@ larger than using model
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_df</a></span><span class="op">(</span><span class="va">mod_eq_cfi</span><span class="op">)</span></span>
-<span><span class="co">#&gt; bf4767ac c8181b7d 34be955a 3ded8a97 4588fdf2 0e0eca72 c15465c0 d882121d</span></span>
-<span><span class="co">#&gt;       25       25       25       25       25       25       25       25</span></span>
-<span><span class="co">#&gt; fada78e4</span></span>
+<span><span class="co">#&gt; bf4767ac c8181b7d 34be955a 3ded8a97 4588fdf2 0e0eca72 c15465c0 d882121d </span></span>
+<span><span class="co">#&gt;       25       25       25       25       25       25       25       25 </span></span>
+<span><span class="co">#&gt; fada78e4 </span></span>
 <span><span class="co">#&gt;       25</span></span></code></pre></div>
 <p>Even with this liberal criterion, all models still have the same
 model <em>df</em>s.</p>
@@ -466,7 +471,7 @@ required.</p>
 </h3>
 <p>Based on knowledge about the variables, the research design, or
 theoretical reasons, some models may need to be removed.</p>
-<p>For example, the factor <code>fy</code> may be measured a certain
+<p>For example, the factor <code>fx</code> may be measured a certain
 period before <code>fm</code> and <code>fy</code>, while <code>fm</code>
 and <code>fy</code> are measured in the same wave. Therefore,
 <code>fx</code> cannot be be an “y”-variable (“dependent variable”) that

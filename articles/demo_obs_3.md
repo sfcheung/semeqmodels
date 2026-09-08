@@ -61,7 +61,7 @@ fit <- sem(
   fixed.x = FALSE
 )
 fit
-#> lavaan 0.7-1.3032 ended normally after 1 iteration
+#> lavaan 0.7-2.3166 ended normally after 1 iteration
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -72,6 +72,10 @@ fit
 #> Model Test User Model:
 #>                                                       
 #>   Test statistic                                 0.000
+#>   Degrees of freedom                                 0
+#>                                                       
+#>   Browne's residual (NT model-based) test             
+#>   Test statistic                                -0.000
 #>   Degrees of freedom                                 0
 ```
 

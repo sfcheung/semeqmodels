@@ -52,7 +52,7 @@ fit <- sem(
   data = data_test_4_factor_3_item
 )
 fit
-#> lavaan 0.7-1.3032 ended normally after 43 iterations
+#> lavaan 0.7-2.3166 ended normally after 43 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -65,6 +65,11 @@ fit
 #>   Test statistic                                39.488
 #>   Degrees of freedom                                49
 #>   P-value (Chi-square)                           0.832
+#>                                                       
+#>   Browne's residual (NT model-based) test             
+#>   Test statistic                                38.356
+#>   Degrees of freedom                                49
+#>   P-value (Chi-square)                           0.863
 ```
 
 ## Empirical Equivalence

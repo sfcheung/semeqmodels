@@ -16,7 +16,7 @@ A test dataset of `semeqmodels` will be used for illustration:
 
 library(semeqmodels)
 packageVersion("semeqmodels")
-#> [1] '0.0.0.9062'
+#> [1] '0.0.1.2'
 head(round(data_test_3_factor_3_item, 2))
 #>      x1    x2    x3    m1    m2    m3    y1    y2    y3
 #> 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44
@@ -55,19 +55,24 @@ fit <- sem(
   data = data_test_3_factor_3_item
 )
 fit
-#> lavaan 0.7-1.3032 ended normally after 40 iterations
-#>
+#> lavaan 0.7-2.3166 ended normally after 40 iterations
+#> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
 #>   Number of model parameters                        20
-#>
+#> 
 #>   Number of observations                           200
-#>
+#> 
 #> Model Test User Model:
-#>
+#>                                                       
 #>   Test statistic                                25.503
 #>   Degrees of freedom                                25
 #>   P-value (Chi-square)                           0.434
+#>                                                       
+#>   Browne's residual (NT model-based) test             
+#>   Test statistic                                24.070
+#>   Degrees of freedom                                25
+#>   P-value (Chi-square)                           0.515
 ```
 
 ## Empirical Equivalence
@@ -115,18 +120,18 @@ The output is a list of models, defined by `lavaan` parameter tables:
 ``` r
 
 mod_eq
-#>
+#> 
 #> Number of models: 5
-#>
+#> 
 #> The models:
-#>
-#>   Model
+#> 
+#>   Model   
 #> 1 c8181b7d
 #> 2 34be955a
 #> 3 3ded8a97
 #> 4 d882121d
-#> 5 fada78e4
-#>
+#> 5 fada78e4 
+#> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the
 #> models.
@@ -140,11 +145,11 @@ For more readable printout, call
 
 print(mod_eq,
       names_to_use = "long")
-#>
+#> 
 #> Number of models: 5
-#>
+#> 
 #> The models:
-#>
+#> 
 #> Model
 #> 1 c8181b7d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
 #>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fm~fy, drop:fm~fy,
@@ -155,7 +160,7 @@ print(mod_eq,
 #>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fy~fm
 #> 4 d882121d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
 #>     drop:fm~~fy, add:fy~fm
-#> 5 fada78e4 := original, drop:fm~fx, add:fx~~fm, drop:fx~~fm, add:fm~fx
+#> 5 fada78e4 := original
 ```
 
 The long names show the modifications from the original model to the
@@ -171,7 +176,7 @@ can be used to retrieve the model *df*s:
 ``` r
 
 eq_df(mod_eq)
-#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4
+#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4 
 #>       25       25       25       25       25
 ```
 
@@ -184,7 +189,7 @@ can be used to retrieve the model $`\chi^2`$s of the models:
 ``` r
 
 eq_chisq(mod_eq)
-#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4
+#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4 
 #> 25.50339 25.50339 25.50339 25.50339 25.50339
 ```
 
@@ -205,58 +210,58 @@ model_diff_many(
   target_model = fit,
   other_models = mod_eq
 )
-#>
+#> 
 #> -------------
-#>
+#> 
 #> Models: fit vs. c8181b7d
-#>
+#> 
 #> Model: fit
 #> fm~fx (free)
 #> fy~fm (free)
-#>
+#> 
 #> Model: c8181b7d
 #> fx~fm (free)
 #> fm~~fy (free)
-#>
+#> 
 #> -------------
-#>
+#> 
 #> Models: fit vs. 34be955a
-#>
+#> 
 #> Model: fit
 #> fm~fx (free)
 #> fy~fm (free)
-#>
+#> 
 #> Model: 34be955a
 #> fx~fm (free)
 #> fm~fy (free)
-#>
+#> 
 #> -------------
-#>
+#> 
 #> Models: fit vs. 3ded8a97
-#>
+#> 
 #> Model: fit
 #> fm~fx (free)
-#>
+#> 
 #> Model: 3ded8a97
 #> fx~fm (free)
-#>
+#> 
 #> -------------
-#>
+#> 
 #> Models: fit vs. d882121d
-#>
+#> 
 #> Model: fit
 #> fm~fx (free)
-#>
+#> 
 #> Model: d882121d
 #> fm~~fx (free)
-#>
+#> 
 #> -------------
-#>
+#> 
 #> Models: fit vs. fada78e4
-#>
+#> 
 #> Model: fit
 #> No parameter only in this model.
-#>
+#> 
 #> Model: fada78e4
 #> No parameter only in this model.
 ```
@@ -350,12 +355,12 @@ The output is a list of models, defined by `lavaan` parameter tables:
 ``` r
 
 mod_eq_cfi
-#>
+#> 
 #> Number of models: 9
-#>
+#> 
 #> The models:
-#>
-#>   Model
+#> 
+#>   Model   
 #> 1 bf4767ac
 #> 2 c8181b7d
 #> 3 34be955a
@@ -364,8 +369,8 @@ mod_eq_cfi
 #> 6 0e0eca72
 #> 7 c15465c0
 #> 8 d882121d
-#> 9 fada78e4
-#>
+#> 9 fada78e4 
+#> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the
 #> models.
@@ -377,9 +382,9 @@ than using model $`\chi^2`$.
 ``` r
 
 eq_df(mod_eq_cfi)
-#> bf4767ac c8181b7d 34be955a 3ded8a97 4588fdf2 0e0eca72 c15465c0 d882121d
-#>       25       25       25       25       25       25       25       25
-#> fada78e4
+#> bf4767ac c8181b7d 34be955a 3ded8a97 4588fdf2 0e0eca72 c15465c0 d882121d 
+#>       25       25       25       25       25       25       25       25 
+#> fada78e4 
 #>       25
 ```
 
@@ -458,7 +463,7 @@ Empirical Equivalent Models (CFI)
 Based on knowledge about the variables, the research design, or
 theoretical reasons, some models may need to be removed.
 
-For example, the factor `fy` may be measured a certain period before
+For example, the factor `fx` may be measured a certain period before
 `fm` and `fy`, while `fm` and `fy` are measured in the same wave.
 Therefore, `fx` cannot be be an “y”-variable (“dependent variable”) that
 are affected by other variables.
