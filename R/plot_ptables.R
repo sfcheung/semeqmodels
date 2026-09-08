@@ -241,6 +241,14 @@ partables_plots <- function(
 
   }
 
+  # ==== Check whether a model is marked as the original model ====
+
+  i <- which_original_model(partables)
+  if (!is.na(i)) {
+    original_model <- partables[[i]]
+    partables <- partables[-i]
+  }
+
   if (!is_partables(partables)) {
     stop("partables is not of a supported type.")
   }
