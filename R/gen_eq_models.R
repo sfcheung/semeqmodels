@@ -135,6 +135,8 @@ eq_df_models <- function(
   k_old <- -1
   k_new <- 0
   has_error <- list()
+  opt_org <- options(cli.progress_show_after = 0)
+  on.exit(options(opt_org), add = TRUE)
 
   # ==== Handle nil parameters ====
 
@@ -220,34 +222,99 @@ eq_df_models <- function(
     }
     out_add_tried <- c(out_i, out_add_tried)
     if (parallel) {
-      chunk_size <- getOption("semeqmodels.chunk_size", NULL)
-      out_drop_i <- parallel::parLapplyLB(
-        cl = cl,
-        out_i,
-        drop_k,
-        sem_out = sem_out0,
-        fit_models = fit_models,
-        loadings_to_exclude_from_drop = loadings_to_exclude_from_drop,
-        must_not_drop = must_not_drop,
-        se = se,
-        parallel = FALSE,
-        progress = gen_models_progress,
-        dat = dat,
-        chunk.size = chunk_size
-      )
+      if (progress) {
+        # TODO:
+        # - Factoring out the process?
+        i0 <- split(
+                seq_along(out_i),
+                ceiling(seq_along(out_i) / length(cl))
+              )
+        out_drop_i <- vector("list", length(out_i))
+        cli::cli_progress_bar(
+          "Searching +1df models",
+          total = length(out_i)
+        )
+        for (i in i0) {
+          out_tmp <- parallel::parLapplyLB(
+            cl = cl,
+            out_i[i],
+            drop_k,
+            sem_out = sem_out0,
+            fit_models = fit_models,
+            loadings_to_exclude_from_drop = loadings_to_exclude_from_drop,
+            must_not_drop = must_not_drop,
+            se = se,
+            parallel = FALSE,
+            progress = gen_models_progress,
+            dat = dat
+          )
+          cli::cli_progress_update(set = max(i))
+          utils::flush.console()
+          out_drop_i[i] <- out_tmp
+        }
+        cli::cli_progress_done()
+      } else {
+        chunk_size <- getOption("semeqmodels.chunk_size", NULL)
+        out_drop_i <- parallel::parLapplyLB(
+          cl = cl,
+          out_i,
+          drop_k,
+          sem_out = sem_out0,
+          fit_models = fit_models,
+          loadings_to_exclude_from_drop = loadings_to_exclude_from_drop,
+          must_not_drop = must_not_drop,
+          se = se,
+          parallel = FALSE,
+          progress = gen_models_progress,
+          dat = dat,
+          chunk.size = chunk_size
+        )
+      }
     } else {
-      out_drop_i <- lapply(
-        out_i,
-        drop_k,
-        sem_out = sem_out0,
-        fit_models = fit_models,
-        loadings_to_exclude_from_drop = loadings_to_exclude_from_drop,
-        must_not_drop = must_not_drop,
-        se = se,
-        parallel = FALSE,
-        progress = gen_models_progress,
-        dat = dat
-      )
+      if (progress) {
+        # TODO:
+        # - Factoring out the process?
+        i0 <- split(
+                seq_along(out_i),
+                ceiling(seq_along(out_i) / 10)
+              )
+        out_drop_i <- vector("list", length(out_i))
+        cli::cli_progress_bar(
+          "Searching +1df models",
+          total = length(out_i)
+        )
+        for (i in i0) {
+          out_tmp <- lapply(
+            out_i[i],
+            drop_k,
+            sem_out = sem_out0,
+            fit_models = fit_models,
+            loadings_to_exclude_from_drop = loadings_to_exclude_from_drop,
+            must_not_drop = must_not_drop,
+            se = se,
+            parallel = FALSE,
+            progress = gen_models_progress,
+            dat = dat
+          )
+          cli::cli_progress_update(set = max(i))
+          utils::flush.console()
+          out_drop_i[i] <- out_tmp
+        }
+        cli::cli_progress_done()
+      } else {
+        out_drop_i <- lapply(
+          out_i,
+          drop_k,
+          sem_out = sem_out0,
+          fit_models = fit_models,
+          loadings_to_exclude_from_drop = loadings_to_exclude_from_drop,
+          must_not_drop = must_not_drop,
+          se = se,
+          parallel = FALSE,
+          progress = gen_models_progress,
+          dat = dat
+        )
+      }
     }
 
     # ==== Store drop_k() history ====
@@ -307,35 +374,101 @@ eq_df_models <- function(
     # finalizing the outputs.
     # They need to included during the search.
     if (parallel) {
-      chunk_size <- getOption("semeqmodels.chunk_size", NULL)
-      out_add_i <- parallel::parLapplyLB(
-        cl = cl,
-        out_drop_i,
-        add_k,
-        sem_out = sem_out,
-        fit_models = fit_models,
-        must_not_add = must_not_add,
-        exclude_x_y_ecov = FALSE,
-        se = se,
-        parallel = FALSE,
-        progress = gen_models_progress,
-        dat = dat,
-        chunk.size = chunk_size
-      )
+      if (progress) {
+        # TODO:
+        # - Factoring out the process?
+        i0 <- split(
+                seq_along(out_drop_i),
+                ceiling(seq_along(out_drop_i) / length(cl))
+              )
+        out_add_i <- vector("list", length(out_drop_i))
+        cli::cli_progress_bar(
+          "Searching same-df models",
+          total = length(out_drop_i)
+        )
+        for (i in i0) {
+          out_tmp <- parallel::parLapplyLB(
+            cl = cl,
+            out_drop_i[i],
+            add_k,
+            sem_out = sem_out,
+            fit_models = fit_models,
+            must_not_add = must_not_add,
+            exclude_x_y_ecov = FALSE,
+            se = se,
+            parallel = FALSE,
+            progress = gen_models_progress,
+            dat = dat
+          )
+          cli::cli_progress_update(set = max(i))
+          utils::flush.console()
+          out_add_i[i] <- out_tmp
+        }
+        cli::cli_progress_done()
+      } else {
+        chunk_size <- getOption("semeqmodels.chunk_size", NULL)
+        out_add_i <- parallel::parLapplyLB(
+          cl = cl,
+          out_drop_i,
+          add_k,
+          sem_out = sem_out,
+          fit_models = fit_models,
+          must_not_add = must_not_add,
+          exclude_x_y_ecov = FALSE,
+          se = se,
+          parallel = FALSE,
+          progress = gen_models_progress,
+          dat = dat,
+          chunk.size = chunk_size
+        )
+      }
     } else {
-      out_add_i <- lapply(
-        out_drop_i,
-        add_k,
-        sem_out = sem_out,
-        fit_models = fit_models,
-        must_not_add = must_not_add,
-        exclude_x_y_ecov = FALSE,
-        se = se,
-        parallel = FALSE,
-        progress = gen_models_progress,
-        dat = dat,
-        return_error_msg = TRUE
-      )
+      if (progress) {
+        # TODO:
+        # - Factoring out the process?
+        i0 <- split(
+                seq_along(out_drop_i),
+                ceiling(seq_along(out_drop_i) / 10)
+              )
+        out_add_i <- vector("list", length(out_drop_i))
+        cli::cli_progress_bar(
+          "Searching same-df models",
+          total = length(out_drop_i)
+        )
+        for (i in i0) {
+            out_tmp <- lapply(
+              out_drop_i[i],
+              add_k,
+              sem_out = sem_out,
+              fit_models = fit_models,
+              must_not_add = must_not_add,
+              exclude_x_y_ecov = FALSE,
+              se = se,
+              parallel = FALSE,
+              progress = gen_models_progress,
+              dat = dat,
+              return_error_msg = TRUE
+            )
+          cli::cli_progress_update(set = max(i))
+          utils::flush.console()
+          out_add_i[i] <- out_tmp
+        }
+        cli::cli_progress_done()
+      } else {
+        out_add_i <- lapply(
+          out_drop_i,
+          add_k,
+          sem_out = sem_out,
+          fit_models = fit_models,
+          must_not_add = must_not_add,
+          exclude_x_y_ecov = FALSE,
+          se = se,
+          parallel = FALSE,
+          progress = gen_models_progress,
+          dat = dat,
+          return_error_msg = TRUE
+        )
+      }
     }
 
     # ==== Remove models with errors ====
