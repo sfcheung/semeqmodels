@@ -12,10 +12,10 @@ NULL
 #' ## `model_diff()`
 #'
 #' The functions [model_diff()] takes
-#' two models (parameter tables) and identify
-#' the differences, if any.
+#' two models (parameter tables) and identifies
+#' their differences, if any.
 #'
-#' The columns compared is specified
+#' The columns compared are specified
 #' by the argument `cols`.
 #'
 #' For the `free` column, the actual values are

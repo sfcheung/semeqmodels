@@ -135,12 +135,12 @@ specified in \code{pars}.
 }
 
 The function
-\code{\link[=have_pars_any]{have_pars_any()}} identify models
+\code{\link[=have_pars_any]{have_pars_any()}} identifies models
 that have any of the free parameters
 specified in \code{pars}.
 
 The function
-\code{\link[=have_pars_none]{have_pars_none()}} identify models
+\code{\link[=have_pars_none]{have_pars_none()}} identifies models
 that have none of the free parameters
 specified in \code{pars}.
 
@@ -158,7 +158,7 @@ either directly or indirectly.
 \subsection{Select by the role of a variable}{
 
 The function \code{\link[=must_not_be_y]{must_not_be_y()}}
-keep only models with selected variables
+keeps only models with selected variables
 (observed or latent) not
 appearing as the outcome in a
 regression equation (indicators
@@ -169,7 +169,7 @@ as returned by \code{\link[lavaan:lavNames]{lavaan::lavNames()}}.
 }
 
 The function \code{\link[=must_be_y]{must_be_y()}}
-keep only models with selected variables
+keeps only models with selected variables
 (observed or latent)
 appearing as the outcome in at least one
 regression equation (indicators
@@ -187,7 +187,7 @@ between selected pairs of variables.
 }
 
 The function \code{\link[=must_have_paths]{must_have_paths()}}
-keep only models
+keeps only models
 with at least one path, direct or indirect,
 between selected pairs of variables.
 }

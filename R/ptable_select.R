@@ -134,7 +134,7 @@ have_pars_all <- function(
 #' @details
 #'
 #' The function
-#' [have_pars_any()] identify models
+#' [have_pars_any()] identifies models
 #' that have any of the free parameters
 #' specified in `pars`.
 #'
@@ -179,7 +179,7 @@ have_pars_any <- function(
 #' @details
 #'
 #' The function
-#' [have_pars_none()] identify models
+#' [have_pars_none()] identifies models
 #' that have none of the free parameters
 #' specified in `pars`.
 #'
@@ -423,7 +423,7 @@ remove_x_y_ecov <- function(
 #' ## Select by the role of a variable
 #'
 #' The function [must_not_be_y()]
-#' keep only models with selected variables
+#' keeps only models with selected variables
 #' (observed or latent) not
 #' appearing as the outcome in a
 #' regression equation (indicators
@@ -486,7 +486,7 @@ must_not_be_y <- function(
 #' @details
 #'
 #' The function [must_be_y()]
-#' keep only models with selected variables
+#' keeps only models with selected variables
 #' (observed or latent)
 #' appearing as the outcome in at least one
 #' regression equation (indicators
@@ -618,7 +618,7 @@ must_not_have_paths <- function(
 #' @details
 #'
 #' The function [must_have_paths()]
-#' keep only models
+#' keeps only models
 #' with at least one path, direct or indirect,
 #' between selected pairs of variables.
 #'

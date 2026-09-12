@@ -117,7 +117,7 @@ eq_lavInspect <- function(
 
 #' @details
 #' The function [eq_fitMeasures()]
-#' call [lavaan::fitMeasures()] on the
+#' calls [lavaan::fitMeasures()] on the
 #' elements of an `eq_partables` object.
 #'
 #' @param output_format The format of
@@ -211,9 +211,9 @@ eq_fitMeasures <- function(
 
 #' @details
 #' The function [eq_df()] is a wrapper
-#' that call [eq_fitMeasures()] with
+#' that calls [eq_fitMeasures()] with
 #' `fit.measures` set to `"df"`. It
-#' always return a numeric vector.
+#' always returns a numeric vector.
 #'
 #' @examples
 #'
@@ -241,9 +241,9 @@ eq_df <- function(
 
 #' @details
 #' The function [eq_chisq()] is a wrapper
-#' that call [eq_fitMeasures()] with
+#' that calls [eq_fitMeasures()] with
 #' `fit.measures` set to `"chisq"`. It
-#' always return a numeric vector.
+#' always returns a numeric vector.
 #'
 #' @rdname eq_partables_helpers
 #' @export
@@ -574,7 +574,7 @@ print.eq_partables <- function(
 
 #' @details
 #' The `c`-method of `eq_partables`
-#' object combines `eq_partables` elements
+#' objects combines `eq_partables` elements
 #' to one single `eq_partables` elements.
 #'
 #' @return
