@@ -134,6 +134,7 @@ eq_df_models <- function(
   out_add_tried <- as_eq_partables()
   k_old <- -1
   k_new <- 0
+  has_error <- list()
 
   # ==== Handle nil parameters ====
 
@@ -332,8 +333,27 @@ eq_df_models <- function(
         se = se,
         parallel = FALSE,
         progress = gen_models_progress,
-        dat = dat
+        dat = dat,
+        return_error_msg = TRUE
       )
+    }
+
+    # ==== Remove models with errors ====
+
+    # TODO:
+    # - Alert users of error
+    tmp <- sapply(
+              out_add_i,
+              \(x) isTRUE(inherits(x, what = "try-error"))
+            )
+    if (any(tmp)) {
+      out_add_i[tmp] <- list(NULL)
+      if (length(has_error) == 0) {
+        has_error <- out_drop_i[tmp]
+      } else {
+        has_error <- c(has_error,
+                       out_drop_i[tmp])
+      }
     }
 
     # ==== Store add_k() history ====
@@ -406,6 +426,7 @@ eq_df_models <- function(
   attr(out, "pts_more_to_same_history") <- pts_more_to_same_history
   attr(out, "pts_more_df_all") <- rename_to_digest(out_drop_tried)
   attr(out, "pts_excluded") <- setdiff_eq_partables(out_full, out)
+  attr(out, "has_error") <- has_error
 
   # TODO:
   # - Should sem_out be excluded?

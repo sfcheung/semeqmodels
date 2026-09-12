@@ -377,6 +377,14 @@ drop_k <- function(
 #' a prefix to the names of the generated
 #' models.
 #'
+#' @param return_error_msg If an error
+#' occurred when calling [modelbpp::gen_models()],
+#' whether it will throw an error or
+#' return the error message. Set to `TRUE`
+#' when being called by some functions,
+#' to defer error handling to the calling
+#' function.
+#'
 #' @examples
 #'
 #' # ==== add_k ====
@@ -411,7 +419,8 @@ add_k <- function(
   remove_zeros = FALSE,
   add_name = FALSE,
   add_digest = TRUE,
-  dat = NULL
+  dat = NULL,
+  return_error_msg = FALSE
 ) {
 
   # - A function to generate a list of 1-less-df models.
@@ -590,10 +599,27 @@ add_k <- function(
     optold <- options(modelbpp.do_fit = optold)
   }
   on.exit(options(optold), add = TRUE)
-  out0 <- do.call(
+  out0 <- try(do.call(
     modelbpp::gen_models,
     args1
-  )
+  ),
+  silent = TRUE)
+
+  if (inherits(out0, "try-error")) {
+
+    # ==== Handle error from modelbpp::gen_models() ====
+
+    # Return the error as-is
+    tmp <- paste0(
+              "Error from modelbpp::gen_models: ",
+              as.character(out0)
+            )
+    if (return_error_msg) {
+      return(out0)
+    } else {
+      stop(tmp)
+    }
+  }
 
   # ==== Fix model names ====
 
