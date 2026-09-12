@@ -1,4 +1,4 @@
-# semeqmodels 0.0.1.3
+# semeqmodels 0.0.1.4
 
 - Added tests using `dagitty`.
   (0.0.1.1)
@@ -13,6 +13,10 @@
   `add_k()` to handle errors from
   `modelbpp::gen_models()`.
   (0.0.1.3)
+
+- Make the progress bars of
+  `eq_df_models()` more informative.
+  (0.0.1.4)
 
 # semeqmodels 0.0.1
 
