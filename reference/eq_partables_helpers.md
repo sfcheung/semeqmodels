@@ -335,7 +335,7 @@ eq_fits(out)
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $`45f61ccf`
-#> lavaan 0.7-2 ended normally after 9 iterations
+#> lavaan 0.7-2 ended normally after 10 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB

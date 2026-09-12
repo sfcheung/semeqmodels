@@ -42,7 +42,8 @@ add_k(
   remove_zeros = FALSE,
   add_name = FALSE,
   add_digest = TRUE,
-  dat = NULL
+  dat = NULL,
+  return_error_msg = FALSE
 )
 ```
 
@@ -178,6 +179,14 @@ add_k(
 
   Whether the name of the original model will be added as a prefix to
   the names of the generated models.
+
+- return_error_msg:
+
+  If an error occurred when calling
+  [`modelbpp::gen_models()`](https://sfcheung.github.io/modelbpp/reference/model_set.html),
+  whether it will throw an error or return the error message. Set to
+  `TRUE` when being called by some functions, to defer error handling to
+  the calling function.
 
 ## Value
 
