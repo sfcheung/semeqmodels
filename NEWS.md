@@ -1,4 +1,4 @@
-# semeqmodels 0.0.1.2
+# semeqmodels 0.0.1.3
 
 - Added tests using `dagitty`.
   (0.0.1.1)
@@ -8,6 +8,11 @@
   models, and updated `partables_plots()`
   to retrieve the original model if
   marked. (0.0.1.2)
+
+- Updated `eq_df_models()` and
+  `add_k()` to handle errors from
+  `modelbpp::gen_models()`.
+  (0.0.1.3)
 
 # semeqmodels 0.0.1
 

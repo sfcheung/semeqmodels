@@ -16,7 +16,7 @@ and bug reports are welcome:
 
 https://github.com/sfcheung/semeqmodels/issues
 
-(Version 0.0.1.2, updated on 2026-09-08, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
+(Version 0.0.1.3, updated on 2026-09-12, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 # semeqmodels: Empirical Equivalent Models in Structural Equation Models
 
