@@ -42,7 +42,8 @@ add_k(
   remove_zeros = FALSE,
   add_name = FALSE,
   add_digest = TRUE,
-  dat = NULL
+  dat = NULL,
+  return_error_msg = FALSE
 )
 }
 \arguments{
@@ -163,6 +164,14 @@ be changed.}
 the original model will be added as
 a prefix to the names of the generated
 models.}
+
+\item{return_error_msg}{If an error
+occurred when calling \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}},
+whether it will throw an error or
+return the error message. Set to \code{TRUE}
+when being called by some functions,
+to defer error handling to the calling
+function.}
 }
 \value{
 The function \code{\link[=drop_k]{drop_k()}}
