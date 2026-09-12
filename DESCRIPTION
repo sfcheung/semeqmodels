@@ -42,7 +42,8 @@ Imports:
     igraph,
     semPlot,
     semptools,
-    RColorBrewer
+    RColorBrewer,
+    cli
 Depends:
     R (>= 4.1.0)
 URL: https://sfcheung.github.io/semeqmodels/
