@@ -35,13 +35,13 @@ Suggests:
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Imports:
-    lavaan,
-    modelbpp (>= 0.2.0.5),
+    lavaan (>= 0.7.2),
+    modelbpp (>= 0.4.0),
     digest,
-    manymome,
+    manymome (>= 0.3.7),
     igraph,
     semPlot,
-    semptools,
+    semptools (>= 0.4.0),
     RColorBrewer,
     cli
 Depends:
