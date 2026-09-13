@@ -10,7 +10,7 @@
 #'
 #' First, models with one more *df* than
 #' the fitted model will be generated,
-#' by fixing more free parameter to zero.
+#' by fixing more free parameters to zero.
 #' This step is conducted by [drop_k()].
 #'
 #' Second, for each of the one-more-*df*
@@ -78,7 +78,7 @@
 #' If `TRUE`, nil parameters (paths or
 #' covariances fixed to zero) will not
 #' be added in the search, implemented by
-#' including these parameters to
+#' including these parameters in
 #' `must_not_add`.
 #'
 #' @param save_history Logical. If `TRUE`,
@@ -374,7 +374,7 @@ eq_df_models <- function(
     out_drop_tried <- c(out_drop_tried, out_drop_i)
     # exclude_x_y_ecov will be done again when
     # finalizing the outputs.
-    # They need to included during the search.
+    # They need to be included during the search.
     if (parallel) {
       if (progress) {
         # TODO:
