@@ -10,7 +10,7 @@ Find equivalent models in structural equation modeling
 
 (Version 0.0.1.5, updated on 2026-09-13, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
-# semeqmodels: Empirical Equivalent Models in Structural Equation Models
+# semeqmodels <a href="https://sfcheung.github.io/semeqmodels/"><img src="man/figures/logo.png" align="right" height="150" alt="semeqmodels website" /></a>
 
 This package is for identifying the sets of empirically equivalent
 models for structural equation models. It currently supports
