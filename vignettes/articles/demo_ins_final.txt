@@ -10,7 +10,7 @@ details.
 
 Demonstrations of other models and
 cases can be found in
-the [other demonstration articles](./index.html#demonstrations)
+the [other demonstration articles](https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations)
 
 ## Equivalence-In-Principle and Empirical Equivalence
 

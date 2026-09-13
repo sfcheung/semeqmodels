@@ -2,7 +2,7 @@
 # Introduction
 
 This article is part of
-a [series of articles](./index.html#demonstrations)
+a [series of articles](https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations)
 to demonstrate how to
 use [semeqmodels](https://sfcheung.github.io/semeqmodels/)
 to identify models empirically equivalent
