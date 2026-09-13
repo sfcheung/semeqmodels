@@ -120,7 +120,7 @@
 #' the default fit measure is `"chisq"`,
 #' model chi-square. If set to
 #' `c(chisq = 1e-5, cfi = .01)`, then
-#' two models are considered empirical
+#' two models are considered empirically
 #' equivalent if their differences on
 #' model chi-square and CFI are at most
 #' 1e-5 and .01, respectively.
@@ -145,7 +145,7 @@
 #' \doi{10.3758/s13428-025-02921-x}
 #'
 #' @seealso [modelbpp::fit_many()] for
-#' the function use to fit the models.
+#' the function used to fit the models.
 #'
 #' @examples
 #'
@@ -269,7 +269,7 @@ eq_models <- function(
 #' @return
 #' The function [is_eq()] returns a
 #' logical vector of the same length
-#' of `patables`, with `TRUE` denotes
+#' of `patables`, with `TRUE` denoting
 #' that a model is empirically equivalent
 #' to `original_model`.
 #'
@@ -588,7 +588,7 @@ eq_models_internal <- function(
 
   # TODO:
   # - Handle nonconvergence cases
-  #   Models failed post.check can be kept
+  #   Models that failed post.check can be kept
   df_eq <- dfs == sem_out_df
   # chisq_eq <- abs(chisqs - sem_out_chisq) <= tolerance
   # i <- df_eq & chisq_eq
