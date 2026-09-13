@@ -328,7 +328,7 @@ gen_plots_a_to_b_i <- function(
   new_par_width = 5
 ) {
   # An internal function
-  # Generate to plots for for
+  # Generate two plots for
   # one model in an iteration.
   # Should be the output of
   # inspect_search(), with output
@@ -442,7 +442,7 @@ gen_plots_for_search <- function(
   ...
 ) {
   # Internal function (for now)
-  # General the plots for the full search
+  # Generate the plots for the full search
   # history.
   # object should be the output of
   # inspect_search_full().

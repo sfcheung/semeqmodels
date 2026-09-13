@@ -10,8 +10,8 @@
 #' that meet the criterion of that function,
 #' or a list of plots of the parameter tables
 #' if `partables` is the output of [partables_plots()].
-#' If `output` set to `"logical"`,
-#' each of these function returns
+#' If `output` is set to `"logical"`,
+#' each of these functions returns
 #' a logical vector to indicate models or plots
 #' that meet the criterion. The vector
 #' can then be used to extract objects meeting
@@ -134,7 +134,7 @@ have_pars_all <- function(
 #' @details
 #'
 #' The function
-#' [have_pars_any()] identify models
+#' [have_pars_any()] identifies models
 #' that have any of the free parameters
 #' specified in `pars`.
 #'
@@ -179,7 +179,7 @@ have_pars_any <- function(
 #' @details
 #'
 #' The function
-#' [have_pars_none()] identify models
+#' [have_pars_none()] identifies models
 #' that have none of the free parameters
 #' specified in `pars`.
 #'
@@ -300,7 +300,7 @@ has_pars_i <- function(
   pars_lav_list,
   mode = c("any", "all")
 ) {
-  # Does a model has any/all of parameter pars?
+  # Does a model have any/all of parameter pars?
   mode <- match.arg(mode)
   out0 <- sapply(
     pars_lav_list,
@@ -320,7 +320,7 @@ has_par_i <- function(
   partable,
   par
 ) {
-  # Does a model has parameter par as a free parameter?
+  # Does a model have parameter par as a free parameter?
   # partable is a parameter table of a model
   # par must be a one-row parameter table
   op <- par$op
@@ -423,7 +423,7 @@ remove_x_y_ecov <- function(
 #' ## Select by the role of a variable
 #'
 #' The function [must_not_be_y()]
-#' keep only models with selected variables
+#' keeps only models with selected variables
 #' (observed or latent) not
 #' appearing as the outcome in a
 #' regression equation (indicators
@@ -486,7 +486,7 @@ must_not_be_y <- function(
 #' @details
 #'
 #' The function [must_be_y()]
-#' keep only models with selected variables
+#' keeps only models with selected variables
 #' (observed or latent)
 #' appearing as the outcome in at least one
 #' regression equation (indicators
@@ -618,7 +618,7 @@ must_not_have_paths <- function(
 #' @details
 #'
 #' The function [must_have_paths()]
-#' keep only models
+#' keeps only models
 #' with at least one path, direct or indirect,
 #' between selected pairs of variables.
 #'

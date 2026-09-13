@@ -233,7 +233,7 @@ auto_curve_covariance_original <- function(qgraph_obj) {
   bi_from <- qgraph_obj$Edgelist$from[number_of_bidirectional_edges]
   bi_to   <- qgraph_obj$Edgelist$to[number_of_bidirectional_edges]
 
-  # Determin the corresponding nodes' coordinates for the bidirectional edges
+  # Determine the corresponding nodes' coordinates for the bidirectional edges
   bi_from_coords <- qgraph_obj$layout[bi_from, , drop = FALSE]
   bi_to_coords   <- qgraph_obj$layout[bi_to,   , drop = FALSE]
 
@@ -245,7 +245,7 @@ auto_curve_covariance_original <- function(qgraph_obj) {
   bi_to_names   <- qgraph_obj$Arguments$labels[bi_to]
 
   # Create a data frame to store the results
-  # as currently I'm not very sure what kind of data structure we want to retuen.
+  # as currently I'm not very sure what kind of data structure we want to return.
   result_df <- data.frame(
   from = bi_from_names,
   to   = bi_to_names,

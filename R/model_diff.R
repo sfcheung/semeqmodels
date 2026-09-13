@@ -12,10 +12,10 @@ NULL
 #' ## `model_diff()`
 #'
 #' The functions [model_diff()] takes
-#' two models (parameter tables) and identify
-#' the differences, if any.
+#' two models (parameter tables) and identifies
+#' their differences, if any.
 #'
-#' The columns compared is specified
+#' The columns compared are specified
 #' by the argument `cols`.
 #'
 #' For the `free` column, the actual values are
@@ -35,11 +35,11 @@ NULL
 #' `model_x_only` and `model_y_only`.
 #' Each element is a parameter table
 #' with parameters that are present only
-#' in one of the model. If there is
+#' in one of the models. If there is
 #' no parameter that is present only in
 #' a model, then the element is still
 #' a parameter table, though with zero
-#' row. The list of of the class
+#' row. The list is of the class
 #' `model_diff`, with a `print` method.
 #'
 #' @param model_x,model_y Models as
@@ -190,7 +190,7 @@ model_diff <- function(
 #' The function [model_diff_many()]
 #' returns a list of the results
 #' of [model_diff()].
-#' The list of of the class
+#' The list is of the class
 #' `model_diff_many`, with a `print` method.
 #'
 #' @param target_model A model
@@ -209,7 +209,7 @@ model_diff <- function(
 #' these arguments are ignored.
 #'
 #' @param target_model_name,other_models_names
-#' Names of the models, to be passed to
+#' Names of the models to be passed to
 #' [model_diff()]. If `NULL`, they will
 #' be generated automatically.
 #'
@@ -271,7 +271,7 @@ model_diff_many <- function(
 #' The `print`-method of the output
 #' of [model_diff()] returns `x`
 #' invisibly.
-#' It is called for its side-effect.
+#' It is called for its side effect.
 #'
 #' @param x The object to be printed.
 #'
@@ -335,7 +335,7 @@ print.model_diff <- function(
 #' The `print`-method of the output
 #' of [model_diff_many()] returns `x`
 #' invisibly.
-#' It is called for its side-effect.
+#' It is called for its side effect.
 #'
 #' @rdname model_diff
 #' @export
@@ -406,7 +406,7 @@ partable_to_syntax <- function(
   out0 <- lavaan::lav_partable_labels(partable)
   # TODO:
   # - Handle other rows such as user-defined parameters
-  #   and equality constrains
+  #   and equality constraints
   partable$label <- ""
   fixed <- partable$free == 0
   free <- partable$free > 0

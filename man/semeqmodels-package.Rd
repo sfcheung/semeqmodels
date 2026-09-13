@@ -6,6 +6,8 @@
 \alias{semeqmodels-package}
 \title{semeqmodels: Equivalent Models in Structural Equation Models}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 For identifying the sets of empirically equivalent models for structural equation models fitted by the 'lavaan' package developed by Rosseel (2012) \doi{10.18637/jss.v048.i02}.
 }
 \seealso{

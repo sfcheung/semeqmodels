@@ -71,10 +71,10 @@ these are arguments to be passed to
 \code{\link[=digest_partable]{digest_partable()}}.}
 
 \item{overwrite}{Logical. If \code{TRUE},
-the stored hash value, if exists,
+the stored hash value, if it exists,
 will be overwritten. If \code{FALSE},
-the stored has value, if exists,
-not be overwritten.}
+the stored hash value, if it exists,
+will not be overwritten.}
 
 \item{partables}{A list of \code{lavaan}
 parameter tables.}
@@ -128,7 +128,7 @@ for typical models used in this package.
 The function \code{\link[=add_digest]{add_digest()}} computes
 the hash value of a parameter table
 and adds it to the attribute \code{"digest"}
-of the table, If the attribute is
+of the table. If the attribute is
 already set, it will not overwrite
 it unless \code{overwrite} is set to \code{TRUE}.
 

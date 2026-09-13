@@ -70,7 +70,7 @@ for differences between a model and
 conducted by \code{\link[=model_diff]{model_diff()}}.}
 
 \item{auto_node_color}{If \code{TRUE},
-and the number of nodes is less 12 or
+and the number of nodes is 12 or
 less, they will be automatically
 set to different colors. Ignored if
 \code{color} of nodes is in \code{...}.}
@@ -94,7 +94,7 @@ two settings are supported: \code{color}
 for the color and \code{width} for the
 width of an edge (arrow/path). Setting the
 width to zero, the default, effectively
-hiding an arrow/path.}
+hides an arrow/path.}
 
 \item{exclude_original_model}{If \code{TRUE}
 and \code{original_model} is set, the output
@@ -150,7 +150,7 @@ be used to scale the models, even if
 they are drawn one by one.}
 
 \item{scale}{How the model will
-be furthered scaled when drawn. If this
+be further scaled when drawn. If this
 value is greater than one, then
 elements in \code{elements_to_scale} will
 be increased by this ratio. If this
@@ -164,7 +164,7 @@ scaled based on the values of
 \code{scale_plots} and \code{scale}.}
 
 \item{original_model_mode}{How original
-model, if present will be handled when
+model, if present, will be handled when
 drawing the models. If \code{"exclude"},
 then the original model will not be
 drawn. If \code{"include"}, the original
