@@ -94,7 +94,7 @@ in \code{\link[lavaan:fitMeasures]{lavaan::fitMeasures()}}. For example,
 the default fit measure is \code{"chisq"},
 model chi-square. If set to
 \code{c(chisq = 1e-5, cfi = .01)}, then
-two models are considered empirical
+two models are considered empirically
 equivalent if their differences on
 model chi-square and CFI are at most
 1e-5 and .01, respectively.}
@@ -116,7 +116,7 @@ equivalent to the original model.
 
 The function \code{\link[=is_eq]{is_eq()}} returns a
 logical vector of the same length
-of \code{patables}, with \code{TRUE} denotes
+of \code{patables}, with \code{TRUE} denoting
 that a model is empirically equivalent
 to \code{original_model}.
 }
@@ -285,5 +285,5 @@ posterior probabilities (BPP).
 }
 \seealso{
 \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}} for
-the function use to fit the models.
+the function used to fit the models.
 }

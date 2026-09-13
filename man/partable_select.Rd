@@ -104,8 +104,8 @@ returns a list of parameter tables (models)
 that meet the criterion of that function,
 or a list of plots of the parameter tables
 if \code{partables} is the output of \code{\link[=partables_plots]{partables_plots()}}.
-If \code{output} set to \code{"logical"},
-each of these function returns
+If \code{output} is set to \code{"logical"},
+each of these functions returns
 a logical vector to indicate models or plots
 that meet the criterion. The vector
 can then be used to extract objects meeting

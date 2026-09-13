@@ -108,7 +108,7 @@ descriptive, will be used. If \code{"long"},
 the names from \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}
 will be used if available.
 They can be very long,
-but describes the changes leading to
+but describe the changes leading to
 a model.}
 
 \item{wrap_long_names}{If \code{TRUE},
@@ -230,12 +230,12 @@ models are created.
 
 The \code{print}-method of \code{eq_partables}
 object handles a zero-length list.
-If not of zero-length, the \code{print}-method
+If not of zero length, the \code{print}-method
 for \code{partables} will be used.
 
 The \code{c}-method of \code{eq_partables}
 objects combines \code{eq_partables} elements
-to one single \code{eq_partables} elements.
+into one single \code{eq_partables} element.
 
 The function \code{\link[=eq_partables]{eq_partables()}}
 creates an \code{eq_partables} object
