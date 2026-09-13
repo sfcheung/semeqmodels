@@ -34,8 +34,8 @@ illustrate how to use `semeqmodels`.
 
 # Original Model
 
-Suppose this the original model we fitted
-to dataset `data_test_3obvs`
+Suppose this is the original model we fitted
+to the dataset `data_test_3obvs`
 (installed with the package):
 
 ```{r}
