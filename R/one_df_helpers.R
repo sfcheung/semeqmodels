@@ -142,7 +142,7 @@ x_y_pairs_old <- function(
 
   # Output
   # - Always a data frame, though may have
-  #   0 row.
+  #   0 rows.
 
   # # Whether a variable is in "ov.nox" depends
   # # on fixed.x. Should use eqs.x and eqs.y.
@@ -247,7 +247,7 @@ x_y_pairs <- function(
 ) {
   # Output
   # - Always a data frame, though may have
-  #   0 row.
+  #   0 rows.
 
   # # Whether a variable is in "ov.nox" depends
   # # on fixed.x. Should use eqs.x and eqs.y.
@@ -367,11 +367,11 @@ x_y_ecov <- function(
 ) {
   # Form a vector of covariances
   # between an exogenous variable
-  # and an error terms.
+  # and an error term.
   # To be used in `must_not_add`.
 
   # The output of x_y_pairs is always a data frame,
-  # though may have zero row.
+  # though it may have zero rows.
   out0 <- x_y_pairs(object)
 
   if (nrow(out0) == 0) {
@@ -453,7 +453,7 @@ has_x_y_ecov2_old <- function(
     return(FALSE)
   }
 
-  # ==== Create the adjacent matrix ====
+  # ==== Create the adjacency matrix ====
 
   fit_opts <- lavaan::lavInspect(
     object,
@@ -564,7 +564,7 @@ has_x_y_ecov2 <- function(
     return(FALSE)
   }
 
-  # ==== Create the adjacent matrix ====
+  # ==== Create the adjacency matrix ====
 
   fit_opts <- lavaan::lavInspect(
     object,
@@ -649,7 +649,7 @@ rename_to_digest <- function(
 ) {
   # Usually for eq_partables object
   # If the "gen_models_name" attribute is NULL
-  # store the current name to this attribute,
+  # store the current name in this attribute,
   # then rename to the hash value (store or new)
   # Output:
   # - object_list with
