@@ -1,4 +1,4 @@
-# semeqmodels 0.0.1.4
+# semeqmodels 0.0.1.5
 
 - Added tests using `dagitty`.
   (0.0.1.1)
@@ -16,7 +16,7 @@
 
 - Make the progress bars of
   `eq_df_models()` more informative.
-  (0.0.1.4)
+  (0.0.1.4, 0.0.1.5)
 
 # semeqmodels 0.0.1
 
