@@ -34,8 +34,8 @@ illustrate how to use `semeqmodels`.
 
 # Original Model
 
-Suppose this the original model we fitted
-to dataset `data_test_3_factor_3_item`
+Suppose this is the original model we fitted
+to the dataset `data_test_3_factor_3_item`
 (installed with the package):
 
 ```{r}
@@ -88,7 +88,7 @@ fy ~ fm + fx
 "
 ```
 
-This is the lavaan results for the model:
+This is the lavaan result for the model:
 
 ```{r}
 library(lavaan)
