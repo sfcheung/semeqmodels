@@ -37,8 +37,8 @@ illustrate how to use `semeqmodels`.
 
 # Original Model
 
-Suppose this the original model we fitted
-to dataset `data_test_3obvs`
+Suppose this is the original model we fitted
+to the dataset `data_test_3obvs`
 (installed with the package):
 
 
@@ -101,7 +101,7 @@ fit
 
 
 
-NOTE: For now, `semeqmodels` only support
+NOTE: For now, `semeqmodels` only supports
 models fitted with `fixed.x = FALSE`,
 such that all observed variables can be
 freely changed.
@@ -109,7 +109,7 @@ freely changed.
 
 
 This model is a saturated model, with
-model *df* equals to zero. Therefore,
+model *df* equals zero. Therefore,
 all empirically equivalent models will also
 be saturated because they will also have
 zero *df*.
@@ -118,7 +118,7 @@ zero *df*.
 
 # Empirical Equivalence
 
-Suppose we are would like to find *some*
+Suppose we would like to find *some*
 models that are *empirically*
 *equivalent* to this model:
 
@@ -199,7 +199,7 @@ to examine the models by drawing them.
 The function `eq_chisq()` can be used
 to extract the model $\chi^2$s, to verify
 that they have model $\chi^2$s close to
-the that of the original model:
+that of the original model:
 
 
 ``` r
@@ -236,13 +236,13 @@ eq_df(out)
 # Drawing the Models
 
 To draw the models, the function
-`partables_plots()` can be used. It used
+`partables_plots()` can be used. It uses
 the function `semPlot::semPaths()`
 from the `semPlot` package to draw the model.
 Therefore, basic knowledge of
 `semPlot::semPaths()` is required.
 
-To draw the model, we need a common layout,
+To draw the model, we need a common layout
 in the form of a matrix of names:
 
 
@@ -300,21 +300,21 @@ plot(
 
 
 
-The model labelled `Original` is the
+The model labeled `Original` is the
 original model. The other models are
 empirically equivalent to this model
 in this dataset.
 
 By default:
 
-- Paths or covariances different form
+- Paths or covariances different from
   the original model are colored.
 
 - Covariances are displayed using curves.
 
 There are other ways to customize how
 the models are drawn. Please refer to
-the help page of `plot.partables_plots()`.
+the help page for `plot.partables_plots()`.
 
 
 
@@ -449,7 +449,7 @@ plot(
 
 There are many other ways to customize
 the search and the plots. Please refer
-to the corresponding halp pages for
+to the corresponding help pages for
 details.
 
 Demonstrations of other models and
@@ -458,7 +458,7 @@ the [other demonstration articles](https://sfcheung.github.io/semeqmodels/articl
 
 ## Equivalence-In-Principle and Empirical Equivalence
 
-The concept of mathematically
+The concept of mathematical
 equivalence models, or two models
 being equivalent in principle [@lee_simple_1990],
 has
@@ -479,7 +479,7 @@ is similar to *empirical occurrence of equivalence*
 the requirement of equal degrees of freedom:
 two models must also be equal in parsimony.
 We also allow for the possibility of using
-any fit measures deem appropriate (e.g., CFI,
+any fit measures deemed appropriate (e.g., CFI,
 RMSEA), and also the use of tolerance values
 that are appropriate for a situation.
 
