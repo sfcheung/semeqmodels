@@ -61,8 +61,8 @@ combine_partables <- function(
   drop_duplicated = TRUE
 ) {
   # TODO:
-  # - Update it to work with other type
-  #   of list of parameter tables.
+  # - Update it to work with other types
+  #   of lists of parameter tables.
   # Combine a list of partables objects
   # out0 <- unlist(
   #   object_list,
