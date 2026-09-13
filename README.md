@@ -40,5 +40,5 @@ install_github("sfcheung/semeqmodels")
 
 # Issues
 
-If you have any suggestions and found any bugs, please feel
+If you have any suggestions or find any bugs, please feel
 free to open a GitHub issue. Thanks.
