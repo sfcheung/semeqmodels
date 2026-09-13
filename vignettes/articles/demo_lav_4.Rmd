@@ -1,6 +1,6 @@
 ---
 title: "Workflow Demo: 4 Latent Variables"
-date: "2026-09-08"
+date: "2026-09-13"
 output:
   html_document:
     fig.align: "center"
@@ -18,7 +18,7 @@ csl: apa.csl
 # Introduction
 
 This article is part of
-a [series of articles](./index.html#demonstrations)
+a [series of articles](https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations)
 to demonstrate how to
 use [semeqmodels](https://sfcheung.github.io/semeqmodels/)
 to identify models empirically equivalent
@@ -443,7 +443,7 @@ details.
 
 Demonstrations of other models and
 cases can be found in
-the [other demonstration articles](./index.html#demonstrations)
+the [other demonstration articles](https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations)
 
 ## Equivalence-In-Principle and Empirical Equivalence
 
