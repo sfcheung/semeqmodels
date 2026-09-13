@@ -446,7 +446,7 @@ eq_same_data <- function(object) {
 #' @details
 #' The `print`-method of `eq_partables`
 #' object handles a zero-length list.
-#' If not of zero-length, the `print`-method
+#' If not of zero length, the `print`-method
 #' for `partables` will be used.
 #'
 #' @param max_models The maximum number
@@ -459,7 +459,7 @@ eq_same_data <- function(object) {
 #' the names from [modelbpp::gen_models()]
 #' will be used if available.
 #' They can be very long,
-#' but describes the changes leading to
+#' but describe the changes leading to
 #' a model.
 #'
 #' @param wrap_long_names If `TRUE`,
@@ -575,7 +575,7 @@ print.eq_partables <- function(
 #' @details
 #' The `c`-method of `eq_partables`
 #' objects combines `eq_partables` elements
-#' to one single `eq_partables` elements.
+#' into one single `eq_partables` element.
 #'
 #' @return
 #' The `c`-method of `eq_partables`
