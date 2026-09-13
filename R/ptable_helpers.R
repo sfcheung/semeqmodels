@@ -10,7 +10,7 @@ NULL
 #' @details
 #'
 #' The function [combine_partables()]
-#' combine a list of `partables` objects
+#' combines a list of `partables` objects
 #' or `eq_partables` objects
 #' to one single object of the same type.
 #'
@@ -61,8 +61,8 @@ combine_partables <- function(
   drop_duplicated = TRUE
 ) {
   # TODO:
-  # - Update it to work with other type
-  #   of list of parameter tables.
+  # - Update it to work with other types
+  #   of lists of parameter tables.
   # Combine a list of partables objects
   # out0 <- unlist(
   #   object_list,
@@ -222,7 +222,7 @@ union_eq_partables <- function(
 
 #' @details
 #' The function [intersect_eq_partables()]
-#' find the models common in `x` and `y`.
+#' finds the models common in `x` and `y`.
 #'
 #' @return
 #' The function [intersect_eq_partables()]
@@ -427,7 +427,7 @@ match_partables <- match_eq_partables
 }
 
 #' @details
-#' The function [is_partable()] check
+#' The function [is_partable()] checks
 #' whether an object is probably a
 #' parameter table. It checks whether
 #' (a) the object is a `data.frame`-like

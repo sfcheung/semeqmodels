@@ -105,7 +105,7 @@ fit
 ## Calling `eq_models()`
 
 To find a list of models that are empirically
-equivalent to the model fitted above based
+equivalent to the model fitted above, based
 on model $\chi^2$, the default,
 we can use `eq_models()`:
 
@@ -130,7 +130,7 @@ by `lavaan` parameter tables:
 mod_eq
 ```
 
-For more readable printout, call `print()`
+For a more readable printout, call `print()`
 and add `names_to_use = "long"`:
 
 ```{r}
@@ -253,7 +253,7 @@ as appeared in `lavaan::fitMeasures()`.
 
 - The value is the maximum absolute difference
   on this fit measure for two models to be
-  considered empirical equivalent.
+  considered empirically equivalent.
 
 If the vector has more than one value,
 empirical equivalence is checked using
@@ -274,7 +274,7 @@ mod_eq_cfi
 ```
 
 Because a more liberal criterion is used,
-the number of models is larger than using
+the number of models is larger than when using
 model $\chi^2$.
 
 ```{r}
@@ -353,10 +353,10 @@ For example, the factor `fx` may be measured
 a certain period before `fm` and `fy`,
 while `fm` and `fy` are measured in the
 same wave. Therefore, `fx` cannot be
-be an "y"-variable ("dependent variable")
-that are affected by other variables.
+an "y"-variable ("dependent variable")
+that is affected by other variables.
 
-There is a set of model selector
+There is a set of model selectors
 functions (see `?partable_select`) that
 can be used to select models. The function
 `must_not_be_y()` will be demonstrated in

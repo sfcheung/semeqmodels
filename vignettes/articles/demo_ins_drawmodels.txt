@@ -1,11 +1,11 @@
 # Drawing the Models
 
 To draw the models, the function
-`partables_plots()` can be used. It used
+`partables_plots()` can be used. It uses
 the function `semPlot::semPaths()`
 from the `semPlot` package to draw the model.
 Therefore, basic knowledge of
 `semPlot::semPaths()` is required.
 
-To draw the model, we need a common layout,
+To draw the model, we need a common layout
 in the form of a matrix of names:

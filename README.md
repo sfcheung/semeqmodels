@@ -1,24 +1,16 @@
-# semeqmodels
-
 Find equivalent models in structural equation modeling
 
 <!-- badges: start -->
-[![Lifecycle: Experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Code size](https://img.shields.io/github/languages/code-size/sfcheung/semeqmodels.svg)](https://github.com/sfcheung/semeqmodels)
 [![Last Commit at Main](https://img.shields.io/github/last-commit/sfcheung/semeqmodels.svg)](https://github.com/sfcheung/semeqmodels/commits/main)
 [![R-CMD-check](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-NOTE: This is an **experimental work-in-progress** package, *not*
-ready to be used in research yet. Suggestions, comments,
-and bug reports are welcome:
+(Version 0.1.0, updated on 2026-09-13, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
-https://github.com/sfcheung/semeqmodels/issues
-
-(Version 0.0.1.4, updated on 2026-09-12, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
-
-# semeqmodels: Empirical Equivalent Models in Structural Equation Models
+# semeqmodels <a href="https://sfcheung.github.io/semeqmodels/"><img src="man/figures/logo.png" align="right" height="150" alt="semeqmodels website" /></a>
 
 This package is for identifying the sets of empirically equivalent
 models for structural equation models. It currently supports
@@ -36,12 +28,6 @@ Some quick demonstrations can be found here:
 
 https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations
 
-NOTE: This package is released to the public
-for testing
-by peers. It is still a work-in-progress and
-so the interface may change in the final
-stable version.
-
 # Installation
 
 The latest developmental version of this package can be installed by `install_github()`
@@ -54,5 +40,5 @@ install_github("sfcheung/semeqmodels")
 
 # Issues
 
-If you have any suggestions and found any bugs, please feel
+If you have any suggestions or find any bugs, please feel
 free to open a GitHub issue. Thanks.

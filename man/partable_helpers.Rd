@@ -139,7 +139,7 @@ exported for advanced users.
 }
 \details{
 The function \code{\link[=combine_partables]{combine_partables()}}
-combine a list of \code{partables} objects
+combines a list of \code{partables} objects
 or \code{eq_partables} objects
 to one single object of the same type.
 
@@ -153,7 +153,7 @@ combines the models in \code{x} and \code{y},
 with duplicated models removed.
 
 The function \code{\link[=intersect_eq_partables]{intersect_eq_partables()}}
-find the models common in \code{x} and \code{y}.
+finds the models common in \code{x} and \code{y}.
 
 The function \code{\link[=setequal_eq_partables]{setequal_eq_partables()}}
 (and \code{\link[=setequal_partables]{setequal_partables()}})
@@ -179,7 +179,7 @@ but works on parameter tables using
 but works on parameter tables using
 \code{\link[=match_eq_partables]{match_eq_partables()}}.
 
-The function \code{\link[=is_partable]{is_partable()}} check
+The function \code{\link[=is_partable]{is_partable()}} checks
 whether an object is probably a
 parameter table. It checks whether
 (a) the object is a \code{data.frame}-like
