@@ -230,6 +230,7 @@ eq_df_models <- function(
                 ceiling(seq_along(out_i) / length(cl))
               )
         out_drop_i <- vector("list", length(out_i))
+        names(out_drop_i) <- names(out_i)
         cli::cli_progress_bar(
           "Searching +1df models",
           total = length(out_i)
@@ -279,6 +280,7 @@ eq_df_models <- function(
                 ceiling(seq_along(out_i) / 10)
               )
         out_drop_i <- vector("list", length(out_i))
+        names(out_drop_i) <- names(out_i)
         cli::cli_progress_bar(
           "Searching +1df models",
           total = length(out_i)
@@ -382,6 +384,7 @@ eq_df_models <- function(
                 ceiling(seq_along(out_drop_i) / length(cl))
               )
         out_add_i <- vector("list", length(out_drop_i))
+        names(out_add_i) <- names(out_drop_i)
         cli::cli_progress_bar(
           "Searching same-df models",
           total = length(out_drop_i)
@@ -431,6 +434,7 @@ eq_df_models <- function(
                 ceiling(seq_along(out_drop_i) / 10)
               )
         out_add_i <- vector("list", length(out_drop_i))
+        names(out_add_i) <- names(out_drop_i)
         cli::cli_progress_bar(
           "Searching same-df models",
           total = length(out_drop_i)
