@@ -1,5 +1,10 @@
 # Changelog
 
+## semeqmodels 0.1.0.1
+
+- Updated only the GitHub `README.md`. No change to the codebase.
+  Identical to 0.1.0 otherwise. (0.1.0.1)
+
 ## semeqmodels 0.1.0
 
 CRAN release: 2026-09-23
