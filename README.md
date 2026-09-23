@@ -8,9 +8,9 @@
 [![R-CMD-check](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-(Version 0.1.0.1, updated on 2026-09-23, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
-
 # semeqmodels <a href="https://sfcheung.github.io/semeqmodels/"><img src="man/figures/logo.png" align="right" height="150" alt="semeqmodels website" /></a>
+
+(Version 0.1.0.1, updated on 2026-09-23, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 This package is for identifying the sets of empirically equivalent
 models for structural equation models. It currently supports
