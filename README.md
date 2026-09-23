@@ -1,14 +1,14 @@
-Find equivalent models in structural equation modeling
-
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![CRAN status](https://www.r-pkg.org/badges/version/semeqmodels?color=blue)](https://CRAN.R-project.org/package=semeqmodels)
+[![CRAN: Release Date](https://www.r-pkg.org/badges/last-release/semeqmodels?color=blue)](https://cran.r-project.org/package=semeqmodels)
 [![Code size](https://img.shields.io/github/languages/code-size/sfcheung/semeqmodels.svg)](https://github.com/sfcheung/semeqmodels)
 [![Last Commit at Main](https://img.shields.io/github/last-commit/sfcheung/semeqmodels.svg)](https://github.com/sfcheung/semeqmodels/commits/main)
 [![R-CMD-check](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sfcheung/semeqmodels/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-(Version 0.1.0, updated on 2026-09-13, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
+(Version 0.1.0.1, updated on 2026-09-23, [release history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 # semeqmodels <a href="https://sfcheung.github.io/semeqmodels/"><img src="man/figures/logo.png" align="right" height="150" alt="semeqmodels website" /></a>
 
@@ -30,15 +30,23 @@ https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations
 
 # Installation
 
-The latest developmental version of this package can be installed by `install_github()`
-from the package `remotes`:
+The stable CRAN version can be installed by `install.packages()`:
 
 ```r
-library(remotes)
-install_github("sfcheung/semeqmodels")
+install.packages("semeqmodels")
+```
+
+The latest developmental version of this
+package can be installed by `pak::pkg_install`
+(please install `pak` first):
+
+```r
+pak::pkg_install("sfcheung/semeqmodels")
 ```
 
 # Issues
 
 If you have any suggestions or find any bugs, please feel
 free to open a GitHub issue. Thanks.
+
+https://github.com/sfcheung/semeqmodels/issues
