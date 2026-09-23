@@ -129,7 +129,7 @@ NULL
 #' for the color and `width` for the
 #' width of an edge (arrow/path). Setting the
 #' width to zero, the default, effectively
-#' hiding an arrow/path.
+#' hides an arrow/path.
 #'
 #' @param exclude_original_model If `TRUE`
 #' and `original_model` is set, the output
@@ -139,7 +139,7 @@ NULL
 #' as a one-element list.
 #'
 #' @param auto_node_color If `TRUE`,
-#' and the number of nodes is less 12 or
+#' and the number of nodes is 12 or
 #' less, they will be automatically
 #' set to different colors. Ignored if
 #' `color` of nodes is in `...`.
@@ -443,7 +443,7 @@ partables_plots <- function(
 #' they are drawn one by one.
 #'
 #' @param scale How the model will
-#' be furthered scaled when drawn. If this
+#' be further scaled when drawn. If this
 #' value is greater than one, then
 #' elements in `elements_to_scale` will
 #' be increased by this ratio. If this
@@ -457,7 +457,7 @@ partables_plots <- function(
 #' `scale_plots` and `scale`.
 #'
 #' @param original_model_mode How original
-#' model, if present will be handled when
+#' model, if present, will be handled when
 #' drawing the models. If `"exclude"`,
 #' then the original model will not be
 #' drawn. If `"include"`, the original
@@ -670,7 +670,7 @@ partables_plots_internal <- function(
   pt$lavlabel <- lavaan::lav_partable_labels(pt)
 
   ddd <- list(...)
-  # Can be overriden
+  # Can be overridden
   semPaths_default <- list(
     residuals = FALSE
   )
@@ -678,7 +678,7 @@ partables_plots_internal <- function(
     semPaths_default,
     ddd
   )
-  # Cannot be overriden
+  # Cannot be overridden
   ddd1 <- utils::modifyList(
     ddd1,
     list(
@@ -704,7 +704,7 @@ partables_plots_internal <- function(
       # TODO:
       # - Try paletteer_d("ggsci::default_ucscgb")
       color_nodes <- RColorBrewer::brewer.pal(k_nodes, "Set3")
-      # Ensure the assignment of colors are the same
+      # Ensure the assignment of colors is the same
       # across models.
       names(color_nodes) <- sort(node_names)
       color_nodes <- color_nodes[node_names]

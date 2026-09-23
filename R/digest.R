@@ -127,7 +127,7 @@ digest_partable <- function(
   # For comparing tables
 
   # TODO:
-  # - Handle labels and constraint
+  # - Handle labels and constraints
 
   if (inherits(partable, "lavaan")) {
     partable <- lavaan::parameterTable(partable)
@@ -165,15 +165,15 @@ digest_partable <- function(
 #' The function [add_digest()] computes
 #' the hash value of a parameter table
 #' and adds it to the attribute `"digest"`
-#' of the table, If the attribute is
+#' of the table. If the attribute is
 #' already set, it will not overwrite
 #' it unless `overwrite` is set to `TRUE`.
 #'
 #' @param overwrite Logical. If `TRUE`,
-#' the stored hash value, if exists,
+#' the stored hash value, if it exists,
 #' will be overwritten. If `FALSE`,
-#' the stored has value, if exists,
-#' not be overwritten.
+#' the stored hash value, if it exists,
+#' will not be overwritten.
 #'
 #' @return
 #' The function [add_digest()] returns
@@ -265,7 +265,7 @@ add_digest_partables <- function(
   ...,
   overwrite = FALSE
 ) {
-  # TOOD:
+  # TODO:
   # - Add some sanity checks.
   out0 <- lapply(
     partables,
@@ -318,7 +318,7 @@ sort_partable <- function(
   # For comparing different tables
 
   # TODO:
-  # - Handle labels and constraint
+  # - Handle labels and constraints
   # Sort rows in a parameter table.
   i <- do.call(
             order,

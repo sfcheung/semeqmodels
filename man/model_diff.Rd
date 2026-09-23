@@ -68,7 +68,7 @@ these are arguments to be passed to
 \code{\link[=model_diff]{model_diff()}}. For the \code{print}-methods,
 these arguments are ignored.}
 
-\item{target_model_name, other_models_names}{Names of the models, to be passed to
+\item{target_model_name, other_models_names}{Names of the models to be passed to
 \code{\link[=model_diff]{model_diff()}}. If \code{NULL}, they will
 be generated automatically.}
 
@@ -86,28 +86,28 @@ returns a list with two elements,
 \code{model_x_only} and \code{model_y_only}.
 Each element is a parameter table
 with parameters that are present only
-in one of the model. If there is
+in one of the models. If there is
 no parameter that is present only in
 a model, then the element is still
 a parameter table, though with zero
-row. The list of of the class
+row. The list is of the class
 \code{model_diff}, with a \code{print} method.
 
 The function \code{\link[=model_diff_many]{model_diff_many()}}
 returns a list of the results
 of \code{\link[=model_diff]{model_diff()}}.
-The list of of the class
+The list is of the class
 \code{model_diff_many}, with a \code{print} method.
 
 The \code{print}-method of the output
 of \code{\link[=model_diff]{model_diff()}} returns \code{x}
 invisibly.
-It is called for its side-effect.
+It is called for its side effect.
 
 The \code{print}-method of the output
 of \code{\link[=model_diff_many]{model_diff_many()}} returns \code{x}
 invisibly.
-It is called for its side-effect.
+It is called for its side effect.
 }
 \description{
 Helper functions to
@@ -118,10 +118,10 @@ and find the differences.
 \subsection{\code{model_diff()}}{
 
 The functions \code{\link[=model_diff]{model_diff()}} takes
-two models (parameter tables) and identify
-the differences, if any.
+two models (parameter tables) and identifies
+their differences, if any.
 
-The columns compared is specified
+The columns compared are specified
 by the argument \code{cols}.
 
 For the \code{free} column, the actual values are

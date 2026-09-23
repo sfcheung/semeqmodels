@@ -98,7 +98,7 @@ can be very long.}
 \item{must_not_add_nil_parameters}{If \code{TRUE}, nil parameters (paths or
 covariances fixed to zero) will not
 be added in the search, implemented by
-including these parameters to
+including these parameters in
 \code{must_not_add}.}
 
 \item{save_history}{Logical. If \code{TRUE},
@@ -122,7 +122,7 @@ to generate models with the same
 
 First, models with one more \emph{df} than
 the fitted model will be generated,
-by fixing more free parameter to zero.
+by fixing more free parameters to zero.
 This step is conducted by \code{\link[=drop_k]{drop_k()}}.
 
 Second, for each of the one-more-\emph{df}

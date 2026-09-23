@@ -1,5 +1,5 @@
 
-NOTE: For now, `semeqmodels` only support
+NOTE: For now, `semeqmodels` only supports
 models fitted with `fixed.x = FALSE`,
 such that all observed variables can be
 freely changed.

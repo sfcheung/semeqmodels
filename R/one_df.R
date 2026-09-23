@@ -1,7 +1,7 @@
 #' @title Modified Models
 #'
 #' @description Generate a list of
-#' models a certain number of degrees
+#' models with a certain number of degrees
 #' different from an original model.
 #'
 #' @name modified_models
@@ -85,7 +85,7 @@ NULL
 #' models are equivalent.
 #'
 #' @param drop_original Logical. Whether
-#' the original model will dropped from
+#' the original model will be dropped from
 #' the output. Default is `TRUE`.
 #'
 #' @param add_digest Logical. If `TRUE`,
@@ -165,7 +165,7 @@ drop_k <- function(
   #         - A dummy dataset will be created in this case.
   #     - Relations that will not be removed (and so will not be changed).
   #   - Output:
-  #     - A list of parameter table
+  #     - A list of parameter tables
   #     - For each model, the parameters removed must be stored.
   #       - To prevent reverting to the original model.
 
@@ -184,11 +184,11 @@ drop_k <- function(
     if (is.null(sem_out) &&
         FALSE) {
       # sem_out takes precedence
-      # Retrieve stored fit is sem_out is NULL
+      # Retrieve stored fit if sem_out is NULL
       # If not stored fit, sem_out remains NULL
       # TODO:
       # - The following does not work for now.
-      #   The call stored cannot be used.
+      #   The stored call cannot be used.
       sem_out <- attr(partable, "fit")
     }
   }
@@ -451,11 +451,11 @@ add_k <- function(
     if (is.null(sem_out) &&
         FALSE) {
       # sem_out takes precedence
-      # Retrieve stored fit is sem_out is NULL
+      # Retrieve stored fit if sem_out is NULL
       # If not stored fit, sem_out remains NULL
       # TODO:
       # - The following does not work for now.
-      #   The call stored cannot be used.
+      #   The stored call cannot be used.
       sem_out <- attr(partable, "fit")
     }
   }

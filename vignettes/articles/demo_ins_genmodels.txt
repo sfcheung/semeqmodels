@@ -32,7 +32,7 @@ to examine the models by drawing them.
 The function `eq_chisq()` can be used
 to extract the model $\chi^2$s, to verify
 that they have model $\chi^2$s close to
-the that of the original model:
+that of the original model:
 
 ```{r}
 eq_chisq(out)

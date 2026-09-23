@@ -1,9 +1,10 @@
-skip_on_cran()
-
 library(testthat)
-suppressMessages(library(lavaan))
 
 test_that("eq_df_models: 3 latent factors", {
+
+skip_on_cran()
+
+suppressMessages(library(lavaan))
 
 mod <-
 "
@@ -45,9 +46,11 @@ expect_true(all(chk_expected %in% chk_out))
 
 })
 
+test_that("eq_df_models: 3 latent factors", {
+
 skip_if_not(interactive())
 
-test_that("eq_df_models: 3 latent factors", {
+suppressMessages(library(lavaan))
 
 mod <-
 "

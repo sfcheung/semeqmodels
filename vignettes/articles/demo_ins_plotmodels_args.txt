@@ -1,16 +1,16 @@
 
-The model labelled `Original` is the
+The model labeled `Original` is the
 original model. The other models are
 empirically equivalent to this model
 in this dataset.
 
 By default:
 
-- Paths or covariances different form
+- Paths or covariances different from
   the original model are colored.
 
 - Covariances are displayed using curves.
 
 There are other ways to customize how
 the models are drawn. Please refer to
-the help page of `plot.partables_plots()`.
+the help page for `plot.partables_plots()`.

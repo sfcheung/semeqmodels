@@ -33,8 +33,8 @@ illustrate how to use `semeqmodels`.
 
 # Original Model
 
-Suppose this the original model we fitted
-to dataset `data_test_4_factor_3_item`
+Suppose this is the original model we fitted
+to the dataset `data_test_4_factor_3_item`
 (installed with the package):
 
 ```{r demo_lav_4_model, echo = FALSE, fig.cap = "Parallel Mediation Model"}

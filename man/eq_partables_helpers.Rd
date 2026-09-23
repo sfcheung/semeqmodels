@@ -108,7 +108,7 @@ descriptive, will be used. If \code{"long"},
 the names from \code{\link[modelbpp:gen_models]{modelbpp::gen_models()}}
 will be used if available.
 They can be very long,
-but describes the changes leading to
+but describe the changes leading to
 a model.}
 
 \item{wrap_long_names}{If \code{TRUE},
@@ -201,18 +201,18 @@ calls \code{\link[lavaan:lavInspect]{lavaan::lavInspect()}} on the
 elements of an \code{eq_partables} object.
 
 The function \code{\link[=eq_fitMeasures]{eq_fitMeasures()}}
-call \code{\link[lavaan:fitMeasures]{lavaan::fitMeasures()}} on the
+calls \code{\link[lavaan:fitMeasures]{lavaan::fitMeasures()}} on the
 elements of an \code{eq_partables} object.
 
 The function \code{\link[=eq_df]{eq_df()}} is a wrapper
-that call \code{\link[=eq_fitMeasures]{eq_fitMeasures()}} with
+that calls \code{\link[=eq_fitMeasures]{eq_fitMeasures()}} with
 \code{fit.measures} set to \code{"df"}. It
-always return a numeric vector.
+always returns a numeric vector.
 
 The function \code{\link[=eq_chisq]{eq_chisq()}} is a wrapper
-that call \code{\link[=eq_fitMeasures]{eq_fitMeasures()}} with
+that calls \code{\link[=eq_fitMeasures]{eq_fitMeasures()}} with
 \code{fit.measures} set to \code{"chisq"}. It
-always return a numeric vector.
+always returns a numeric vector.
 
 The function \code{\link[=eq_fits]{eq_fits()}} extracts
 the \code{lavaan} outputs stored for each
@@ -230,12 +230,12 @@ models are created.
 
 The \code{print}-method of \code{eq_partables}
 object handles a zero-length list.
-If not of zero-length, the \code{print}-method
+If not of zero length, the \code{print}-method
 for \code{partables} will be used.
 
 The \code{c}-method of \code{eq_partables}
-object combines \code{eq_partables} elements
-to one single \code{eq_partables} elements.
+objects combines \code{eq_partables} elements
+into one single \code{eq_partables} element.
 
 The function \code{\link[=eq_partables]{eq_partables()}}
 creates an \code{eq_partables} object

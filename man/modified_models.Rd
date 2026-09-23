@@ -110,7 +110,7 @@ in \code{\link[parallel:makeCluster]{parallel::makeCluster()}}.
 To be passed to \code{\link[modelbpp:fit_many]{modelbpp::fit_many()}}.}
 
 \item{drop_original}{Logical. Whether
-the original model will dropped from
+the original model will be dropped from
 the output. Default is \code{TRUE}.}
 
 \item{add_digest}{Logical. If \code{TRUE},
@@ -192,7 +192,7 @@ more paths added (set to free).
 }
 \description{
 Generate a list of
-models a certain number of degrees
+models with a certain number of degrees
 different from an original model.
 }
 \details{

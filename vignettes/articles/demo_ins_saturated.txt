@@ -1,6 +1,6 @@
 
 This model is a saturated model, with
-model *df* equals to zero. Therefore,
+model *df* equals zero. Therefore,
 all empirically equivalent models will also
 be saturated because they will also have
 zero *df*.

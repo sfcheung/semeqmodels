@@ -1,7 +1,7 @@
 
 # Empirical Equivalence
 
-Suppose we are would like to find *some*
+Suppose we would like to find *some*
 models that are *empirically*
 *equivalent* to this model:
 
