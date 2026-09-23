@@ -1,7 +1,7 @@
 # Modified Models
 
-Generate a list of models a certain number of degrees different from an
-original model.
+Generate a list of models with a certain number of degrees different
+from an original model.
 
 ## Usage
 
@@ -123,7 +123,7 @@ add_k(
 
 - drop_original:
 
-  Logical. Whether the original model will dropped from the output.
+  Logical. Whether the original model will be dropped from the output.
   Default is `TRUE`.
 
 - add_digest:

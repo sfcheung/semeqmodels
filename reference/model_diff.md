@@ -74,7 +74,7 @@ print(x, format = "summary", ...)
 
 - target_model_name, other_models_names:
 
-  Names of the models, to be passed to `model_diff()`. If `NULL`, they
+  Names of the models to be passed to `model_diff()`. If `NULL`, they
   will be generated automatically.
 
 - x:
@@ -91,29 +91,29 @@ print(x, format = "summary", ...)
 
 The function `model_diff()` returns a list with two elements,
 `model_x_only` and `model_y_only`. Each element is a parameter table
-with parameters that are present only in one of the model. If there is
+with parameters that are present only in one of the models. If there is
 no parameter that is present only in a model, then the element is still
-a parameter table, though with zero row. The list of of the class
+a parameter table, though with zero row. The list is of the class
 `model_diff`, with a `print` method.
 
 The function `model_diff_many()` returns a list of the results of
-`model_diff()`. The list of of the class `model_diff_many`, with a
+`model_diff()`. The list is of the class `model_diff_many`, with a
 `print` method.
 
 The `print`-method of the output of `model_diff()` returns `x`
-invisibly. It is called for its side-effect.
+invisibly. It is called for its side effect.
 
 The `print`-method of the output of `model_diff_many()` returns `x`
-invisibly. It is called for its side-effect.
+invisibly. It is called for its side effect.
 
 ## Details
 
 ### `model_diff()`
 
 The functions `model_diff()` takes two models (parameter tables) and
-identify the differences, if any.
+identifies their differences, if any.
 
-The columns compared is specified by the argument `cols`.
+The columns compared are specified by the argument `cols`.
 
 For the `free` column, the actual values are ignored. Two parameters are
 considered identical if they are both free (have non-zero values on

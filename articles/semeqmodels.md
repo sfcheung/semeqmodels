@@ -16,7 +16,7 @@ A test dataset of `semeqmodels` will be used for illustration:
 
 library(semeqmodels)
 packageVersion("semeqmodels")
-#> [1] '0.0.1.2'
+#> [1] '0.0.1.5'
 head(round(data_test_3_factor_3_item, 2))
 #>      x1    x2    x3    m1    m2    m3    y1    y2    y3
 #> 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44
@@ -77,7 +77,7 @@ fit
 
 ## Empirical Equivalence
 
-Suppose we are would like to find *some* models that are *empirically*
+Suppose we would like to find *some* models that are *empirically*
 *equivalent* to this model:
 
 In this package, two models are defined to be empirically equivalent if
@@ -99,7 +99,7 @@ of 0.00001.
 ### Calling `eq_models()`
 
 To find a list of models that are empirically equivalent to the model
-fitted above based on model $`\chi^2`$, the default, we can use
+fitted above, based on model $`\chi^2`$, the default, we can use
 [`eq_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_models.md):
 
 ``` r
@@ -137,7 +137,7 @@ mod_eq
 #> models.
 ```
 
-For more readable printout, call
+For a more readable printout, call
 [`print()`](https://rdrr.io/r/base/print.html) and add
 `names_to_use = "long"`:
 
@@ -339,7 +339,7 @@ element:
   [`lavaan::fitMeasures()`](https://rdrr.io/pkg/lavaan/man/fitMeasures.html).
 
 - The value is the maximum absolute difference on this fit measure for
-  two models to be considered empirical equivalent.
+  two models to be considered empirically equivalent.
 
 If the vector has more than one value, empirical equivalence is checked
 using *all* fit measures specified in `tolerance`.
@@ -377,7 +377,7 @@ mod_eq_cfi
 ```
 
 Because a more liberal criterion is used, the number of models is larger
-than using model $`\chi^2`$.
+than when using model $`\chi^2`$.
 
 ``` r
 
@@ -465,10 +465,10 @@ theoretical reasons, some models may need to be removed.
 
 For example, the factor `fx` may be measured a certain period before
 `fm` and `fy`, while `fm` and `fy` are measured in the same wave.
-Therefore, `fx` cannot be be an “y”-variable (“dependent variable”) that
-are affected by other variables.
+Therefore, `fx` cannot be an “y”-variable (“dependent variable”) that is
+affected by other variables.
 
-There is a set of model selector functions (see
+There is a set of model selectors functions (see
 [`?partable_select`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md))
 that can be used to select models. The function
 [`must_not_be_y()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md)
@@ -505,7 +505,7 @@ for other ways to select models.
 ### Customize the Search
 
 There are many other ways to customize the search and the plots. Please
-refer to the corresponding halp pages for details.
+refer to the corresponding help pages for details.
 
 Demonstrations of other models and cases can be found in the [other
 demonstration
@@ -513,7 +513,7 @@ articles](https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrati
 
 ### Equivalence-In-Principle and Empirical Equivalence
 
-The concept of mathematically equivalence models, or two models being
+The concept of mathematical equivalence models, or two models being
 equivalent in principle (Lee & Hershberger, 1990), has a long history in
 the literature on structural equation modeling Williams (2012). Two
 models are considered to be mathematically equivalent if they
@@ -525,7 +525,7 @@ Our definition of empirical equivalence is similar to *empirical
 occurrence of equivalence* (EOE, Lee & Hershberger, 1990). However, we
 include the requirement of equal degrees of freedom: two models must
 also be equal in parsimony. We also allow for the possibility of using
-any fit measures deem appropriate (e.g., CFI, RMSEA), and also the use
+any fit measures deemed appropriate (e.g., CFI, RMSEA), and also the use
 of tolerance values that are appropriate for a situation.
 
 Although our focus is on empirical equivalence, two models that are

@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Finding Empirical Equivalent Models in SEM • semeqmodels</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Nunito_Sans-0.4.10/font.css" rel="stylesheet">
@@ -23,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,10 +70,9 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Finding Empirical Equivalent Models in SEM</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Finding Empirical Equivalent Models in SEM</h1>
             
-            <h4 data-toc-skip class="date">2026-09-08</h4>
+            <h4 data-toc-skip class="date">2026-09-13</h4>
       
 
       <div class="d-none name"><code>semeqmodels.Rmd</code></div>
@@ -92,7 +96,7 @@ illustration:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sfcheung.github.io/semeqmodels/">semeqmodels</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"semeqmodels"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.0.1.2'</span></span>
+<span><span class="co">#&gt; [1] '0.0.1.5'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">data_test_3_factor_3_item</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      x1    x2    x3    m1    m2    m3    y1    y2    y3</span></span>
 <span><span class="co">#&gt; 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44</span></span>
@@ -147,7 +151,7 @@ illustration:</p>
 <div class="section level2">
 <h2 id="empirical-equivalence">Empirical Equivalence<a class="anchor" aria-label="anchor" href="#empirical-equivalence"></a>
 </h2>
-<p>Suppose we are would like to find <em>some</em> models that are
+<p>Suppose we would like to find <em>some</em> models that are
 <em>empirically</em> <em>equivalent</em> to this model:</p>
 <p>In this package, two models are defined to be empirically equivalent
 if the following conditions are met:</p>
@@ -169,7 +173,7 @@ with a tolerance of 0.00001.</p>
 <h3 id="calling-eq_models">Calling <code>eq_models()</code><a class="anchor" aria-label="anchor" href="#calling-eq_models"></a>
 </h3>
 <p>To find a list of models that are empirically equivalent to the model
-fitted above based on model
+fitted above, based on model
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>,
 the default, we can use <code><a href="../reference/eq_models.html">eq_models()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -202,7 +206,7 @@ parameter tables:</p>
 <span><span class="co">#&gt; NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span></span>
 <span><span class="co">#&gt; "long"' to use the long descriptive names, if available, for the</span></span>
 <span><span class="co">#&gt; models.</span></span></code></pre></div>
-<p>For more readable printout, call <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and add
+<p>For a more readable printout, call <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and add
 <code>names_to_use = "long"</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_eq</span>,</span>
@@ -369,7 +373,7 @@ vector. For each element:</p>
 <li><p>The <em>name</em> is the name of a fit measure as appeared in
 <code><a href="https://rdrr.io/pkg/lavaan/man/fitMeasures.html" class="external-link">lavaan::fitMeasures()</a></code>.</p></li>
 <li><p>The value is the maximum absolute difference on this fit measure
-for two models to be considered empirical equivalent.</p></li>
+for two models to be considered empirically equivalent.</p></li>
 </ul>
 <p>If the vector has more than one value, empirical equivalence is
 checked using <em>all</em> fit measures specified in
@@ -405,7 +409,7 @@ parameter tables:</p>
 <span><span class="co">#&gt; "long"' to use the long descriptive names, if available, for the</span></span>
 <span><span class="co">#&gt; models.</span></span></code></pre></div>
 <p>Because a more liberal criterion is used, the number of models is
-larger than using model
+larger than when using model
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_df</a></span><span class="op">(</span><span class="va">mod_eq_cfi</span><span class="op">)</span></span>
@@ -474,9 +478,9 @@ theoretical reasons, some models may need to be removed.</p>
 <p>For example, the factor <code>fx</code> may be measured a certain
 period before <code>fm</code> and <code>fy</code>, while <code>fm</code>
 and <code>fy</code> are measured in the same wave. Therefore,
-<code>fx</code> cannot be be an “y”-variable (“dependent variable”) that
-are affected by other variables.</p>
-<p>There is a set of model selector functions (see
+<code>fx</code> cannot be an “y”-variable (“dependent variable”) that is
+affected by other variables.</p>
+<p>There is a set of model selectors functions (see
 <code><a href="../reference/partable_select.html">?partable_select</a></code>) that can be used to select models. The
 function <code><a href="../reference/partable_select.html">must_not_be_y()</a></code> will be demonstrated in this
 vignette.</p>
@@ -505,13 +509,14 @@ models.</p>
 <h3 id="customize-the-search">Customize the Search<a class="anchor" aria-label="anchor" href="#customize-the-search"></a>
 </h3>
 <p>There are many other ways to customize the search and the plots.
-Please refer to the corresponding halp pages for details.</p>
-<p>Demonstrations of other models and cases can be found in the <a href="./index.html#demonstrations">other demonstration articles</a></p>
+Please refer to the corresponding help pages for details.</p>
+<p>Demonstrations of other models and cases can be found in the <a href="https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations">other
+demonstration articles</a></p>
 </div>
 <div class="section level3">
 <h3 id="equivalence-in-principle-and-empirical-equivalence">Equivalence-In-Principle and Empirical Equivalence<a class="anchor" aria-label="anchor" href="#equivalence-in-principle-and-empirical-equivalence"></a>
 </h3>
-<p>The concept of mathematically equivalence models, or two models being
+<p>The concept of mathematical equivalence models, or two models being
 equivalent in principle <span class="citation">(Lee &amp; Hershberger,
 1990)</span>, has a long history in the literature on structural
 equation modeling <span class="citation">Williams (2012)</span>. Two
@@ -524,7 +529,7 @@ automatically <span class="citation">(e.g., Lee &amp; Hershberger,
 occurrence of equivalence</em> <span class="citation">(EOE, Lee &amp;
 Hershberger, 1990)</span>. However, we include the requirement of equal
 degrees of freedom: two models must also be equal in parsimony. We also
-allow for the possibility of using any fit measures deem appropriate
+allow for the possibility of using any fit measures deemed appropriate
 (e.g., CFI, RMSEA), and also the use of tolerance values that are
 appropriate for a situation.</p>
 <p>Although our focus is on empirical equivalence, two models that are

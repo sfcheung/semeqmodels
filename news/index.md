@@ -1,6 +1,14 @@
 # Changelog
 
-## semeqmodels 0.0.1.4
+## semeqmodels 0.1.0
+
+CRAN release: 2026-09-23
+
+- First CRAN release.
+
+## semeqmodels 0.0.1
+
+- First public release for testing. (0.0.1)
 
 - Added tests using `dagitty`. (0.0.1.1)
 
@@ -17,10 +25,6 @@
   [`modelbpp::gen_models()`](https://sfcheung.github.io/modelbpp/reference/model_set.html).
   (0.0.1.3)
 
-- Make the progress bars of
+- Made the progress bars of
   [`eq_df_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_df_models.md)
-  more informative. (0.0.1.4)
-
-## semeqmodels 0.0.1
-
-- First public release for testing. (0.0.1)
+  more informative. (0.0.1.4, 0.1.0)

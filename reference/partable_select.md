@@ -97,9 +97,9 @@ Each of the select functions, by default, returns a list of parameter
 tables (models) that meet the criterion of that function, or a list of
 plots of the parameter tables if `partables` is the output of
 [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md).
-If `output` set to `"logical"`, each of these function returns a logical
-vector to indicate models or plots that meet the criterion. The vector
-can then be used to extract objects meeting the criterion.
+If `output` is set to `"logical"`, each of these functions returns a
+logical vector to indicate models or plots that meet the criterion. The
+vector can then be used to extract objects meeting the criterion.
 
 ## Details
 
@@ -116,10 +116,10 @@ filter both models and plots of models.
 The function `have_pars_all()` selects models that have all the free
 parameters specified in `pars`.
 
-The function `have_pars_any()` identify models that have any of the free
-parameters specified in `pars`.
+The function `have_pars_any()` identifies models that have any of the
+free parameters specified in `pars`.
 
-The function `have_pars_none()` identify models that have none of the
+The function `have_pars_none()` identifies models that have none of the
 free parameters specified in `pars`.
 
 ### Select by covariances with an error term
@@ -131,13 +131,13 @@ directly or indirectly.
 
 ### Select by the role of a variable
 
-The function `must_not_be_y()` keep only models with selected variables
+The function `must_not_be_y()` keeps only models with selected variables
 (observed or latent) not appearing as the outcome in a regression
 equation (indicators not counted). They are defined as variables not in
 `"eqs.y"` as returned by
 [`lavaan::lavNames()`](https://rdrr.io/pkg/lavaan/man/lavNames.html).
 
-The function `must_be_y()` keep only models with selected variables
+The function `must_be_y()` keeps only models with selected variables
 (observed or latent) appearing as the outcome in at least one regression
 equation (indicators not counted). They are defined as variables in
 `"eqs.y"` as returned by
@@ -148,7 +148,7 @@ equation (indicators not counted). They are defined as variables in
 The function `must_not_have_paths()` keeps only models that do not have
 any paths, direct or indirect, between selected pairs of variables.
 
-The function `must_have_paths()` keep only models with at least one
+The function `must_have_paths()` keeps only models with at least one
 path, direct or indirect, between selected pairs of variables.
 
 ## Examples

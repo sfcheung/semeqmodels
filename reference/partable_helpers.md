@@ -121,8 +121,8 @@ The function `is_partables()` returns either `TRUE` or `FALSE`. It is
 
 ## Details
 
-The function `combine_partables()` combine a list of `partables` objects
-or `eq_partables` objects to one single object of the same type.
+The function `combine_partables()` combines a list of `partables`
+objects or `eq_partables` objects to one single object of the same type.
 
 The function `setdiff_eq_partables()` (and `setdiff_partables()`)
 removes from `x` models that are also in `y`.
@@ -130,7 +130,7 @@ removes from `x` models that are also in `y`.
 The function `union_eq_partables()` combines the models in `x` and `y`,
 with duplicated models removed.
 
-The function `intersect_eq_partables()` find the models common in `x`
+The function `intersect_eq_partables()` finds the models common in `x`
 and `y`.
 
 The function `setequal_eq_partables()` (and `setequal_partables()`)
@@ -152,7 +152,7 @@ applied to the parameter tables.
 `%pt_notin%` is similar to `%notin%`, but works on parameter tables
 using `match_eq_partables()`.
 
-The function `is_partable()` check whether an object is probably a
+The function `is_partable()` checks whether an object is probably a
 parameter table. It checks whether (a) the object is a `data.frame`-like
 object (by
 [`is.data.frame()`](https://rdrr.io/r/base/as.data.frame.html)) and (b)

@@ -102,7 +102,7 @@ unique(x, incomparables = FALSE, ...)
   If `"default"`, the names in `x`, which may not be descriptive, will
   be used. If `"long"`, the names from
   [`modelbpp::gen_models()`](https://sfcheung.github.io/modelbpp/reference/model_set.html)
-  will be used if available. They can be very long, but describes the
+  will be used if available. They can be very long, but describe the
   changes leading to a model.
 
 - wrap_long_names:
@@ -177,15 +177,16 @@ The function `eq_lavInspect()` calls
 [`lavaan::lavInspect()`](https://rdrr.io/pkg/lavaan/man/lavInspect.html)
 on the elements of an `eq_partables` object.
 
-The function `eq_fitMeasures()` call
+The function `eq_fitMeasures()` calls
 [`lavaan::fitMeasures()`](https://rdrr.io/pkg/lavaan/man/fitMeasures.html)
 on the elements of an `eq_partables` object.
 
-The function `eq_df()` is a wrapper that call `eq_fitMeasures()` with
-`fit.measures` set to `"df"`. It always return a numeric vector.
+The function `eq_df()` is a wrapper that calls `eq_fitMeasures()` with
+`fit.measures` set to `"df"`. It always returns a numeric vector.
 
-The function `eq_chisq()` is a wrapper that call `eq_fitMeasures()` with
-`fit.measures` set to `"chisq"`. It always return a numeric vector.
+The function `eq_chisq()` is a wrapper that calls `eq_fitMeasures()`
+with `fit.measures` set to `"chisq"`. It always returns a numeric
+vector.
 
 The function `eq_fits()` extracts the `lavaan` outputs stored for each
 model, if present.
@@ -198,10 +199,10 @@ Though available, it is not advised to assign models to an
 reflect how the models are created.
 
 The `print`-method of `eq_partables` object handles a zero-length list.
-If not of zero-length, the `print`-method for `partables` will be used.
+If not of zero length, the `print`-method for `partables` will be used.
 
-The `c`-method of `eq_partables` object combines `eq_partables` elements
-to one single `eq_partables` elements.
+The `c`-method of `eq_partables` objects combines `eq_partables`
+elements into one single `eq_partables` element.
 
 The function `eq_partables()` creates an `eq_partables` object from
 `lavaan` parameter tables or `lavaan` outputs.

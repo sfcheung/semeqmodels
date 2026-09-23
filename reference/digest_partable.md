@@ -73,9 +73,9 @@ get_digest_partables(partables, ...)
 
 - overwrite:
 
-  Logical. If `TRUE`, the stored hash value, if exists, will be
-  overwritten. If `FALSE`, the stored has value, if exists, not be
-  overwritten.
+  Logical. If `TRUE`, the stored hash value, if it exists, will be
+  overwritten. If `FALSE`, the stored hash value, if it exists, will not
+  be overwritten.
 
 - partables:
 
@@ -112,7 +112,7 @@ identified using this approach. Nevertheless, they should be sufficient
 for typical models used in this package.
 
 The function `add_digest()` computes the hash value of a parameter table
-and adds it to the attribute `"digest"` of the table, If the attribute
+and adds it to the attribute `"digest"` of the table. If the attribute
 is already set, it will not overwrite it unless `overwrite` is set to
 `TRUE`.
 

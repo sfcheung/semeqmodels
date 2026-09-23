@@ -99,8 +99,8 @@ is_eq(
   [`lavaan::fitMeasures()`](https://rdrr.io/pkg/lavaan/man/fitMeasures.html).
   For example, the default fit measure is `"chisq"`, model chi-square.
   If set to `c(chisq = 1e-5, cfi = .01)`, then two models are considered
-  empirical equivalent if their differences on model chi-square and CFI
-  are at most 1e-5 and .01, respectively.
+  empirically equivalent if their differences on model chi-square and
+  CFI are at most 1e-5 and .01, respectively.
 
 - eq_df_models_args:
 
@@ -117,7 +117,7 @@ subclass of `partables`) of models that are empirically equivalent to
 the original model.
 
 The function `is_eq()` returns a logical vector of the same length of
-`patables`, with `TRUE` denotes that a model is empirically equivalent
+`patables`, with `TRUE` denoting that a model is empirically equivalent
 to `original_model`.
 
 ## Details
@@ -177,7 +177,7 @@ structural equation models using Bayesian posterior probabilities (BPP).
 ## See also
 
 [`modelbpp::fit_many()`](https://sfcheung.github.io/modelbpp/reference/fit_many.html)
-for the function use to fit the models.
+for the function used to fit the models.
 
 ## Examples
 

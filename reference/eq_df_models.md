@@ -108,7 +108,7 @@ eq_df_models(
 
   If `TRUE`, nil parameters (paths or covariances fixed to zero) will
   not be added in the search, implemented by including these parameters
-  to `must_not_add`.
+  in `must_not_add`.
 
 - save_history:
 
@@ -126,8 +126,8 @@ The following steps will be repeated to generate models with the same
 *df* as a fitted model:
 
 First, models with one more *df* than the fitted model will be
-generated, by fixing more free parameter to zero. This step is conducted
-by
+generated, by fixing more free parameters to zero. This step is
+conducted by
 [`drop_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md).
 
 Second, for each of the one-more-*df* model, models with one less *df*

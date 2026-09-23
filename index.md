@@ -2,16 +2,8 @@
 
 Find equivalent models in structural equation modeling
 
-NOTE: This is an **experimental work-in-progress** package, *not* ready
-to be used in research yet. Suggestions, comments, and bug reports are
-welcome:
-
-<https://github.com/sfcheung/semeqmodels/issues>
-
-(Version 0.0.1.4, updated on 2026-09-12, [release
+(Version 0.1.0, updated on 2026-09-13, [release
 history](https://sfcheung.github.io/semeqmodels/news/index.html))
-
-# semeqmodels: Empirical Equivalent Models in Structural Equation Models
 
 This package is for identifying the sets of empirically equivalent
 models for structural equation models. It currently supports models
@@ -29,10 +21,6 @@ Some quick demonstrations can be found here:
 
 <https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations>
 
-NOTE: This package is released to the public for testing by peers. It is
-still a work-in-progress and so the interface may change in the final
-stable version.
-
 # Installation
 
 The latest developmental version of this package can be installed by
@@ -47,5 +35,5 @@ install_github("sfcheung/semeqmodels")
 
 # Issues
 
-If you have any suggestions and found any bugs, please feel free to open
-a GitHub issue. Thanks.
+If you have any suggestions or find any bugs, please feel free to open a
+GitHub issue. Thanks.

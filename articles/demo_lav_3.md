@@ -19,7 +19,7 @@ trivial, but is simple enough to illustrate how to use `semeqmodels`.
 
 ## Original Model
 
-Suppose this the original model we fitted to dataset
+Suppose this is the original model we fitted to the dataset
 `data_test_3_factor_3_item` (installed with the package):
 
 ``` r
@@ -53,7 +53,7 @@ fy ~ fm + fx
 "
 ```
 
-This is the lavaan results for the model:
+This is the lavaan result for the model:
 
 ``` r
 
@@ -85,7 +85,7 @@ fit
 
 ## Empirical Equivalence
 
-Suppose we are would like to find *some* models that are *empirically*
+Suppose we would like to find *some* models that are *empirically*
 *equivalent* to this model:
 
 In this package, two models are defined to be empirically equivalent if
@@ -159,7 +159,7 @@ short. However, it is much easier to examine the models by drawing them.
 The function
 [`eq_chisq()`](https://sfcheung.github.io/semeqmodels/reference/eq_partables_helpers.md)
 can be used to extract the model $`\chi^2`$s, to verify that they have
-model $`\chi^2`$s close to the that of the original model:
+model $`\chi^2`$s close to that of the original model:
 
 ``` r
 
@@ -193,14 +193,14 @@ eq_df(out)
 
 To draw the models, the function
 [`partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md)
-can be used. It used the function
+can be used. It uses the function
 [`semPlot::semPaths()`](https://rdrr.io/pkg/semPlot/man/semPaths.html)
 from the `semPlot` package to draw the model. Therefore, basic knowledge
 of
 [`semPlot::semPaths()`](https://rdrr.io/pkg/semPlot/man/semPaths.html)
 is required.
 
-To draw the model, we need a common layout, in the form of a matrix of
+To draw the model, we need a common layout in the form of a matrix of
 names:
 
 ``` r
@@ -253,17 +253,17 @@ plot(
 
 Empirically Equivalent Models
 
-The model labelled `Original` is the original model. The other models
-are empirically equivalent to this model in this dataset.
+The model labeled `Original` is the original model. The other models are
+empirically equivalent to this model in this dataset.
 
 By default:
 
-- Paths or covariances different form the original model are colored.
+- Paths or covariances different from the original model are colored.
 
 - Covariances are displayed using curves.
 
 There are other ways to customize how the models are drawn. Please refer
-to the help page of
+to the help page for
 [`plot.partables_plots()`](https://sfcheung.github.io/semeqmodels/reference/plot_partables.md).
 
 ## Filter the Models
@@ -385,7 +385,7 @@ Chained Filter
 ### Customize the Search
 
 There are many other ways to customize the search and the plots. Please
-refer to the corresponding halp pages for details.
+refer to the corresponding help pages for details.
 
 Demonstrations of other models and cases can be found in the [other
 demonstration
@@ -393,7 +393,7 @@ articles](https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrati
 
 ### Equivalence-In-Principle and Empirical Equivalence
 
-The concept of mathematically equivalence models, or two models being
+The concept of mathematical equivalence models, or two models being
 equivalent in principle (Lee & Hershberger, 1990), has a long history in
 the literature on structural equation modeling Williams (2012). Two
 models are considered to be mathematically equivalent if they
@@ -405,7 +405,7 @@ Our definition of empirical equivalence is similar to *empirical
 occurrence of equivalence* (EOE, Lee & Hershberger, 1990). However, we
 include the requirement of equal degrees of freedom: two models must
 also be equal in parsimony. We also allow for the possibility of using
-any fit measures deem appropriate (e.g., CFI, RMSEA), and also the use
+any fit measures deemed appropriate (e.g., CFI, RMSEA), and also the use
 of tolerance values that are appropriate for a situation.
 
 Although our focus is on empirical equivalence, two models that are

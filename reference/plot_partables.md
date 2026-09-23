@@ -78,7 +78,7 @@ lhs %p>% rhs
 
 - auto_node_color:
 
-  If `TRUE`, and the number of nodes is less 12 or less, they will be
+  If `TRUE`, and the number of nodes is 12 or less, they will be
   automatically set to different colors. Ignored if `color` of nodes is
   in `...`.
 
@@ -99,7 +99,7 @@ lhs %p>% rhs
   A named settings to configure edges (arrows) fixed to zero. For now,
   two settings are supported: `color` for the color and `width` for the
   width of an edge (arrow/path). Setting the width to zero, the default,
-  effectively hiding an arrow/path.
+  effectively hides an arrow/path.
 
 - exclude_original_model:
 
@@ -158,7 +158,7 @@ lhs %p>% rhs
 
 - scale:
 
-  How the model will be furthered scaled when drawn. If this value is
+  How the model will be further scaled when drawn. If this value is
   greater than one, then elements in `elements_to_scale` will be
   increased by this ratio. If this value is less than one, then elements
   in `elements_to_scale` will be decreased by this ratio.
@@ -170,7 +170,7 @@ lhs %p>% rhs
 
 - original_model_mode:
 
-  How original model, if present will be handled when drawing the
+  How original model, if present, will be handled when drawing the
   models. If `"exclude"`, then the original model will not be drawn. If
   `"include"`, the original model will be drawn as the first model,
   along with other models. If `"side_by_side"`, then the number of

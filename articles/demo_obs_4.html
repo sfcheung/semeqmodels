@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Workflow Demo: 4 Observed Variables • semeqmodels</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Nunito_Sans-0.4.10/font.css" rel="stylesheet">
@@ -23,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,10 +70,9 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Workflow Demo: 4 Observed Variables</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Workflow Demo: 4 Observed Variables</h1>
             
-            <h4 data-toc-skip class="date">2026-09-08</h4>
+            <h4 data-toc-skip class="date">2026-09-13</h4>
       
 
       <div class="d-none name"><code>demo_obs_4.Rmd</code></div>
@@ -79,8 +83,8 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>This article is part of a <a href="./index.html#demonstrations">series of articles</a> to demonstrate
-how to use <a href="https://sfcheung.github.io/semeqmodels/">semeqmodels</a> to
+<p>This article is part of a <a href="https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations">series
+of articles</a> to demonstrate how to use <a href="https://sfcheung.github.io/semeqmodels/">semeqmodels</a> to
 identify models empirically equivalent to a target model, called the
 <em>original</em> <em>model</em>.</p>
 <p>NOTE: To make articles in this series self-contained, some sections
@@ -95,7 +99,7 @@ how to use <code>semeqmodels</code>.</p>
 <div class="section level2">
 <h2 id="original-model">Original Model<a class="anchor" aria-label="anchor" href="#original-model"></a>
 </h2>
-<p>Suppose this the original model we fitted to dataset
+<p>Suppose this is the original model we fitted to the dataset
 <code>data_test_4obvs</code> (installed with the package):</p>
 <div class="figure" style="text-align: center">
 <img src="demo_obs_4_model-1.png" alt="Parallel Mediation Model"><p class="caption">
@@ -110,7 +114,7 @@ Parallel Mediation Model
 <span><span class="st">fm2 ~ fx</span></span>
 <span><span class="st">fy ~ fm1 + fm2 + fx</span></span>
 <span><span class="st">"</span></span></code></pre></div>
-<p>This is the lavaan results for the model:</p>
+<p>This is the lavaan result for the model:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lavaan.ugent.be" class="external-link">lavaan</a></span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">sem</a></span><span class="op">(</span></span>
@@ -137,14 +141,14 @@ Parallel Mediation Model
 <span><span class="co">#&gt;   Test statistic                                 1.534</span></span>
 <span><span class="co">#&gt;   Degrees of freedom                                 1</span></span>
 <span><span class="co">#&gt;   P-value (Chi-square)                           0.215</span></span></code></pre></div>
-<p>NOTE: For now, <code>semeqmodels</code> only support models fitted
+<p>NOTE: For now, <code>semeqmodels</code> only supports models fitted
 with <code>fixed.x = FALSE</code>, such that all observed variables can
 be freely changed.</p>
 </div>
 <div class="section level2">
 <h2 id="empirical-equivalence">Empirical Equivalence<a class="anchor" aria-label="anchor" href="#empirical-equivalence"></a>
 </h2>
-<p>Suppose we are would like to find <em>some</em> models that are
+<p>Suppose we would like to find <em>some</em> models that are
 <em>empirically</em> <em>equivalent</em> to this model:</p>
 <p>In this package, two models are defined to be empirically equivalent
 if the following conditions are met:</p>
@@ -205,7 +209,7 @@ them.</p>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>s,
 to verify that they have model
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>s
-close to the that of the original model:</p>
+close to that of the original model:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_chisq</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
 <span><span class="co">#&gt; 9be129fc b38a8805 74fd6479 996415c7 607e59ab afb0666c 29a5f63b c76ab2e0 </span></span>
@@ -229,11 +233,11 @@ original model:</p>
 <h2 id="drawing-the-models">Drawing the Models<a class="anchor" aria-label="anchor" href="#drawing-the-models"></a>
 </h2>
 <p>To draw the models, the function <code><a href="../reference/plot_partables.html">partables_plots()</a></code> can
-be used. It used the function <code><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html" class="external-link">semPlot::semPaths()</a></code> from the
+be used. It uses the function <code><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html" class="external-link">semPlot::semPaths()</a></code> from the
 <code>semPlot</code> package to draw the model. Therefore, basic
 knowledge of <code><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html" class="external-link">semPlot::semPaths()</a></code> is required.</p>
-<p>To draw the model, we need a common layout, in the form of a matrix
-of names:</p>
+<p>To draw the model, we need a common layout in the form of a matrix of
+names:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set the layout of the plots</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span>
@@ -278,17 +282,17 @@ they will be drawn one by one. To draw them in a grid, use the arguments
 Empirically Equivalent Models
 </p>
 </div>
-<p>The model labelled <code>Original</code> is the original model. The
+<p>The model labeled <code>Original</code> is the original model. The
 other models are empirically equivalent to this model in this
 dataset.</p>
 <p>By default:</p>
 <ul>
-<li><p>Paths or covariances different form the original model are
+<li><p>Paths or covariances different from the original model are
 colored.</p></li>
 <li><p>Covariances are displayed using curves.</p></li>
 </ul>
 <p>There are other ways to customize how the models are drawn. Please
-refer to the help page of <code><a href="../reference/plot_partables.html">plot.partables_plots()</a></code>.</p>
+refer to the help page for <code><a href="../reference/plot_partables.html">plot.partables_plots()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="filter-the-models">Filter the Models<a class="anchor" aria-label="anchor" href="#filter-the-models"></a>
@@ -412,13 +416,14 @@ Chained Filter
 <h3 id="customize-the-search">Customize the Search<a class="anchor" aria-label="anchor" href="#customize-the-search"></a>
 </h3>
 <p>There are many other ways to customize the search and the plots.
-Please refer to the corresponding halp pages for details.</p>
-<p>Demonstrations of other models and cases can be found in the <a href="./index.html#demonstrations">other demonstration articles</a></p>
+Please refer to the corresponding help pages for details.</p>
+<p>Demonstrations of other models and cases can be found in the <a href="https://sfcheung.github.io/semeqmodels/articles/index.html#demonstrations">other
+demonstration articles</a></p>
 </div>
 <div class="section level3">
 <h3 id="equivalence-in-principle-and-empirical-equivalence">Equivalence-In-Principle and Empirical Equivalence<a class="anchor" aria-label="anchor" href="#equivalence-in-principle-and-empirical-equivalence"></a>
 </h3>
-<p>The concept of mathematically equivalence models, or two models being
+<p>The concept of mathematical equivalence models, or two models being
 equivalent in principle <span class="citation">(Lee &amp; Hershberger,
 1990)</span>, has a long history in the literature on structural
 equation modeling <span class="citation">Williams (2012)</span>. Two
@@ -431,7 +436,7 @@ automatically <span class="citation">(e.g., Lee &amp; Hershberger,
 occurrence of equivalence</em> <span class="citation">(EOE, Lee &amp;
 Hershberger, 1990)</span>. However, we include the requirement of equal
 degrees of freedom: two models must also be equal in parsimony. We also
-allow for the possibility of using any fit measures deem appropriate
+allow for the possibility of using any fit measures deemed appropriate
 (e.g., CFI, RMSEA), and also the use of tolerance values that are
 appropriate for a situation.</p>
 <p>Although our focus is on empirical equivalence, two models that are
