@@ -29,17 +29,19 @@ pt1 <- parameterTable(fit1)
 
 # Only original_model: A lavaan object
 
+set.seed(1)
 eq_out_1 <- eq_models(
           original_model = fit1,
           parallel = FALSE,
           progress = !is_testing(),
           passes = 2
         )
+set.seed(3)
 eq_out_1b <- eq_models(
           original_model = fit1,
           parallel = FALSE,
           progress = !is_testing(),
-          passes = 3
+          passes = 4
         )
 expect_setequal(
   names(eq_out_1),
@@ -48,17 +50,19 @@ expect_setequal(
 
 # Only original_model: A parameter table
 
+set.seed(11)
 eq_out_2 <- eq_models(
           original_model = pt1,
           parallel = FALSE,
           progress = !is_testing(),
           passes = 2
         )
+set.seed(12)
 eq_out_2b <- eq_models(
           original_model = pt1,
           parallel = FALSE,
           progress = !is_testing(),
-          passes = 3
+          passes = 4
         )
 expect_setequal(
   names(eq_out_2),
