@@ -321,7 +321,7 @@ eq_df(out)
 
 eq_fits(out)
 #> $`12672c47`
-#> lavaan 0.7-2 ended normally after 11 iterations
+#> lavaan 0.7-3 ended normally after 11 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -331,12 +331,17 @@ eq_fits(out)
 #> 
 #> Model Test User Model:
 #>                                                       
+#>   Test statistic                                 0.001
+#>   Degrees of freedom                                 1
+#>   P-value (Chi-square)                           0.980
+#>                                                       
+#>   Browne's residual (NT model-based) test             
 #>   Test statistic                                 0.001
 #>   Degrees of freedom                                 1
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $`45f61ccf`
-#> lavaan 0.7-2 ended normally after 10 iterations
+#> lavaan 0.7-3 ended normally after 10 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -346,12 +351,17 @@ eq_fits(out)
 #> 
 #> Model Test User Model:
 #>                                                       
+#>   Test statistic                                 0.001
+#>   Degrees of freedom                                 1
+#>   P-value (Chi-square)                           0.980
+#>                                                       
+#>   Browne's residual (NT model-based) test             
 #>   Test statistic                                 0.001
 #>   Degrees of freedom                                 1
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $b0a9b170
-#> lavaan 0.7-2 ended normally after 7 iterations
+#> lavaan 0.7-3 ended normally after 7 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -361,12 +371,17 @@ eq_fits(out)
 #> 
 #> Model Test User Model:
 #>                                                       
+#>   Test statistic                                 0.001
+#>   Degrees of freedom                                 1
+#>   P-value (Chi-square)                           0.980
+#>                                                       
+#>   Browne's residual (NT model-based) test             
 #>   Test statistic                                 0.001
 #>   Degrees of freedom                                 1
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $`459cd495`
-#> lavaan 0.7-2 ended normally after 8 iterations
+#> lavaan 0.7-3 ended normally after 8 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -379,9 +394,14 @@ eq_fits(out)
 #>   Test statistic                                 0.001
 #>   Degrees of freedom                                 1
 #>   P-value (Chi-square)                           0.980
+#>                                                       
+#>   Browne's residual (NT model-based) test             
+#>   Test statistic                                 0.001
+#>   Degrees of freedom                                 1
+#>   P-value (Chi-square)                           0.980
 #> 
 #> $c02043f3
-#> lavaan 0.7-2 ended normally after 8 iterations
+#> lavaan 0.7-3 ended normally after 8 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -391,6 +411,11 @@ eq_fits(out)
 #> 
 #> Model Test User Model:
 #>                                                       
+#>   Test statistic                                 0.001
+#>   Degrees of freedom                                 1
+#>   P-value (Chi-square)                           0.980
+#>                                                       
+#>   Browne's residual (NT model-based) test             
 #>   Test statistic                                 0.001
 #>   Degrees of freedom                                 1
 #>   P-value (Chi-square)                           0.980

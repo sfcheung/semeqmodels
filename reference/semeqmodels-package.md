@@ -11,6 +11,8 @@ Useful links:
 
 - <https://sfcheung.github.io/semeqmodels/>
 
+- Report bugs at <https://github.com/sfcheung/semeqmodels/issues>
+
 ## Author
 
 **Maintainer**: Shu Fai Cheung <shufai.cheung@gmail.com>

@@ -1,6 +1,6 @@
 # semeqmodels
 
-(Version 0.1.0.1, updated on 2026-09-23, [release
+(Version 0.1.0.2, updated on 2026-10-17, [release
 history](https://sfcheung.github.io/semeqmodels/news/index.html))
 
 This package is for identifying the sets of empirically equivalent

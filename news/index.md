@@ -1,6 +1,16 @@
 # Changelog
 
-## semeqmodels 0.1.0.1
+## semeqmodels 0.1.0.2
+
+### New Features
+
+- Added the argument `passes` to
+  [`eq_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_models.md)
+  for checking empirical equivalences in two or more datasets. The
+  additional dataset are resample-with-replacement versions of the
+  original dataset. (0.1.0.2)
+
+### Miscellaneous
 
 - Updated only the GitHub `README.md`. No change to the codebase.
   Identical to 0.1.0 otherwise. (0.1.0.1)
