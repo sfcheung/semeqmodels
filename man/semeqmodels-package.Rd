@@ -14,6 +14,7 @@ For identifying the sets of empirically equivalent models for structural equatio
 Useful links:
 \itemize{
   \item \url{https://sfcheung.github.io/semeqmodels/}
+  \item Report bugs at \url{https://github.com/sfcheung/semeqmodels/issues}
 }
 
 }
