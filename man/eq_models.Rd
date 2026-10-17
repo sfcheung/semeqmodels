@@ -15,7 +15,8 @@ eq_models(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-05),
-  eq_df_models_args = list()
+  eq_df_models_args = list(),
+  passes = 1L
 )
 
 is_eq(
@@ -28,7 +29,8 @@ is_eq(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-05),
-  eq_df_models_args = list()
+  eq_df_models_args = list(),
+  passes = 1L
 )
 }
 \arguments{
@@ -106,6 +108,18 @@ will be called to generate the models.
 This argument
 must be a named list of additional arguments
 to be passed to \code{\link[=eq_df_models]{eq_df_models()}}.}
+
+\item{passes}{The number of passes in
+checking equivalence. If greater than
+one, then the models will be fitted
+to additional copies of the data. A
+model is considered to be empirically
+equivalent
+to the original model only if it is
+empirically equivalent to the original
+model in all copies of the dataset.
+The dataset is a sample-with-replacement
+version of the original dataset.}
 }
 \value{
 The function \code{\link[=eq_models]{eq_models()}}

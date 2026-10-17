@@ -133,6 +133,18 @@
 #' must be a named list of additional arguments
 #' to be passed to [eq_df_models()].
 #'
+#' @param passes The number of passes in
+#' checking equivalence. If greater than
+#' one, then the models will be fitted
+#' to additional copies of the data. A
+#' model is considered to be empirically
+#' equivalent
+#' to the original model only if it is
+#' empirically equivalent to the original
+#' model in all copies of the dataset.
+#' The dataset is a sample-with-replacement
+#' version of the original dataset.
+#'
 #' @references
 #' Pesigan, I. J. A., Cheung, S. F.,
 #' Wu, H., Chang, F., & Leung, S. O. (2026).
@@ -231,7 +243,8 @@ eq_models <- function(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-5),
-  eq_df_models_args = list()
+  eq_df_models_args = list(),
+  passes = 1L
 ) {
 
   args <- as.list(match.call()[-1])
@@ -301,7 +314,8 @@ is_eq <- function(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-5),
-  eq_df_models_args = list()
+  eq_df_models_args = list(),
+  passes = 1L
 ) {
 
   if (is.null(partables) ||
@@ -343,6 +357,7 @@ eq_models_internal <- function(
   tolerance = c(chisq = 1e-5),
   env_for_update = parent.frame(),
   eq_df_models_args = list(),
+  passes = 1L,
   output = c("logical", "models")
 ) {
 
@@ -555,53 +570,133 @@ eq_models_internal <- function(
   # ==== Do fit_many ====
 
   if (do_fit_many) {
-    fits <- suppressWarnings(modelbpp::fit_many(
-              model_list = partables,
-              sem_out = sem_out1,
-              parallel = parallel,
-              ncores = ncores,
-              make_cluster_args = make_cluster_args,
-              progress = progress
-            ))
-    dfs <- sapply(
-      fits$fit,
-      function(x) lavaan::fitMeasures(x, "df")
+    dat0 <- lavaan::lavInspect(
+      sem_out1,
+      "data",
+      drop.list.single.group = TRUE
+    )
+    dat_list <- replicate(
+      passes,
+      resample_data(
+        data = dat0
+      ),
+      simplify = FALSE
+    )
+    dat_list[[1]] <- dat0
+    sem_out1_list <- vector("list", passes)
+    fits_list <- vector("list", passes)
+    for (i in seq_len(passes)) {
+      # Use a for-loop to prevent potential environment issues
+      if (i > 1L) {
+        # Save to use lavaan::lavaan() directly
+        # because all argument values have been evaluated
+        tmp <- as.list(stats::getCall(sem_out1))
+        tmp$data <- dat_list[[i]]
+        sem_out1_list[[i]] <- do.call(
+          lavaan::lavaan,
+          tmp[-1]
+        )
+      } else {
+        # The first pass always use the original fit and data
+        sem_out1_list[[1]] <- sem_out1
+      }
+      if (progress && (passes > 1L)) {
+        cat("Pass:", i)
+      }
+      fits_list[[i]] <- suppressWarnings(modelbpp::fit_many(
+                model_list = partables,
+                sem_out = sem_out1_list[[i]],
+                parallel = parallel,
+                ncores = ncores,
+                make_cluster_args = make_cluster_args,
+                progress = progress
+              ))
+    }
+
+    dfs_list <- lapply(
+      fits_list,
+      \(fits) {
+        sapply(
+              fits$fit,
+              function(x) lavaan::fitMeasures(x, "df")
+            )
+      }
     )
     fms_to_check <- names(tolerance)
-    fms <- sapply(
-      fits$fit,
-      function(x) lavaan::fitMeasures(x, fms_to_check)
+    fms_list <- lapply(
+      fits_list,
+      \(fits) {
+        fms <- sapply(
+              fits$fit,
+              function(x) lavaan::fitMeasures(x, fms_to_check)
+            )
+        if (is.null(dim(fms))) {
+          fms <- rbind(fms)
+          rownames(fms) <- fms_to_check
+        }
+        fms
+      }
     )
-    if (is.null(dim(fms))) {
-      fms <- rbind(fms)
-      rownames(fms) <- fms_to_check
-    }
-    # chisqs <- sapply(
-    #   fits$fit,
-    #   function(x) lavaan::fitMeasures(x, "chisq")
-    # )
-    partables <- add_fit_many(
+    partables_list <- lapply(
+      fits_list,
+      \(fits) {
+        add_fit_many(
                   partables,
                   fit_many_out = fits
                 )
+      }
+    )
   }
 
   # TODO:
   # - Handle nonconvergence cases
   #   Models that failed post.check can be kept
-  df_eq <- dfs == sem_out_df
+  df_eq_list <- lapply(
+    dfs_list,
+    \(dfs) {
+      dfs == sem_out_df
+    }
+  )
   # chisq_eq <- abs(chisqs - sem_out_chisq) <= tolerance
   # i <- df_eq & chisq_eq
-  fms_eq <- fms - matrix(rep(sem_out_fms, ncol(fms)),
-                         nrow = length(tolerance))
-  fms_eq <- abs(fms_eq) <= matrix(rep(tolerance, ncol(fms)),
-                                  nrow = length(tolerance))
-  fms_eq <- apply(
-              fms_eq,
-              MARGIN = 2,
-              all
-            )
-  i <- df_eq & fms_eq
+  sem_out_fms_list <- lapply(
+    sem_out1_list,
+    \(sem_out1) {
+      lavaan::fitMeasures(sem_out1, names(tolerance))
+    }
+  )
+  fms_eq_list <- mapply(
+    \(fms, sem_out_fms) {
+      fms_eq <- fms - matrix(rep(sem_out_fms, ncol(fms)),
+                            nrow = length(tolerance))
+      fms_eq <- abs(fms_eq) <= matrix(rep(tolerance, ncol(fms)),
+                                      nrow = length(tolerance))
+      fms_eq <- apply(
+                  fms_eq,
+                  MARGIN = 2,
+                  all
+                )
+      fms_eq
+    },
+    fms = fms_list,
+    sem_out_fms = sem_out_fms_list,
+    SIMPLIFY = FALSE
+  )
+  i_list <- mapply(
+    \(df_eq, fms_eq) {
+      df_eq & fms_eq
+    },
+    df_eq = df_eq_list,
+    fms_eq = fms_eq_list,
+    SIMPLIFY = TRUE
+  )
+  i <- apply(
+    i_list,
+    MARGIN = 1,
+    FUN = all
+  )
+  # Only keep the first pass
+  partables <- partables_list[[1]]
   if (output == "logical") {
 
     # ==== output: logical ====
@@ -695,23 +790,42 @@ emp_eq_fix_input <- function(
     # TODO:
     # - Should lavaan::lavaan() be used?
     tmp0 <- stats::getCall(original_model)
-    tmp0$se <- se
     tmp <- lapply(
               tmp0,
               \(x, envir0) eval(x, envir0),
               envir0 = env_for_update
             )
+    tmp <- utils::modifyList(
+      tmp,
+      list(...),
+      keep.null = TRUE
+    )
+    tmp$se <- se
+    tmp$fixed.x <- FALSE
     tmp <- as.call(tmp)
     tmp[[1]] <- tmp0[[1]]
-    original_model@call <- tmp
-    sem_out <- lavaan::update(
-      original_model,
-      se = se,
-      fixed.x = FALSE,
-      ...
-    )
+    # Environment does not matter here
+    sem_out <- eval(tmp)
+    # original_model@call <- tmp
+    # sem_out <- lavaan::update(
+    #   original_model,
+    #   ...
+    # )
   } else if (fit_case == "user_fit") {
     sem_out <- original_model
   }
   sem_out
+}
+
+#' @noRd
+resample_data <- function(
+  data
+) {
+  n <- nrow(data)
+  i <- sample.int(
+    n = n,
+    size = n,
+    replace = TRUE
+  )
+  data[i, , drop = FALSE]
 }
