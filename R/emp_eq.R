@@ -575,42 +575,80 @@ eq_models_internal <- function(
       "data",
       drop.list.single.group = TRUE
     )
-    dat_list <- replicate(
-      passes,
-      resample_data(
-        data = dat0
-      ),
-      simplify = FALSE
-    )
+    dat_list <- vector("list", passes)
     dat_list[[1]] <- dat0
     sem_out1_list <- vector("list", passes)
     fits_list <- vector("list", passes)
     for (i in seq_len(passes)) {
       # Use a for-loop to prevent potential environment issues
       if (i > 1L) {
+        # 2nd+ pass
         # Save to use lavaan::lavaan() directly
         # because all argument values have been evaluated
         tmp <- as.list(stats::getCall(sem_out1))
-        tmp$data <- dat_list[[i]]
-        sem_out1_list[[i]] <- do.call(
-          lavaan::lavaan,
-          tmp[-1]
-        )
+        # No need to let users change this maximum.
+        # If it can't be addressed in 10 iterations, somethings' wrong.
+        for (j in 1:10) {
+          # Try at most 10 datasets
+          dat_j <- resample_data(
+                      data = dat0
+                    )
+          tmp$data <- dat_j
+          sem_out1_j <- suppressWarnings(do.call(
+            lavaan::lavaan,
+            tmp[-1]
+          ))
+          fit_j_ok <- tryCatch(
+            lavaan::lavInspect(sem_out1_j, "post.check") ||
+            lavaan::lavInspect(sem_out1_j, "converged"),
+            error = function(e) e,
+            warning = function(w) w
+          )
+          if (!isTRUE(fit_j_ok)) next
+          # Data OK for sem_out1
+          if (progress && (passes > 1L)) {
+            if (j > 1) {
+              cat("Pass: ", i, " (Dataset Tried: ", j, ")", sep = "")
+            } else {
+              cat("Pass:", i)
+            }
+          }
+          fits_list_j <- suppressWarnings(modelbpp::fit_many(
+                    model_list = partables,
+                    sem_out = sem_out1_j,
+                    parallel = parallel,
+                    ncores = ncores,
+                    make_cluster_args = make_cluster_args,
+                    progress = progress
+                  ))
+          fits_list_j_ok <- all(fits_list_j$converged) &&
+                            all(fits_list_j$post_check)
+          if (isTRUE(fits_list_j_ok)) break
+        }
+        if (!isTRUE(fit_j_ok) &&
+            !isTRUE(fits_list_j_ok)) {
+          stop("Failed to fit the model for more than one pass. ",
+              "The model seems to be difficult to fit. ",
+              "Try to set another seed, or set passes to 1.")
+        }
+        dat_list[[i]] <- dat_j
+        sem_out1_list[[i]] <- sem_out1_j
+        fits_list[[i]] <- fits_list_j
       } else {
         # The first pass always use the original fit and data
         sem_out1_list[[1]] <- sem_out1
+        if (progress && (passes > 1L)) {
+          cat("Pass:", i)
+        }
+        fits_list[[1]] <- suppressWarnings(modelbpp::fit_many(
+                      model_list = partables,
+                      sem_out = sem_out1_list[[i]],
+                      parallel = parallel,
+                      ncores = ncores,
+                      make_cluster_args = make_cluster_args,
+                      progress = progress
+                    ))
       }
-      if (progress && (passes > 1L)) {
-        cat("Pass:", i)
-      }
-      fits_list[[i]] <- suppressWarnings(modelbpp::fit_many(
-                model_list = partables,
-                sem_out = sem_out1_list[[i]],
-                parallel = parallel,
-                ncores = ncores,
-                make_cluster_args = make_cluster_args,
-                progress = progress
-              ))
     }
 
     dfs_list <- lapply(
