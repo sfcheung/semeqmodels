@@ -68,6 +68,7 @@ reference:
   - digest_partable
   - partable_helpers
   - auto_curve_covariance
+  - est_summary
 
 - title: Datasets
   desc:  >
