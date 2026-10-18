@@ -613,15 +613,26 @@ eq_models_internal <- function(
               cat("Pass:", i)
             }
           }
-          fits_list_j <- suppressWarnings(modelbpp::fit_many(
-                    model_list = partables,
-                    sem_out = sem_out1_j,
-                    parallel = parallel,
-                    ncores = ncores,
-                    make_cluster_args = make_cluster_args,
-                    progress = progress,
-                    lav_options = list(se = se)
-                  ))
+          if (utils::packageVersion("modelbpp") < "0.4.0.1") {
+            fits_list_j <- suppressWarnings(modelbpp::fit_many(
+                      model_list = partables,
+                      sem_out = sem_out1_j,
+                      parallel = parallel,
+                      ncores = ncores,
+                      make_cluster_args = make_cluster_args,
+                      progress = progress
+                    ))
+          } else {
+            fits_list_j <- suppressWarnings(modelbpp::fit_many(
+                      model_list = partables,
+                      sem_out = sem_out1_j,
+                      parallel = parallel,
+                      ncores = ncores,
+                      make_cluster_args = make_cluster_args,
+                      progress = progress,
+                      lav_options = list(se = se)
+                    ))
+          }
           fits_list_j_ok <- all(fits_list_j$converged) &&
                             all(fits_list_j$post_check)
           if (isTRUE(fits_list_j_ok)) break
@@ -641,15 +652,26 @@ eq_models_internal <- function(
         if (progress && (passes > 1L)) {
           cat("Pass:", i)
         }
-        fits_list[[1]] <- suppressWarnings(modelbpp::fit_many(
-                      model_list = partables,
-                      sem_out = sem_out1_list[[i]],
-                      parallel = parallel,
-                      ncores = ncores,
-                      make_cluster_args = make_cluster_args,
-                      progress = progress,
-                      lav_options = list(se = se)
-                    ))
+        if (utils::packageVersion("modelbpp") < "0.4.0.1") {
+          fits_list[[1]] <- suppressWarnings(modelbpp::fit_many(
+                        model_list = partables,
+                        sem_out = sem_out1_list[[i]],
+                        parallel = parallel,
+                        ncores = ncores,
+                        make_cluster_args = make_cluster_args,
+                        progress = progress
+                      ))
+        } else {
+          fits_list[[1]] <- suppressWarnings(modelbpp::fit_many(
+                        model_list = partables,
+                        sem_out = sem_out1_list[[i]],
+                        parallel = parallel,
+                        ncores = ncores,
+                        make_cluster_args = make_cluster_args,
+                        progress = progress,
+                        lav_options = list(se = se)
+                      ))
+        }
       }
     }
 

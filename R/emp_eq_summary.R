@@ -168,6 +168,9 @@ est_summary <- function(
   trim_par_label = TRUE,
   col = c("mean", "min", "max", "n")
 ) {
+  # TODO:
+  # - Support SE and related statistics.
+  #   Require modeblbpp 0.4.0.1 or above
   if (inherits(object, "partables")) {
     object <- merge_all_est(
       object,
@@ -392,6 +395,17 @@ est_full <- function(
   i <- !(tmp %in% tmp1)
   tmp[i] <- paste0(tmp[i], ".std")
   colnames(std) <- tmp
+  # Set fixed variance to NA
+  exo <- unique(unlist(lavaan::lavNames(
+    est,
+    c("ov_x", "lv_x", "ov_orphan")
+  )))
+  if (length(exo) > 0L) {
+    i <- (std$lhs == std$rhs) &
+        (std$op == "~~") &
+        (std$lhs %in% exo)
+    std$est.std[i] <- NA
+  }
   out0 <- pt
   out0$est <- NULL
   out0$se <- NULL
