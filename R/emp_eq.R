@@ -619,7 +619,8 @@ eq_models_internal <- function(
                     parallel = parallel,
                     ncores = ncores,
                     make_cluster_args = make_cluster_args,
-                    progress = progress
+                    progress = progress,
+                    lav_options = list(se = se)
                   ))
           fits_list_j_ok <- all(fits_list_j$converged) &&
                             all(fits_list_j$post_check)
@@ -646,7 +647,8 @@ eq_models_internal <- function(
                       parallel = parallel,
                       ncores = ncores,
                       make_cluster_args = make_cluster_args,
-                      progress = progress
+                      progress = progress,
+                      lav_options = list(se = se)
                     ))
       }
     }
