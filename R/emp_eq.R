@@ -680,7 +680,7 @@ eq_models_internal <- function(
       \(fits) {
         sapply(
               fits$fit,
-              function(x) lavaan::fitMeasures(x, "df")
+              function(x) unname(lavaan::fitMeasures(x, "df"))
             )
       }
     )
@@ -696,6 +696,7 @@ eq_models_internal <- function(
           fms <- rbind(fms)
           rownames(fms) <- fms_to_check
         }
+        colnames(fms) <- names(fits$fit)
         fms
       }
     )
