@@ -460,7 +460,7 @@ print.est_summary <- function(
     cat("- N: The number of models with this parameter (not fixed).\n")
   }
 
-  invisible(x)
+  invisible(x_old)
 }
 
 #' @noRd
