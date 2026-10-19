@@ -385,6 +385,8 @@ eq_models_internal <- function(
 
   # ==== Handle 'partables' is NULL ====
 
+  data_from_original_model <- FALSE
+
   # original_model must not be NULL
 
   if (is.null(partables) &&
@@ -395,6 +397,8 @@ eq_models_internal <- function(
     if (inherits(original_model, "lavaan")) {
 
       # Use original_model in eq_df_models
+
+      data_from_original_model <- TRUE
 
       # Placeholder
 
@@ -445,6 +449,8 @@ eq_models_internal <- function(
       }
 
       dat_original <- dummy_data(partables_original)
+      # Just ensure that this flag is FALSE
+      data_from_original_model <- FALSE
 
       ddd1 <- utils::modifyList(
                 list(...),
@@ -760,6 +766,14 @@ eq_models_internal <- function(
   )
   # Only keep the first pass
   partables <- partables_list[[1]]
+
+  # ==== Add attributes ====
+
+  attr(partables, "data_from_original_model") <- data_from_original_model
+  attr(partables, "do_fit_many") <- do_fit_many
+  my_args <- as.list(match.call())[-1]
+  attr(partables, "args") <- my_args
+
   if (output == "logical") {
 
     # ==== output: logical ====
