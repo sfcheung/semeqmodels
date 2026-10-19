@@ -260,7 +260,7 @@ est_summary <- function(
   if ("n" %in% col) {
     x_n <- stats::aggregate(
             est ~ par_label + lhs + op + rhs,
-            FUN = length,
+            FUN = \(x) sum(!is.na(x)),
             data = obj
           )
     x_n$n <- x_n$est
