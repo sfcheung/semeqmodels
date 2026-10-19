@@ -42,11 +42,25 @@ eq_out_1b <- eq_models(
           passes = 2
         )
 
+# Only original_model: A parameter table
+
+set.seed(11)
+eq_out_2 <- eq_models(
+          original_model = pt1,
+          parallel = FALSE,
+          progress = !is_testing(),
+          passes = 1
+        )
+
 est_summary_1 <- est_summary(eq_out_1)
 if (!is_testing()) print(est_summary_1)
+if (!is_testing()) print(est_summary_1, drop_constant = FALSE)
 
 est_summary_1b <- est_summary(eq_out_1b)
 if (!is_testing()) print(est_summary_1b)
+
+est_summary_2 <- est_summary(eq_out_2)
+if (!is_testing()) print(est_summary_2)
 
 expect_equal(
   est_summary_1$mean,
@@ -121,5 +135,20 @@ if (all(grepl("\\.1\\.1$", expected_labels))) {
   expected_labels <- sub("\\.1\\.1$", "", expected_labels)
 }
 expect_setequal(trimmed_summary$par_label, expected_labels)
+
+# `print.est_summary()` returns the summary, prints a readable report,
+# and can handle constant-parameter output.
+printed_summary <- print(est_summary_1b)
+expect_identical(printed_summary, est_summary_1b)
+printed_lines <- capture.output(print(est_summary_1b))
+expect_true(any(grepl("Number of models:", printed_lines)))
+expect_true(any(grepl("Parameter Estimates: Standardized", printed_lines)))
+expect_true(any(grepl("Variables:", printed_lines)))
+expect_true(any(grepl("R-Squares:", printed_lines)))
+expect_true(any(grepl("Mean: The mean of estimates", printed_lines)))
+constant_summary <- est_summary_1b
+constant_summary$max <- constant_summary$min
+constant_output <- capture.output(print(constant_summary))
+expect_true(any(grepl("All parameter estimates are nearly identical across models", constant_output)))
 
 })
