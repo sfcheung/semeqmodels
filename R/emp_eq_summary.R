@@ -379,6 +379,27 @@ print.est_summary <- function(
 
   par_labels <- unique(x$par_label)
 
+  # ==== Fix columns ====
+
+  for (i in seq_along(x)) {
+    x[, i] <-
+      format_numeric_col(
+        x[, i, drop = TRUE],
+        nd = nd
+      )
+  }
+
+  x_print_label <- apply(
+    x[, c("lhs", "op", "rhs")],
+    MARGIN = 1,
+    paste0,
+    collapse = ""
+  )
+  x_print_label[x$op == "r2"] <- x[x$op == "r2", "lhs", drop = TRUE]
+  x_print_label <- format(x_print_label, justify = "left")
+  x$print_label <- x_print_label
+
+
   # ==== Print headers ====
 
   cat(sprintf("Number of models: %1$d\n", n_models))
@@ -402,26 +423,6 @@ print.est_summary <- function(
     cat("Parameter estimates nearly identical across models are not printed.\n")
     cat(sprintf("- %1$d such parameter(s).\n", sum(x_constant)))
   }
-
-  # ==== Fix columns ====
-
-  for (i in seq_along(x)) {
-    x[, i] <-
-      format_numeric_col(
-        x[, i, drop = TRUE],
-        nd = nd
-      )
-  }
-
-  x_print_label <- apply(
-    x[, c("lhs", "op", "rhs")],
-    MARGIN = 1,
-    paste0,
-    collapse = ""
-  )
-  x_print_label[x$op == "r2"] <- x[x$op == "r2", "lhs", drop = TRUE]
-  x_print_label <- format(x_print_label, justify = "left")
-  x$print_label <- x_print_label
 
   # ==== Print parameters ====
 
@@ -520,6 +521,9 @@ format_numeric_col <- function(
   col_i,
   nd
 ) {
+  if (length(col_i) == 0L) {
+    return(col_i)
+  }
   if (!is.numeric(col_i)) {
     return(col_i)
   }
