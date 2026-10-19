@@ -42,11 +42,25 @@ eq_out_1b <- eq_models(
           passes = 2
         )
 
+# Only original_model: A parameter table
+
+set.seed(11)
+eq_out_2 <- eq_models(
+          original_model = pt1,
+          parallel = FALSE,
+          progress = !is_testing(),
+          passes = 1
+        )
+
 est_summary_1 <- est_summary(eq_out_1)
 if (!is_testing()) print(est_summary_1)
+if (!is_testing()) print(est_summary_1, drop_constant = FALSE)
 
 est_summary_1b <- est_summary(eq_out_1b)
 if (!is_testing()) print(est_summary_1b)
+
+est_summary_2 <- est_summary(eq_out_2)
+if (!is_testing()) print(est_summary_2)
 
 expect_equal(
   est_summary_1$mean,

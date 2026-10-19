@@ -51,8 +51,8 @@ is required. The identifier columns
 are always returned.}
 }
 \value{
-A \code{lavaan.data.frame} (also a data
-frame) with parameter identifiers and
+A \code{est_summary} object (also a data
+frame and a \code{lavaan.data.frame}) with parameter identifiers and
 the requested aggregate columns:
 \itemize{
 \item \code{par_label}: A label based on the
