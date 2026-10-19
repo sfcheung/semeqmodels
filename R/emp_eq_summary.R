@@ -306,8 +306,10 @@ est_summary <- function(
     ~ list(order0, par_label, op)
   )
   out0$order0 <- NULL
-  class(out0) <- c("lavaan.data.frame", class(out0))
   row.names(out0) <- NULL
+  attr(out0, "eq_models_attributes") <- attr(object, "eq_models_attributes")
+  attr(out0, "number_of_models") <- length(unique(object$model))
+  class(out0) <- c("est_summary", "lavaan.data.frame", class(out0))
   out0
 }
 
@@ -353,6 +355,23 @@ merge_all_est <- function(
   tmp <- class(out0)
   class(out0) <- tmp[!(tmp %in% "lavaan.parameterEstimates")]
   row.names(out0) <- NULL
+  tmp <- setdiff(
+    names(attributes(object)),
+    c("names", "class",
+      "pts_same_to_more_history",
+      "pts_more_to_same_history",
+      "pts_more_df_all",
+      "pts_excluded",
+      "args")
+  )
+  if (length(tmp) > 0L) {
+    tmp_attr <- lapply(
+      tmp,
+      \(x) attr(object, x)
+    )
+    names(tmp_attr) <- tmp
+    attr(out0, "eq_models_attributes") <- tmp_attr
+  }
   out0
 }
 
