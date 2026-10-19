@@ -2,6 +2,7 @@
 % Please edit documentation in R/emp_eq_summary.R
 \name{est_summary}
 \alias{est_summary}
+\alias{print.est_summary}
 \title{Summary of Parameter Estimates Across Models}
 \usage{
 est_summary(
@@ -11,6 +12,8 @@ est_summary(
   trim_par_label = TRUE,
   col = c("mean", "min", "max", "n")
 )
+
+\method{print}{est_summary}(x, drop_constant = TRUE, constant_tolerance = 5e-05, nd = 3, ...)
 }
 \arguments{
 \item{object}{A \code{partables} object,
@@ -49,10 +52,32 @@ Choose from \code{"mean"}, \code{"min"},
 returns all four. At least one value
 is required. The identifier columns
 are always returned.}
+
+\item{x}{An \code{est_summary} object,
+which is the output of \code{\link[=est_summary]{est_summary()}}.}
+
+\item{drop_constant}{Logical.
+Whether parameters having the
+nearly the same estimates
+across models will be dropped
+in the printout.}
+
+\item{constant_tolerance}{The tolerance
+used to determine whether a parameter
+has nearly identical estimates across
+models. If the range is less than or
+equal to this value, the estimates are
+considered constant.}
+
+\item{nd}{The number of decimal places
+to print.}
+
+\item{...}{Optional parameters. Not
+used.}
 }
 \value{
-A \code{lavaan.data.frame} (also a data
-frame) with parameter identifiers and
+A \code{est_summary} object (also a data
+frame and a \code{lavaan.data.frame}) with parameter identifiers and
 the requested aggregate columns:
 \itemize{
 \item \code{par_label}: A label based on the
@@ -80,6 +105,11 @@ than the number of models when a
 parameter is absent or has no
 estimate in some models.
 }
+
+The \code{print}-method of \code{est_summary}
+object
+returns \code{x} invisibly. It is called
+for its side-effect.
 }
 \description{
 Summarize parameter estimates across
@@ -112,6 +142,10 @@ If no model is marked as the original
 model, the first model in \code{object} is
 used to establish the common
 parameter ordering.
+
+The \code{print}-method of \code{est_summary}
+object print the results in a
+user-friendly way.
 }
 \examples{
 

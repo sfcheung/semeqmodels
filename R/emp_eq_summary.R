@@ -71,8 +71,8 @@
 #' are always returned.
 #'
 #' @return
-#' A `lavaan.data.frame` (also a data
-#' frame) with parameter identifiers and
+#' A `est_summary` object (also a data
+#' frame and a `lavaan.data.frame`) with parameter identifiers and
 #' the requested aggregate columns:
 #'
 #' - `par_label`: A label based on the
@@ -260,7 +260,7 @@ est_summary <- function(
   if ("n" %in% col) {
     x_n <- stats::aggregate(
             est ~ par_label + lhs + op + rhs,
-            FUN = length,
+            FUN = \(x) sum(!is.na(x)),
             data = obj
           )
     x_n$n <- x_n$est
@@ -306,9 +306,241 @@ est_summary <- function(
     ~ list(order0, par_label, op)
   )
   out0$order0 <- NULL
-  class(out0) <- c("lavaan.data.frame", class(out0))
   row.names(out0) <- NULL
+  attr(out0, "eq_models_attributes") <- attr(object, "eq_models_attributes")
+  attr(out0, "number_of_models") <- length(unique(object$model))
+  attr(out0, "standardized") <- standardized
+  attr(out0, "level") <- level
+  class(out0) <- c("est_summary", "lavaan.data.frame", class(out0))
   out0
+}
+
+
+#' @details
+#' The `print`-method of `est_summary`
+#' object print the results in a
+#' user-friendly way.
+#'
+#' @param x An `est_summary` object,
+#' which is the output of [est_summary()].
+#'
+#' @param drop_constant Logical.
+#' Whether parameters having the
+#' nearly the same estimates
+#' across models will be dropped
+#' in the printout.
+#'
+#' @param constant_tolerance The tolerance
+#' used to determine whether a parameter
+#' has nearly identical estimates across
+#' models. If the range is less than or
+#' equal to this value, the estimates are
+#' considered constant.
+#'
+#' @param nd The number of decimal places
+#' to print.
+#'
+#' @param ... Optional parameters. Not
+#' used.
+#'
+#' @return
+#' The `print`-method of `est_summary`
+#' object
+#' returns `x` invisibly. It is called
+#' for its side-effect.
+#'
+#' @rdname est_summary
+#' @export
+print.est_summary <- function(
+  x,
+  drop_constant = TRUE,
+  constant_tolerance = 5e-5,
+  nd = 3,
+  ...
+) {
+  x_old <- x
+  class(x) <- class(x)[-1]
+
+  n_models <- attr(x, "number_of_models")
+
+  # ==== Handle constant estimates ====
+
+  if (is.null(x$max) && is.null(x$min)) {
+    cat("The max and min columns are absent drop_constant ignored.\n")
+    x_constant <- rep(FALSE, nrow(x))
+  } else {
+    x_range <- abs(x$max - x$min)
+    x_constant <- (x_range <= constant_tolerance)
+
+    if (drop_constant) {
+      x <- x[!x_constant, ]
+    }
+  }
+
+  par_labels <- unique(x$par_label)
+
+  # ==== Fix columns ====
+
+  for (i in seq_along(x)) {
+    x[, i] <-
+      format_numeric_col(
+        x[, i, drop = TRUE],
+        nd = nd
+      )
+  }
+
+  x_print_label <- apply(
+    x[, c("lhs", "op", "rhs")],
+    MARGIN = 1,
+    paste0,
+    collapse = ""
+  )
+  x_print_label[x$op == "r2"] <- x[x$op == "r2", "lhs", drop = TRUE]
+  x_print_label <- format(x_print_label, justify = "left")
+  x$print_label <- x_print_label
+
+
+  # ==== Print headers ====
+
+  cat(sprintf("Number of models: %1$d\n", n_models))
+
+  standardized <- attr(x, "standardized")
+
+  if (standardized) {
+    cat("Parameter Estimates: Standardized\n")
+  } else {
+    cat("Parameter Estimates: Not standardized\n")
+  }
+
+  if ((length(par_labels) == 0L) &&
+      drop_constant) {
+    cat("All parameter estimates are nearly identical across models.\n")
+    cat("Set drop_constant to FALSE to print them, or",
+        "set constant_tolerance to a smaller values.\n")
+  }
+
+  if (drop_constant && any(x_constant)) {
+    cat("Parameter estimates nearly identical across models are not printed.\n")
+    cat(sprintf("- %1$d such parameter(s).\n", sum(x_constant)))
+  }
+
+  # ==== Print parameters ====
+
+  # TODO:
+  # - Support intercepts
+
+  x_no_rsq <- x[x$op != "r2", ]
+
+  if (nrow(x_no_rsq) > 0L) {
+    par_labels_no_rsq <- unique(x_no_rsq$par_label)
+    for (par_i in par_labels_no_rsq) {
+      x_i <- x_no_rsq[x_no_rsq$par_label == par_i, ]
+      print_par_i(x_i, nd = nd)
+    }
+  }
+
+  # ==== Print R-squares ====
+
+  x_rsq <- x[x$op == "r2", ]
+
+  if (nrow(x_rsq) > 0L) {
+    print_par_i(x_rsq, nd = nd)
+  }
+
+  # ==== Print Footer ====
+
+  cat("\nNotes:\n")
+
+  if ("mean" %in% colnames(x_old)) {
+    cat("- Mean: The mean of estimates.\n")
+  }
+  if (any(c("max", "min") %in% colnames(x_old))) {
+    cat("- Min/Max: The minimum/maximum of estimates.\n")
+  }
+  if ("n" %in% colnames(x_old)) {
+    cat("- N: The number of models with this parameter (not fixed).\n")
+  }
+
+  invisible(x_old)
+}
+
+#' @noRd
+print_par_i <- function(
+  x_i,
+  nd = 3
+) {
+  par_i <- unique(x_i$par_label)
+  lhs_rhs <- sort(unique(c(x_i$rhs, x_i$lhs)))
+  is_rsq <- all(x_i$op == "r2")
+  # TODO:
+  # - Support multigroup models
+  out0a <- x_i[, c("lhs", "op", "rhs"), drop = FALSE]
+  z <- which(!colnames(x_i) %in% c("par_label", "print_label", "lhs", "op", "rhs"))
+  out0b <- x_i[, z, drop = FALSE]
+  if (is_rsq) {
+    out0_label <- out0a$lhs
+  } else {
+    out0_label <- apply(
+      out0a,
+      MARGIN = 1,
+      paste0,
+      collapse = ""
+    )
+  }
+  colnames(out0b) <- sapply(
+    colnames(out0b),
+    cap_first_letter
+  )
+  # out1 <- cbind(
+  #   "Parameter" = out0_label,
+  #   out0b
+  # )
+  out1 <- out0b
+  row.names(out1) <- x_i$print_label
+  if (is_rsq) {
+    cat("\nR-Squares:\n")
+  } else {
+    cat("\nVariables:", lhs_rhs, "\n")
+  }
+  print(out1, right = TRUE, row.names = TRUE)
+}
+
+#' @noRd
+cap_first_letter <- function(
+  x
+) {
+  sub(
+    "^.",
+    toupper(substr(x, 1, 1)),
+    x
+  )
+}
+
+#' @noRd
+format_numeric_col <- function(
+  col_i,
+  nd
+) {
+  if (length(col_i) == 0L) {
+    return(col_i)
+  }
+  if (!is.numeric(col_i)) {
+    return(col_i)
+  }
+  if (is.integer(col_i)) {
+    return(col_i)
+  }
+  out0 <- formatC(
+    col_i,
+    digits = nd,
+    format = "f"
+  )
+  max_nchar <- max(nchar(out0))
+  out1 <- sprintf(
+    paste0("%", max_nchar, "s"),
+    out0
+  )
+  out1
 }
 
 #' @noRd
@@ -353,6 +585,23 @@ merge_all_est <- function(
   tmp <- class(out0)
   class(out0) <- tmp[!(tmp %in% "lavaan.parameterEstimates")]
   row.names(out0) <- NULL
+  tmp <- setdiff(
+    names(attributes(object)),
+    c("names", "class",
+      "pts_same_to_more_history",
+      "pts_more_to_same_history",
+      "pts_more_df_all",
+      "pts_excluded",
+      "args")
+  )
+  if (length(tmp) > 0L) {
+    tmp_attr <- lapply(
+      tmp,
+      \(x) attr(object, x)
+    )
+    names(tmp_attr) <- tmp
+    attr(out0, "eq_models_attributes") <- tmp_attr
+  }
   out0
 }
 
