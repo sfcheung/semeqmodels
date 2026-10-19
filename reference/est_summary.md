@@ -13,6 +13,9 @@ est_summary(
   trim_par_label = TRUE,
   col = c("mean", "min", "max", "n")
 )
+
+# S3 method for class 'est_summary'
+print(x, drop_constant = TRUE, constant_tolerance = 5e-05, nd = 3, ...)
 ```
 
 ## Arguments
@@ -49,10 +52,33 @@ est_summary(
   four. At least one value is required. The identifier columns are
   always returned.
 
+- x:
+
+  An `est_summary` object, which is the output of `est_summary()`.
+
+- drop_constant:
+
+  Logical. Whether parameters having the nearly the same estimates
+  across models will be dropped in the printout.
+
+- constant_tolerance:
+
+  The tolerance used to determine whether a parameter has nearly
+  identical estimates across models. If the range is less than or equal
+  to this value, the estimates are considered constant.
+
+- nd:
+
+  The number of decimal places to print.
+
+- ...:
+
+  Optional parameters. Not used.
+
 ## Value
 
-A `lavaan.data.frame` (also a data frame) with parameter identifiers and
-the requested aggregate columns:
+A `est_summary` object (also a data frame and a `lavaan.data.frame`)
+with parameter identifiers and the requested aggregate columns:
 
 - `par_label`: A label based on the two variables, block, and group,
   independent of the operator. For example, `x ~ y`, `y ~ x`, and
@@ -71,6 +97,9 @@ the requested aggregate columns:
   aggregates. It can be smaller than the number of models when a
   parameter is absent or has no estimate in some models.
 
+The `print`-method of `est_summary` object returns `x` invisibly. It is
+called for its side-effect.
+
 ## Details
 
 The input is usually the result of
@@ -88,6 +117,9 @@ summarize unstandardized estimates instead.
 
 If no model is marked as the original model, the first model in `object`
 is used to establish the common parameter ordering.
+
+The `print`-method of `est_summary` object print the results in a
+user-friendly way.
 
 ## See also
 
@@ -134,35 +166,28 @@ eq_out_1 <- eq_models(
         )
 
 est_summary(eq_out_1)
-#>    par_label lhs op rhs   mean    min    max n
-#> 1      fm.fx  fm  ~  fx  0.207  0.206  0.208 2
-#> 2      fm.fx  fx  ~  fm  0.206  0.206  0.206 1
-#> 3      fm.fx  fx ~~  fm  0.206  0.206  0.206 1
-#> 4      fm.fy  fm  ~  fy  0.320  0.320  0.320 1
-#> 5      fm.fy  fy  ~  fm  0.334  0.334  0.334 2
-#> 6      fm.fy  fm ~~  fy  0.327  0.327  0.327 1
-#> 7      fx.fy  fy  ~  fx -0.041 -0.075 -0.007 4
-#> 8      fm.m1  fm =~  m1  0.867  0.867  0.867 4
-#> 9      fm.m2  fm =~  m2  0.487  0.487  0.487 4
-#> 10     fm.m3  fm =~  m3  0.538  0.538  0.538 4
-#> 11     fx.x1  fx =~  x1  0.609  0.609  0.609 4
-#> 12     fx.x2  fx =~  x2  0.738  0.738  0.738 4
-#> 13     fx.x3  fx =~  x3  0.492  0.492  0.492 4
-#> 14     fy.y1  fy =~  y1  0.813  0.813  0.813 4
-#> 15     fy.y2  fy =~  y2  0.497  0.497  0.497 4
-#> 16     fy.y3  fy =~  y3  0.527  0.527  0.527 4
-#> 17     fm.fm  fm r2      0.094  0.043  0.145 2
-#> 18     fx.fx  fx r2      0.043  0.043  0.043 1
-#> 19     fy.fy  fy r2      0.053  0.000  0.107 4
-#> 20     m1.m1  m1 r2      0.751  0.751  0.751 4
-#> 21     m2.m2  m2 r2      0.238  0.238  0.238 4
-#> 22     m3.m3  m3 r2      0.290  0.290  0.290 4
-#> 23     x1.x1  x1 r2      0.370  0.370  0.370 4
-#> 24     x2.x2  x2 r2      0.545  0.545  0.545 4
-#> 25     x3.x3  x3 r2      0.242  0.242  0.242 4
-#> 26     y1.y1  y1 r2      0.662  0.662  0.662 4
-#> 27     y2.y2  y2 r2      0.247  0.247  0.247 4
-#> 28     y3.y3  y3 r2      0.278  0.278  0.278 4
+#> Number of models: 4
+#> Parameter Estimates: Standardized
+#> Parameter estimates nearly identical across models are not printed.
+#> - 24 such parameter(s).
+#> 
+#> Variables: fm fx 
+#>         Mean    Min    Max N
+#> fm~fx  0.207  0.206  0.208 2
+#> 
+#> Variables: fx fy 
+#>         Mean    Min    Max N
+#> fy~fx -0.041 -0.075 -0.007 4
+#> 
+#> R-Squares:
+#>         Mean    Min    Max N
+#> fm     0.094  0.043  0.145 2
+#> fy     0.053  0.000  0.107 4
+#> 
+#> Notes:
+#> - Mean: The mean of estimates.
+#> - Min/Max: The minimum/maximum of estimates.
+#> - N: The number of models with this parameter (not fixed).
 
 # Select statistics and use unstandardized estimates
 est_summary(
@@ -170,35 +195,113 @@ est_summary(
   standardized = FALSE,
   col = c("mean", "n")
 )
-#>    par_label lhs op rhs   mean n
-#> 1      fm.fm  fm ~~  fm  1.252 4
-#> 2      fm.fx  fm  ~  fx  0.284 2
-#> 3      fm.fx  fx  ~  fm  0.151 1
-#> 4      fm.fx  fx ~~  fm  0.198 1
-#> 5      fm.fy  fm  ~  fy  0.319 1
-#> 6      fm.fy  fy  ~  fm  0.335 2
-#> 7      fm.fy  fm ~~  fy  0.422 1
-#> 8      fx.fx  fx ~~  fx  0.693 4
-#> 9      fx.fy  fy  ~  fx -0.056 4
-#> 10     fy.fy  fy ~~  fy  1.253 4
-#> 11     m1.m1  m1 ~~  m1  0.434 4
-#> 12     m2.m2  m2 ~~  m2  1.137 4
-#> 13     m3.m3  m3 ~~  m3  0.848 4
-#> 14     x1.x1  x1 ~~  x1  1.192 4
-#> 15     x2.x2  x2 ~~  x2  0.683 4
-#> 16     x3.x3  x3 ~~  x3  1.180 4
-#> 17     y1.y1  y1 ~~  y1  0.676 4
-#> 18     y2.y2  y2 ~~  y2  1.057 4
-#> 19     y3.y3  y3 ~~  y3  1.003 4
-#> 20     fm.m1  fm =~  m1  1.000 4
-#> 21     fm.m2  fm =~  m2  0.519 4
-#> 22     fm.m3  fm =~  m3  0.513 4
-#> 23     fx.x1  fx =~  x1  1.000 4
-#> 24     fx.x2  fx =~  x2  1.081 4
-#> 25     fx.x3  fx =~  x3  0.733 4
-#> 26     fy.y1  fy =~  y1  1.000 4
-#> 27     fy.y2  fy =~  y2  0.512 4
-#> 28     fy.y3  fy =~  y3  0.540 4
+#> The max and min columns are absent drop_constant ignored.
+#> Number of models: 4
+#> Parameter Estimates: Not standardized
+#> 
+#> Variables: fm 
+#>          Mean N
+#> fm~~fm  1.252 4
+#> 
+#> Variables: fm fx 
+#>          Mean N
+#> fm~fx   0.284 2
+#> fx~fm   0.151 1
+#> fx~~fm  0.198 1
+#> 
+#> Variables: fm fy 
+#>          Mean N
+#> fm~fy   0.319 1
+#> fy~fm   0.335 2
+#> fm~~fy  0.422 1
+#> 
+#> Variables: fx 
+#>          Mean N
+#> fx~~fx  0.693 4
+#> 
+#> Variables: fx fy 
+#>          Mean N
+#> fy~fx  -0.056 4
+#> 
+#> Variables: fy 
+#>          Mean N
+#> fy~~fy  1.253 4
+#> 
+#> Variables: m1 
+#>          Mean N
+#> m1~~m1  0.434 4
+#> 
+#> Variables: m2 
+#>          Mean N
+#> m2~~m2  1.137 4
+#> 
+#> Variables: m3 
+#>          Mean N
+#> m3~~m3  0.848 4
+#> 
+#> Variables: x1 
+#>          Mean N
+#> x1~~x1  1.192 4
+#> 
+#> Variables: x2 
+#>          Mean N
+#> x2~~x2  0.683 4
+#> 
+#> Variables: x3 
+#>          Mean N
+#> x3~~x3  1.180 4
+#> 
+#> Variables: y1 
+#>          Mean N
+#> y1~~y1  0.676 4
+#> 
+#> Variables: y2 
+#>          Mean N
+#> y2~~y2  1.057 4
+#> 
+#> Variables: y3 
+#>          Mean N
+#> y3~~y3  1.003 4
+#> 
+#> Variables: fm m1 
+#>          Mean N
+#> fm=~m1  1.000 4
+#> 
+#> Variables: fm m2 
+#>          Mean N
+#> fm=~m2  0.519 4
+#> 
+#> Variables: fm m3 
+#>          Mean N
+#> fm=~m3  0.513 4
+#> 
+#> Variables: fx x1 
+#>          Mean N
+#> fx=~x1  1.000 4
+#> 
+#> Variables: fx x2 
+#>          Mean N
+#> fx=~x2  1.081 4
+#> 
+#> Variables: fx x3 
+#>          Mean N
+#> fx=~x3  0.733 4
+#> 
+#> Variables: fy y1 
+#>          Mean N
+#> fy=~y1  1.000 4
+#> 
+#> Variables: fy y2 
+#>          Mean N
+#> fy=~y2  0.512 4
+#> 
+#> Variables: fy y3 
+#>          Mean N
+#> fy=~y3  0.540 4
+#> 
+#> Notes:
+#> - Mean: The mean of estimates.
+#> - N: The number of models with this parameter (not fixed).
 
 # The usual way to use eq_models:
 # 'parallel' should be set to TRUE or omitted

@@ -13,7 +13,7 @@ for each parameter."><meta property="og:image" content="https://sfcheung.github.
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +65,10 @@ for each parameter.</p>
 <span>  standardized <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  trim_par_label <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"n"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'est_summary'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, drop_constant <span class="op">=</span> <span class="cn">TRUE</span>, constant_tolerance <span class="op">=</span> <span class="fl">5e-05</span>, nd <span class="op">=</span> <span class="fl">3</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -118,11 +121,43 @@ returns all four. At least one value
 is required. The identifier columns
 are always returned.</p></dd>
 
+
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p>An <code>est_summary</code> object,
+which is the output of <code>est_summary()</code>.</p></dd>
+
+
+<dt id="arg-drop-constant">drop_constant<a class="anchor" aria-label="anchor" href="#arg-drop-constant"></a></dt>
+<dd><p>Logical.
+Whether parameters having the
+nearly the same estimates
+across models will be dropped
+in the printout.</p></dd>
+
+
+<dt id="arg-constant-tolerance">constant_tolerance<a class="anchor" aria-label="anchor" href="#arg-constant-tolerance"></a></dt>
+<dd><p>The tolerance
+used to determine whether a parameter
+has nearly identical estimates across
+models. If the range is less than or
+equal to this value, the estimates are
+considered constant.</p></dd>
+
+
+<dt id="arg-nd">nd<a class="anchor" aria-label="anchor" href="#arg-nd"></a></dt>
+<dd><p>The number of decimal places
+to print.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Optional parameters. Not
+used.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>lavaan.data.frame</code> (also a data
-frame) with parameter identifiers and
+    <p>A <code>est_summary</code> object (also a data
+frame and a <code>lavaan.data.frame</code>) with parameter identifiers and
 the requested aggregate columns:</p><ul><li><p><code>par_label</code>: A label based on the
 two variables, block, and group,
 independent of the operator. For
@@ -147,7 +182,11 @@ the aggregates. It can be smaller
 than the number of models when a
 parameter is absent or has no
 estimate in some models.</p></li>
-</ul></div>
+</ul><p>The <code>print</code>-method of <code>est_summary</code>
+object
+returns <code>x</code> invisibly. It is called
+for its side-effect.</p>
+    </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The input is usually the result of
@@ -172,6 +211,9 @@ unstandardized estimates instead.</p>
 model, the first model in <code>object</code> is
 used to establish the common
 parameter ordering.</p>
+<p>The <code>print</code>-method of <code>est_summary</code>
+object print the results in a
+user-friendly way.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -218,35 +260,28 @@ the function to generate the models.</p></div>
 <span class="r-in"><span>        <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">est_summary</span><span class="op">(</span><span class="va">eq_out_1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    par_label lhs op rhs   mean    min    max n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      fm.fx  fm  ~  fx  0.207  0.206  0.208 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      fm.fx  fx  ~  fm  0.206  0.206  0.206 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      fm.fx  fx ~~  fm  0.206  0.206  0.206 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      fm.fy  fm  ~  fy  0.320  0.320  0.320 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      fm.fy  fy  ~  fm  0.334  0.334  0.334 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      fm.fy  fm ~~  fy  0.327  0.327  0.327 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7      fx.fy  fy  ~  fx -0.041 -0.075 -0.007 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8      fm.m1  fm =~  m1  0.867  0.867  0.867 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9      fm.m2  fm =~  m2  0.487  0.487  0.487 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10     fm.m3  fm =~  m3  0.538  0.538  0.538 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11     fx.x1  fx =~  x1  0.609  0.609  0.609 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12     fx.x2  fx =~  x2  0.738  0.738  0.738 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13     fx.x3  fx =~  x3  0.492  0.492  0.492 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14     fy.y1  fy =~  y1  0.813  0.813  0.813 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15     fy.y2  fy =~  y2  0.497  0.497  0.497 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16     fy.y3  fy =~  y3  0.527  0.527  0.527 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17     fm.fm  fm r2      0.094  0.043  0.145 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18     fx.fx  fx r2      0.043  0.043  0.043 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19     fy.fy  fy r2      0.053  0.000  0.107 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20     m1.m1  m1 r2      0.751  0.751  0.751 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21     m2.m2  m2 r2      0.238  0.238  0.238 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22     m3.m3  m3 r2      0.290  0.290  0.290 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23     x1.x1  x1 r2      0.370  0.370  0.370 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24     x2.x2  x2 r2      0.545  0.545  0.545 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25     x3.x3  x3 r2      0.242  0.242  0.242 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26     y1.y1  y1 r2      0.662  0.662  0.662 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27     y2.y2  y2 r2      0.247  0.247  0.247 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28     y3.y3  y3 r2      0.278  0.278  0.278 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of models: 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Parameter Estimates: Standardized</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Parameter estimates nearly identical across models are not printed.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - 24 such parameter(s).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fm fx </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Mean    Min    Max N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm~fx  0.207  0.206  0.208 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fx fy </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Mean    Min    Max N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy~fx -0.041 -0.075 -0.007 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> R-Squares:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Mean    Min    Max N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm     0.094  0.043  0.145 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy     0.053  0.000  0.107 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Notes:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Mean: The mean of estimates.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Min/Max: The minimum/maximum of estimates.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - N: The number of models with this parameter (not fixed).</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Select statistics and use unstandardized estimates</span></span></span>
 <span class="r-in"><span><span class="fu">est_summary</span><span class="op">(</span></span></span>
@@ -254,35 +289,113 @@ the function to generate the models.</p></div>
 <span class="r-in"><span>  standardized <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"n"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    par_label lhs op rhs   mean n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      fm.fm  fm ~~  fm  1.252 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      fm.fx  fm  ~  fx  0.284 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      fm.fx  fx  ~  fm  0.151 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      fm.fx  fx ~~  fm  0.198 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      fm.fy  fm  ~  fy  0.319 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      fm.fy  fy  ~  fm  0.335 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7      fm.fy  fm ~~  fy  0.422 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8      fx.fx  fx ~~  fx  0.693 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9      fx.fy  fy  ~  fx -0.056 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10     fy.fy  fy ~~  fy  1.253 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11     m1.m1  m1 ~~  m1  0.434 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12     m2.m2  m2 ~~  m2  1.137 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13     m3.m3  m3 ~~  m3  0.848 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14     x1.x1  x1 ~~  x1  1.192 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15     x2.x2  x2 ~~  x2  0.683 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16     x3.x3  x3 ~~  x3  1.180 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17     y1.y1  y1 ~~  y1  0.676 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18     y2.y2  y2 ~~  y2  1.057 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19     y3.y3  y3 ~~  y3  1.003 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20     fm.m1  fm =~  m1  1.000 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21     fm.m2  fm =~  m2  0.519 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22     fm.m3  fm =~  m3  0.513 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23     fx.x1  fx =~  x1  1.000 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24     fx.x2  fx =~  x2  1.081 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25     fx.x3  fx =~  x3  0.733 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26     fy.y1  fy =~  y1  1.000 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27     fy.y2  fy =~  y2  0.512 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28     fy.y3  fy =~  y3  0.540 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The max and min columns are absent drop_constant ignored.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of models: 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Parameter Estimates: Not standardized</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fm </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm~~fm  1.252 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fm fx </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm~fx   0.284 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fx~fm   0.151 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fx~~fm  0.198 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fm fy </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm~fy   0.319 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy~fm   0.335 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm~~fy  0.422 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fx </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fx~~fx  0.693 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fx fy </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy~fx  -0.056 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fy </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy~~fy  1.253 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: m1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> m1~~m1  0.434 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: m2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> m2~~m2  1.137 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: m3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> m3~~m3  0.848 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: x1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1~~x1  1.192 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: x2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x2~~x2  0.683 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: x3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x3~~x3  1.180 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: y1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y1~~y1  0.676 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: y2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y2~~y2  1.057 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: y3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y3~~y3  1.003 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fm m1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm=~m1  1.000 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fm m2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm=~m2  0.519 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fm m3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm=~m3  0.513 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fx x1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fx=~x1  1.000 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fx x2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fx=~x2  1.081 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fx x3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fx=~x3  0.733 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fy y1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy=~y1  1.000 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fy y2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy=~y2  0.512 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Variables: fy y3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Mean N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy=~y3  0.540 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Notes:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Mean: The mean of estimates.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - N: The number of models with this parameter (not fixed).</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The usual way to use eq_models:</span></span></span>
 <span class="r-in"><span><span class="co"># 'parallel' should be set to TRUE or omitted</span></span></span>

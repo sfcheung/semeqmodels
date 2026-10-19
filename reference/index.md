@@ -86,6 +86,7 @@ Helpers for advanced tasks
 - [`auto_curve_covariance()`](https://sfcheung.github.io/semeqmodels/reference/auto_curve_covariance.md)
   : Make a Covariance a Curve
 - [`est_summary()`](https://sfcheung.github.io/semeqmodels/reference/est_summary.md)
+  [`print(`*`<est_summary>`*`)`](https://sfcheung.github.io/semeqmodels/reference/est_summary.md)
   : Summary of Parameter Estimates Across Models
 
 ## Datasets
