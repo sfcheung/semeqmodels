@@ -349,7 +349,7 @@ est_summary <- function(
 #' returns `x` invisibly. It is called
 #' for its side-effect.
 #'
-#' @rdname eq_partables_helpers
+#' @rdname est_summary
 #' @export
 print.est_summary <- function(
   x,
