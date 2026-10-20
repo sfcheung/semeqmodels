@@ -1,6 +1,6 @@
 # Changelog
 
-## semeqmodels 0.1.0.4
+## semeqmodels 0.1.0.5
 
 ### New Features
 
@@ -17,6 +17,11 @@
   The output has a `print` method
   ([`print.est_summary()`](https://sfcheung.github.io/semeqmodels/reference/est_summary.md)).
   (0.1.0.3, 0.1.0.4)
+
+- Added the option to define empirical equivalence using the implied
+  covariance matrix (and mean vector, if available). Whether fit
+  measures or implied matrices and vectors are used is determined by the
+  argument `eq_mode`. (0.1.0.5)
 
 ### Miscellaneous
 

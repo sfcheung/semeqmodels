@@ -16,6 +16,8 @@ eq_models(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-05),
+  implied_tolerance = 1e-05,
+  eq_mode = "fit_measures",
   eq_df_models_args = list(),
   passes = 1L
 )
@@ -30,6 +32,8 @@ is_eq(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-05),
+  implied_tolerance = 1e-05,
+  eq_mode = "fit_measures",
   eq_df_models_args = list(),
   passes = 1L
 )
@@ -103,6 +107,29 @@ is_eq(
   If set to `c(chisq = 1e-5, cfi = .01)`, then two models are considered
   empirically equivalent if their differences on model chi-square and
   CFI are at most 1e-5 and .01, respectively.
+
+- implied_tolerance:
+
+  Relative numeric tolerance used to compare implied covariance matrices
+  and mean vectors when `eq_mode` is `"implied"`. It is passed to
+  [`base::all.equal()`](https://rdrr.io/r/base/all.equal.html) for
+  numerical comparison; it is not a maximum absolute difference applied
+  separately to each element. For each pairs of matrices or vectors, the
+  element with the largest absolute difference will be checked by
+  [`base::all.equal()`](https://rdrr.io/r/base/all.equal.html), to avoid
+  a non-negligible difference being masked by a large number of
+  near-equal elements. The default is `1e-5`. This argument is ignored
+  when `eq_mode` is `"fit_measures"`.
+
+- eq_mode:
+
+  How equivalence is assessed. Both modes require the models to have the
+  same degrees of freedom. The default, `"fit_measures"`, compares the
+  fit measures named in `tolerance`, requiring each difference to be
+  within its corresponding tolerance. `"implied"` compares the models'
+  implied covariance matrices and, when a mean structure is modeled,
+  implied mean vectors, using `implied_tolerance`. In this mode,
+  `tolerance` is not used to determine equivalence.
 
 - eq_df_models_args:
 
