@@ -112,7 +112,14 @@ when \code{eq_mode} is \code{"implied"}. It is
 passed to \code{\link[base:all.equal]{base::all.equal()}} for
 numerical comparison; it is not a
 maximum absolute difference applied
-separately to each element. The
+separately to each element. For each
+pairs of matrices or vectors, the
+element with the largest absolute
+difference will be checked by
+\code{\link[base:all.equal]{base::all.equal()}}, to avoid a
+non-negligible difference being
+masked by a large number of
+near-equal elements. The
 default is \code{1e-5}. This argument is
 ignored when \code{eq_mode} is
 \code{"fit_measures"}.}

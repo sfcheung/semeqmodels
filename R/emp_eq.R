@@ -147,7 +147,14 @@
 #' passed to [base::all.equal()] for
 #' numerical comparison; it is not a
 #' maximum absolute difference applied
-#' separately to each element. The
+#' separately to each element. For each
+#' pairs of matrices or vectors, the
+#' element with the largest absolute
+#' difference will be checked by
+#' [base::all.equal()], to avoid a
+#' non-negligible difference being
+#' masked by a large number of
+#' near-equal elements. The
 #' default is `1e-5`. This argument is
 #' ignored when `eq_mode` is
 #' `"fit_measures"`.
@@ -836,7 +843,7 @@ eq_models_internal <- function(
             } else {
               i0j <- i0j[rownames(i1j), colnames(i1j)]
             }
-            chk <- isTRUE(all.equal(
+            chk <- isTRUE(all_equal_elementwise(
               i0j,
               i1j,
               check.attributes = FALSE,
@@ -1031,4 +1038,23 @@ resample_data <- function(
     replace = TRUE
   )
   data[i, , drop = FALSE]
+}
+
+#' @noRd
+all_equal_elementwise <- function(
+  target,
+  current,
+  tolerance = 1e-5,
+  scale = NULL,
+  ...
+) {
+  i <- which.max(abs(target - current))
+  out0 <- all.equal(
+    target[i],
+    current[i],
+    tolerance = tolerance,
+    scale = scale,
+    ...
+  )
+  out0
 }
