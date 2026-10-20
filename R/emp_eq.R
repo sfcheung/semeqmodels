@@ -125,6 +125,26 @@
 #' model chi-square and CFI are at most
 #' 1e-5 and .01, respectively.
 #'
+#' @param eq_mode How equivalence is
+#' defined. If `"fit_measures"`, then
+#' `tolerance` is used to determine
+#' whether two models are considered
+#' empirically equivalent. If
+#' `"implied"`, then two models are
+#' considered empirically equivalent if
+#' their implied covariance matrices
+#' (and mean vectors, if mean structure
+#' is modelled) have no elements with
+#' differences greater than
+#' `implied_tolerance`.
+#'
+#' @param implied_tolerance Used when
+#' `eq_mode` is equal to `"implied"`.
+#' The largest absolute difference
+#' allowed for two implied matrix of
+#' vector considered to be empirically
+#' equivalent.
+#'
 #' @param eq_df_models_args If `partables`
 #' is not supplied (`NULL`) but
 #' `original_model` is set, [eq_df_models()]
@@ -243,6 +263,8 @@ eq_models <- function(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-5),
+  implied_tolerance = 1e-5,
+  eq_mode = "fit_measures",
   eq_df_models_args = list(),
   passes = 1L
 ) {
@@ -314,6 +336,8 @@ is_eq <- function(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-5),
+  implied_tolerance = 1e-5,
+  eq_mode = "fit_measures",
   eq_df_models_args = list(),
   passes = 1L
 ) {
@@ -355,6 +379,8 @@ eq_models_internal <- function(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-5),
+  implied_tolerance = 1e-5,
+  eq_mode = c("fit_measures", "implied"),
   env_for_update = parent.frame(),
   eq_df_models_args = list(),
   passes = 1L,
@@ -375,6 +401,7 @@ eq_models_internal <- function(
   # - Keep only unique partables
 
   output <- match.arg(output)
+  eq_mode <- match.arg(eq_mode)
 
   # ==== Handle main objects ====
 
@@ -706,6 +733,25 @@ eq_models_internal <- function(
         fms
       }
     )
+    if (eq_mode == "implied") {
+      implied_list <- lapply(
+        fits_list,
+        \(fits) {
+          implied <- lapply(
+                fits$fit,
+                function(x) {
+                  lavaan::lavInspect(
+                    x,
+                    "implied",
+                    list_by_group = FALSE,
+                    drop_list_single_group = FALSE
+                  )
+                }
+              )
+          implied
+        }
+      )
+    }
     partables_list <- lapply(
       fits_list,
       \(fits) {
@@ -751,14 +797,86 @@ eq_models_internal <- function(
     sem_out_fms = sem_out_fms_list,
     SIMPLIFY = FALSE
   )
-  i_list <- mapply(
-    \(df_eq, fms_eq) {
-      df_eq & fms_eq
-    },
-    df_eq = df_eq_list,
-    fms_eq = fms_eq_list,
-    SIMPLIFY = TRUE
-  )
+  if (eq_mode == "implied") {
+    sem_out_implied_list <- lapply(
+      sem_out1_list,
+      \(sem_out1) {
+        lavaan::lavInspect(
+          sem_out1,
+          "implied",
+          list_by_group = FALSE,
+          drop_list_single_group = FALSE
+        )
+      }
+    )
+    implied_eq_list <- mapply(
+      \(implied,
+        sem_out_implied,
+        implied_tolerance) {
+        f <- function(
+            implied_i,
+            sem_out_implied,
+            implied_tolerance
+          ) {
+          i0 <- unlist(implied_i, recursive = FALSE)
+          i1 <- unlist(implied_i, recursive = FALSE)
+          i01_equal <- TRUE
+          for (j in seq_along(i0)) {
+            i0j <- unclass(i0[[j]])
+            i1j <- unclass(i1[[j]])
+            if (is.null(dim(i0j))) {
+              i0j <- i0j[names(i1j)]
+            } else {
+              i0j <- i0j[rownames(i1j), colnames(i1j)]
+            }
+            chk <- isTRUE(all.equal(
+              i0j,
+              i1j,
+              check.attributes = FALSE,
+              check.class = FALSE,
+              tolerance = implied_tolerance
+            ))
+            if (!chk) {
+              i01_equal <- FALSE
+              break
+            }
+          }
+          i01_equal
+        }
+        chk0 <- sapply(
+          implied,
+          FUN = f,
+          sem_out_implied = sem_out_implied,
+          implied_tolerance = implied_tolerance
+        )
+        chk0
+      },
+      implied = implied_list,
+      sem_out_implied = sem_out_implied_list,
+      MoreArgs = list(implied_tolerance = implied_tolerance),
+      SIMPLIFY = FALSE
+    )
+  }
+  if (eq_mode == "fit_measures") {
+    i_list <- mapply(
+      \(df_eq, fms_eq) {
+        df_eq & fms_eq
+      },
+      df_eq = df_eq_list,
+      fms_eq = fms_eq_list,
+      SIMPLIFY = TRUE
+    )
+  }
+  if (eq_mode == "implied") {
+    i_list <- mapply(
+      \(df_eq, implied_eq) {
+        df_eq & implied_eq
+      },
+      df_eq = df_eq_list,
+      implied_eq = implied_eq_list,
+      SIMPLIFY = TRUE
+    )
+  }
   i <- apply(
     i_list,
     MARGIN = 1,
@@ -771,6 +889,7 @@ eq_models_internal <- function(
 
   attr(partables, "data_from_original_model") <- data_from_original_model
   attr(partables, "do_fit_many") <- do_fit_many
+  attr(partables, "eq_mode") <- eq_mode
   my_args <- as.list(match.call())[-1]
   attr(partables, "args") <- my_args
 

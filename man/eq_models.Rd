@@ -15,6 +15,8 @@ eq_models(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-05),
+  implied_tolerance = 1e-05,
+  eq_mode = "fit_measures",
   eq_df_models_args = list(),
   passes = 1L
 )
@@ -29,6 +31,8 @@ is_eq(
   make_cluster_args = list(),
   progress = interactive(),
   tolerance = c(chisq = 1e-05),
+  implied_tolerance = 1e-05,
+  eq_mode = "fit_measures",
   eq_df_models_args = list(),
   passes = 1L
 )
@@ -100,6 +104,26 @@ two models are considered empirically
 equivalent if their differences on
 model chi-square and CFI are at most
 1e-5 and .01, respectively.}
+
+\item{implied_tolerance}{Used when
+\code{eq_mode} is equal to \code{"implied"}.
+The largest absolute difference
+allowed for two implied matrix of
+vector considered to be empirically
+equivalent.}
+
+\item{eq_mode}{How equivalence is
+defined. If \code{"fit_measures"}, then
+\code{tolerance} is used to determine
+whether two models are considered
+empirically equivalent. If
+\code{"implied"}, then two models are
+considered empirically equivalent if
+their implied covariance matrices
+(and mean vectors, if mean structure
+is modelled) have no elements with
+differences greater than
+\code{implied_tolerance}.}
 
 \item{eq_df_models_args}{If \code{partables}
 is not supplied (\code{NULL}) but
