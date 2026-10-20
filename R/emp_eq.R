@@ -126,24 +126,31 @@
 #' 1e-5 and .01, respectively.
 #'
 #' @param eq_mode How equivalence is
-#' defined. If `"fit_measures"`, then
-#' `tolerance` is used to determine
-#' whether two models are considered
-#' empirically equivalent. If
-#' `"implied"`, then two models are
-#' considered empirically equivalent if
-#' their implied covariance matrices
-#' (and mean vectors, if mean structure
-#' is modelled) have no elements with
-#' differences greater than
-#' `implied_tolerance`.
+#' assessed. Both modes require the
+#' models to have the same degrees of
+#' freedom. The default, `"fit_measures"`,
+#' compares the fit measures named in
+#' `tolerance`, requiring each difference
+#' to be within its corresponding
+#' tolerance. `"implied"` compares the
+#' models' implied covariance matrices
+#' and, when a mean structure is modeled,
+#' implied mean vectors, using
+#' `implied_tolerance`. In this mode,
+#' `tolerance` is not used to determine
+#' equivalence.
 #'
-#' @param implied_tolerance Used when
-#' `eq_mode` is equal to `"implied"`.
-#' The largest absolute difference
-#' allowed for two implied matrix of
-#' vector considered to be empirically
-#' equivalent.
+#' @param implied_tolerance Relative
+#' numeric tolerance used to compare implied
+#' covariance matrices and mean vectors
+#' when `eq_mode` is `"implied"`. It is
+#' passed to [base::all.equal()] for
+#' numerical comparison; it is not a
+#' maximum absolute difference applied
+#' separately to each element. The
+#' default is `1e-5`. This argument is
+#' ignored when `eq_mode` is
+#' `"fit_measures"`.
 #'
 #' @param eq_df_models_args If `partables`
 #' is not supplied (`NULL`) but

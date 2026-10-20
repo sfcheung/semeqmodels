@@ -105,25 +105,32 @@ equivalent if their differences on
 model chi-square and CFI are at most
 1e-5 and .01, respectively.}
 
-\item{implied_tolerance}{Used when
-\code{eq_mode} is equal to \code{"implied"}.
-The largest absolute difference
-allowed for two implied matrix of
-vector considered to be empirically
-equivalent.}
+\item{implied_tolerance}{Relative
+numeric tolerance used to compare implied
+covariance matrices and mean vectors
+when \code{eq_mode} is \code{"implied"}. It is
+passed to \code{\link[base:all.equal]{base::all.equal()}} for
+numerical comparison; it is not a
+maximum absolute difference applied
+separately to each element. The
+default is \code{1e-5}. This argument is
+ignored when \code{eq_mode} is
+\code{"fit_measures"}.}
 
 \item{eq_mode}{How equivalence is
-defined. If \code{"fit_measures"}, then
-\code{tolerance} is used to determine
-whether two models are considered
-empirically equivalent. If
-\code{"implied"}, then two models are
-considered empirically equivalent if
-their implied covariance matrices
-(and mean vectors, if mean structure
-is modelled) have no elements with
-differences greater than
-\code{implied_tolerance}.}
+assessed. Both modes require the
+models to have the same degrees of
+freedom. The default, \code{"fit_measures"},
+compares the fit measures named in
+\code{tolerance}, requiring each difference
+to be within its corresponding
+tolerance. \code{"implied"} compares the
+models' implied covariance matrices
+and, when a mean structure is modeled,
+implied mean vectors, using
+\code{implied_tolerance}. In this mode,
+\code{tolerance} is not used to determine
+equivalence.}
 
 \item{eq_df_models_args}{If \code{partables}
 is not supplied (\code{NULL}) but
