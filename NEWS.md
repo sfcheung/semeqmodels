@@ -1,4 +1,4 @@
-# semeqmodels 0.1.0.5
+# semeqmodels 0.1.0.6
 
 ## New Features
 
@@ -31,6 +31,20 @@
   No change to the codebase. Identical
   to 0.1.0 otherwise.
   (0.1.0.1)
+
+- Added `use_mi` to `add_k()` to use
+  modification indices to rule out
+  models unlikely to be equivalent to
+  the original model. Disabled for now.
+  (0.1.0.6)
+
+- Added `exclude_x_y_ecov_interim` and
+  `exclude_x_y_ecov_add_drop` to allow
+  exclusion in more stages. Disabled
+  for now (set to `FALSE` by default).
+  (0.1.0.6)
+
+
 
 # semeqmodels 0.1.0
 

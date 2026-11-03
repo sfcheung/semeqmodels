@@ -334,7 +334,10 @@ x_y_pairs <- function(
   out <- out[sapply(out, length) > 0]
   if (length(out) == 0) {
     # No x-y pairs
-    return(FALSE)
+    return(data.frame(
+              x = character(0),
+              y = character(0)
+          ))
   }
   out <- unlist(out, recursive = FALSE)
 
