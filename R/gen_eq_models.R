@@ -35,6 +35,34 @@
 #' @inheritParams drop_k
 #' @inheritParams add_k
 #'
+#' @param exclude_x_y_ecov If `TRUE`,
+#' models with a covariance
+#' between a variable (latent or observed)
+#' and the
+#' error term of another variable it
+#' predicts, either directly or indirectly,
+#' will be excluded after the search
+#' is finished. The screening is
+#' implemented by [remove_x_y_ecov()].
+#' This step is conducted a
+#'
+#' @param exclude_x_y_ecov_interim If `TRUE`,
+#' models with a covariance
+#' between a variable (latent or observed)
+#' and the
+#' error term of another variable it
+#' predicts, either directly or indirectly,
+#' will be excluded during each iteration,
+#' after calling [drop_k()] and before
+#' calling [add_k()]. The screening is
+#' implemented by [remove_x_y_ecov()].
+#'
+#' @param exclude_x_y_ecov_add_drop To
+#' be passed to argument
+#' `exclude_x_y_ecov` of [drop_k()] and
+#' [add_k()]. For excluding models when
+#' searching for +1df and -1df models.
+#'
 #' @param sem_out A `lavaan` object, which
 #' is usually the output of [lavaan::sem()]
 #' or similar wrappers. Models will be
@@ -118,6 +146,8 @@ eq_df_models <- function(
   must_not_add = NULL,
   se = "none",
   exclude_x_y_ecov = TRUE,
+  exclude_x_y_ecov_interim = FALSE,
+  exclude_x_y_ecov_add_drop = FALSE,
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = interactive(),
@@ -347,7 +377,7 @@ eq_df_models <- function(
       cat("Searching for models with the same degree of freedom ...")
     }
 
-    if (exclude_x_y_ecov && FALSE) {
+    if (exclude_x_y_ecov_interim && TRUE) {
 
       # ==== Exclude variables with x-error covariances ====
 
@@ -361,7 +391,7 @@ eq_df_models <- function(
           progress) {
         cat("\r", strrep(" ", optwidth), "\r")
         tmp2 <- sprintf(
-          "Removed %d model(s) with x-error covariances.\n",
+          "Removed %d model(s) with x-error covariances.\r",
           round(tmp - length(out_drop_i))
         )
         cat(tmp2)
@@ -397,7 +427,7 @@ eq_df_models <- function(
             sem_out = sem_out,
             fit_models = fit_models,
             must_not_add = must_not_add,
-            exclude_x_y_ecov = FALSE,
+            exclude_x_y_ecov = exclude_x_y_ecov_add_drop,
             se = se,
             parallel = FALSE,
             progress = gen_models_progress,
@@ -417,7 +447,7 @@ eq_df_models <- function(
           sem_out = sem_out,
           fit_models = fit_models,
           must_not_add = must_not_add,
-          exclude_x_y_ecov = FALSE,
+          exclude_x_y_ecov = exclude_x_y_ecov_add_drop,
           se = se,
           parallel = FALSE,
           progress = gen_models_progress,
@@ -446,7 +476,7 @@ eq_df_models <- function(
               sem_out = sem_out,
               fit_models = fit_models,
               must_not_add = must_not_add,
-              exclude_x_y_ecov = FALSE,
+              exclude_x_y_ecov = exclude_x_y_ecov_add_drop,
               se = se,
               parallel = FALSE,
               progress = gen_models_progress,
@@ -465,7 +495,7 @@ eq_df_models <- function(
           sem_out = sem_out,
           fit_models = fit_models,
           must_not_add = must_not_add,
-          exclude_x_y_ecov = FALSE,
+          exclude_x_y_ecov = exclude_x_y_ecov_add_drop,
           se = se,
           parallel = FALSE,
           progress = gen_models_progress,
