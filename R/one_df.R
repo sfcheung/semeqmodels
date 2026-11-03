@@ -385,6 +385,21 @@ drop_k <- function(
 #' to defer error handling to the calling
 #' function.
 #'
+#' @param use_mi If `TRUE`, modification
+#' indices will be used to determine
+#' whether a model with a parameter
+#' added is likely to be equivalent to
+#' the original model *before* used to
+#' generate `object` (determined by the
+#' attribute `parameter_dropped`),
+#' Default value is determined by the
+#' option `semeqmodels.use_mi`.
+#'
+#' @param mi_tolerance The tolerance use
+#' to determine whether two modification
+#' indices are considered to be equal.
+#' Used when `use_mi` is `TRUE`.
+#'
 #' @examples
 #'
 #' # ==== add_k ====
@@ -420,7 +435,9 @@ add_k <- function(
   add_name = FALSE,
   add_digest = TRUE,
   dat = NULL,
-  return_error_msg = FALSE
+  return_error_msg = FALSE,
+  use_mi = getOption("semeqmodels.use_mi", default = FALSE),
+  mi_tolerance = 1e-4
 ) {
 
   # - A function to generate a list of 1-less-df models.
@@ -535,6 +552,54 @@ add_k <- function(
                       pd)
   } else {
     partable_name <- "original"
+  }
+
+  # ==== Use MI ====
+
+  # Will use MI to determine whether a model is likely equivalent
+  # to the original model.
+
+  if (use_mi && !is.null(pd)) {
+    fit_mi <- suppressWarnings(
+                try(
+                  lavaan::modificationIndices(
+                    fit
+                  ),
+                  silent = TRUE
+                )
+              )
+    if (!inherits(fit_mi, "try-error")) {
+      fit_mi$plabel <- lavaan::lav_partable_labels(fit_mi)
+      tmp <- fit_mi
+      tmp1 <- tmp$op == "~~"
+      if (any(tmp1)) {
+        tmp[tmp1, c("lhs", "rhs")] <- tmp[tmp1, c("rhs", "lhs")]
+      }
+      fit_mi$plabel_rev <- lavaan::lav_partable_labels(tmp)
+      pd_in <- (fit_mi$plabel %in% pd) |
+               (fit_mi$plabel_rev %in% pd)
+    } else {
+      pd_in <- FALSE
+    }
+    if (any(pd_in)) {
+      pd_mi <- fit_mi$mi[pd_in][1]
+      pd_mi_1 <- abs(fit_mi$mi - pd_mi) <= mi_tolerance
+      pd_mi_1 <- pd_mi_1 & !pd_in
+      pd_mi_2 <- !pd_mi_1
+    } else {
+      pd_mi_2 <- FALSE
+    }
+    if (any(pd_mi_2)) {
+      must_not_add_by_mi <- fit_mi$plabel[pd_mi_2]
+      must_add <- setdiff(
+                    must_add,
+                    must_not_add_by_mi
+                  )
+      must_not_add <- unique(
+                        c(must_not_add,
+                          must_not_add_by_mi)
+                        )
+    }
   }
 
   # ==== exclude_x_y_ecov ====

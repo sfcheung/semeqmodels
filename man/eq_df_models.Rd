@@ -12,6 +12,8 @@ eq_df_models(
   must_not_add = NULL,
   se = "none",
   exclude_x_y_ecov = TRUE,
+  exclude_x_y_ecov_interim = FALSE,
+  exclude_x_y_ecov_add_drop = FALSE,
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = interactive(),
@@ -66,8 +68,27 @@ between a variable (latent or observed)
 and the
 error term of another variable it
 predicts, either directly or indirectly,
-will be excluded. The screening is
+will be excluded after the search
+is finished. The screening is
+implemented by \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}.
+This step is conducted a}
+
+\item{exclude_x_y_ecov_interim}{If \code{TRUE},
+models with a covariance
+between a variable (latent or observed)
+and the
+error term of another variable it
+predicts, either directly or indirectly,
+will be excluded during each iteration,
+after calling \code{\link[=drop_k]{drop_k()}} and before
+calling \code{\link[=add_k]{add_k()}}. The screening is
 implemented by \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}.}
+
+\item{exclude_x_y_ecov_add_drop}{To
+be passed to argument
+\code{exclude_x_y_ecov} of \code{\link[=drop_k]{drop_k()}} and
+\code{\link[=add_k]{add_k()}}. For excluding models when
+searching for +1df and -1df models.}
 
 \item{parallel}{Whether parallel
 processing will be used. If possible,

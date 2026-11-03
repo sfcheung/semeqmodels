@@ -43,7 +43,9 @@ add_k(
   add_name = FALSE,
   add_digest = TRUE,
   dat = NULL,
-  return_error_msg = FALSE
+  return_error_msg = FALSE,
+  use_mi = getOption("semeqmodels.use_mi", default = FALSE),
+  mi_tolerance = 1e-04
 )
 }
 \arguments{
@@ -172,6 +174,21 @@ return the error message. Set to \code{TRUE}
 when being called by some functions,
 to defer error handling to the calling
 function.}
+
+\item{use_mi}{If \code{TRUE}, modification
+indices will be used to determine
+whether a model with a parameter
+added is likely to be equivalent to
+the original model \emph{before} used to
+generate \code{object} (determined by the
+attribute \code{parameter_dropped}),
+Default value is determined by the
+option \code{semeqmodels.use_mi}.}
+
+\item{mi_tolerance}{The tolerance use
+to determine whether two modification
+indices are considered to be equal.
+Used when \code{use_mi} is \code{TRUE}.}
 }
 \value{
 The function \code{\link[=drop_k]{drop_k()}}
