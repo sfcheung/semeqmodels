@@ -13,6 +13,8 @@ eq_df_models(
   must_not_add = NULL,
   se = "none",
   exclude_x_y_ecov = TRUE,
+  exclude_x_y_ecov_interim = FALSE,
+  exclude_x_y_ecov_add_drop = FALSE,
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = interactive(),
@@ -71,9 +73,30 @@ eq_df_models(
 
   If `TRUE`, models with a covariance between a variable (latent or
   observed) and the error term of another variable it predicts, either
-  directly or indirectly, will be excluded. The screening is implemented
-  by
+  directly or indirectly, will be excluded after the search is finished.
+  The screening is implemented by
   [`remove_x_y_ecov()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md).
+  This step is conducted a
+
+- exclude_x_y_ecov_interim:
+
+  If `TRUE`, models with a covariance between a variable (latent or
+  observed) and the error term of another variable it predicts, either
+  directly or indirectly, will be excluded during each iteration, after
+  calling
+  [`drop_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
+  and before calling
+  [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md).
+  The screening is implemented by
+  [`remove_x_y_ecov()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md).
+
+- exclude_x_y_ecov_add_drop:
+
+  To be passed to argument `exclude_x_y_ecov` of
+  [`drop_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
+  and
+  [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md).
+  For excluding models when searching for +1df and -1df models.
 
 - parallel:
 

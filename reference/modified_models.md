@@ -43,7 +43,9 @@ add_k(
   add_name = FALSE,
   add_digest = TRUE,
   dat = NULL,
-  return_error_msg = FALSE
+  return_error_msg = FALSE,
+  use_mi = getOption("semeqmodels.use_mi", default = FALSE),
+  mi_tolerance = 1e-04
 )
 ```
 
@@ -187,6 +189,19 @@ add_k(
   whether it will throw an error or return the error message. Set to
   `TRUE` when being called by some functions, to defer error handling to
   the calling function.
+
+- use_mi:
+
+  If `TRUE`, modification indices will be used to determine whether a
+  model with a parameter added is likely to be equivalent to the
+  original model *before* used to generate `object` (determined by the
+  attribute `parameter_dropped`), Default value is determined by the
+  option `semeqmodels.use_mi`.
+
+- mi_tolerance:
+
+  The tolerance use to determine whether two modification indices are
+  considered to be equal. Used when `use_mi` is `TRUE`.
 
 ## Value
 
