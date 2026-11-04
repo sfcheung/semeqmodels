@@ -22,7 +22,8 @@ pt <- parameterTable(fit)
 out <- eq_df_models(
   sem_out = fit,
   parallel = FALSE,
-  progress = !is_testing()
+  progress = !is_testing(),
+  keep_covs = "no"
 )
 
 out2 <- eq_df_models(
@@ -72,7 +73,8 @@ pt <- parameterTable(fit)
 out <- eq_df_models(
   sem_out = fit,
   parallel = FALSE,
-  progress = !is_testing()
+  progress = !is_testing(),
+  keep_covs = "no"
 )
 
 out2 <- eq_df_models(

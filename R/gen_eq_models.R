@@ -158,7 +158,7 @@ eq_df_models <- function(
   exclude_x_y_ecov = TRUE,
   exclude_x_y_ecov_interim = FALSE,
   exclude_x_y_ecov_add_drop = FALSE,
-  keep_covs = c("no", "all_covs", "all_x_covs"),
+  keep_covs = c("all_covs", "all_x_covs", "no"),
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = interactive(),
