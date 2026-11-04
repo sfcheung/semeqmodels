@@ -766,8 +766,16 @@ alternative_pars <- function(
   f <- function(xx) {
     if (xx["op"] == "~") {
       out <- xx
-      out["op"] <- "~~"
-      out <- paste0(out, collapse = "")
+      # out["op"] <- "~~"
+      # out <- paste0(out, collapse = "")
+      out1 <- xx
+      out1["op"] <- "~~"
+      out2 <- c(lhs = unname(xx["rhs"]),
+                op = "~",
+                rhs = unname(xx["lhs"]))
+      out1 <- paste0(out1, collapse = "")
+      out2 <- paste0(out2, collapse = "")
+      out <- c(out1, out2)
     } else if (xx["op"] == "~~") {
       out1 <- xx
       out1["op"] <- "~"
@@ -859,4 +867,56 @@ all_nil_parameters <- function(
   }
   out <- unique(out)
   out
+}
+
+#' @noRd
+all_x_covs <- function(
+  object
+) {
+  if (!is_partable(object)) {
+    object <- lavaan::parameterTable(object)
+  }
+  ov_x <- lavaan::lavNames(object, "ov_x")
+  lv_x <- lavaan::lavNames(object, "lv_x")
+  pure_x <- unique(c(ov_x, lv_x))
+  if (length(pure_x) < 2) {
+    return(NULL)
+  }
+  i <- (object$lhs != object$rhs) &
+       (object$op == "~~") &
+       (object$lhs %in% pure_x) &
+       (object$rhs %in% pure_x)
+  if (isFALSE(any(i))) {
+    return(NULL)
+  }
+  out <- object[i, ]
+  out1 <- apply(
+    out[, c("lhs", "op", "rhs")],
+    MARGIN = 1,
+    paste0,
+    collapse = ""
+  )
+  out1
+}
+
+#' @noRd
+all_covs <- function(
+  object
+) {
+  if (!is_partable(object)) {
+    object <- lavaan::parameterTable(object)
+  }
+  i <- (object$lhs != object$rhs) &
+       (object$op == "~~")
+  if (isFALSE(any(i))) {
+    return(NULL)
+  }
+  out <- object[i, ]
+  out1 <- apply(
+    out[, c("lhs", "op", "rhs")],
+    MARGIN = 1,
+    paste0,
+    collapse = ""
+  )
+  out1
 }

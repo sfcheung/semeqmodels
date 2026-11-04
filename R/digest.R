@@ -60,6 +60,10 @@
 #' default value is different from that
 #' of [digest::digest()]
 #'
+#' @param remove_nil Whether a nil
+#' parameter (fixed to zero) is removed
+#' when computing the hash value.
+#'
 #' @param ... For [digest_partable()],
 #' these are optional arguments to be
 #' passed to [digest::digest()]. For
@@ -120,6 +124,7 @@ digest_partable <- function(
   sort_rows = TRUE,
   sort_by = getOption("semeqmodels.digest_sort_by", default = c("lhs", "op", "rhs", "block", "group")),
   algo = getOption("semeqmodels.algo", default = "xxhash32"),
+  remove_nil = getOption("semeqmodels.remove_nil", default = TRUE),
   ...
 ) {
 
@@ -134,6 +139,12 @@ digest_partable <- function(
   }
 
   partable <- sort_cov_pairs(partable)
+
+  if (remove_nil) {
+    i_nil <- (partable$free < 1) &
+             (partable$start == 0)
+    partable <- partable[!i_nil, ]
+  }
 
   if (sort_rows) {
     partable <- sort_partable(

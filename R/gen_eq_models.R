@@ -35,6 +35,17 @@
 #' @inheritParams drop_k
 #' @inheritParams add_k
 #'
+#' @param keep_covs Whether covariances
+#' will be kept in all models. If
+#' `"no"`, covariances may be changed to
+#' direct paths. If `"keep_covs"`, then
+#' all covariances will not be changed,
+#' and will be kept in all models. If
+#' `"keep_x_covs"`, then all covariances
+#' between exogenous variables will not
+#' be changed, and will be kept in all
+#' models.
+#'
 #' @param exclude_x_y_ecov If `TRUE`,
 #' models with a covariance
 #' between a variable (latent or observed)
@@ -44,7 +55,6 @@
 #' will be excluded after the search
 #' is finished. The screening is
 #' implemented by [remove_x_y_ecov()].
-#' This step is conducted a
 #'
 #' @param exclude_x_y_ecov_interim If `TRUE`,
 #' models with a covariance
@@ -148,16 +158,20 @@ eq_df_models <- function(
   exclude_x_y_ecov = TRUE,
   exclude_x_y_ecov_interim = FALSE,
   exclude_x_y_ecov_add_drop = FALSE,
+  keep_covs = c("all_covs", "all_x_covs", "no"),
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
   must_not_add_nil_parameters = TRUE,
-  save_history = FALSE
+  save_history = FALSE,
+  use_mi = FALSE,
+  mi_tolerance = 1e-4
 ) {
   # TODO:
   # - Add other arguments, e.g., for add_k() and drop_k().
+  keep_covs <- match.arg(keep_covs)
   optwidth <- getOption("width")
   out <- as_eq_partables()
   out_drop_tried <- as_eq_partables()
@@ -176,6 +190,22 @@ eq_df_models <- function(
       must_not_add,
       all_nil
     )
+  }
+
+  # ==== Find covs and keep, if keep_cov TRUE ====
+
+  if (keep_covs == "all_covs") {
+    tmp <- all_covs(sem_out)
+    must_not_drop <- unique(c(
+      must_not_drop,
+      tmp
+    ))
+  } else if (keep_covs == "all_x_covs") {
+    tmp <- all_x_covs(sem_out)
+    must_not_drop <- unique(c(
+      must_not_drop,
+      tmp
+    ))
   }
 
   # ==== fix_call ====
@@ -431,7 +461,9 @@ eq_df_models <- function(
             se = se,
             parallel = FALSE,
             progress = gen_models_progress,
-            dat = dat
+            dat = dat,
+            mi_tolerance = mi_tolerance,
+            use_mi = use_mi
           )
           cli::cli_progress_update(set = max(i))
           utils::flush.console()
@@ -452,6 +484,8 @@ eq_df_models <- function(
           parallel = FALSE,
           progress = gen_models_progress,
           dat = dat,
+          use_mi = use_mi,
+          mi_tolerance = mi_tolerance,
           chunk.size = chunk_size
         )
       }
@@ -481,6 +515,8 @@ eq_df_models <- function(
               parallel = FALSE,
               progress = gen_models_progress,
               dat = dat,
+              use_mi = use_mi,
+              mi_tolerance = mi_tolerance,
               return_error_msg = TRUE
             )
           cli::cli_progress_update(set = max(i))
@@ -500,6 +536,8 @@ eq_df_models <- function(
           parallel = FALSE,
           progress = gen_models_progress,
           dat = dat,
+          use_mi = use_mi,
+          mi_tolerance = mi_tolerance,
           return_error_msg = TRUE
         )
       }
@@ -558,6 +596,13 @@ eq_df_models <- function(
 
   # ==== End the loop ====
 
+  # Ensure the original model is in out
+
+  out <- c(
+          out,
+          as_eq_partables(sem_out)
+        )
+
   # ==== Prepare the output ====
 
   # ==== Exclude models with x-error covariances ====
@@ -594,6 +639,9 @@ eq_df_models <- function(
   attr(out, "pts_more_df_all") <- rename_to_digest(out_drop_tried)
   attr(out, "pts_excluded") <- setdiff_eq_partables(out_full, out)
   attr(out, "has_error") <- has_error
+  args <- as.list(match.call()[-1])
+  args$sem_out <- NULL
+  attr(out, "args") <- args
 
   # TODO:
   # - Should sem_out be excluded?

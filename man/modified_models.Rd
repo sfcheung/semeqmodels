@@ -44,7 +44,7 @@ add_k(
   add_digest = TRUE,
   dat = NULL,
   return_error_msg = FALSE,
-  use_mi = getOption("semeqmodels.use_mi", default = FALSE),
+  use_mi = FALSE,
   mi_tolerance = 1e-04
 )
 }
@@ -181,9 +181,7 @@ whether a model with a parameter
 added is likely to be equivalent to
 the original model \emph{before} used to
 generate \code{object} (determined by the
-attribute \code{parameter_dropped}),
-Default value is determined by the
-option \code{semeqmodels.use_mi}.}
+attribute \code{parameter_dropped}).}
 
 \item{mi_tolerance}{The tolerance use
 to determine whether two modification

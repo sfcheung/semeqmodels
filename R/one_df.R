@@ -391,9 +391,7 @@ drop_k <- function(
 #' added is likely to be equivalent to
 #' the original model *before* used to
 #' generate `object` (determined by the
-#' attribute `parameter_dropped`),
-#' Default value is determined by the
-#' option `semeqmodels.use_mi`.
+#' attribute `parameter_dropped`).
 #'
 #' @param mi_tolerance The tolerance use
 #' to determine whether two modification
@@ -436,7 +434,7 @@ add_k <- function(
   add_digest = TRUE,
   dat = NULL,
   return_error_msg = FALSE,
-  use_mi = getOption("semeqmodels.use_mi", default = FALSE),
+  use_mi = FALSE,
   mi_tolerance = 1e-4
 ) {
 

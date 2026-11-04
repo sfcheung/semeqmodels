@@ -17,6 +17,7 @@ digest_partable(
   sort_by = getOption("semeqmodels.digest_sort_by", default = c("lhs", "op", "rhs",
     "block", "group")),
   algo = getOption("semeqmodels.algo", default = "xxhash32"),
+  remove_nil = getOption("semeqmodels.remove_nil", default = TRUE),
   ...
 )
 
@@ -60,6 +61,10 @@ sorting the rows, if \code{sort_rows} is
 by \code{\link[digest:digest]{digest::digest()}}. Note that the
 default value is different from that
 of \code{\link[digest:digest]{digest::digest()}}}
+
+\item{remove_nil}{Whether a nil
+parameter (fixed to zero) is removed
+when computing the hash value.}
 
 \item{...}{For \code{\link[=digest_partable]{digest_partable()}},
 these are optional arguments to be

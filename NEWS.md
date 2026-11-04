@@ -1,4 +1,4 @@
-# semeqmodels 0.1.0.6
+# semeqmodels 0.1.0.7
 
 ## New Features
 
@@ -24,6 +24,25 @@
   is determined by the argument
   `eq_mode`. (0.1.0.5)
 
+- Added the argument `keep_covs` to
+  `eq_df_models()`. By
+  default, all covariances will not be
+  changed because it is unlikely that
+  users would like to find models that
+  change a bidirectional path (no
+  assertion on the causal direction)
+  to a directional path. This is likely
+  to be true for covariances among
+  predictors.
+  (0.1.0.7)
+
+## Enhancement
+
+- Improved `eq_df_models()` in searching
+  models. Fixed a bug in `digest_partable()`.
+  No more redundant files -1df models
+  in the search.
+  (0.1.0.7)
 
 ## Miscellaneous
 

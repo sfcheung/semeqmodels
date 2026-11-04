@@ -1,6 +1,6 @@
 ---
 title: "Workflow Demo: 4 Observed Variables"
-date: "2026-09-13"
+date: "2026-11-04"
 output:
   html_document:
     fig.align: "center"
@@ -68,7 +68,7 @@ fit <- sem(
   fixed.x = FALSE
 )
 fit
-#> lavaan 0.7-2.3166 ended normally after 1 iteration
+#> lavaan 0.7-3.3364 ended normally after 1 iteration
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -152,18 +152,18 @@ out
 #> The models:
 #> 
 #>    Model   
-#> 1  9be129fc
-#> 2  b38a8805
-#> 3  74fd6479
-#> 4  996415c7
-#> 5  607e59ab
-#> 6  afb0666c
+#> 1  59f47a4e
+#> 2  607e59ab
+#> 3  aab97365
+#> 4  c76ab2e0
+#> 5  3901fc49
+#> 6  996415c7
 #> 7  29a5f63b
-#> 8  c76ab2e0
-#> 9  2c17e2ae
-#> 10 aab97365
-#> 11 59f47a4e
-#> 12 3901fc49 
+#> 8  74fd6479
+#> 9  b38a8805
+#> 10 2c17e2ae
+#> 11 afb0666c
+#> 12 9be129fc 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the
@@ -184,9 +184,9 @@ that of the original model:
 
 ``` r
 eq_chisq(out)
-#> 9be129fc b38a8805 74fd6479 996415c7 607e59ab afb0666c 29a5f63b c76ab2e0 
+#> 59f47a4e 607e59ab aab97365 c76ab2e0 3901fc49 996415c7 29a5f63b 74fd6479 
 #> 1.536571 1.536571 1.536571 1.536571 1.536571 1.536571 1.536571 1.536571 
-#> 2c17e2ae aab97365 59f47a4e 3901fc49 
+#> b38a8805 2c17e2ae afb0666c 9be129fc 
 #> 1.536571 1.536571 1.536571 1.536571
 ```
 
@@ -204,9 +204,9 @@ model:
 
 ``` r
 eq_df(out)
-#> 9be129fc b38a8805 74fd6479 996415c7 607e59ab afb0666c 29a5f63b c76ab2e0 
+#> 59f47a4e 607e59ab aab97365 c76ab2e0 3901fc49 996415c7 29a5f63b 74fd6479 
 #>        1        1        1        1        1        1        1        1 
-#> 2c17e2ae aab97365 59f47a4e 3901fc49 
+#> b38a8805 2c17e2ae afb0666c 9be129fc 
 #>        1        1        1        1
 ```
 
