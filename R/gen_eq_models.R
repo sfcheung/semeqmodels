@@ -35,6 +35,17 @@
 #' @inheritParams drop_k
 #' @inheritParams add_k
 #'
+#' @param keep_covs Whether covariances
+#' will be kept in all models. If
+#' `"no"`, covariances may be changed to
+#' direct paths. If `"keep_covs"`, then
+#' all covariances will not be changed,
+#' and will be kept in all models. If
+#' `"keep_x_covs"`, then all covariances
+#' between exogenous variables will not
+#' be changed, and will be kept in all
+#' models.
+#'
 #' @param exclude_x_y_ecov If `TRUE`,
 #' models with a covariance
 #' between a variable (latent or observed)
@@ -44,7 +55,6 @@
 #' will be excluded after the search
 #' is finished. The screening is
 #' implemented by [remove_x_y_ecov()].
-#' This step is conducted a
 #'
 #' @param exclude_x_y_ecov_interim If `TRUE`,
 #' models with a covariance
@@ -148,6 +158,7 @@ eq_df_models <- function(
   exclude_x_y_ecov = TRUE,
   exclude_x_y_ecov_interim = FALSE,
   exclude_x_y_ecov_add_drop = FALSE,
+  keep_covs = c("no", "all_covs", "all_x_covs"),
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = interactive(),
@@ -160,6 +171,7 @@ eq_df_models <- function(
 ) {
   # TODO:
   # - Add other arguments, e.g., for add_k() and drop_k().
+  keep_covs <- match.arg(keep_covs)
   optwidth <- getOption("width")
   out <- as_eq_partables()
   out_drop_tried <- as_eq_partables()
@@ -178,6 +190,22 @@ eq_df_models <- function(
       must_not_add,
       all_nil
     )
+  }
+
+  # ==== Find covs and keep, if keep_cov TRUE ====
+
+  if (keep_covs == "all_covs") {
+    tmp <- all_covs(sem_out)
+    must_not_drop <- unique(c(
+      must_not_drop,
+      tmp
+    ))
+  } else if (keep_covs == "all_x_covs") {
+    tmp <- all_x_covs(sem_out)
+    must_not_drop <- unique(c(
+      must_not_drop,
+      tmp
+    ))
   }
 
   # ==== fix_call ====
@@ -611,6 +639,9 @@ eq_df_models <- function(
   attr(out, "pts_more_df_all") <- rename_to_digest(out_drop_tried)
   attr(out, "pts_excluded") <- setdiff_eq_partables(out_full, out)
   attr(out, "has_error") <- has_error
+  args <- as.list(match.call()[-1])
+  args$sem_out <- NULL
+  attr(out, "args") <- args
 
   # TODO:
   # - Should sem_out be excluded?
