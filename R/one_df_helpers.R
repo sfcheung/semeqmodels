@@ -766,8 +766,16 @@ alternative_pars <- function(
   f <- function(xx) {
     if (xx["op"] == "~") {
       out <- xx
-      out["op"] <- "~~"
-      out <- paste0(out, collapse = "")
+      # out["op"] <- "~~"
+      # out <- paste0(out, collapse = "")
+      out1 <- xx
+      out1["op"] <- "~~"
+      out2 <- c(lhs = unname(xx["rhs"]),
+                op = "~",
+                rhs = unname(xx["lhs"]))
+      out1 <- paste0(out1, collapse = "")
+      out2 <- paste0(out2, collapse = "")
+      out <- c(out1, out2)
     } else if (xx["op"] == "~~") {
       out1 <- xx
       out1["op"] <- "~"
