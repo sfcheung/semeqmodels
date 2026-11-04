@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Workflow Demo: 4 Observed Variables</h1>
             
-            <h4 data-toc-skip class="date">2026-09-13</h4>
+            <h4 data-toc-skip class="date">2026-11-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfcheung/semeqmodels/blob/main/vignettes/articles/demo_obs_4.Rmd" class="external-link"><code>vignettes/articles/demo_obs_4.Rmd</code></a></small>
       <div class="d-none name"><code>demo_obs_4.Rmd</code></div>
@@ -123,7 +123,7 @@ Parallel Mediation Model
 <span>  fixed.x <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">fit</span></span>
-<span><span class="co">#&gt; lavaan 0.7-2.3166 ended normally after 1 iteration</span></span>
+<span><span class="co">#&gt; lavaan 0.7-3.3364 ended normally after 1 iteration</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Estimator                                         ML</span></span>
 <span><span class="co">#&gt;   Optimization method                           NLMINB</span></span>
@@ -185,18 +185,18 @@ page of <code><a href="../reference/eq_models.html">eq_models()</a></code> for a
 <span><span class="co">#&gt; The models:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;    Model   </span></span>
-<span><span class="co">#&gt; 1  9be129fc</span></span>
-<span><span class="co">#&gt; 2  b38a8805</span></span>
-<span><span class="co">#&gt; 3  74fd6479</span></span>
-<span><span class="co">#&gt; 4  996415c7</span></span>
-<span><span class="co">#&gt; 5  607e59ab</span></span>
-<span><span class="co">#&gt; 6  afb0666c</span></span>
+<span><span class="co">#&gt; 1  59f47a4e</span></span>
+<span><span class="co">#&gt; 2  607e59ab</span></span>
+<span><span class="co">#&gt; 3  aab97365</span></span>
+<span><span class="co">#&gt; 4  c76ab2e0</span></span>
+<span><span class="co">#&gt; 5  3901fc49</span></span>
+<span><span class="co">#&gt; 6  996415c7</span></span>
 <span><span class="co">#&gt; 7  29a5f63b</span></span>
-<span><span class="co">#&gt; 8  c76ab2e0</span></span>
-<span><span class="co">#&gt; 9  2c17e2ae</span></span>
-<span><span class="co">#&gt; 10 aab97365</span></span>
-<span><span class="co">#&gt; 11 59f47a4e</span></span>
-<span><span class="co">#&gt; 12 3901fc49 </span></span>
+<span><span class="co">#&gt; 8  74fd6479</span></span>
+<span><span class="co">#&gt; 9  b38a8805</span></span>
+<span><span class="co">#&gt; 10 2c17e2ae</span></span>
+<span><span class="co">#&gt; 11 afb0666c</span></span>
+<span><span class="co">#&gt; 12 9be129fc </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span></span>
 <span><span class="co">#&gt; "long"' to use the long descriptive names, if available, for the</span></span>
@@ -212,9 +212,9 @@ to verify that they have model
 close to that of the original model:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_chisq</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 9be129fc b38a8805 74fd6479 996415c7 607e59ab afb0666c 29a5f63b c76ab2e0 </span></span>
+<span><span class="co">#&gt; 59f47a4e 607e59ab aab97365 c76ab2e0 3901fc49 996415c7 29a5f63b 74fd6479 </span></span>
 <span><span class="co">#&gt; 1.536571 1.536571 1.536571 1.536571 1.536571 1.536571 1.536571 1.536571 </span></span>
-<span><span class="co">#&gt; 2c17e2ae aab97365 59f47a4e 3901fc49 </span></span>
+<span><span class="co">#&gt; b38a8805 2c17e2ae afb0666c 9be129fc </span></span>
 <span><span class="co">#&gt; 1.536571 1.536571 1.536571 1.536571</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/fitMeasures.html" class="external-link">fitMeasures</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"chisq"</span><span class="op">)</span></span>
@@ -224,9 +224,9 @@ close to that of the original model:</p>
 original model:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eq_partables_helpers.html">eq_df</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 9be129fc b38a8805 74fd6479 996415c7 607e59ab afb0666c 29a5f63b c76ab2e0 </span></span>
+<span><span class="co">#&gt; 59f47a4e 607e59ab aab97365 c76ab2e0 3901fc49 996415c7 29a5f63b 74fd6479 </span></span>
 <span><span class="co">#&gt;        1        1        1        1        1        1        1        1 </span></span>
-<span><span class="co">#&gt; 2c17e2ae aab97365 59f47a4e 3901fc49 </span></span>
+<span><span class="co">#&gt; b38a8805 2c17e2ae afb0666c 9be129fc </span></span>
 <span><span class="co">#&gt;        1        1        1        1</span></span></code></pre></div>
 </div>
 <div class="section level2">

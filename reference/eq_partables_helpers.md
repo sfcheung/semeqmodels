@@ -255,9 +255,9 @@ out
 #> 
 #>   Model   
 #> 1 12672c47
-#> 2 45f61ccf
-#> 3 b0a9b170
-#> 4 459cd495
+#> 2 b0a9b170
+#> 3 459cd495
+#> 4 45f61ccf
 #> 5 c02043f3 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
@@ -271,14 +271,6 @@ eq_lavInspect(out, "implied")
 #> fx 1.002            
 #> fm 0.245 0.943      
 #> fy 0.062 0.237 0.927
-#> 
-#> 
-#> $`45f61ccf`
-#> $`45f61ccf`$cov
-#>       fx    fy    fm
-#> fx 1.002            
-#> fy 0.062 0.927      
-#> fm 0.245 0.237 0.943
 #> 
 #> 
 #> $b0a9b170
@@ -297,51 +289,39 @@ eq_lavInspect(out, "implied")
 #> fx 0.062 0.245 1.002
 #> 
 #> 
+#> $`45f61ccf`
+#> $`45f61ccf`$cov
+#>       fy    fx    fm
+#> fy 0.927            
+#> fx 0.062 1.002      
+#> fm 0.237 0.245 0.943
+#> 
+#> 
 #> $c02043f3
 #> $c02043f3$cov
-#>       fy    fm    fx
-#> fy 0.927            
-#> fm 0.237 0.943      
-#> fx 0.062 0.245 1.002
+#>       fm    fy    fx
+#> fm 0.943            
+#> fy 0.237 0.927      
+#> fx 0.245 0.062 1.002
 #> 
 #> 
 
 
 eq_fitMeasures(out, c("cfi", "tli"))
-#>     12672c47 45f61ccf b0a9b170 459cd495 c02043f3
+#>     12672c47 b0a9b170 459cd495 45f61ccf c02043f3
 #> cfi 1.000000 1.000000 1.000000 1.000000 1.000000
 #> tli 1.128028 1.128028 1.128028 1.128028 1.128028
 
 
 
 eq_df(out)
-#> 12672c47 45f61ccf b0a9b170 459cd495 c02043f3 
+#> 12672c47 b0a9b170 459cd495 45f61ccf c02043f3 
 #>        1        1        1        1        1 
 
 
 eq_fits(out)
 #> $`12672c47`
 #> lavaan 0.7-3 ended normally after 11 iterations
-#> 
-#>   Estimator                                         ML
-#>   Optimization method                           NLMINB
-#>   Number of model parameters                         5
-#> 
-#>   Number of observations                           200
-#> 
-#> Model Test User Model:
-#>                                                       
-#>   Test statistic                                 0.001
-#>   Degrees of freedom                                 1
-#>   P-value (Chi-square)                           0.980
-#>                                                       
-#>   Browne's residual (NT model-based) test             
-#>   Test statistic                                 0.001
-#>   Degrees of freedom                                 1
-#>   P-value (Chi-square)                           0.980
-#> 
-#> $`45f61ccf`
-#> lavaan 0.7-3 ended normally after 9 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -381,6 +361,26 @@ eq_fits(out)
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $`459cd495`
+#> lavaan 0.7-3 ended normally after 11 iterations
+#> 
+#>   Estimator                                         ML
+#>   Optimization method                           NLMINB
+#>   Number of model parameters                         5
+#> 
+#>   Number of observations                           200
+#> 
+#> Model Test User Model:
+#>                                                       
+#>   Test statistic                                 0.001
+#>   Degrees of freedom                                 1
+#>   P-value (Chi-square)                           0.980
+#>                                                       
+#>   Browne's residual (NT model-based) test             
+#>   Test statistic                                 0.001
+#>   Degrees of freedom                                 1
+#>   P-value (Chi-square)                           0.980
+#> 
+#> $`45f61ccf`
 #> lavaan 0.7-3 ended normally after 8 iterations
 #> 
 #>   Estimator                                         ML
@@ -401,7 +401,7 @@ eq_fits(out)
 #>   P-value (Chi-square)                           0.980
 #> 
 #> $c02043f3
-#> lavaan 0.7-3 ended normally after 8 iterations
+#> lavaan 0.7-3 ended normally after 1 iteration
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -431,8 +431,8 @@ out1
 #> The models:
 #> 
 #>   Model   
-#> 1 45f61ccf
-#> 2 b0a9b170 
+#> 1 b0a9b170
+#> 2 459cd495 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the

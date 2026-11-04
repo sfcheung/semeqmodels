@@ -310,8 +310,8 @@ is_eq(
   original_model = fit3,
   parallel = FALSE
 )
-#> drop: fm~fx.add: fx~~fm drop: fm~fx.add: fx~~fy drop: fy~fm.add: fx~~fy 
-#>                    TRUE                   FALSE                   FALSE 
-#> drop: fy~fm.add: fm~~fy 
-#>                   FALSE 
+#> drop: fm~fx.add: fx~~fm drop: fm~fx.add: fx~~fy  drop: fm~fx.add: fx~fm 
+#>                    TRUE                   FALSE                    TRUE 
+#> drop: fy~fm.add: fx~~fy drop: fy~fm.add: fm~~fy  drop: fy~fm.add: fm~fy 
+#>                   FALSE                   FALSE                   FALSE 
 ```

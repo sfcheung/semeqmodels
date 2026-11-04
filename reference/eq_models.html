@@ -11,7 +11,7 @@ equivalent to the original model."><meta property="og:image" content="https://sf
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -426,10 +426,10 @@ the function used to fit the models.</p></div>
 <span class="r-in"><span>  original_model <span class="op">=</span> <span class="va">fit3</span>,</span></span>
 <span class="r-in"><span>  parallel <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> drop: fm~fx.add: fx~~fm drop: fm~fx.add: fx~~fy drop: fy~fm.add: fx~~fy </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    TRUE                   FALSE                   FALSE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> drop: fy~fm.add: fm~~fy </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   FALSE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> drop: fm~fx.add: fx~~fm drop: fm~fx.add: fx~~fy  drop: fm~fx.add: fx~fm </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    TRUE                   FALSE                    TRUE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> drop: fy~fm.add: fx~~fy drop: fy~fm.add: fm~~fy  drop: fy~fm.add: fm~fy </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   FALSE                   FALSE                   FALSE </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

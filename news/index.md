@@ -1,6 +1,6 @@
 # Changelog
 
-## semeqmodels 0.1.0.6
+## semeqmodels 0.1.0.7
 
 ### New Features
 
@@ -22,6 +22,21 @@
   covariance matrix (and mean vector, if available). Whether fit
   measures or implied matrices and vectors are used is determined by the
   argument `eq_mode`. (0.1.0.5)
+
+- Added the argument `keep_covs` to
+  [`eq_df_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_df_models.md).
+  By default, all covariances will not be changed because it is unlikely
+  that users would like to find models that change a bidirectional path
+  (no assertion on the causal direction) to a directional path. This is
+  likely to be true for covariances among predictors. (0.1.0.7)
+
+### Enhancement
+
+- Improved
+  [`eq_df_models()`](https://sfcheung.github.io/semeqmodels/reference/eq_df_models.md)
+  in searching models. Fixed a bug in
+  [`digest_partable()`](https://sfcheung.github.io/semeqmodels/reference/digest_partable.md).
+  No more redundant files -1df models in the search. (0.1.0.7)
 
 ### Miscellaneous
 

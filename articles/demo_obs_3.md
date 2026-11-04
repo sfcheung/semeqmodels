@@ -61,7 +61,7 @@ fit <- sem(
   fixed.x = FALSE
 )
 fit
-#> lavaan 0.7-2.3166 ended normally after 1 iteration
+#> lavaan 0.7-3.3364 ended normally after 1 iteration
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -137,19 +137,19 @@ out
 #> The models:
 #> 
 #>    Model   
-#> 1  0e2f16c3
-#> 2  08abece1
-#> 3  3e72d53b
-#> 4  da6c9353
-#> 5  8f9f269c
-#> 6  2251354d
-#> 7  85214c93
-#> 8  53162624
-#> 9  ffd41199
-#> 10 efd952f3
-#> 11 cf9c713d
-#> 12 63cacac9
-#> 13 50dce357 
+#> 1  da6c9353
+#> 2  3e72d53b
+#> 3  08abece1
+#> 4  ffd41199
+#> 5  53162624
+#> 6  0e2f16c3
+#> 7  cf9c713d
+#> 8  efd952f3
+#> 9  50dce357
+#> 10 8f9f269c
+#> 11 63cacac9
+#> 12 2251354d
+#> 13 85214c93 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the
@@ -168,12 +168,12 @@ model $`\chi^2`$s close to that of the original model:
 ``` r
 
 eq_chisq(out)
-#>     0e2f16c3     08abece1     3e72d53b     da6c9353     8f9f269c     2251354d 
-#> 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 
-#>     85214c93     53162624     ffd41199     efd952f3     cf9c713d     63cacac9 
-#> 0.000000e+00 8.881784e-14 8.881784e-14 0.000000e+00 0.000000e+00 8.881784e-14 
-#>     50dce357 
-#> 8.881784e-14
+#>     da6c9353     3e72d53b     08abece1     ffd41199     53162624     0e2f16c3 
+#> 0.000000e+00 0.000000e+00 8.881784e-14 8.881784e-14 8.881784e-14 0.000000e+00 
+#>     cf9c713d     efd952f3     50dce357     8f9f269c     63cacac9     2251354d 
+#> 0.000000e+00 0.000000e+00 8.881784e-14 8.881784e-14 0.000000e+00 0.000000e+00 
+#>     85214c93 
+#> 0.000000e+00
 ```
 
 ``` r
@@ -189,9 +189,9 @@ original model:
 ``` r
 
 eq_df(out)
-#> 0e2f16c3 08abece1 3e72d53b da6c9353 8f9f269c 2251354d 85214c93 53162624 
+#> da6c9353 3e72d53b 08abece1 ffd41199 53162624 0e2f16c3 cf9c713d efd952f3 
 #>        0        0        0        0        0        0        0        0 
-#> ffd41199 efd952f3 cf9c713d 63cacac9 50dce357 
+#> 50dce357 8f9f269c 63cacac9 2251354d 85214c93 
 #>        0        0        0        0        0
 ```
 

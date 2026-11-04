@@ -13,7 +13,7 @@ comparisons."><meta property="og:image" content="https://sfcheung.github.io/seme
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,6 +68,7 @@ comparisons.</p>
 <span>  sort_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"semeqmodels.digest_sort_by"</span>, default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lhs"</span>, <span class="st">"op"</span>, <span class="st">"rhs"</span>,</span>
 <span>    <span class="st">"block"</span>, <span class="st">"group"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  algo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"semeqmodels.algo"</span>, default <span class="op">=</span> <span class="st">"xxhash32"</span><span class="op">)</span>,</span>
+<span>  remove_nil <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"semeqmodels.remove_nil"</span>, default <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -126,6 +127,12 @@ sorting the rows, if <code>sort_rows</code> is
 by <code><a href="https://eddelbuettel.github.io/digest/man/digest.html" class="external-link">digest::digest()</a></code>. Note that the
 default value is different from that
 of <code><a href="https://eddelbuettel.github.io/digest/man/digest.html" class="external-link">digest::digest()</a></code></p></dd>
+
+
+<dt id="arg-remove-nil">remove_nil<a class="anchor" aria-label="anchor" href="#arg-remove-nil"></a></dt>
+<dd><p>Whether a nil
+parameter (fixed to zero) is removed
+when computing the hash value.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

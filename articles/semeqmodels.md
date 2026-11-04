@@ -16,7 +16,7 @@ A test dataset of `semeqmodels` will be used for illustration:
 
 library(semeqmodels)
 packageVersion("semeqmodels")
-#> [1] '0.0.1.5'
+#> [1] '0.1.0.7'
 head(round(data_test_3_factor_3_item, 2))
 #>      x1    x2    x3    m1    m2    m3    y1    y2    y3
 #> 1 -2.13 -1.21 -0.05  1.88  0.99  0.40  3.24  2.23  1.44
@@ -55,7 +55,7 @@ fit <- sem(
   data = data_test_3_factor_3_item
 )
 fit
-#> lavaan 0.7-2.3166 ended normally after 40 iterations
+#> lavaan 0.7-3.3364 ended normally after 40 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -128,8 +128,8 @@ mod_eq
 #>   Model   
 #> 1 c8181b7d
 #> 2 34be955a
-#> 3 3ded8a97
-#> 4 d882121d
+#> 3 d882121d
+#> 4 3ded8a97
 #> 5 fada78e4 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
@@ -151,15 +151,10 @@ print(mod_eq,
 #> The models:
 #> 
 #> Model
-#> 1 c8181b7d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
-#>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fm~fy, drop:fm~fy,
-#>     add:fm~~fy
-#> 2 34be955a := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
-#>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fm~fy
-#> 3 3ded8a97 := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
-#>     drop:fx~~fm, add:fx~fm, drop:fm~~fy, add:fy~fm
-#> 4 d882121d := original, drop:fm~fx, add:fx~~fm, drop:fy~fm, add:fm~~fy,
-#>     drop:fm~~fy, add:fy~fm
+#> 1 c8181b7d := original, drop:fm~fx, add:fx~fm, drop:fy~fm, add:fm~~fy
+#> 2 34be955a := original, drop:fm~fx, add:fx~fm, drop:fy~fm, add:fm~fy
+#> 3 d882121d := original, drop:fm~fx, add:fx~~fm
+#> 4 3ded8a97 := original, drop:fm~fx, add:fx~fm
 #> 5 fada78e4 := original
 ```
 
@@ -176,7 +171,7 @@ can be used to retrieve the model *df*s:
 ``` r
 
 eq_df(mod_eq)
-#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4 
+#> c8181b7d 34be955a d882121d 3ded8a97 fada78e4 
 #>       25       25       25       25       25
 ```
 
@@ -189,7 +184,7 @@ can be used to retrieve the model $`\chi^2`$s of the models:
 ``` r
 
 eq_chisq(mod_eq)
-#> c8181b7d 34be955a 3ded8a97 d882121d fada78e4 
+#> c8181b7d 34be955a d882121d 3ded8a97 fada78e4 
 #> 25.50339 25.50339 25.50339 25.50339 25.50339
 ```
 
@@ -237,16 +232,6 @@ model_diff_many(
 #> 
 #> -------------
 #> 
-#> Models: fit vs. 3ded8a97
-#> 
-#> Model: fit
-#> fm~fx (free)
-#> 
-#> Model: 3ded8a97
-#> fx~fm (free)
-#> 
-#> -------------
-#> 
 #> Models: fit vs. d882121d
 #> 
 #> Model: fit
@@ -254,6 +239,16 @@ model_diff_many(
 #> 
 #> Model: d882121d
 #> fm~~fx (free)
+#> 
+#> -------------
+#> 
+#> Models: fit vs. 3ded8a97
+#> 
+#> Model: fit
+#> fm~fx (free)
+#> 
+#> Model: 3ded8a97
+#> fx~fm (free)
 #> 
 #> -------------
 #> 
@@ -361,14 +356,14 @@ mod_eq_cfi
 #> The models:
 #> 
 #>   Model   
-#> 1 bf4767ac
-#> 2 c8181b7d
-#> 3 34be955a
-#> 4 3ded8a97
-#> 5 4588fdf2
-#> 6 0e0eca72
+#> 1 4588fdf2
+#> 2 bf4767ac
+#> 3 c8181b7d
+#> 4 34be955a
+#> 5 d882121d
+#> 6 3ded8a97
 #> 7 c15465c0
-#> 8 d882121d
+#> 8 0e0eca72
 #> 9 fada78e4 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
@@ -382,7 +377,7 @@ than when using model $`\chi^2`$.
 ``` r
 
 eq_df(mod_eq_cfi)
-#> bf4767ac c8181b7d 34be955a 3ded8a97 4588fdf2 0e0eca72 c15465c0 d882121d 
+#> 4588fdf2 bf4767ac c8181b7d 34be955a d882121d 3ded8a97 c15465c0 0e0eca72 
 #>       25       25       25       25       25       25       25       25 
 #> fada78e4 
 #>       25
@@ -401,8 +396,8 @@ eq_fitMeasures(
   mod_eq_cfi,
   "cfi"
 )
-#>     bf4767ac  c8181b7d  34be955a  3ded8a97 4588fdf2 0e0eca72 c15465c0  d882121d
-#> cfi        1 0.9980126 0.9980126 0.9980126        1        1        1 0.9980126
+#>     4588fdf2 bf4767ac  c8181b7d  34be955a  d882121d  3ded8a97 c15465c0 0e0eca72
+#> cfi        1        1 0.9980126 0.9980126 0.9980126 0.9980126        1        1
 #>      fada78e4
 #> cfi 0.9980126
 ```

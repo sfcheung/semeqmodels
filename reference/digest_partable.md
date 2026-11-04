@@ -15,6 +15,7 @@ digest_partable(
   sort_by = getOption("semeqmodels.digest_sort_by", default = c("lhs", "op", "rhs",
     "block", "group")),
   algo = getOption("semeqmodels.algo", default = "xxhash32"),
+  remove_nil = getOption("semeqmodels.remove_nil", default = TRUE),
   ...
 )
 
@@ -62,6 +63,11 @@ get_digest_partables(partables, ...)
   [`digest::digest()`](https://eddelbuettel.github.io/digest/man/digest.html).
   Note that the default value is different from that of
   [`digest::digest()`](https://eddelbuettel.github.io/digest/man/digest.html)
+
+- remove_nil:
+
+  Whether a nil parameter (fixed to zero) is removed when computing the
+  hash value.
 
 - ...:
 

@@ -15,13 +15,16 @@ eq_df_models(
   exclude_x_y_ecov = TRUE,
   exclude_x_y_ecov_interim = FALSE,
   exclude_x_y_ecov_add_drop = FALSE,
+  keep_covs = c("all_covs", "all_x_covs", "no"),
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
   must_not_add_nil_parameters = TRUE,
-  save_history = FALSE
+  save_history = FALSE,
+  use_mi = FALSE,
+  mi_tolerance = 1e-04
 )
 ```
 
@@ -76,7 +79,6 @@ eq_df_models(
   directly or indirectly, will be excluded after the search is finished.
   The screening is implemented by
   [`remove_x_y_ecov()`](https://sfcheung.github.io/semeqmodels/reference/partable_select.md).
-  This step is conducted a
 
 - exclude_x_y_ecov_interim:
 
@@ -97,6 +99,14 @@ eq_df_models(
   and
   [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md).
   For excluding models when searching for +1df and -1df models.
+
+- keep_covs:
+
+  Whether covariances will be kept in all models. If `"no"`, covariances
+  may be changed to direct paths. If `"keep_covs"`, then all covariances
+  will not be changed, and will be kept in all models. If
+  `"keep_x_covs"`, then all covariances between exogenous variables will
+  not be changed, and will be kept in all models.
 
 - parallel:
 
@@ -136,6 +146,18 @@ eq_df_models(
 - save_history:
 
   Logical. If `TRUE`, the search history will be saved.
+
+- use_mi:
+
+  If `TRUE`, modification indices will be used to determine whether a
+  model with a parameter added is likely to be equivalent to the
+  original model *before* used to generate `object` (determined by the
+  attribute `parameter_dropped`).
+
+- mi_tolerance:
+
+  The tolerance use to determine whether two modification indices are
+  considered to be equal. Used when `use_mi` is `TRUE`.
 
 ## Value
 
@@ -193,14 +215,14 @@ out
 #> The models:
 #> 
 #>   Model   
-#> 1 f6b32a38
-#> 2 12672c47
-#> 3 45f61ccf
+#> 1 efdeea17
+#> 2 f6b32a38
+#> 3 12672c47
 #> 4 b0a9b170
-#> 5 efdeea17
-#> 6 6f675f0c
+#> 5 459cd495
+#> 6 45f61ccf
 #> 7 81fb9dff
-#> 8 459cd495
+#> 8 6f675f0c
 #> 9 c02043f3 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =

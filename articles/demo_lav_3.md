@@ -63,7 +63,7 @@ fit <- sem(
   data = data_test_3_factor_3_item
 )
 fit
-#> lavaan 0.7-2.3166 ended normally after 41 iterations
+#> lavaan 0.7-3.3364 ended normally after 41 iterations
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -133,19 +133,19 @@ out
 #> The models:
 #> 
 #>    Model   
-#> 1  74f316e6
-#> 2  aaa762b0
-#> 3  f3a45a7d
-#> 4  bc0d3b3c
-#> 5  b4893a92
-#> 6  1296cb7b
-#> 7  013c70fe
-#> 8  9eefbf8f
-#> 9  fa6f9416
-#> 10 31ffe311
-#> 11 834bb36f
-#> 12 311a900b
-#> 13 1a96de27 
+#> 1  bc0d3b3c
+#> 2  f3a45a7d
+#> 3  aaa762b0
+#> 4  fa6f9416
+#> 5  9eefbf8f
+#> 6  74f316e6
+#> 7  834bb36f
+#> 8  31ffe311
+#> 9  1a96de27
+#> 10 b4893a92
+#> 11 311a900b
+#> 12 1296cb7b
+#> 13 013c70fe 
 #> 
 #> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =
 #> "long"' to use the long descriptive names, if available, for the
@@ -164,9 +164,9 @@ model $`\chi^2`$s close to that of the original model:
 ``` r
 
 eq_chisq(out)
-#> 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f 
+#> bc0d3b3c f3a45a7d aaa762b0 fa6f9416 9eefbf8f 74f316e6 834bb36f 31ffe311 
 #> 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 24.97025 
-#> fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 
+#> 1a96de27 b4893a92 311a900b 1296cb7b 013c70fe 
 #> 24.97025 24.97025 24.97025 24.97025 24.97025
 ```
 
@@ -183,9 +183,9 @@ original model:
 ``` r
 
 eq_df(out)
-#> 74f316e6 aaa762b0 f3a45a7d bc0d3b3c b4893a92 1296cb7b 013c70fe 9eefbf8f 
+#> bc0d3b3c f3a45a7d aaa762b0 fa6f9416 9eefbf8f 74f316e6 834bb36f 31ffe311 
 #>       24       24       24       24       24       24       24       24 
-#> fa6f9416 31ffe311 834bb36f 311a900b 1a96de27 
+#> 1a96de27 b4893a92 311a900b 1296cb7b 013c70fe 
 #>       24       24       24       24       24
 ```
 

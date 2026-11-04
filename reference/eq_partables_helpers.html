@@ -11,7 +11,7 @@ eq_partables object."><meta property="og:image" content="https://sfcheung.github
 
     <a class="navbar-brand me-2" href="../index.html">semeqmodels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -353,9 +353,9 @@ duplicated models, if any, removed.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Model   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 12672c47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 45f61ccf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 b0a9b170</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 459cd495</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 b0a9b170</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 459cd495</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 45f61ccf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 c02043f3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span>
@@ -369,14 +369,6 @@ duplicated models, if any, removed.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> fx 1.002            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> fm 0.245 0.943      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> fy 0.062 0.237 0.927</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $`45f61ccf`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $`45f61ccf`$cov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       fx    fy    fm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fx 1.002            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fy 0.062 0.927      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fm 0.245 0.237 0.943</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $b0a9b170</span>
@@ -395,51 +387,39 @@ duplicated models, if any, removed.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> fx 0.062 0.245 1.002</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`45f61ccf`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`45f61ccf`$cov</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       fy    fx    fm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy 0.927            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fx 0.062 1.002      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm 0.237 0.245 0.943</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $c02043f3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $c02043f3$cov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       fy    fm    fx</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fy 0.927            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fm 0.237 0.943      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fx 0.062 0.245 1.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       fm    fy    fx</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fm 0.943            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fy 0.237 0.927      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fx 0.245 0.062 1.002</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">eq_fitMeasures</span><span class="op">(</span><span class="va">out</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cfi"</span>, <span class="st">"tli"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     12672c47 45f61ccf b0a9b170 459cd495 c02043f3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     12672c47 b0a9b170 459cd495 45f61ccf c02043f3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cfi 1.000000 1.000000 1.000000 1.000000 1.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> tli 1.128028 1.128028 1.128028 1.128028 1.128028</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">eq_df</span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12672c47 45f61ccf b0a9b170 459cd495 c02043f3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12672c47 b0a9b170 459cd495 45f61ccf c02043f3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        1        1        1        1        1 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">eq_fits</span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`12672c47`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lavaan 0.7-3 ended normally after 11 iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Estimator                                         ML</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Optimization method                           NLMINB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Number of model parameters                         5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Number of observations                           200</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model Test User Model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Test statistic                                 0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Degrees of freedom                                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   P-value (Chi-square)                           0.980</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Browne's residual (NT model-based) test             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Test statistic                                 0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Degrees of freedom                                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   P-value (Chi-square)                           0.980</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $`45f61ccf`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> lavaan 0.7-3 ended normally after 9 iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Estimator                                         ML</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Optimization method                           NLMINB</span>
@@ -479,6 +459,26 @@ duplicated models, if any, removed.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   P-value (Chi-square)                           0.980</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`459cd495`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> lavaan 0.7-3 ended normally after 11 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Estimator                                         ML</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Optimization method                           NLMINB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Number of model parameters                         5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Number of observations                           200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Model Test User Model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Test statistic                                 0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Degrees of freedom                                 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   P-value (Chi-square)                           0.980</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Browne's residual (NT model-based) test             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Test statistic                                 0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Degrees of freedom                                 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   P-value (Chi-square)                           0.980</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`45f61ccf`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lavaan 0.7-3 ended normally after 8 iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Estimator                                         ML</span>
@@ -499,7 +499,7 @@ duplicated models, if any, removed.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   P-value (Chi-square)                           0.980</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $c02043f3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> lavaan 0.7-3 ended normally after 8 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> lavaan 0.7-3 ended normally after 1 iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Estimator                                         ML</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Optimization method                           NLMINB</span>
@@ -529,8 +529,8 @@ duplicated models, if any, removed.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The models:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Model   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 45f61ccf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 b0a9b170 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 b0a9b170</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 459cd495 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NOTE: 'default' names are used. Call 'print()' and add 'names_to_use =</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "long"' to use the long descriptive names, if available, for the</span>
