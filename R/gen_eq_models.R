@@ -154,7 +154,9 @@ eq_df_models <- function(
   gen_models_progress = FALSE,
   short_names = TRUE,
   must_not_add_nil_parameters = TRUE,
-  save_history = FALSE
+  save_history = FALSE,
+  use_mi = FALSE,
+  mi_tolerance = 1e-4
 ) {
   # TODO:
   # - Add other arguments, e.g., for add_k() and drop_k().
@@ -431,7 +433,9 @@ eq_df_models <- function(
             se = se,
             parallel = FALSE,
             progress = gen_models_progress,
-            dat = dat
+            dat = dat,
+            mi_tolerance = mi_tolerance,
+            use_mi = use_mi
           )
           cli::cli_progress_update(set = max(i))
           utils::flush.console()
@@ -452,6 +456,8 @@ eq_df_models <- function(
           parallel = FALSE,
           progress = gen_models_progress,
           dat = dat,
+          use_mi = use_mi,
+          mi_tolerance = mi_tolerance,
           chunk.size = chunk_size
         )
       }
@@ -481,6 +487,8 @@ eq_df_models <- function(
               parallel = FALSE,
               progress = gen_models_progress,
               dat = dat,
+              use_mi = use_mi,
+              mi_tolerance = mi_tolerance,
               return_error_msg = TRUE
             )
           cli::cli_progress_update(set = max(i))
@@ -500,6 +508,8 @@ eq_df_models <- function(
           parallel = FALSE,
           progress = gen_models_progress,
           dat = dat,
+          use_mi = use_mi,
+          mi_tolerance = mi_tolerance,
           return_error_msg = TRUE
         )
       }
