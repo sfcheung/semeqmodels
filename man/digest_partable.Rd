@@ -17,6 +17,7 @@ digest_partable(
   sort_by = getOption("semeqmodels.digest_sort_by", default = c("lhs", "op", "rhs",
     "block", "group")),
   algo = getOption("semeqmodels.algo", default = "xxhash32"),
+  remove_nil = getOption("semeqmodels.remove_nil", default = TRUE),
   ...
 )
 

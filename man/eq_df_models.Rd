@@ -14,13 +14,16 @@ eq_df_models(
   exclude_x_y_ecov = TRUE,
   exclude_x_y_ecov_interim = FALSE,
   exclude_x_y_ecov_add_drop = FALSE,
+  keep_covs = c("all_covs", "all_x_covs", "no"),
   parallel = TRUE,
   ncores = max(parallel::detectCores(logical = FALSE) - 1, 1),
   progress = interactive(),
   gen_models_progress = FALSE,
   short_names = TRUE,
   must_not_add_nil_parameters = TRUE,
-  save_history = FALSE
+  save_history = FALSE,
+  use_mi = FALSE,
+  mi_tolerance = 1e-04
 )
 }
 \arguments{
@@ -70,8 +73,7 @@ error term of another variable it
 predicts, either directly or indirectly,
 will be excluded after the search
 is finished. The screening is
-implemented by \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}.
-This step is conducted a}
+implemented by \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}.}
 
 \item{exclude_x_y_ecov_interim}{If \code{TRUE},
 models with a covariance
@@ -89,6 +91,17 @@ be passed to argument
 \code{exclude_x_y_ecov} of \code{\link[=drop_k]{drop_k()}} and
 \code{\link[=add_k]{add_k()}}. For excluding models when
 searching for +1df and -1df models.}
+
+\item{keep_covs}{Whether covariances
+will be kept in all models. If
+\code{"no"}, covariances may be changed to
+direct paths. If \code{"keep_covs"}, then
+all covariances will not be changed,
+and will be kept in all models. If
+\code{"keep_x_covs"}, then all covariances
+between exogenous variables will not
+be changed, and will be kept in all
+models.}
 
 \item{parallel}{Whether parallel
 processing will be used. If possible,
@@ -124,6 +137,19 @@ including these parameters in
 
 \item{save_history}{Logical. If \code{TRUE},
 the search history will be saved.}
+
+\item{use_mi}{If \code{TRUE}, modification
+indices will be used to determine
+whether a model with a parameter
+added is likely to be equivalent to
+the original model \emph{before} used to
+generate \code{object} (determined by the
+attribute \code{parameter_dropped}).}
+
+\item{mi_tolerance}{The tolerance use
+to determine whether two modification
+indices are considered to be equal.
+Used when \code{use_mi} is \code{TRUE}.}
 }
 \value{
 The function \code{\link[=eq_df_models]{eq_df_models()}}
