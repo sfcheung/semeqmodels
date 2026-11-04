@@ -185,7 +185,7 @@ eq_out_3 <- eq_models(
           progress = !is_testing()
         )
 
-expect_true(length(eq_out_3) == 1)
+expect_true(length(eq_out_3) == 2)
 
 # ==== Inputs: list of partables, no lavaan ====
 

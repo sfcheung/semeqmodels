@@ -49,7 +49,7 @@ out1
 # Check plots
 
 tmp1 <- inspect_search(out, "same_to_more", iteration = 2)
-tmp2 <- inspect_search(out, "more_to_same", iteration = 5)
+tmp2 <- inspect_search(out, "more_to_same", iteration = 4)
 
 tmp3 <- inspect_search_full(out)
 
@@ -60,8 +60,8 @@ layout_i <- semptools::layout_matrix(
 )
 
 p1 <- gen_plots_a_to_b_i(tmp1[[1]], layout = layout_i, asize = 10)
-p2 <- gen_plots_a_to_b_i(tmp2[[3]], layout = layout_i, asize = 10)
-p3 <- gen_plots_a_to_b_i(tmp2[[4]], layout = layout_i, asize = 10)
+p2 <- gen_plots_a_to_b_i(tmp2[[1]], layout = layout_i, asize = 10)
+p3 <- gen_plots_a_to_b_i(tmp2[[1]], layout = layout_i, asize = 10)
 
 pall1 <- gen_plots_for_search(tmp3, layout = layout_i, asize = 10)
 

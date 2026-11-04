@@ -558,6 +558,13 @@ eq_df_models <- function(
 
   # ==== End the loop ====
 
+  # Ensure the original model is in out
+
+  out <- c(
+          out,
+          as_eq_partables(sem_out)
+        )
+
   # ==== Prepare the output ====
 
   # ==== Exclude models with x-error covariances ====
