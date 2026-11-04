@@ -62,6 +62,10 @@ by \code{\link[digest:digest]{digest::digest()}}. Note that the
 default value is different from that
 of \code{\link[digest:digest]{digest::digest()}}}
 
+\item{remove_nil}{Whether a nil
+parameter (fixed to zero) is removed
+when computing the hash value.}
+
 \item{...}{For \code{\link[=digest_partable]{digest_partable()}},
 these are optional arguments to be
 passed to \code{\link[digest:digest]{digest::digest()}}. For

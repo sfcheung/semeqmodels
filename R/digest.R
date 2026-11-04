@@ -60,6 +60,10 @@
 #' default value is different from that
 #' of [digest::digest()]
 #'
+#' @param remove_nil Whether a nil
+#' parameter (fixed to zero) is removed
+#' when computing the hash value.
+#'
 #' @param ... For [digest_partable()],
 #' these are optional arguments to be
 #' passed to [digest::digest()]. For
