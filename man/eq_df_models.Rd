@@ -90,7 +90,7 @@ implemented by \code{\link[=remove_x_y_ecov]{remove_x_y_ecov()}}.}
 be passed to argument
 \code{exclude_x_y_ecov} of \code{\link[=drop_k]{drop_k()}} and
 \code{\link[=add_k]{add_k()}}. For excluding models when
-searching for +1df and -1df models.}
+generating +1df and -1df models.}
 
 \item{keep_covs}{Whether covariances
 will be kept in all models. If
