@@ -71,7 +71,7 @@
 #' be passed to argument
 #' `exclude_x_y_ecov` of [drop_k()] and
 #' [add_k()]. For excluding models when
-#' searching for +1df and -1df models.
+#' generating +1df and -1df models.
 #'
 #' @param sem_out A `lavaan` object, which
 #' is usually the output of [lavaan::sem()]
@@ -278,7 +278,7 @@ eq_df_models <- function(
     # ==== Find 1-more-df models ====
 
     if (progress) {
-      cat("Searching for models with one more degree of freedom ...")
+      cat("Generating models with one more degree of freedom ...")
     }
     out_add_tried <- c(out_i, out_add_tried)
     if (parallel) {
@@ -292,7 +292,7 @@ eq_df_models <- function(
         out_drop_i <- vector("list", length(out_i))
         names(out_drop_i) <- names(out_i)
         cli::cli_progress_bar(
-          "Searching +1df models",
+          "Generating +1df models",
           total = length(out_i)
         )
         for (i in i0) {
@@ -342,7 +342,7 @@ eq_df_models <- function(
         out_drop_i <- vector("list", length(out_i))
         names(out_drop_i) <- names(out_i)
         cli::cli_progress_bar(
-          "Searching +1df models",
+          "Generating +1df models",
           total = length(out_i)
         )
         for (i in i0) {
@@ -404,7 +404,7 @@ eq_df_models <- function(
 
     if (progress) {
       cat("\r", strrep(" ", optwidth), "\r")
-      cat("Searching for models with the same degree of freedom ...")
+      cat("Generating models with the same degree of freedom ...")
     }
 
     if (exclude_x_y_ecov_interim && TRUE) {
@@ -446,7 +446,7 @@ eq_df_models <- function(
         out_add_i <- vector("list", length(out_drop_i))
         names(out_add_i) <- names(out_drop_i)
         cli::cli_progress_bar(
-          "Searching same-df models",
+          "Generating same-df models",
           total = length(out_drop_i)
         )
         for (i in i0) {
@@ -500,7 +500,7 @@ eq_df_models <- function(
         out_add_i <- vector("list", length(out_drop_i))
         names(out_add_i) <- names(out_drop_i)
         cli::cli_progress_bar(
-          "Searching same-df models",
+          "Generating same-df models",
           total = length(out_drop_i)
         )
         for (i in i0) {

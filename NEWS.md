@@ -1,4 +1,4 @@
-# semeqmodels 0.1.0.7
+# semeqmodels 0.1.0.8
 
 ## New Features
 
@@ -63,7 +63,9 @@
   for now (set to `FALSE` by default).
   (0.1.0.6)
 
-
+- Replaced "searching for" by "generating"
+  in the progress printout.
+  (0.1.0.8)
 
 # semeqmodels 0.1.0
 
