@@ -98,7 +98,7 @@ eq_df_models(
   [`drop_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md)
   and
   [`add_k()`](https://sfcheung.github.io/semeqmodels/reference/modified_models.md).
-  For excluding models when searching for +1df and -1df models.
+  For excluding models when generating +1df and -1df models.
 
 - keep_covs:
 

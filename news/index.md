@@ -1,6 +1,6 @@
 # Changelog
 
-## semeqmodels 0.1.0.7
+## semeqmodels 0.1.0.8
 
 ### New Features
 
@@ -51,6 +51,9 @@
 - Added `exclude_x_y_ecov_interim` and `exclude_x_y_ecov_add_drop` to
   allow exclusion in more stages. Disabled for now (set to `FALSE` by
   default). (0.1.0.6)
+
+- Replaced “searching for” by “generating” in the progress printout.
+  (0.1.0.8)
 
 ## semeqmodels 0.1.0
 
